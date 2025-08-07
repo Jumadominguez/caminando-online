@@ -16,3 +16,5 @@ Proyecto para recopilar, procesar y visualizar datos relacionados con turismo, p
 - `requests`
 - `beautifulsoup4`
 - `pandas`
+
+Revisar "Guia paso a paso"

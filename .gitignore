@@ -1,0 +1,4 @@
+node_modules/
+.env
+data/resultados.json
+data/productos.json

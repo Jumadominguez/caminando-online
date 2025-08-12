@@ -41,3 +41,49 @@ export function mostrarError(mensaje, contenedor = null) {
     contenedor.innerHTML = `<div class="alert alert-danger">${mensaje}</div>`;
   }
 }
+
+/**
+ * Obtiene la lista de supermercados desde el backend
+ * @returns {Promise<string[]>}
+ */
+export async function obtenerSupermercados() {
+  try {
+    const res = await fetch("/api/supermercados");
+    const data = await res.json();
+    return data.supermercados || [];
+  } catch (err) {
+    console.error("Error al obtener supermercados:", err);
+    return [];
+  }
+}
+
+/**
+ * Renderiza los botones de supermercados con sus logos
+ * @param {string} containerId - ID del contenedor HTML
+ */
+export async function renderSupermercadoButtons(containerId) {
+  const LOGO_PATH = "./assets/img/logos/";
+  const DEFAULT_LOGO = "default_logo.png";
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const supermercados = await obtenerSupermercados();
+
+  supermercados.forEach(nombre => {
+    const btn = document.createElement("button");
+    btn.classList.add("supermercado-btn");
+    btn.setAttribute("data-supermercado", nombre);
+    btn.onclick = () => btn.classList.toggle("selected");
+
+    const img = document.createElement("img");
+    img.src = `${LOGO_PATH}${nombre}_logo.png`;
+    img.alt = `Logo ${nombre}`;
+    img.onerror = () => {
+      console.warn(`Logo no encontrado: ${nombre}_logo.png. Usando logo por defecto.`);
+      img.src = `${LOGO_PATH}${DEFAULT_LOGO}`;
+    };
+
+    btn.appendChild(img);
+    container.appendChild(btn);
+  });
+}

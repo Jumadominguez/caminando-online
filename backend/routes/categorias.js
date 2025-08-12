@@ -1,11 +1,10 @@
-// backend/routes/categorias.js
 const express = require("express");
 const router = express.Router();
 const { MongoClient } = require("mongodb");
 
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017";
-const DB_NAME = "jumbo_scraper";
-const COLLECTION = "category_filters";
+const DB_NAME = "supermercados_metadata_vea";
+const COLLECTION = "categorias_metadata";
 
 router.get("/", async (req, res) => {
   let client;
@@ -21,21 +20,9 @@ router.get("/", async (req, res) => {
 
     const docs = await collection.find({}).toArray();
 
-    const grouped = docs.reduce((acc, doc) => {
-      const category = doc.category?.trim();
-      const subtypes = doc.filters?.["Tipo de Producto"] || [];
-
-      if (!category) return acc;
-
-      if (!acc[category]) acc[category] = new Set();
-      subtypes.forEach(sub => acc[category].add(sub.trim()));
-
-      return acc;
-    }, {});
-
-    const result = Object.entries(grouped).map(([category, subtypes]) => ({
-      category,
-      filters: { "Tipo de producto": Array.from(subtypes).sort() }
+    const result = docs.map(doc => ({
+      categoria_original: doc.categoria_original?.trim() || "",
+      categoria_normalizada: doc.categoria_normalizada?.trim() || ""
     }));
 
     res.json(result);

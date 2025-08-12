@@ -12,3 +12,9 @@ soupsieve==2.7
 typing_extensions==4.14.1
 tzdata==2025.2
 urllib3==2.5.0
+selenium==4.34.2
+webdriver-manager==4.0.2
+pymongo==4.14.0
+psutil==7.0.0
+uuid==1.30
+utils-1.0.2

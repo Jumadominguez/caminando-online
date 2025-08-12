@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Caminando Online</title>
   <link rel="icon" href="assets/img/caminando-Favicon.png" type="image/png" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-  rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -21,49 +20,114 @@
     </nav>
   </header>
 
-  <main>
-<section id="productos" class="container my-5">
-  <h2>📋 Cargá tus productos para comparar</h2>
-  <div class="row g-2 mb-2">
-    <div class="col-md-4">
-      <div class="category-dropdown">
-        <input
-          type="text"
-          class="form-control"
-          id="producto"
-          placeholder="Escribe un producto"
-          autocomplete="off"
-          oninput="filterCategoryMenu()"
-          onclick="showCategoryMenu()"
-        />
-        <div class="category-menu" id="categoryMenu">
-          <!-- Las categorías se cargarán aquí dinámicamente -->
-        </div>
+  <!-- Supermercados -->
+  <section id="supermercados" class="my-4">
+    <div class="container-custom">
+      <h3>🛒 Elegí tus supermercados</h3>
+      <div class="d-flex flex-wrap justify-content-center gap-3" id="supermercado-buttons">
+        <!-- Botones generados dinámicamente -->
       </div>
     </div>
-    <div class="col-md-4">
-      <select class="form-select" id="marca">
-        <option selected disabled>Elegí una opción...</option>
-        <option value="Molinos Ala">Molinos Ala</option>
-        <option value="Arcor">Arcor</option>
-        <option value="La Serenísima">La Serenísima</option>
-        <option value="Coca-Cola">Coca-Cola</option>
-        <option value="Ala">Ala</option>
-      </select>
-    </div>
-    <div class="col-md-4">
-      <input type="text" class="form-control" id="presentacion" placeholder="Presentación (ej: 1kg)">
-    </div>
-  </div>
+  </section>
 
-  <button type="button" class="btn btn-success mb-3" onclick="agregarProducto()">➕ Agregar producto</button>
-  <ul class="list-group mb-3" id="lista-productos"></ul>
-  <button type="button" class="btn btn-primary" onclick="compararProductos()">🔍 Comparar productos</button>
-</section>
-  <footer>
+  <main>
+    <section id="productos" class="my-5 position-relative">
+      <div class="container-custom">
+        <h3>📋 Cargá tus productos para comparar</h3>
+
+        <div class="row g-3 align-items-center mb-3">
+          <div class="col-md-6">
+            <div class="category-dropdown w-100">
+              <input
+                type="text"
+                class="form-control"
+                id="producto"
+                placeholder="Escribe un producto"
+                autocomplete="off"
+              />
+              <div class="category-menu" id="categoryMenu"></div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <select class="form-select w-100" id="marca">
+              <option selected disabled>Elegí una opción...</option>
+              <option value="Molinos Ala">Molinos Ala</option>
+              <option value="Arcor">Arcor</option>
+              <option value="La Serenísima">La Serenísima</option>
+              <option value="Coca-Cola">Coca-Cola</option>
+              <option value="Ala">Ala</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Menús dinámicos -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-4" id="variedad-wrapper">
+            <select class="form-select" id="variedad">
+              <option selected disabled>Elegí una variedad...</option>
+            </select>
+          </div>
+
+          <div class="col-md-4" id="contenido-wrapper">
+            <select class="form-select" id="contenido">
+              <option selected disabled>Elegí el contenido...</option>
+            </select>
+          </div>
+
+          <div class="col-md-4" id="marca-extra-wrapper">
+            <select class="form-select" id="marca-extra">
+              <option selected disabled>Elegí la marca...</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3" id="tabla-productos-wrapper" style="display: none;">
+          <div class="col-12">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Variedad</th>
+                  <th>Contenido</th>
+                  <th>Marca</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-productos-body">
+                <!-- Filas generadas dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-success mb-3">➕ Agregar producto</button>
+        <ul class="list-group mb-3" id="lista-productos"></ul>
+
+        <button
+          type="button"
+          class="btn btn-primary position-absolute"
+          style="bottom: 16px; right: 16px;"
+        >
+          🔍 Comparar productos
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="text-center py-3">
     <p>&copy; 2025 Caminando Online</p>
   </footer>
 
+  <!-- Scripts -->
+    <script type="module">
+      import { renderSupermercadoButtons } from './js/helpers.js';
+
+      document.addEventListener("DOMContentLoaded", () => {
+        renderSupermercadoButtons("supermercado-buttons");
+      });
+    </script>
   <script src="js/main.js"></script>
 </body>
 </html>
+

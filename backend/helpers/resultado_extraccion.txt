@@ -1,0 +1,78 @@
+=== JSON-LD BLOCK ===
+<script[^>]*type="application/ld\+json"[^>]*>[\s\S]*?</script>
+
+=== SKU ID ===
+"sku"\s*:\s*"[^"]*"
+
+=== Product ID ===
+null
+
+=== EAN ===
+"gtin13"\s*:\s*"[^"]*"|\"gtin\"\s*:\s*"[^"]*"
+
+=== referenceId ===
+null
+
+=== Nombre del producto ===
+"@type"\s*:\s*"Product"[\s\S]*?"name"\s*:\s*"[^"]*"
+
+=== Descripción ===
+"description"\s*:\s*"[^"]*"
+
+=== Precio final ===
+<span[^>]*class="[^"]*product-price_bestPrice[^"]*"[^>]*>[^<]+|"price"\s*:\s*\d+(\.\d+)?
+
+=== Precio original ===
+<span[^>]*class="[^"]*product-price_listPrice[^"]*"[^>]*>[^<]+|"lowPrice"\s*:\s*\d+(\.\d+)?
+
+=== Descuento ===
+null
+
+=== Precio por unidad ===
+null
+
+=== Disponibilidad ===
+"availability"\s*:\s*"[^"]*"
+
+=== Cantidad mínima ===
+null
+
+=== Imágenes ===
+<img[^>]*src="[^"]+"
+
+=== Vídeos ===
+null
+
+=== Categoría (breadcrumb) ===
+null
+
+=== Marca ===
+"brand"\s*:\s*\{[^}]*\}
+
+=== Specs ===
+null
+
+=== Meta Title ===
+<title>.*?</title>
+
+=== Meta Description ===
+<meta[^>]*name="description"[^>]*content="[^"]*"
+
+=== Meta Keywords ===
+null
+
+=== Reseñas (reviewCount) ===
+null
+
+=== Aggregate Rating ===
+null
+
+=== Promociones ===
+null
+
+=== API Price / Stock ===
+null
+
+=== Seller Info ===
+"seller"\s*:\s*\{[^}]*\}
+

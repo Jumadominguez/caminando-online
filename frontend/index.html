@@ -21,8 +21,8 @@
   </header>
 
   <!-- Supermercados -->
-  <section id="supermercados" class="my-4">
-    <div class="container-custom">
+  <section id="supermercados" class="mb-0">
+    <div class="container-custom-super">
       <h3>🛒 Elegí tus supermercados</h3>
       <div class="d-flex flex-wrap justify-content-center gap-3" id="supermercado-buttons">
         <!-- Botones generados dinámicamente -->
@@ -31,10 +31,9 @@
   </section>
 
   <main>
-    <section id="productos" class="my-5 position-relative">
-      <div class="container-custom">
-        <h3>📋 Cargá tus productos para comparar</h3>
-
+    <section id="productos" class="mb-0 position-relative">
+      <div class="container-custom-filtro">
+        <div class="box-titulo-carga" id="box-titulo-carga"><h4>📋 Cargá tus productos para comparar</h4></div>
         <div class="row g-3 align-items-center mb-3">
           <div class="col-md-6">
             <div class="category-dropdown w-100">
@@ -50,67 +49,46 @@
           </div>
 
           <div class="col-md-6">
-            <select class="form-select w-100" id="marca">
+            <select class="form-select w-100" id="tipo-de-producto">
               <option selected disabled>Elegí una opción...</option>
-              <option value="Molinos Ala">Molinos Ala</option>
-              <option value="Arcor">Arcor</option>
-              <option value="La Serenísima">La Serenísima</option>
-              <option value="Coca-Cola">Coca-Cola</option>
-              <option value="Ala">Ala</option>
+              <option value="Molinos Ala" data-id="molinos-ala">Molinos Ala</option>
+              <option value="Arcor" data-id="arcor">Arcor</option>
+              <option value="La Serenísima" data-id="la-serenisima">La Serenísima</option>
+              <option value="Coca-Cola" data-id="coca-cola">Coca-Cola</option>
+              <option value="Ala" data-id="ala">Ala</option>
             </select>
           </div>
         </div>
-
-        <!-- Menús dinámicos -->
         <div class="row g-3 mb-3">
-          <div class="col-md-4" id="variedad-wrapper">
-            <select class="form-select" id="variedad">
-              <option selected disabled>Elegí una variedad...</option>
+          <div class="col-md-4" id="marca-wrapper">
+            <select class="form-select" id="marca">
+              <option selected disabled>Elegí la marca.</option>
             </select>
           </div>
 
           <div class="col-md-4" id="contenido-wrapper">
             <select class="form-select" id="contenido">
-              <option selected disabled>Elegí el contenido...</option>
+              <option selected disabled>Elegí el contenido.</option>
             </select>
           </div>
 
-          <div class="col-md-4" id="marca-extra-wrapper">
-            <select class="form-select" id="marca-extra">
-              <option selected disabled>Elegí la marca...</option>
+          <div class="col-md-4" id="variedad-wrapper">
+            <select class="form-select" id="variedad">
+              <option selected disabled>Elegí la variedad.</option>
             </select>
           </div>
         </div>
 
-        <div class="row mb-3" id="tabla-productos-wrapper" style="display: none;">
-          <div class="col-12">
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Variedad</th>
-                  <th>Contenido</th>
-                  <th>Marca</th>
-                  <th>Acción</th>
-                </tr>
-              </thead>
-              <tbody id="tabla-productos-body">
-                <!-- Filas generadas dinámicamente -->
-              </tbody>
-            </table>
-          </div>
-        </div>
+<!-- La tabla de productos se insertará dinámicamente aquí -->
 
-        <button type="button" class="btn btn-success mb-3">➕ Agregar producto</button>
-        <ul class="list-group mb-3" id="lista-productos"></ul>
+<!-- La tabla de productos a comparar se insertará dinámicamente aquí -->
 
-        <button
-          type="button"
-          class="btn btn-primary position-absolute"
-          style="bottom: 16px; right: 16px;"
-        >
+
+      <div id="comparar-box">
+        <!-- Botón de comparación -->
+        <button type="button" class="btn btn-primary comparar-btn">
           🔍 Comparar productos
-        </button>
+        </button></div>
       </div>
     </section>
   </main>
@@ -120,14 +98,13 @@
   </footer>
 
   <!-- Scripts -->
-    <script type="module">
-      import { renderSupermercadoButtons } from './js/helpers.js';
+  <script type="module">
+    import { renderSupermercadoButtons } from './js/helpers.js';
 
-      document.addEventListener("DOMContentLoaded", () => {
-        renderSupermercadoButtons("supermercado-buttons");
-      });
-    </script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderSupermercadoButtons("supermercado-buttons");
+    });
+  </script>
   <script src="js/main.js"></script>
 </body>
 </html>
-

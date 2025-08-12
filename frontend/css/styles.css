@@ -60,16 +60,36 @@ main {
   margin: auto;
 }
 
-.container-custom {
+
+.container-custom-super {
   max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 1.5rem auto 0rem auto;
+  padding: 2rem 2rem 2rem 2rem;
   display: block;
   position: relative;
   background-color: var(--color-white);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   border: 1px solid #ddd;
+}
+
+
+.container-custom-filtro {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 2rem 2rem 2rem;
+  display: block;
+  position: relative;
+  background-color: var(--color-white);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 1px solid #ddd;
+}
+
+.box-titulo-carga {
+  margin-bottom: 24px; /
+  padding: 0;
+  width: 100%;
 }
 
 /* Supermercados */
@@ -114,7 +134,19 @@ input::placeholder {
   color: #888;
 }
 
+.comparar-box {
+  margin-top: 20px;
+}
+
+
 /* Botones */
+
+.comparar-btn {
+  display: block;
+  margin: 24px 0 0 auto;
+  width: fit-content;
+}
+
 .btn-success {
   background-color: var(--color-accent);
   color: var(--color-text);
@@ -196,6 +228,191 @@ input::placeholder {
   background-color: #f0f0f0;
   color: #007bff;
 }
+
+/* --- Tabla de Productos Filtrados --- */
+
+/* 📌 Encabezado fijo al hacer scroll en tabla-productos */
+#tabla-productos table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #f8f9fa;
+}
+
+/* 🧱 Contenedor general de la tabla: define límites visuales y scroll */
+#tabla-productos {
+  max-height: 400px;              /* Limita la altura visible a 400px */
+  overflow-y: auto;               /* Activa scroll vertical si hay muchas filas */
+  margin-top: 20px;               /* Espacio superior respecto a otros elementos */
+  border: 1px solid #ccc;         /* Borde gris claro alrededor de la tabla */
+  border-radius: 8px;             /* Bordes redondeados */
+  background-color: var(--color-white, #fff); /* Fondo blanco (usa variable si está definida) */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Sombra leve para profundidad */
+}
+
+/* 📐 Propiedades de la tabla completa: layout y bordes */
+#tabla-productos table {
+  width: 100%;                    /* Ocupa todo el ancho disponible */
+  table-layout: fixed;           /* Columnas con ancho fijo, no se deforman */
+  border-collapse: separate;     /* Elimina doble borde entre celdas */
+  border-spacing: 0;
+}
+
+/* 🧩 Celdas: aplica a encabezados y contenido */
+#productos #tabla-productos table th,
+#productos #tabla-productos table td {
+  border-right: 1px solid #ddd; /* Línea vertical entre columnas */
+  padding: 0.25rem;              /* Espaciado interno uniforme */
+  text-align: center;            /* Centrado horizontal del texto */
+  vertical-align: middle;        /* Centrado vertical del contenido */
+  word-wrap: break-word;         /* Evita desbordes de texto largo */
+}
+
+/* 🏷️ Encabezados de columna: estilo visual del <th> */
+#tabla-productos th {
+  background-color: #f8f9fa;     /* Fondo gris claro */
+  font-weight: 600;              /* Negrita moderada */
+  color: #333;                   /* Texto oscuro */
+  border-bottom: 1px solid #ddd; /* Línea divisoria inferior */
+}
+
+/* 🧊 Filas pares: efecto zebra para mejorar lectura */
+#tabla-productos tr:nth-child(even) {
+  background-color: #fdfdfd;     /* Fondo alternado en filas pares */
+}
+
+/* 🔘 Botón "Agregar": evita quiebre de texto */
+#tabla-productos button {
+  white-space: nowrap;           /* Mantiene texto en una sola línea */
+}
+
+#tabla-productos button.btn-sm {
+  padding: 0.35rem 0.4rem; /* más chico que el default de Bootstrap */
+  font-size: 0.75rem;      /* texto más compacto */
+}
+
+/* 📍 Última columna: alinea el botón a la derecha */
+#tabla-productos td:last-child {
+  text-align: right;             /* Botón “Agregar” alineado al margen derecho */
+}
+
+#tabla-productos th:nth-child(1) {
+  width: 40%; /* Producto: más ancho */
+}
+
+#tabla-productos th:nth-child(2, 3, 4) {
+  width: 15%; /* Marca, Contenido, Variedad: más angostas */
+}
+
+/* 🧼 Limpieza visual: elimina borde derecho en última columna */
+#tabla-productos th:last-child,
+#tabla-productos td:last-child {
+    width: 11%;
+  white-space: auto;
+  border-right: none;           /* Evita doble borde en el extremo derecho */
+}
+
+/* 🧩 Celdas: aplica a encabezados y contenido */
+#productos .tabla-a-comparar th,
+#productos .tabla-a-comparar td {
+  border-right: 1px solid #ddd;
+  padding: 0.25rem;
+  text-align: center;
+  vertical-align: middle;
+  word-wrap: break-word;
+}
+
+
+/*tabla-a-comparar*/
+
+/* 📌 Encabezado fijo al hacer scroll */
+.tabla-a-comparar-scroll .tabla-a-comparar thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #f8f9fa; /* Reafirma fondo para evitar transparencia */
+}
+
+/* 🧱 Contenedor general de la tabla-a-comparar */
+.tabla-a-comparar-scroll {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: var(--color-white, #fff);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* 📐 Propiedades de la tabla completa */
+.tabla-a-comparar-scroll .tabla-a-comparar {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* 🧩 Celdas: encabezados y contenido */
+.tabla-a-comparar-scroll .tabla-a-comparar th,
+.tabla-a-comparar-scroll .tabla-a-comparar td {
+  border-right: 1px solid #ddd;
+  padding: 0.25rem;
+  text-align: center;
+  vertical-align: middle;
+  word-wrap: break-word;
+}
+
+/* 🏷️ Encabezados de columna */
+.tabla-a-comparar-scroll .tabla-a-comparar th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 🧊 Filas pares: efecto zebra */
+.tabla-a-comparar-scroll .tabla-a-comparar tr:nth-child(even) {
+  background-color: #fdfdfd;
+}
+
+/* 🔘 Botón "Eliminar": evita quiebre de texto */
+.tabla-a-comparar-scroll .tabla-a-comparar button {
+  white-space: nowrap;
+}
+
+.tabla-a-comparar-scroll .tabla-a-comparar button.btn-sm {
+  padding: 0.35rem 0.4rem;
+  font-size: 0.75rem;
+}
+
+/* 📍 Última columna: botón alineado a la derecha */
+.tabla-a-comparar-scroll .tabla-a-comparar td:last-child {
+  text-align: right;
+}
+
+/* 🧼 Limpieza visual: sin borde derecho en última columna */
+.tabla-a-comparar-scroll .tabla-a-comparar th:last-child,
+.tabla-a-comparar-scroll .tabla-a-comparar td:last-child {
+  width: 11%;
+  white-space: auto;
+  border-right: none;
+}
+
+/* 📐 Anchos de columnas */
+.tabla-a-comparar-scroll .tabla-a-comparar th:nth-child(1),
+.tabla-a-comparar-scroll .tabla-a-comparar td:nth-child(1) {
+  width: 40%;
+}
+
+.tabla-a-comparar-scroll .tabla-a-comparar th:nth-child(2),
+.tabla-a-comparar-scroll .tabla-a-comparar td:nth-child(2),
+.tabla-a-comparar-scroll .tabla-a-comparar th:nth-child(3),
+.tabla-a-comparar-scroll .tabla-a-comparar td:nth-child(3),
+.tabla-a-comparar-scroll .tabla-a-comparar th:nth-child(4),
+.tabla-a-comparar-scroll .tabla-a-comparar td:nth-child(4) {
+  width: 15%;
+}
+
 
 /* Footer */
 footer {

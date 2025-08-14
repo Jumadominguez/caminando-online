@@ -22,8 +22,10 @@ app.use("/api/categorias", require("./routes/categorias"));
 app.use("/api/subcategorias", require("./routes/subcategorias"));
 app.use("/api/supermercados", require("./routes/supermercados"));
 
+
 // Servir archivos estáticos del frontend
 app.use(express.static(path.join(__dirname, "..", "frontend")));
+app.use(express.static(path.join(__dirname, "..", "frontend", "public")));
 
 // Ruta raíz (sirve index.html del frontend)
 app.get("/", (req, res) => {

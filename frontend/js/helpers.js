@@ -74,6 +74,7 @@ export async function renderSupermercadoButtons(containerId) {
     btn.classList.add("supermercado-btn");
     btn.setAttribute("data-supermercado", nombre);
     btn.onclick = () => btn.classList.toggle("selected");
+    btn.classList.add("selected");
 
     const img = document.createElement("img");
     img.src = `${LOGO_PATH}${nombre}_logo.png`;

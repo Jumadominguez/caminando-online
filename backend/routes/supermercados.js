@@ -3,11 +3,11 @@ const router = express.Router();
 
 // Lista de supermercados disponibles
 const supermercados = [
-  "jumbo",
-  "dia",
+  "Jumbo",
+  "Día",
   "Disco",
-  "carrefour",
-  "vea"
+  "Carrefour",
+  "Vea"
 ];
 
 // GET /api/supermercados

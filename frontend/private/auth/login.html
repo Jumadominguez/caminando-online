@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar Sesión - Caminando Online</title>
+  <link rel="icon" href="/assets/img/caminando-Favicon.png" type="image/png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/private/css/auth-styles.css" />
+  <!-- Fonts para logo textual -->
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:ital@1&display=swap" rel="stylesheet">
+</head>
+
+<body class="auth-body">
+  <!-- Header simplificado para páginas de auth -->
+  <header class="auth-header">
+    <div class="auth-logo-container">
+      <a href="/index.html" class="auth-logo-link">
+        <img src="/assets/img/caminando-logo.png" alt="Logo Caminando Online" class="auth-logo" />
+        <div class="auth-logo-text">
+          <span class="logo-caminando-text">Caminando</span>
+          <span class="logo-online-text">.Online</span>
+        </div>
+      </a>
+    </div>
+  </header>
+
+  <main class="auth-main">
+    <div class="auth-container">
+      <div class="auth-card">
+        <!-- Título y subtitle -->
+        <div class="auth-header-content">
+          <h1 class="auth-title">Bienvenido de vuelta</h1>
+          <p class="auth-subtitle">Iniciá sesión para seguir ahorrando en tus compras</p>
+        </div>
+
+        <!-- Formulario de login -->
+        <form id="login-form" class="auth-form">
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input 
+              type="email" 
+              class="form-control auth-input" 
+              id="email" 
+              name="email" 
+              required 
+              autocomplete="email"
+              placeholder="tu@email.com"
+            >
+            <div class="error-message" id="error-email"></div>
+          </div>
+
+          <!-- Contraseña -->
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <div class="password-input-container">
+              <input 
+                type="password" 
+                class="form-control auth-input" 
+                id="password" 
+                name="password" 
+                required 
+                autocomplete="current-password"
+                placeholder="Tu contraseña"
+              >
+              <button type="button" class="password-toggle" id="password-toggle">
+                <i class="eye-icon">👁️</i>
+              </button>
+            </div>
+            <div class="error-message" id="error-password"></div>
+          </div>
+
+          <!-- Recordar sesión y olvidé contraseña -->
+          <div class="mb-4 d-flex justify-content-between align-items-center">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="remember" name="remember">
+              <label class="form-check-label" for="remember">
+                Recordarme
+              </label>
+            </div>
+            <a href="/private/auth/recuperar-password.html" class="auth-link">
+              ¿Olvidaste tu contraseña?
+            </a>
+          </div>
+
+          <!-- Botón de login -->
+          <button type="submit" class="btn auth-btn-primary" id="btn-login">
+            <span class="btn-text">Iniciar sesión</span>
+            <span class="btn-loading" style="display: none;">
+              <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+              Iniciando sesión...
+            </span>
+          </button>
+
+          <!-- Mensaje de éxito/error -->
+          <div class="alert alert-success" id="success-message" style="display: none;">
+            <i>✅</i> ¡Login exitoso! Redirigiendo al dashboard...
+          </div>
+          <div class="alert alert-danger" id="error-general" style="display: none;"></div>
+        </form>
+
+        <!-- Enlaces adicionales -->
+        <div class="auth-footer">
+          <p class="text-center">
+            ¿No tenés cuenta? <a href="/private/auth/registro.html" class="auth-link">Registrate gratis</a>
+          </p>
+          <div class="auth-divider">
+            <span>o</span>
+          </div>
+          <p class="text-center">
+            <a href="/index.html" class="auth-link-secondary">Volver al inicio</a>
+          </p>
+        </div>
+
+        <!-- Demo credentials para testing -->
+        <div class="demo-credentials" id="demo-credentials" style="display: none;">
+          <hr class="my-4">
+          <div class="text-center">
+            <small class="text-muted">
+              <strong>🚧 Demo:</strong> 
+              <button type="button" class="btn btn-sm btn-outline-secondary ms-2" id="fill-demo">
+                Llenar con datos de prueba
+              </button>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Scripts -->
+  <script src="/js/auth/auth-utils.js"></script>
+  <script src="/js/auth/login.js"></script>
+</body>
+</html>

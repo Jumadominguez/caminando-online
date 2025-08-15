@@ -1,78 +1,102 @@
-/* --------------------- */
-/* 🎨 Variables */
-/* --------------------- */
-
+/* ===============================================
+   VARIABLES CSS Y CONFIGURACIÓN BASE
+   =============================================== */
 :root {
-  --color-bg: #fff8e1;
+  /* Colores principales */
+  --color-bg: #F8FAFC;
   --color-primary: #ff6f00;
+  --color-primary-dark: #E55A2E;
   --color-accent: #ffd600;
+  --color-accent-light: #FFE082;
   --color-text: #222222;
+  --color-text-secondary: #4A5568;
   --color-white: #ffffff;
+  --color-border: #E2E8F0;
+  --color-border-light: #F1F5F9;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  
+  /* Tipografía */
   --font-main: 'Segoe UI', 'Roboto', sans-serif;
+  
+  /* Sombras */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Border radius */
+  --radius: 12px;
+  --radius-sm: 8px;
+  
+  /* Transiciones */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* --------------------- */
-/* 🧱 Estructura base */
-/* --------------------- */
-
+/* ===============================================
+   ESTILOS BASE
+   =============================================== */
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--color-bg);
+  background: linear-gradient(135deg, var(--color-bg) 0%, #F1F5F9 100%);
   font-family: var(--font-main);
   color: var(--color-text);
+  line-height: 1.6;
 }
 
-/* --------------------- */
-/* 🏁 Banner superior */
-/* --------------------- */
-
+/* ===============================================
+   HEADER Y NAVEGACIÓN
+   =============================================== */
 header.banner-superior {
-  background-color: var(--color-primary);
-  height: 120px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  height: 140px;
   position: relative;
-  z-index: 1;
+  z-index: 10;
   display: flex;
-  padding: 0 1rem;
-  align-items: flex-start;
+  padding: 0 2rem;
+  align-items: center;
   margin-bottom: 2rem;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
 }
 
-/* --------------------- */
-/* 🖼️ Logo gráfico */
-/* --------------------- */
+header.banner-superior::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFFFFF' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+  z-index: 1;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 3;
+}
 
 .logo-container {
-  position: sticky;
-  top: 2rem;
-  flex-shrink: 0;
-  max-width: 180px;
-  margin-left: 2rem;
-  z-index: 10;
+  position: relative;
+  z-index: 3;
+  margin-right: 3rem;
+  transition: var(--transition);
+}
+
+.logo-container:hover {
+  transform: scale(1.05);
 }
 
 .logo-caminando {
-  width: clamp(120px, 14vw, 256px);
+  width: clamp(60px, 14vw, 90px);
   height: auto;
   display: block;
-}
-
-/* --------------------- */
-/* 🔤 Logo textual */
-/* --------------------- */
-
-.logo-caminando-textual-wrapper {
-  display: flex;
-  gap: 0.3rem;
-  align-items: baseline;
-  z-index: 2;
-}
-
-.logo-online-textual-wrapper {
-  display: flex;
-  gap: 0.3rem;
-  align-items: baseline;
-  z-index: 2;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
 }
 
 .logo-textual {
@@ -101,21 +125,11 @@ header.banner-superior {
   letter-spacing: 1px;
 }
 
-/* --------------------- */
-/* 🧩 Wrapper de logos visual + textual */
-/* --------------------- */
-
-.logo-duo-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10rem; /* Espacio horizontal entre logo visual y textual */
-  flex-shrink: 1;
-  z-index: 2;
+nav {
+  margin-left: auto;
+  position: relative;
+  z-index: 3;
 }
-
-/* --------------------- */
-/* 🧭 Navegación */
-/* --------------------- */
 
 nav ul {
   list-style: none;
@@ -126,47 +140,58 @@ nav ul {
 }
 
 nav a {
-  color: var(--color-white);
+  color: rgba(255, 255, 255, 0.9);
   text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 nav a:hover {
-  color: var(--color-accent);
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
-/* --------------------- */
-/* 🧱 Layout principal */
-/* --------------------- */
-
-/* 🧱 Layout horizontal sin mover el logo */
-main {
-  display: container;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 1rem;
-}
-
-/* --------------------- */
-/* 📦 Contenedores */
-/* --------------------- */
-
+/* ===============================================
+   CONTENEDORES PRINCIPALES
+   =============================================== */
 .container-custom-super,
 .container-custom-filtro,
 .container-custom-comparados {
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 1200px;
+  margin: 0 auto 2rem;
   padding: 2rem;
-  display: block;
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border-light);
   position: relative;
-  background-color: var(--color-white);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border: 1px solid #ddd;
+  overflow: hidden;
 }
 
+.container-custom-super::before,
+.container-custom-filtro::before,
+.container-custom-comparados::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+}
+
+.container-custom-super:hover,
+.container-custom-filtro:hover,
+.container-custom-comparados:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
 
 .box-titulo-carga {
   margin-bottom: 24px;
@@ -174,10 +199,9 @@ main {
   width: 100%;
 }
 
-/* --------------------- */
-/* 🛒 Supermercados */
-/* --------------------- */
-
+/* ===============================================
+   BOTONES DE SUPERMERCADOS
+   =============================================== */
 #supermercado-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -188,17 +212,40 @@ main {
 
 .supermercado-btn {
   border: none;
-  background: transparent;
-  padding: 0;
+  background: var(--color-white);
+  padding: 1rem;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: var(--transition);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 2px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
 }
 
 .supermercado-btn img {
   width: 125px;
   height: auto;
   filter: grayscale(100%);
-  transition: filter 0.3s ease, transform 0.2s ease;
+  transition: var(--transition);
+  position: relative;
+  z-index: 2;
+}
+
+.supermercado-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.supermercado-btn img:hover {
+  filter: none;
+  transform: scale(1.1);
+}
+
+.supermercado-btn.selected {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .supermercado-btn.selected img {
@@ -206,29 +253,145 @@ main {
   transform: scale(1.1);
 }
 
-/* --------------------- */
-/* 🧮 Inputs */
-/* --------------------- */
+.supermercado-btn.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 28px;
+  height: 28px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: bold;
+  z-index: 3;
+  animation: checkmark 0.3s ease-out;
+}
 
+@keyframes checkmark {
+  0% { transform: scale(0) rotate(180deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* ===============================================
+   FORMULARIOS
+   =============================================== */
 input.form-control,
 select.form-select {
-  border-radius: 0.375rem;
-  border: 1px solid #ccc;
-  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border);
+  padding: 0.875rem 1rem;
   font-size: 1rem;
+  transition: var(--transition);
+  background: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+input.form-control:focus,
+select.form-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  transform: translateY(-1px);
 }
 
 input::placeholder {
   color: #888;
 }
 
-.comparar-box {
-  margin-top: 20px;
+/* Menú desplegable de categorías */
+.category-dropdown {
+  position: relative;
 }
 
-/* --------------------- */
-/* 🎛️ Botones */
-/* --------------------- */
+.category-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  padding: 0.5rem;
+}
+
+.category-group {
+  margin-bottom: 1rem;
+}
+
+.category-group strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.subcategory-list {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.subcategory-item {
+  cursor: pointer;
+  padding: 0.25rem 0;
+  color: var(--color-text-secondary);
+  transition: var(--transition);
+}
+
+.subcategory-item:hover {
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+}
+
+/* ===============================================
+   BOTONES
+   =============================================== */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-agregar {
+  align-items: center;
+}
 
 .comparar-btn {
   display: block;
@@ -236,46 +399,36 @@ input::placeholder {
   width: fit-content;
 }
 
-.btn-success {
-  background-color: var(--color-accent);
-  color: var(--color-text);
-  font-weight: bold;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.375rem;
-  transition: background-color 0.3s ease;
+/* Botón volver */
+.volver-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: var(--transition);
 }
 
-.btn-success:hover {
-  background-color: #ffe066;
+.volver-btn:hover {
+  transform: translateX(-4px);
 }
 
-.btn-primary {
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  font-weight: bold;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.375rem;
-  transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-  background-color: #e65100;
-}
-
-/* --------------------- */
-/* 📌 Tabla de productos filtrados */
-/* --------------------- */
-
+/* ===============================================
+   TABLAS DE PRODUCTOS
+   =============================================== */
 #tabla-productos {
   max-height: 400px;
   overflow-y: auto;
   margin-top: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: var(--color-white, #fff);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+.tabla-header-info{
+  padding: 0.1rem;
 }
 
 #tabla-productos table {
@@ -285,31 +438,32 @@ input::placeholder {
   border-spacing: 0;
 }
 
-#tabla-productos table thead th {
+#tabla-productos thead th {
   position: sticky;
   top: 0;
   z-index: 2;
   background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.25rem;
+  text-align: center;
 }
 
-#productos #tabla-productos table th,
-#productos #tabla-productos table td {
-  border-right: 1px solid #ddd;
+#tabla-productos td {
+  border-right: 1px solid var(--color-border);
   padding: 0.25rem;
   text-align: center;
   vertical-align: middle;
   word-wrap: break-word;
 }
 
-#tabla-productos th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-  color: #333;
-  border-bottom: 1px solid #ddd;
-}
-
 #tabla-productos tr:nth-child(even) {
   background-color: #fdfdfd;
+}
+
+#tabla-productos tr:hover {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.02) 0%, rgba(255, 193, 7, 0.01) 100%);
 }
 
 #tabla-productos button {
@@ -319,468 +473,974 @@ input::placeholder {
 #tabla-productos button.btn-sm {
   padding: 0.35rem 0.4rem;
   font-size: 0.75rem;
+  box-align: center;
 }
 
 #tabla-productos td:last-child {
   text-align: right;
-}
-
-#tabla-productos th:nth-child(1) {
-  width: 40%;
-}
-
-#tabla-productos th:nth-child(2),
-#tabla-productos th:nth-child(3),
-#tabla-productos th:nth-child(4) {
-  width: 15%;
-}
-
-#tabla-productos th:last-child,
-#tabla-productos td:last-child {
-  width: 11%;
-  white-space: auto;
   border-right: none;
 }
-/* --------------------- */
-/* 📊 Tabla comparadora */
-/* --------------------- */
 
-/* Tabla comparativa */
-.container-custom-comparados {
-  flex-grow: 1;
-  min-width: 0;
-}
+/* Anchos de columnas */
+#tabla-productos th:nth-child(1) { width: 40%; }
+#tabla-productos th:nth-child(2),
+#tabla-productos th:nth-child(3),
+#tabla-productos th:nth-child(4) { width: 15%; }
+#tabla-productos th:last-child { width: 11%; }
 
-.tabla-productos-comparados {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.95rem;
-  border-radius: 8px;
-  margin-bottom: 0 !important;
-  border-spacing: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-.tabla-productos-comparados th,
-.tabla-productos-comparados td {
-  text-align: center;
-  vertical-align: middle;
-  padding: 0.4rem;
-  font-size: 0.85rem !important;
-  white-space: nowrap;
-  border-width: 1px 0;
-  border-style: solid;
-  border-color: #dee2e6;
-}
-
-.tabla-productos-comparados th:first-child,
-.tabla-productos-comparados td:first-child {
-  text-align: left;
-  width: 40%;
-  white-space: normal;
-  font-weight: 500;
-}
-
-.tabla-productos-comparados thead th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-  font-size: 1rem !important;
-}
-
-.tabla-productos-comparados tbody tr:hover {
-  background-color: #f1f1f1;
-}
-
-.precio-minimo-super {
-  outline: 2px solid orange;
-  outline-offset: -2px;
-  background-color: #fff3cd;
-  font-weight: bold;
-  border-radius: 4px;
-}
-
-/* --------------------- */
-/* 🌟 Columna Caminando Online */
-/* --------------------- */
-
-.tabla-productos-comparados th:last-child {
-  background: linear-gradient(to right, #ffe082, #ffca28);
-  color: #4e342e;
-  font-size: 1.1rem !important;
-  font-weight: bold;
-  text-shadow: 0 0 2px #fff;
-}
-
-.tabla-productos-comparados td:last-child {
-  background-color: #fff8e1;
-  font-weight: bold;
-  font-size: 1.05rem !important;
-  color: #blanchedalmond;
-  border-left: 2px solid #black;
-  box-shadow: inset 0 0 5px rgba(255, 193, 7, 0.5);
-}
-
-/* --------------------- */
-/* 📦 Wrapper tabla comparadora */
-/* --------------------- */
-
-.tabla-comparadora-wrapper {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+/* ===============================================
+   TABLA DE COMPARACIÓN
+   =============================================== */
+#tabla-comparacion-wrapper {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border-light);
   overflow: hidden;
-  margin-bottom: 2.5rem;
-  max-height: 520px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  margin-top: 2rem;
+  position: relative;
 }
 
-/* --------------------- */
-/* 📊 Tabla de totales */
-/* --------------------- */
-
-.tabla-totales-comparados {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.95rem;
-  border-radius: 8px;
-  margin-bottom: 0 !important;
-  border-spacing: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-.tabla-totales-comparados th,
-.tabla-totales-comparados td {
-  text-align: center;
-  vertical-align: middle;
-  padding: 0.4rem;
-  font-size: 0.85rem !important;
-  white-space: nowrap;
-  border-width: 1px 0;
-  border-style: solid;
-  border-color: #dee2e6;
-}
-
-.tabla-totales-comparados th:first-child,
-.tabla-totales-comparados td:first-child {
-  text-align: left;
-  width: 40%;
-  white-space: normal;
-  font-weight: 500;
-}
-
-.tabla-totales-comparados thead th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-  font-size: 1rem !important;
-}
-
-.tabla-totales-comparados tbody tr:hover {
-  background-color: #f1f1f1;
-}
-
-.tabla-totales-comparados th:last-child {
-  background: linear-gradient(to right, #ffe082, #ffca28);
-  color: #4e342e;
-  font-size: 1.1rem !important;
-  font-weight: bold;
-  text-shadow: 0 0 2px #fff;
-}
-
-.tabla-totales-comparados td:last-child {
-  background-color: #fff8e1;
-  font-weight: bold;
-  font-size: 1.05rem !important;
-  color: #blanchedalmond;
-  border-left: 2px solid #black;
-  box-shadow: inset 0 0 5px rgba(255, 193, 7, 0.5);
-}
-
-.tabla-totales-wrapper {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-}
-
-/* --------------------- */
-/* 🎁 Cartel de donaciones flotante */
-/* --------------------- */
-
-.cartel-donaciones-flotante {
+#tabla-comparacion-wrapper::before {
+  content: '';
   position: absolute;
-  width: 300px; /* Aumentado para acomodar los QR */
-  z-index: 1000;
-  
-  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-  border: 2px solid #2196f3;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(33, 150, 243, 0.3);
-  color: #1565c0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-align: center;
-  padding: 1.2rem;
-  
-  /* Estado inicial: visible pero desplazado */
-  opacity: 0;
-  transform: translateX(-100px);
-  
-  /* Solo animar transform y opacity para la entrada, NO left/top */
-  transition: transform 0.6s ease-out, opacity 0.6s ease-out, box-shadow 0.3s ease;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-primary) 100%);
 }
 
-.cartel-donaciones-flotante:hover {
-  transform: scale(1.02);
-  box-shadow: 0 12px 32px rgba(33, 150, 243, 0.4);
+.tabla-comparacion {
+  padding: 1.5rem;
 }
 
-.cartel-donaciones-flotante strong {
-  color: #0d47a1;
+.tabla-comparacion h5 {
+  color: var(--color-text);
   font-weight: 700;
+  margin: 0;
 }
 
-/* Clase para activar la animación de entrada */
-.cartel-donaciones-flotante.entrada-desde-atras {
-  opacity: 1;
-  transform: translateX(0);
+.tabla-a-comparar-scroll {
+  max-height: 350px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-sm);
 }
 
-/* Una vez posicionado, deshabilitar transiciones de posición */
-.cartel-donaciones-flotante.posicionado {
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+.tabla-a-comparar {
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
 }
 
-/* --------------------- */
-/* 💰 QR Donaciones */
-/* --------------------- */
+.tabla-a-comparar th {
+  background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+  color: white;
+  padding: 0.5rem 0.5rem;
+  font-weight: 600;
+  border: none;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  text-align: center;
+}
 
-.qr-donaciones {
+.tabla-a-comparar td {
+  padding: 0.875rem 0.75rem;
+  border-bottom: 1px solid var(--color-border-light);
+  border-right: 1px solid var(--color-border-light);
+  vertical-align: center;
+}
+
+.tabla-a-comparar td:last-child {
+  border-right: none;
+}
+
+.tabla-a-comparar tr td:last-child {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.tabla-a-comparar tbody tr {
+  transition: var(--transition);
+}
+
+.tabla-a-comparar tbody tr:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.01) 100%);
+}
+
+/* Botón eliminar */
+.eliminar-btn {
+  background: linear-gradient(135deg, var(--color-danger) 0%, #DC2626 100%);
+  border: none;
+  color: white;
+  padding: 0.3rem 0.3rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.8rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.eliminar-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ===============================================
+   TABLA COMPARADORA PREMIUM (página resultados)
+   =============================================== */
+.comparacion-header-premium {
+  background: linear-gradient(135deg, var(--color-white) 0%, #FAFBFC 100%);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-md);
+  border-left: 4px solid var(--color-primary);
+}
+
+.header-comparacion-content {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
-.qr-item {
+.comparacion-titulo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.titulo-icon {
+  font-size: 2.5rem;
+}
+
+.comparacion-subtitulo {
+  color: var(--color-text-secondary);
+  font-size: 1.1rem;
+}
+
+.header-right {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: var(--color-white);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(33, 150, 243, 0.3);
+  gap: 0.25rem;
+  min-width: 100px;
 }
 
-.qr-item:hover {
-  background: rgba(255, 255, 255, 0.6);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
-}
-
-.qr-small {
-  width: 50px;
-  height: 50px;
-  border-radius: 4px;
-  margin-bottom: 0.25rem;
-  transition: transform 0.3s ease;
-}
-
-.qr-label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #0d47a1;
-}
-
-/* --------------------- */
-/* 🔍 Modal QR Ampliado */
-/* --------------------- */
-
-.qr-modal {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
-  align-items: center;
-  justify-content: center;
-  animation: fadeIn 0.3s ease;
-}
-
-.qr-modal-content {
-  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-  border: 3px solid #2196f3;
-  border-radius: 16px;
-  padding: 2rem;
-  text-align: center;
-  position: relative;
-  max-width: 90vw;
-  max-height: 90vh;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.qr-large {
-  width: 250px;
-  height: 250px;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  background: white;
-  padding: 0px;
-}
-
-.qr-modal-title {
-  font-size: 1.2rem;
+.stat-number {
+  font-size: 1.75rem;
   font-weight: 700;
-  color: #0d47a1;
-  margin-bottom: 0.5rem;
+  color: var(--color-primary);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* --------------------- */
-/* 🖼️ Imagen de Lita externa */
-/* --------------------- */
-
-.lita-imagen-externa {
-  position: absolute;
-  width: 120px;
-  height: auto;
-  z-index: 1001; /* Por encima del cartel */
-  
-  /* Estado inicial: visible pero desplazado */
-  opacity: 0;
-  transform: translateX(-100px);
-  
-  /* Solo animar transform y opacity para la entrada, NO left/top */
-  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
-}
-
-/* Clase para activar la animación de entrada */
-.lita-imagen-externa.entrada-desde-atras {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Una vez posicionado, deshabilitar transiciones de posición */
-.lita-imagen-externa.posicionado {
-  transition: none;
-}
-
-/* --------------------- */
-/* 📱 Responsive para cartel flotante */
-/* --------------------- */
-
-@media (max-width: 1200px) {
-  .cartel-donaciones-flotante {
-    width: 280px;
-    font-size: 0.8rem;
-    padding: 1rem;
-  }
-  
-  .lita-imagen-externa {
-    width: 70px;
-  }
-  
-  .qr-small {
-    width: 45px;
-    height: 45px;
-  }
-  
-  .qr-large {
-    width: 200px;
-    height: 200px;
-  }
-}
-
-@media (max-width: 768px) {
-  .cartel-donaciones-flotante {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-    width: 100%;
-    margin: 1rem auto;
-    max-width: 400px;
-    opacity: 1 !important;
-    transition: none !important;
-  }
-  
-  .lita-imagen-externa {
-    display: none; /* Ocultar en móvil por simplicidad */
-  }
-  
-  .qr-donaciones {
-    gap: 0.5rem;
-  }
-  
-  .qr-small {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .qr-large {
-    width: 180px;
-    height: 180px;
-  }
-  
-  .qr-modal-content {
-    padding: 1.5rem;
-  }
-  
-  /* En móvil lo insertamos después del resumen de ahorro */
-  .cartel-donaciones-flotante {
-    position: static;
-    margin-top: 1rem;
-  }
-}
-
-/* --------------------- */
-/* 🟡 Botón Caminando Online */
-/* --------------------- */
-
-.boton-caminando-online {
-  background: linear-gradient(135deg, #ffca28, #ffb300) !important;
-  background-size: 200% 200%;
-  animation: pulse-gradient 3s ease infinite !important;
-  border: none;
-  color: #4e342e;
-  font-size: 1.15rem;
-  padding: 0.9rem 1.2rem;
-  border-radius: 10px;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease !important;
-  cursor: disabled;
-  pointer-events: none;
-  text-align: center;
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-@keyframes pulse-gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.stat-icon {
+  font-size: 1.5rem;
 }
 
-.boton-caminando-online:hover {
-  transform: scale(1.03);
-  filter: brightness(1.05);
+/* Tabla comparadora wrapper premium */
+/* Contenedor de la tabla con scroll */
+/* Contenedor de la tabla con scroll */
+.tabla-comparadora-wrapper-premium {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  position: relative;
+  max-height: 600px;
+  overflow-y: auto;
 }
 
-/* --------------------- */
-/* 🧭 Footer */
-/* --------------------- */
 
+.tabla-comparadora-wrapper-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+}
+
+/* Tabla principal */
+.tabla-productos-comparados-premium {
+  width: 100%;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  position: relative;
+}
+
+
+/* HACER QUE EL THEAD SEA STICKY */
+.tabla-productos-comparados-premium thead {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Asegurar que las celdas del header también sean sticky */
+.tabla-productos-comparados-premium thead th {
+  position: sticky;
+  top: 0;
+  z-index: 101;
+  padding: 1.25rem 1rem;
+  color: white;
+  font-weight: 600;
+  border: none;
+  vertical-align: middle;
+}
+
+.celda-accion td {
+  align-items: center;
+}
+
+/* Solución para el header negro */
+.tabla-productos-comparados-premium thead th,
+.tabla-productos-comparados-premium .thead-premium th,
+.tabla-productos-comparados-premium .th-producto-premium,
+.tabla-productos-comparados-premium .th-supermercado-premium {
+  color: white !important;
+}
+
+/* Asegurar que los contenidos dentro del th también sean blancos */
+.tabla-productos-comparados-premium th .th-text,
+.tabla-productos-comparados-premium th .th-help,
+.tabla-productos-comparados-premium th .th-icon,
+.tabla-productos-comparados-premium th .th-number {
+  color: white !important;
+}
+
+/* Headers premium */
+.thead-premium {
+  color:white !important;
+}
+
+/* Asegurar que el contenido no se vea por debajo del header */
+.tbody-premium tr:first-child td {
+  padding-top: 1.25rem;
+}
+
+/* Mejorar la visibilidad del border del header sticky */
+.tabla-productos-comparados-premium thead::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  z-index: 102;
+}
+
+/* Asegurar que los logos en el header se vean bien */
+.th-content-premium .th-logo-container img {
+  position: relative;
+  z-index: 102;
+}
+
+.tabla-productos-comparados-premium .th-caminando-premium {
+  background: linear-gradient(135deg, #FFD600 0%, #FFA000 100%) !important;
+}
+
+.thead-premium th {
+  padding: 0rem;
+  color: white;
+  font-weight: 600;
+  border: none;
+  vertical-align: middle;
+}
+
+.th-content-premium {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.th-icon, .th-number {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.th-text {
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.th-help {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* Columna Caminando destacada */
+.th-caminando-premium {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-warning) 100%) !important;
+  position: relative;
+}
+
+/* Asegurar que todo el contenido dentro de este elemento sea blanco */
+.th-producto-premium *,
+.th-producto-premium .th-text,
+.th-producto-premium .th-content-premium {
+  color: white !important;
+}
+
+/* Forzar color blanco en todos los encabezados */
+.thead-premium th,
+.th-supermercado-premium,
+.th-caminando-premium {
+  color: white !important;
+}
+
+.th-content-caminando-premium {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--color-text);
+}
+
+.th-star {
+  font-size: 1.5rem;
+  animation: pulse-star 2s infinite;
+}
+
+@keyframes pulse-star {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.th-badge {
+  background: var(--color-danger);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+/* Body premium */
+.tbody-premium tr {
+  border-bottom: 1px solid var(--color-border-light);
+  transition: var(--transition);
+}
+
+.tbody-premium tr:hover {
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.02) 0%, rgba(255, 214, 0, 0.01) 100%);
+  transform: translateX(2px);
+}
+
+.fila-producto-premium {
+  animation: fadeInRow 0.5s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInRow {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Celdas premium */
+.td-producto-premium {
+  padding: 1.25rem 0.2rem;
+  border-right: 2px solid var(--color-border-light);
+  vertical-align: middle;
+}
+
+.producto-info-premium {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.producto-numero {
+  background: var(--color-primary);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.producto-detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.producto-nombre-premium {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+.producto-codigo {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-family: monospace;
+}
+
+/* Precios premium */
+.td-precio-premium {
+  padding: 1rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.precio-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.precio-box:hover {
+  background: var(--color-bg);
+}
+
+.precio-box.mejor {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
+  border: 2px solid var(--color-success);
+}
+
+.precio-valor {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.precio-diferencia {
+  color: var(--color-danger);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.precio-badge-mejor {
+  background: var(--color-success);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* Precio mínimo */
+.precio-minimo-super {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
+  border-left: 3px solid var(--color-success);
+  position: relative;
+}
+
+.precio-minimo-super::after {
+  content: '🏆';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* Celda Caminando premium */
+.td-caminando-premium {
+  background: linear-gradient(135deg, rgba(255, 214, 0, 0.15) 0%, rgba(255, 179, 0, 0.1) 100%);
+  border-left: 3px solid var(--color-accent);
+  padding: 1rem;
+  text-align: center;
+}
+
+.precio-caminando-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.precio-caminando-valor {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.precio-caminando-ahorro {
+  background: var(--color-success);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.precio-caminando-super {
+  color: var(--color-text-secondary);
+  font-size: 0.7rem;
+  font-style: italic;
+}
+
+/* ===============================================
+   SECCIÓN DE TOTALES
+   =============================================== */
+.seccion-totales-premium {
+  background: var(--color-white);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+
+.totales-titulo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tabla-totales-premium {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.tabla-totales-premium thead {
+  background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
+  color: white;
+}
+
+.tabla-totales-premium th {
+  padding: 1rem;
+  font-weight: 600;
+}
+
+.tabla-totales-premium tbody td {
+  padding: 1.25rem 1rem;
+  text-align: center;
+  background: var(--color-white);
+  border: 1px solid var(--color-border-light);
+  vertical-align: middle;
+}
+
+.total-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  gap: 0.25rem;
+}
+
+.total-valor {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.td-total-caminando {
+  background: linear-gradient(135deg, rgba(255, 214, 0, 0.2) 0%, rgba(255, 179, 0, 0.15) 100%) !important;
+  border: 2px solid var(--color-accent) !important;
+}
+
+.total-caminando-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.total-caminando-valor {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.badge-mejor-precio {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-warning) 100%);
+  color: var(--color-text);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===============================================
+   RESUMEN DE AHORRO
+   =============================================== */
+.resumen-ahorro-premium {
+  background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-lg);
+  color: white;
+}
+
+.ahorro-content {
+  display: flex;
+  align-items: center;
+  gap: 10rem;
+  text-align: center;
+}
+
+.ahorro-icon {
+  font-size: 3.5rem;
+  color: var(--color-accent);
+  margin-left: 3rem;
+}
+
+.ahorro-titulo {
+  margin-top: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.ahorro-numeros {
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  display: relative;
+}
+
+.ahorro-cantidad,
+.ahorro-porcentaje {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ahorro-label {
+  font-size: 1.2rem;
+}
+
+.ahorro-valor {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.ahorro-descripcion {
+  font-size: 1.2rem !important;
+  opacity: 0.9;
+}
+
+/* ===============================================
+   SECCIÓN DE COMPRA
+   =============================================== */
+.seccion-compra-premium {
+  background: var(--color-white);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+
+.compra-titulo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.botones-compra-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.btn-comprar-super {
+  background: var(--color-white);
+  border: 2px solid var(--color-border);
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: none;
+}
+
+.btn-comprar-super:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+  display: none;
+}
+
+.btn-icon {
+  font-size: 1.5rem;
+}
+
+.btn-text {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+.btn-total {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.btn-comprar-caminando {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-warning) 100%);
+  border: none;
+  padding: 2rem;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-comprar-caminando:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.btn-comprar-caminando:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(50%);
+}
+
+.btn-star {
+  font-size: 2rem;
+}
+
+.btn-text-principal {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.btn-total-caminando {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.btn-ahorro {
+  background: var(--color-success);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.btn-proximamente {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* ===============================================
+   DONACIÓN FLOTANTE
+   =============================================== */
+.donacion-container {
+  position: fixed;
+  bottom: 20px;
+  right: -400px;
+  width: 380px;
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-xl);
+  border: 2px solid var(--color-accent);
+  z-index: 1000;
+  transition: right 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  overflow: hidden;
+}
+
+.donacion-container.mostrar {
+  right: 20px;
+}
+
+.donacion-header {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-warning) 100%);
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-text);
+}
+
+.donacion-header h5 {
+  margin: 0;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-cerrar-donacion {
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  color: var(--color-text);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-cerrar-donacion:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: rotate(90deg);
+}
+
+.donacion-body {
+  padding: 1.5rem;
+}
+
+.donacion-mensaje {
+  color: var(--color-text);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.donacion-metodos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.btn-donacion {
+  background: var(--color-white);
+  border: 2px solid var(--color-border);
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.btn-donacion:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.donacion-disclaimer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+  text-align: center;
+  justify-content: center;
+}
+
+/* ===============================================
+   SCROLLBARS
+   =============================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-border-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+}
+
+/* ===============================================
+   ANIMACIONES
+   =============================================== */
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* ===============================================
+   FOOTER
+   =============================================== */
 footer {
   background-color: var(--color-primary);
   color: var(--color-white);
@@ -790,21 +1450,15 @@ footer {
   margin-top: 2rem;
 }
 
-/* --------------------- */
-/* 📱 Responsive */
-/* --------------------- */
-
-
+/* ===============================================
+   RESPONSIVE
+   =============================================== */
 @media (max-width: 768px) {
-  header {
+  header.banner-superior {
+    height: 120px;
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  main {
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
+    padding: 0 1rem;
   }
 
   .logo-container {
@@ -812,67 +1466,90 @@ footer {
     max-width: 140px;
     margin: 0 auto 1rem;
   }
-}
+
+  .logo-textual {
+    position: static;
+    transform: none;
+  }
+
+  .logo-caminando-text {
+    font-size: 2.4rem;
+  }
+
+  .logo-online-text {
+    font-size: 2rem;
+  }
+
   nav ul {
     flex-direction: column;
     gap: 0.5rem;
     margin-top: 1rem;
   }
 
-  .logo {
-    height: 250px;
+  .container-custom-super,
+  .container-custom-filtro,
+  .container-custom-comparados {
+    margin: 0 1rem 2rem;
+    padding: 1.5rem;
   }
 
-  .container-custom {
-    padding: 1rem;
+  .supermercado-btn img {
+    width: 100px;
   }
 
-  #supermercado-buttons {
+  .header-comparacion-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .stat-card {
+    min-width: auto;
+    flex: 1;
+  }
+
+  .ahorro-content {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .ahorro-numeros {
     justify-content: center;
   }
 
-  .category-dropdown {
-    position: relative;
+  .botones-compra-grid {
+    grid-template-columns: 1fr;
   }
 
-  .category-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    max-height: 300px;
-    overflow-y: auto;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    z-index: 1000;
-    padding: 0.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  .donacion-container {
+    width: 90%;
+    right: -100%;
   }
 
-  .category-group {
-    margin-bottom: 1rem;
+  .donacion-container.mostrar {
+    right: 5%;
+  }
+}
+
+@media (max-width: 480px) {
+  .comparacion-titulo {
+    font-size: 1.5rem;
   }
 
-  .category-group strong {
-    display: block;
-    margin-bottom: 0.25rem;
-    font-weight: bold;
+  .stat-number {
+    font-size: 1.25rem;
   }
 
-  .subcategory-list {
-    list-style: none;
-    padding-left: 1rem;
-    margin: 0;
+  .ahorro-valor {
+    font-size: 1.5rem;
   }
 
-  .subcategory-item {
-    cursor: pointer;
-    padding: 0.25rem 0;
-    transition: background-color 0.2s;
-  }
-
-  .subcategory-item:hover {
-    background-color: #f0f0f0;
+  .btn-text-principal {
+    font-size: 1.2rem;
   }
 }

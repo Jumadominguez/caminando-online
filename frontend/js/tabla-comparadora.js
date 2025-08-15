@@ -1,403 +1,912 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("🚀 Iniciando tabla comparadora...");
+  
+  // ===============================================
+  // INICIALIZACIÓN Y VALIDACIÓN DE DATOS
+  // ===============================================
   const productos = JSON.parse(sessionStorage.getItem("productosComparados") || "[]");
   const supermercados = JSON.parse(sessionStorage.getItem("supermercadosSeleccionados") || "[]");
-  const frecuenciaSupermercado = Object.fromEntries(supermercados.map(s => [s, 0]));
-
-  const volverSection = document.getElementById("volver-a-filtros");
-  if (volverSection) {
-    const wrapper = document.createElement("div");
-    wrapper.className = "text-center mb-4";
-
-    const boton = document.createElement("button");
-    boton.className = "btn btn-secondary";
-    boton.textContent = "← Volver a los filtros";
-    boton.onclick = () => window.location.href = "/index.html";
-
-    wrapper.appendChild(boton);
-    volverSection.appendChild(wrapper);
+  const productosSection = document.querySelector("#productos .container-custom-comparados");
+  
+  console.log("📊 Datos encontrados:", { productos, supermercados });
+  
+  // Validación inicial
+  if (!productosSection) {
+    console.error("❌ No se encontró el contenedor principal");
+    return;
   }
 
-  const productosSection = document.querySelector("#productos .container-custom-comparados");
-  if (productosSection && supermercados.length > 0 && productos.length > 0) {
-    // 🧱 Título
-    const titulo = document.createElement("h5");
-    titulo.className = "mb-3";
-    titulo.textContent = "🧮 Comparación de precios por supermercado";
-    productosSection.appendChild(titulo);
+  // Ocultar loading inicial
+  const loadingElement = document.getElementById("loading-initial");
+  if (loadingElement) {
+    loadingElement.style.display = "none";
+  }
 
-    // 🧱 Tabla comparadora
+  if (supermercados.length === 0 || productos.length === 0) {
+    console.warn("⚠️ No hay datos suficientes para mostrar");
+    mostrarMensajeError();
+    return;
+  }
+
+  // Inicializar frecuencia de supermercados para algoritmo de selección
+  const frecuenciaSupermercado = Object.fromEntries(supermercados.map(s => [s, 0]));
+  
+  console.log("✅ Datos válidos, construyendo interfaz...");
+  
+  // ===============================================
+  // CONSTRUCCIÓN DE LA INTERFAZ
+  // ===============================================
+  limpiarContenedor();
+  construirInterfazCompleta();
+
+  // ===============================================
+  // FUNCIONES PRINCIPALES
+  // ===============================================
+
+  /**
+   * Muestra mensaje de error cuando no hay datos
+   */
+  function mostrarMensajeError() {
+    productosSection.innerHTML = `
+      <div class="alert alert-warning text-center p-5">
+        <i class="fas fa-exclamation-triangle fa-3x mb-3 text-warning"></i>
+        <h4>No hay productos para comparar</h4>
+        <p class="mb-4">Por favor, volvé a la página principal y seleccioná productos y supermercados.</p>
+        <button class="btn btn-primary btn-lg" onclick="window.location.href='/index.html'">
+          <i class="fas fa-arrow-left me-2"></i> Volver al inicio
+        </button>
+      </div>
+    `;
+  }
+
+  /**
+   * Limpia el contenedor principal
+   */
+  function limpiarContenedor() {
+    productosSection.innerHTML = '';
+  }
+
+  /**
+   * Construye toda la interfaz de comparación
+   */
+  function construirInterfazCompleta() {
+    console.log("🏗️ Construyendo interfaz completa...");
+    
+    crearHeaderComparacion();
+    const datosTabla = crearTablaComparacion();
+    crearSeccionTotales(datosTabla);
+    crearResumenAhorro(datosTabla);
+    crearSeccionCompra(datosTabla);
+    configurarEventListeners(datosTabla);
+    
+    console.log("✅ Interfaz construida exitosamente");
+  }
+
+  /**
+   * Crea el header principal con estadísticas
+   */
+  function crearHeaderComparacion() {
+    const headerComparacion = document.createElement("div");
+    headerComparacion.className = "comparacion-header-premium";
+    headerComparacion.innerHTML = `
+      <div class="header-comparacion-content">
+        <div class="header-left">
+          <h2 class="comparacion-titulo">
+            <span class="titulo-icon">📊</span>
+            Comparación de Precios
+          </h2>
+          <p class="comparacion-subtitulo">
+            Analizando los mejores precios para tu compra
+          </p>
+        </div>
+        <div class="header-right">
+          <div class="stat-card">
+            <span class="stat-number">${productos.length}</span>
+            <span class="stat-label">Productos</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">${supermercados.length}</span>
+            <span class="stat-label">Supermercados</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">⏱️</span>
+            <span class="stat-label">Actualizado</span>
+          </div>
+        </div>
+      </div>
+    `;
+    productosSection.appendChild(headerComparacion);
+    console.log("✅ Header creado");
+  }
+
+  /**
+   * Crea la tabla principal de comparación
+   */
+  function crearTablaComparacion() {
+    console.log("📋 Creando tabla de comparación...");
+    
     const tablaWrapper = document.createElement("div");
-    tablaWrapper.className = "tabla-comparadora-wrapper";
+    tablaWrapper.className = "tabla-comparadora-wrapper-premium";
 
     const tabla = document.createElement("table");
-    tabla.className = "table table-bordered table-sm tabla-productos-comparados";
+    tabla.className = "table tabla-productos-comparados-premium";
 
-    const thead = document.createElement("thead");
-    const filaHead = document.createElement("tr");
-
-    const thProducto = document.createElement("th");
-    thProducto.textContent = "Producto";
-    filaHead.appendChild(thProducto);
-
-    supermercados.forEach(s => {
-      const th = document.createElement("th");
-      th.textContent = s;
-      filaHead.appendChild(th);
-    });
-
-    const thOnline = document.createElement("th");
-    thOnline.textContent = "Caminando Online";
-    filaHead.appendChild(thOnline);
-
-    thead.appendChild(filaHead);
+    // Crear estructura de la tabla
+    const thead = crearThead();
+    const tbody = crearTbody();
+    
     tabla.appendChild(thead);
-
-    const tbody = document.createElement("tbody");
-    tbody.id = "tabla-productos-comparados-body";
     tabla.appendChild(tbody);
     tablaWrapper.appendChild(tabla);
     productosSection.appendChild(tablaWrapper);
 
-    // 🧮 Renderizar filas
-    productos.forEach(prod => {
-      const precios = supermercados.map(() => Math.floor(Math.random() * 1000 + 900));
-      const precioMin = Math.min(...precios);
+    console.log("✅ Tabla creada");
+    return calcularDatosTabla();
+  }
 
-      const indicesMinimos = precios
-        .map((p, i) => p === precioMin ? i : -1)
-        .filter(i => i !== -1);
+  /**
+   * Crea el header de la tabla
+   */
+  function crearThead() {
+    const thead = document.createElement("thead");
+    thead.className = "thead-premium";
+    const filaHead = document.createElement("tr");
 
-      let supermercadoElegidoIndex = indicesMinimos[0];
-      let maxFrecuencia = -1;
-      indicesMinimos.forEach(i => {
-        const nombreSuper = supermercados[i];
-        const frecuencia = frecuenciaSupermercado[nombreSuper];
-        if (frecuencia > maxFrecuencia) {
-          maxFrecuencia = frecuencia;
-          supermercadoElegidoIndex = i;
-        }
-      });
+    // Columna de productos
+    const thProducto = document.createElement("th");
+    thProducto.className = "th-producto-premium";
 
-      const supermercadoElegido = supermercados[supermercadoElegidoIndex];
-      frecuenciaSupermercado[supermercadoElegido]++;
+    filaHead.appendChild(thProducto);
 
-      const fila = document.createElement("tr");
-
-      const celdaNombre = document.createElement("td");
-      celdaNombre.textContent = prod.nombreCompleto;
-      fila.appendChild(celdaNombre);
-
-      precios.forEach((p, i) => {
-        const celda = document.createElement("td");
-        celda.textContent = `$${p}`;
-        if (i === supermercadoElegidoIndex) {
-          celda.classList.add("precio-minimo-super");
-        }
-        fila.appendChild(celda);
-      });
-
-      const celdaOnline = document.createElement("td");
-      celdaOnline.textContent = `$${precioMin}`;
-      fila.appendChild(celdaOnline);
-
-      tbody.appendChild(fila);
-    });
-
-    // 🧮 Calcular y renderizar totales
-    const calcularTotales = () => {
-      const totales = Object.fromEntries(supermercados.map(s => [s, 0]));
-      let totalOnline = 0;
-
-      document.querySelectorAll("#tabla-productos-comparados-body tr").forEach(fila => {
-        const celdas = fila.querySelectorAll("td");
-        supermercados.forEach((s, i) => {
-          const valor = parseInt(celdas[i + 1].textContent.replace("$", "")) || 0;
-          totales[s] += valor;
-        });
-        const valorOnline = parseInt(celdas[celdas.length - 1].textContent.replace("$", "")) || 0;
-        totalOnline += valorOnline;
-      });
-
-      return { totales, totalOnline };
-    };
-
-    const renderResumenTotales = ({ totales, totalOnline }) => {
-      // 🧱 Título de totales
-      const tituloTotales = document.createElement("h5");
-      tituloTotales.className = "mt-4 mb-3";
-      tituloTotales.textContent = "📊 Totales por supermercado";
-      productosSection.appendChild(tituloTotales);
-
-      // 🧱 Tabla horizontal
-      const tablaTotales = document.createElement("table");
-      tablaTotales.className = "table table-bordered table-sm tabla-totales-comparados";
-
-      const theadTotales = document.createElement("thead");
-      const filaSupermercados = document.createElement("tr");
-
-      const thLabel = document.createElement("th");
-      thLabel.textContent = "Supermercado";
-      filaSupermercados.appendChild(thLabel);
-
-      supermercados.forEach(s => {
-        const th = document.createElement("th");
-        th.textContent = s;
-        filaSupermercados.appendChild(th);
-      });
-
-      const thOnline = document.createElement("th");
-      thOnline.textContent = "Caminando Online";
-      filaSupermercados.appendChild(thOnline);
-
-      theadTotales.appendChild(filaSupermercados);
-      tablaTotales.appendChild(theadTotales);
-
-      const tbodyTotales = document.createElement("tbody");
-      const filaTotales = document.createElement("tr");
-
-      const tdLabel = document.createElement("td");
-      tdLabel.textContent = "Total";
-      filaTotales.appendChild(tdLabel);
-
-      supermercados.forEach(s => {
-        const td = document.createElement("td");
-        td.textContent = `$${totales[s]}`;
-        filaTotales.appendChild(td);
-      });
-
-      const tdOnline = document.createElement("td");
-      tdOnline.textContent = `$${totalOnline}`;
-      filaTotales.appendChild(tdOnline);
-
-      tbodyTotales.appendChild(filaTotales);
-      tablaTotales.appendChild(tbodyTotales);
-
-      // 🧱 Wrapper visual
-      const tablaTotalesWrapper = document.createElement("div");
-      tablaTotalesWrapper.className = "tabla-totales-wrapper";
-      tablaTotalesWrapper.appendChild(tablaTotales);
-      productosSection.appendChild(tablaTotalesWrapper);
-
-      // 🧾 Resumen de ahorro
-      const sumaSupermercados = supermercados.reduce((acc, s) => acc + totales[s], 0);
-      const promedio = Math.round(sumaSupermercados / supermercados.length);
-      const ahorro = promedio - totalOnline;
-      const porcentaje = ((ahorro / promedio) * 100).toFixed(2);
-
-      const resumen = document.createElement("div");
-      resumen.className = "alert alert-success mt-3 fw-bold";
-
-      const ahorroSpan = document.createElement("span");
-      ahorroSpan.style.color = "#d84315";
-      ahorroSpan.textContent = `${ahorro}`;
-
-      const porcentajeSpan = document.createElement("span");
-      porcentajeSpan.style.color = "#d84315";
-      porcentajeSpan.textContent = `${porcentaje}%`;
-
-      resumen.innerHTML = `¡Caminando Online te estás ahorrando `;
-      resumen.appendChild(ahorroSpan);
-      resumen.innerHTML += `, eso es `;
-      resumen.appendChild(porcentajeSpan);
-      resumen.innerHTML += ` menos que el promedio de supermercados!`;
-
-      productosSection.appendChild(resumen);
-
-      // 🎁 Cartel de donaciones FUERA del container
-      const cartelDonaciones = document.createElement("div");
-      cartelDonaciones.className = "cartel-donaciones-flotante";
-      cartelDonaciones.innerHTML = `
-        <div class="text-center">
-          <div class="mb-2"></div>
-          <div style="font-size: 1.3rem;">
-            <strong>Caminando Online</strong>
-          </div>
-            <div style="font-size: 1rem;"> 
-            momentaneamente es gratuito y se sostiene gracias a las donaciones.
-            </div>
-          <div style="font-size: 0.85rem; margin-top: 8px; margin-bottom: 1rem;">
-            Si querés compartir parte de tu ahorro con nosotros te lo vamos a agradecer
-          </div>
-          <div class="qr-donaciones">
-            <div class="qr-item" data-crypto="btc">
-              <img src="/assets/img/qr-btc.png" alt="Donar con Bitcoin" class="qr-small" />
-              <span class="qr-label">BTC</span>
-            </div>
-            <div class="qr-item" data-crypto="usdt">
-              <img src="/assets/img/qr-usdt.png" alt="Donar con USDT" class="qr-small" />
-              <span class="qr-label">USDT</span>
-            </div>
-            <div class="qr-item" data-crypto="mp">
-              <img src="/assets/img/qr-mp.png" alt="Donar con MercadoPago" class="qr-small" />
-              <span class="qr-label">MP</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Modal para QR ampliado -->
-        <div class="qr-modal" id="qr-modal">
-          <div class="qr-modal-content">
-            <img src="" alt="" class="qr-large" id="qr-large-img" />
-            <div class="qr-modal-title" id="qr-modal-title"></div>
+    // Columnas de supermercados CON LOGOS
+    supermercados.forEach((s, index) => {
+      const th = document.createElement("th");
+      th.className = "th-supermercado-premium";
+      
+      // Crear el logo del supermercado
+      const logoPath = `/assets/img/logos/${s.toLowerCase()}_logo.png`;
+      
+      th.innerHTML = `
+        <div class="th-content-premium">
+          <div class="th-logo-container" style="margin: 0.5rem 0;">
+            <img src="${logoPath}" 
+                 alt="Logo ${s}" 
+                 style="width: 80px; height: auto; max-height: 80px; object-fit: contain;"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span class="th-text-fallback" style="display: none; font-weight: 600; color: white;">${s}</span>
           </div>
         </div>
       `;
+      filaHead.appendChild(th);
+    });
 
-      // Crear la imagen de Lita por separado
-      const litaImagen = document.createElement("img");
-      litaImagen.src = "/assets/img/lita-indice.png";
-      litaImagen.alt = "Lita señalando";
-      litaImagen.className = "lita-imagen-externa";
+    // Columna Caminando Online (destacada)
+    const thOnline = document.createElement("th");
+    thOnline.className = "th-caminando-premium";
+    thOnline.innerHTML = `
+      <div class="th-content-caminando-premium">
+        <span class="th-star">⭐</span>
+        <span class="th-text" text-align="center">Caminando .Online</span>
+      </div>
+    `;
+    filaHead.appendChild(thOnline);
 
-      // En móvil, agregar después del resumen. En desktop, posicionar relativo al container
-      if (window.innerWidth <= 768) {
-        productosSection.appendChild(cartelDonaciones);
-      } else {
-        // Posicionar el cartel relativo al container
-        document.body.appendChild(cartelDonaciones);
-        document.body.appendChild(litaImagen);
-        
-        // Función para posicionar el cartel y la imagen
-        const posicionarCartel = () => {
-          const containerRect = productosSection.getBoundingClientRect();
-          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          
-          // Buscar el mensaje verde de resumen de ahorro
-          const resumenElement = productosSection.querySelector('.alert-success');
-          if (resumenElement) {
-            const resumenRect = resumenElement.getBoundingClientRect();
-            
-            // Posición a 50px a la derecha del container
-            cartelDonaciones.style.left = `${containerRect.right + 20}px`;
-            // Alineado con el borde superior del resumen de ahorro
-            cartelDonaciones.style.top = `${containerRect.top + scrollTop + (containerRect.height * 0.66)}px`;
-            
-            // Posicionar imagen de Lita
-            litaImagen.style.left = `${containerRect.right + 22}px`; // Alineada a la izquierda del cartel
-            litaImagen.style.top = `${resumenRect.top + scrollTop - 190}px`; // 60px arriba del cartel
-          } else {
-            // Fallback si no encuentra el resumen
-            cartelDonaciones.style.left = `${containerRect.right + 20}px`;
-            cartelDonaciones.style.top = `${containerRect.top + scrollTop + 240}px`;
-            
-            litaImagen.style.left = `${containerRect.right + 22}px`;
-            litaImagen.style.top = `${containerRect.top + scrollTop + 240}px`;
-          }
-          
-          // Hacer visible el cartel y la imagen
-          cartelDonaciones.style.opacity = '1';
-          litaImagen.style.opacity = '1';
-        };
-        
-        // Posicionar inicialmente
-        posicionarCartel();
-        
-        // Activar animación de entrada después de un pequeño delay
-        setTimeout(() => {
-          cartelDonaciones.classList.add('entrada-desde-atras');
-          litaImagen.classList.add('entrada-desde-atras');
-          
-          // Después de la animación, deshabilitar transiciones de posición
-          setTimeout(() => {
-            cartelDonaciones.classList.add('posicionado');
-            litaImagen.classList.add('posicionado');
-          }, 600); // Esperar a que termine la animación de entrada
-        }, 200);
-        
-        // Reposicionar cuando se hace scroll o se redimensiona (sin animación)
-        window.addEventListener('scroll', posicionarCartel);
-        window.addEventListener('resize', posicionarCartel);
-        
-        // Agregar funcionalidad a los QR después de un pequeño delay
-        setTimeout(() => {
-          setupQRFunctionality();
-        }, 800);
-      }
-
-      // Función para configurar la funcionalidad de los QR
-      function setupQRFunctionality() {
-        const qrItems = document.querySelectorAll('.qr-item');
-        const modal = document.getElementById('qr-modal');
-        const modalImg = document.getElementById('qr-large-img');
-        const modalTitle = document.getElementById('qr-modal-title');
-        const cartelFlotan = document.querySelector('.cartel-donaciones-flotante');
-
-        const cryptoNames = {
-          'btc': 'Bitcoin (BTC)',
-          'usdt': 'Tether (USDT)', 
-          'mp': 'MercadoPago'
-        };
-
-        qrItems.forEach(item => {
-          // Tanto Desktop como Mobile: click para mostrar
-          item.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation(); // Evitar que se propague al documento
-            showQRModal(item, modal, modalImg, modalTitle, cryptoNames);
-          });
-        });
-
-        // Cerrar al tocar/click fuera del modal
-        modal.addEventListener('click', (e) => {
-          if (e.target === modal) {
-            hideQRModal(modal);
-          }
-        });
-
-        // Prevenir cierre cuando se hace click dentro del modal
-        modal.querySelector('.qr-modal-content').addEventListener('click', (e) => {
-          e.stopPropagation();
-        });
-
-        // Cerrar cuando se hace click fuera del cartel flotante
-        document.addEventListener('click', (e) => {
-          // Verificar si el modal está abierto
-          if (modal.style.display === 'flex') {
-            // Verificar si el click fue fuera del cartel flotante Y fuera del modal
-            const clickedInsideCartel = cartelFlotan && cartelFlotan.contains(e.target);
-            const clickedInsideModal = modal.contains(e.target);
-            
-            if (!clickedInsideCartel && !clickedInsideModal) {
-              hideQRModal(modal);
-            }
-          }
-        });
-
-        // Cerrar con ESC
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') {
-            hideQRModal(modal);
-          }
-        });
-      }
-
-      function showQRModal(item, modal, modalImg, modalTitle, cryptoNames) {
-        const crypto = item.dataset.crypto;
-        const imgSrc = `/assets/img/qr-${crypto}.png`;
-        
-        modalImg.src = imgSrc;
-        modalImg.alt = `QR ${cryptoNames[crypto]}`;
-        modalTitle.textContent = `Escanear ${cryptoNames[crypto]}`;
-        
-        modal.style.display = 'flex';
-      }
-
-      function hideQRModal(modal) {
-        modal.style.display = 'none';
-      }
-
-      // 🛒 Botón "Compra con CaminandoOnline"
-      const botonCompra = document.createElement("button");
-      botonCompra.className = "btn btn-warning btn-lg w-100 mt-3 fw-bold boton-caminando-online";
-      botonCompra.innerHTML = `🛒 <strong>¡Comprá Caminando!</strong><br>
-        <small style="font-size: 0.85rem; color: #6d4c41;">(Próximamente 🙂)</small>`;
-      botonCompra.disabled = true; // Desactivado por ahora
-
-      productosSection.appendChild(botonCompra);
-    };
-
-    // 🧮 Ejecutar resumen
-    const { totales, totalOnline } = calcularTotales();
-    renderResumenTotales({ totales, totalOnline });
+    thead.appendChild(filaHead);
+    return thead;
   }
+
+  /**
+   * Crea el cuerpo de la tabla con todos los productos
+   */
+  function crearTbody() {
+    const tbody = document.createElement("tbody");
+    tbody.className = "tbody-premium";
+    tbody.id = "tabla-productos-comparados-body";
+
+    productos.forEach((prod, index) => {
+      const fila = crearFilaProducto(prod, index);
+      tbody.appendChild(fila);
+    });
+
+    return tbody;
+  }
+
+  /**
+   * Crea una fila individual de producto
+   */
+  function crearFilaProducto(producto, index) {
+    // Generar precios aleatorios para demo
+    const precios = supermercados.map(() => Math.floor(Math.random() * 1000 + 900));
+    const precioMin = Math.min(...precios);
+    const indexMejorPrecio = precios.indexOf(precioMin);
+    const supermercadoMejor = supermercados[indexMejorPrecio];
+    
+    // Actualizar frecuencia para algoritmo de distribución
+    frecuenciaSupermercado[supermercadoMejor]++;
+
+    const fila = document.createElement("tr");
+    fila.className = "fila-producto-premium";
+    fila.style.animationDelay = `${index * 0.05}s`;
+
+    // Celda del producto
+    fila.appendChild(crearCeldaProducto(producto, index));
+
+    // Celdas de precios por supermercado
+    precios.forEach((precio, i) => {
+      fila.appendChild(crearCeldaPrecio(precio, i === indexMejorPrecio, precioMin));
+    });
+
+    // Celda Caminando Online
+    fila.appendChild(crearCeldaCaminando(precioMin, supermercadoMejor));
+
+    return fila;
+  }
+
+  /**
+   * Crea la celda de información del producto
+   */
+  function crearCeldaProducto(producto, index) {
+    const celda = document.createElement("td");
+    celda.className = "td-producto-premium";
+    
+    // Usar el nombreCompleto si existe, sino generar uno
+    const nombreProducto = producto.nombreCompleto || `Producto ${index + 1}`;
+    
+    celda.innerHTML = `
+      <div class="producto-info-premium">
+        <span class="producto-numero">#${index + 1}</span>
+        <div class="producto-detalles">
+          <span class="producto-nombre-premium">${nombreProducto}</span>
+          <span class="producto-codigo">SKU: ${generarSKU()}</span>
+        </div>
+      </div>
+    `;
+    return celda;
+  }
+
+  /**
+   * Crea una celda de precio para un supermercado
+   */
+  function crearCeldaPrecio(precio, esMejor, precioMin) {
+    const celda = document.createElement("td");
+    celda.className = "td-precio-premium";
+    
+    if (esMejor) {
+      celda.innerHTML = `
+        <div class="precio-box mejor">
+          <span class="precio-valor">$${precio.toLocaleString('es-AR')}</span>
+        </div>
+      `;
+    } else {
+      const diferencia = precio - precioMin;
+      const porcentajeDif = ((diferencia / precioMin) * 100).toFixed(1);
+      celda.innerHTML = `
+        <div class="precio-box">
+          <span class="precio-valor">$${precio.toLocaleString('es-AR')}</span>
+          <span class="precio-diferencia">+$${diferencia} (${porcentajeDif}%)</span>
+        </div>
+      `;
+    }
+    
+    return celda;
+  }
+
+  /**
+   * Crea la celda especial de Caminando Online
+   */
+  function crearCeldaCaminando(precioMin, supermercadoMejor) {
+    const celda = document.createElement("td");
+    celda.className = "td-caminando-premium";
+    celda.innerHTML = `
+      <div class="precio-caminando-box">
+        <span class="precio-caminando-valor">$${precioMin.toLocaleString('es-AR')}</span>
+        <span class="precio-caminando-ahorro">Mejor precio</span>
+        <div class="precio-caminando-super">
+          <small>vía ${supermercadoMejor}</small>
+        </div>
+      </div>
+    `;
+    return celda;
+  }
+
+  /**
+   * Calcula todos los datos necesarios de la tabla
+   */
+  function calcularDatosTabla() {
+    console.log("🧮 Calculando datos de la tabla...");
+    
+    const totales = {};
+    let totalOnline = 0;
+
+    supermercados.forEach(s => totales[s] = 0);
+
+    // Calcular totales recorriendo las filas
+    document.querySelectorAll("#tabla-productos-comparados-body tr").forEach(fila => {
+      const celdas = fila.querySelectorAll("td");
+      
+      supermercados.forEach((s, i) => {
+        const textoValor = celdas[i + 1]?.querySelector('.precio-valor')?.textContent || '$0';
+        const valor = parseInt(textoValor.replace(/[$,.]/g, '')) || 0;
+        totales[s] += valor;
+      });
+
+      const textoOnline = celdas[celdas.length - 1]?.querySelector('.precio-caminando-valor')?.textContent || '$0';
+      const valorOnline = parseInt(textoOnline.replace(/[$,.]/g, '')) || 0;
+      totalOnline += valorOnline;
+    });
+
+    console.log("✅ Datos calculados:", { totales, totalOnline });
+    return { totales, totalOnline };
+  }
+
+  /**
+   * Crea la sección de totales
+   */
+  function crearSeccionTotales({ totales, totalOnline }) {
+    console.log("📊 Creando sección de totales...");
+    
+    const seccionTotales = document.createElement("div");
+    seccionTotales.className = "seccion-totales-premium";
+    seccionTotales.innerHTML = `
+      <h3 class="totales-titulo">
+        <span class="titulo-icon">💰</span>
+        Resumen
+      </h3>
+    `;
+
+    const tablaTotales = crearTablaTotales(totales, totalOnline);
+    seccionTotales.appendChild(tablaTotales);
+    productosSection.appendChild(seccionTotales);
+    
+    console.log("✅ Sección de totales creada");
+  }
+
+/**
+   * Crea la tabla de totales
+   */
+  function crearTablaTotales(totales, totalOnline) {
+    const tabla = document.createElement("table");
+    tabla.className = "table tabla-totales-premium";
+
+    const thead = document.createElement("thead");
+    const filaHead = document.createElement("tr");
+    
+    // Columnas de supermercados con logos
+    supermercados.forEach(s => {
+      const logoPath = `/assets/img/logos/${s.toLowerCase()}_logo.png`;
+      filaHead.innerHTML += `
+        <th style="text-align: center; padding: 1rem;">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+            <img src="${logoPath}" 
+                 alt="Logo ${s}" 
+                 style="width: 100px; height: auto; max-height: 50px; object-fit: contain;"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span style="display: none; font-weight: 600; color: white; font-size: 0.9rem;">${s}</span>
+          </div>
+        </th>
+      `;
+    });
+    
+    filaHead.innerHTML += '<th class="th-caminando-total"; style="text-align: center">Caminando Online</th>';
+    
+    thead.appendChild(filaHead);
+    tabla.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+    const filaTotal = crearFilaTotales(totales, totalOnline);
+    tbody.appendChild(filaTotal);
+    tabla.appendChild(tbody);
+
+    return tabla;
+  }
+
+  /**
+   * Crea la fila de totales
+   */
+  function crearFilaTotales(totales, totalOnline) {
+    const fila = document.createElement("tr");
+    
+    supermercados.forEach(s => {
+      fila.innerHTML += `
+        <td>
+          <div class="total-box">
+            <span class="total-valor">$${totales[s].toLocaleString('es-AR')}</span>
+          </div>
+        </td>
+      `;
+    });
+    
+    fila.innerHTML += `
+      <td class="td-total-caminando">
+        <div class="total-caminando-box">
+          <span class="total-caminando-valor">$${totalOnline.toLocaleString('es-AR')}</span>
+          <span class="badge-mejor-precio">¡MEJOR PRECIO TOTAL!</span>
+        </div>
+      </td>
+    `;
+    
+    return fila;
+  }
+
+  /**
+   * Crea el resumen de ahorro
+   */
+  function crearResumenAhorro({ totales, totalOnline }) {
+    console.log("💡 Creando resumen de ahorro...");
+    
+    const promedio = Math.round(Object.values(totales).reduce((a, b) => a + b, 0) / supermercados.length);
+    const ahorro = promedio - totalOnline;
+    const porcentajeAhorro = ((ahorro / promedio) * 100).toFixed(1);
+
+    const resumenAhorro = document.createElement("div");
+    resumenAhorro.className = "resumen-ahorro-premium";
+    resumenAhorro.innerHTML = `
+      <div class="ahorro-content">
+        <div class="ahorro-icon">
+          <i class="fas fa-trophy fa-3x"></i>
+        </div>
+
+        <div class="ahorro-info">
+          <!-- 1. Título -->
+          <h3 class="ahorro-titulo">
+            ¡Felicitaciones! Caminando Online estás ahorrando:
+          </h3>
+
+          <!-- 2. Cantidad -->
+          <div class="ahorro-numeros">
+            <div class="ahorro-cantidad">
+              <span class="ahorro-numeros">
+                $${ahorro.toLocaleString('es-AR')}
+              </span>
+            </div>
+          </div>
+
+          <!-- 3. Descripción con porcentaje y comparación -->
+          <p class="ahorro-descripcion">
+            <span class="ahorro-label">Equivale a un </span>
+            <span class="ahorro-valor">${porcentajeAhorro}% </span>
+            <span class="ahorro-label">
+              MENOS que el promedio de ${supermercados.length} supermercados.
+            </span>
+          </p>
+        </div>
+      </div>
+    `;
+    productosSection.appendChild(resumenAhorro);
+
+    console.log("✅ Resumen de ahorro creado");
+    return { ahorro, porcentajeAhorro };
+  }
+
+  /**
+   * Crea la sección de botones de compra
+   */
+  function crearSeccionCompra({ totales, totalOnline }) {
+    console.log("🛒 Creando sección de compra...");
+    
+    const promedio = Math.round(Object.values(totales).reduce((a, b) => a + b, 0) / supermercados.length);
+    const ahorro = promedio - totalOnline;
+    const mostrarDonacion = ahorro >= 10000;
+
+    const seccionCompra = document.createElement("div");
+    seccionCompra.className = "seccion-compra-premium";
+    seccionCompra.innerHTML = `
+
+      <div class="botones-compra-grid">
+        ${crearBotonCaminando(totalOnline, ahorro, mostrarDonacion)}
+      </div>
+    `;
+    productosSection.appendChild(seccionCompra);
+
+    console.log("✅ Sección de compra creada");
+    return { mostrarDonacion, ahorro };
+  }
+
+  /**
+   * Crea los botones de compra por supermercado
+   */
+  function crearBotonesSupermercados(totales) {
+    return supermercados.map(s => `
+      <button class="btn-comprar-super" data-super="${s}">
+        <span class="btn-text">Comprar en ${s}</span>
+        <span class="btn-total">Total: $${totales[s].toLocaleString('es-AR')}</span>
+      </button>
+    `).join('');
+  }
+
+  /**
+   * Crea el botón especial de Caminando Online
+   */
+  function crearBotonCaminando(totalOnline, ahorro, mostrarDonacion) {
+    return `
+      <button class="btn-comprar-caminando" ${mostrarDonacion ? '' : 'disabled'}>
+        <span class="btn-text-principal">¡Comprá Caminando!</span>
+        <span class="btn-total-caminando">Total: $${totalOnline.toLocaleString('es-AR')}</span>
+        <span class="btn-ahorro">Ahorrás: $${ahorro.toLocaleString('es-AR')}</span>
+        ${mostrarDonacion 
+          ? '<span class="btn-proximamente">Solicitar acceso anticipado</span>' 
+          : '<span class="btn-proximamente">Próximamente 🙂</span>'
+        }
+      </button>
+    `;
+  }
+
+  // ===============================================
+  // FUNCIONES UTILITARIAS
+  // ===============================================
+
+  /**
+   * Genera un SKU aleatorio
+   */
+  function generarSKU() {
+    return Math.random().toString(36).substr(2, 9).toUpperCase();
+  }
+
+  // ===============================================
+  // ANIMACIONES SIMPLES
+  // ===============================================
+  setTimeout(() => {
+    document.querySelectorAll('.comparacion-header-premium, .tabla-comparadora-wrapper-premium, .seccion-totales-premium, .resumen-ahorro-premium, .seccion-compra-premium').forEach((el, index) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'all 0.6s ease';
+      
+      setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, index * 2000);
+    });
+  }, 1000);
+
+  console.log("🎉 Tabla comparadora completamente inicializada");
+
 });
+
+// ===============================================
+// CARTEL FLOTANTE DE DONACIONES
+// ===============================================
+
+// Esperar a que todo esté cargado y luego crear el cartel
+setTimeout(() => {
+  console.log("🎁 Iniciando creación del cartel...");
+  
+  // 1. Agregar estilos CSS
+  const estilos = document.createElement('style');
+  estilos.innerHTML = `
+  .cartel-donacion-flotante {
+    position: absolute;
+    left: -600px;
+    top: calc(70% + 70px);
+    transform: translateY(-50%);
+    height: 380px;
+    width: 350px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border: 1px solid #ddd;
+    z-index: 1000;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .cartel-donacion-flotante.mostrar {
+    opacity: 1;
+    left: calc(100% + 20px); /* Se mueve a 20px A LA DERECHA del container */
+  }
+
+  .cartel-header {
+    position: relative;
+    padding: 1.5rem 1rem 1rem;
+    background: linear-gradient(135deg, #ff6f00, #ffab40);
+    color: white;
+  }
+
+  .lita-indice {
+    position: absolute;
+    top: 134px; /* Más arriba que antes */
+    left: 17%;
+    transform: translateX(-50%); /* Para centrar perfectamente */
+    width: 125px;
+    height: auto;
+    z-index: 1001;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)); /* Sombra opcional */
+  }
+
+  .cartel-texto-titulo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 0.5;
+    margin-top: 10px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .cartel-texto-h1 {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 20px;
+    margin-top: 1px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .cartel-texto-h2 {
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-left: 7.5rem;
+    margin-right: 1rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    text-align: justify;
+  }
+
+  .cartel-opciones {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-around;
+    gap: 0.5rem;
+  }
+
+  .opcion-donacion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    border: 2px solid transparent;
+  }
+
+  .opcion-donacion:hover {
+    background: #fff8e1;
+    border-color: #ff6f00;
+    transform: translateY(-2px);
+  }
+
+  .qr-thumb {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.5rem;
+  }
+
+  .opcion-texto {
+    font-size: 0.7rem;
+    color: #666;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .btn-cerrar-cartel {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-cerrar-cartel:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .modal-qr {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+  }
+
+  .modal-qr.show {
+    display: flex;
+  }
+
+  .modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 400px;
+    margin: 0 1rem;
+    position: relative;
+  }
+
+  .qr-expandido {
+    width: 250px;
+    height: 250px;
+    margin: 1rem auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+  }
+
+  .modal-titulo {
+    color: #ff6f00;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-descripcion {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+  }
+
+  /* CRÍTICO: Hacer que el container tenga position relative */
+  .container-custom-comparados {
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  @media (max-width: 768px) {
+    .cartel-donacion-flotante {
+      width: 250px;
+      left: -270px;
+    }
+    
+    .cartel-donacion-flotante.mostrar {
+      left: calc(100% + 10px);
+    }
+    
+    .cartel-texto {
+      font-size: 0.8rem;
+    }
+    
+    .qr-thumb {
+      width: 40px;
+      height: 40px;
+    }
+  }
+`;
+
+  document.head.appendChild(estilos);
+  console.log("✅ Estilos agregados");
+
+  // 2. Crear HTML del cartel
+  const cartelHTML = `
+    <div id="cartel-donacion-flotante" class="cartel-donacion-flotante">
+      <div class="cartel-header">
+        <img src="/assets/img/lita-indice.png" alt="Lita" class="lita-indice">
+        <button class="btn-cerrar-cartel" type="button">×</button>
+        <div class="cartel-texto-titulo">Caminando Online </div>
+        <div class="cartel-texto-h1"></br> momentáneamente es gratuito y se sostiene gracias a las donaciones de sus usuarios. </div>  
+        <div class="cartel-texto-h2"></br> Si quisieras compartir parte de lo ahorrado con nosotros, ¡te lo agradeceremos mejorando la plataforma!</div>
+      </div>
+      
+      <div class="cartel-opciones">
+        <div class="opcion-donacion" onclick="window.mostrarQRCartel('btc')">
+          <img src="/assets/img/qr-btc.png" alt="Bitcoin QR" class="qr-thumb">
+          <div class="opcion-texto">Bitcoin</div>
+        </div>
+        
+        <div class="opcion-donacion" onclick="window.mostrarQRCartel('usdt')">
+          <img src="/assets/img/qr-usdt.png" alt="USDT QR" class="qr-thumb">
+          <div class="opcion-texto">USDT</div>
+        </div>
+        
+        <div class="opcion-donacion" onclick="window.mostrarQRCartel('mp')">
+          <img src="/assets/img/qr-mp.png" alt="MercadoPago QR" class="qr-thumb">
+          <div class="opcion-texto">MercadoPago</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modal-qr-cartel" class="modal-qr">
+      <div class="modal-content">
+        <button class="close-modal" onclick="window.cerrarModalCartel()">×</button>
+        <div id="modal-titulo-cartel" class="modal-titulo"></div>
+        <img id="qr-expandido-cartel" class="qr-expandido" src="" alt="QR Code">
+        <div id="modal-descripcion-cartel" class="modal-descripcion"></div>
+      </div>
+    </div>
+  `;
+
+  // 3. Insertar en el body
+  const container = document.querySelector('.container-custom-comparados');
+  if (container) {
+    container.insertAdjacentHTML('beforeend', cartelHTML);
+    console.log("✅ HTML del cartel insertado en el container");
+  } else {
+    document.body.insertAdjacentHTML('beforeend', cartelHTML);
+    console.log("⚠️ Container no encontrado, insertando en body");
+  }
+
+  // 4. Configurar botón cerrar
+  const btnCerrar = document.querySelector('.btn-cerrar-cartel');
+  if (btnCerrar) {
+    btnCerrar.onclick = function() {
+      const cartel = document.getElementById('cartel-donacion-flotante');
+      if (cartel) {
+        cartel.classList.remove('mostrar');
+        setTimeout(() => {
+          cartel.style.display = 'none';
+        }, 600);
+      }
+    };
+  }
+
+  // 5. Mostrar el cartel
+  setTimeout(() => {
+    const cartel = document.getElementById('cartel-donacion-flotante');
+    if (cartel) {
+      cartel.classList.add('mostrar');
+      console.log("✅ Cartel mostrado");
+    } else {
+      console.error("❌ No se encontró el cartel para mostrar");
+    }
+  }, 1000);
+
+}, 1000); // Esperar 1 segundos después de que cargue la página
+
+// Funciones globales para los QR
+window.mostrarQRCartel = function(tipo) {
+  console.log(`🔍 Mostrando QR: ${tipo}`);
+  const modal = document.getElementById('modal-qr-cartel');
+  const titulo = document.getElementById('modal-titulo-cartel');
+  const qrImg = document.getElementById('qr-expandido-cartel');
+  const descripcion = document.getElementById('modal-descripcion-cartel');
+  
+  const configs = {
+    btc: {
+      titulo: 'Donación con Bitcoin',
+      img: '/assets/img/qr-btc.png',
+      descripcion: 'Escanea este código QR con tu wallet de Bitcoin para realizar una donación'
+    },
+    usdt: {
+      titulo: 'Donación con USDT',
+      img: '/assets/img/qr-usdt.png', 
+      descripcion: 'Escanea este código QR con tu wallet de USDT para realizar una donación'
+    },
+    mp: {
+      titulo: 'Donación con MercadoPago',
+      img: '/assets/img/qr-mp.png',
+      descripcion: 'Escanea este código QR con la app de MercadoPago para realizar una donación'
+    }
+  };
+  
+  const config = configs[tipo];
+  if (config && modal && titulo && qrImg && descripcion) {
+    titulo.textContent = config.titulo;
+    qrImg.src = config.img;
+    descripcion.textContent = config.descripcion;
+    modal.classList.add('show');
+  }
+};
+
+window.cerrarModalCartel = function() {
+  const modal = document.getElementById('modal-qr-cartel');
+  if (modal) {
+    modal.classList.remove('show');
+  }
+};

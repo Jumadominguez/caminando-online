@@ -275,7 +275,19 @@
   </main>
 
   <!-- Scripts -->
+  <script src="/js/utils/data-manager.js"></script>
+  <script src="/js/components/auth-manager.js"></script>
   <script src="/js/auth/auth-utils.js"></script>
   <script src="/js/dashboard/dashboard-main.js"></script>
+  
+  <!-- Inicializar AuthManager -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.AuthManager) {
+        window.AuthManager.inicializar();
+        console.log('✅ AuthManager inicializado en dashboard');
+      }
+    });
+  </script>
 </body>
 </html>

@@ -1,15 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("🚀 Iniciando aplicación...");
   
-  // Inicializar el manejador de eventos
-  if (window.EventManager) {
-    window.EventManager.inicializar();
-  }
-  
-  // Restaurar estado si existe
-  restaurarEstadoSiExiste();
-  
-  console.log("✅ Aplicación inicializada completamente");
+  // Esperar un momento para que los módulos ES6 se carguen
+  setTimeout(() => {
+    // Inicializar el sistema de filtros unificado
+    if (window.FiltrosManager) {
+      window.FiltrosManager.inicializar();
+    }
+    
+    // Inicializar el manejador de eventos
+    if (window.EventManager) {
+      window.EventManager.inicializar();
+    }
+    
+    // Restaurar estado si existe
+    restaurarEstadoSiExiste();
+    
+    console.log("✅ Aplicación inicializada completamente");
+  }, 100);
 
   // ===============================================
   // FUNCIONES DE INICIALIZACIÓN

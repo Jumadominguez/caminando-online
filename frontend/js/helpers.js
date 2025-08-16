@@ -5,7 +5,7 @@
  * @param {string[]} campos - array de valores
  * @returns {boolean}
  */
-export function camposCompletos(campos) {
+function camposCompletos(campos) {
   return campos.every(c => c && c.trim() !== '');
 }
 
@@ -14,8 +14,8 @@ export function camposCompletos(campos) {
  * @param {number} valor
  * @returns {string}
  */
-export function formatearPrecio(valor) {
-  return `$${valor.toFixed(2)}`;
+function formatearPrecio(valor) {
+  return `${valor.toFixed(2)}`;
 }
 
 /**
@@ -23,7 +23,7 @@ export function formatearPrecio(valor) {
  * @param {object} producto - { nombre, marca, presentacion }
  * @returns {HTMLElement}
  */
-export function crearItemProducto(producto) {
+function crearItemProducto(producto) {
   const li = document.createElement('li');
   li.className = 'list-group-item';
   li.textContent = `${producto.nombre} - ${producto.marca} - ${producto.presentacion}`;
@@ -35,7 +35,7 @@ export function crearItemProducto(producto) {
  * @param {string} mensaje
  * @param {HTMLElement} contenedor
  */
-export function mostrarError(mensaje, contenedor = null) {
+function mostrarError(mensaje, contenedor = null) {
   console.error(mensaje);
   if (contenedor) {
     contenedor.innerHTML = `<div class="alert alert-danger">${mensaje}</div>`;
@@ -46,7 +46,7 @@ export function mostrarError(mensaje, contenedor = null) {
  * Obtiene la lista de supermercados desde el backend
  * @returns {Promise<string[]>}
  */
-export async function obtenerSupermercados() {
+async function obtenerSupermercados() {
   try {
     const res = await fetch("/api/supermercados");
     const data = await res.json();
@@ -61,7 +61,7 @@ export async function obtenerSupermercados() {
  * Renderiza los botones de supermercados con sus logos
  * @param {string} containerId - ID del contenedor HTML
  */
-export async function renderSupermercadoButtons(containerId) {
+async function renderSupermercadoButtons(containerId) {
   const LOGO_PATH = "/assets/img/logos/";
   const DEFAULT_LOGO = "default_logo.png";
   const container = document.getElementById(containerId);
@@ -88,3 +88,15 @@ export async function renderSupermercadoButtons(containerId) {
     container.appendChild(btn);
   });
 }
+
+// Exponer funciones globalmente
+window.HelpersUtils = {
+  camposCompletos,
+  formatearPrecio,
+  crearItemProducto,
+  mostrarError,
+  obtenerSupermercados,
+  renderSupermercadoButtons
+};
+
+console.log("🛠️ Helpers cargado");

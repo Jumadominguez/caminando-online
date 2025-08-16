@@ -188,44 +188,68 @@ class ProfileManager {
 
   setupEventListeners() {
     // Editar perfil
-    document.getElementById('edit-profile-btn').addEventListener('click', () => {
-      this.toggleProfileEdit();
-    });
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+    if (editProfileBtn) {
+      editProfileBtn.addEventListener('click', () => {
+        this.toggleProfileEdit();
+      });
+    }
 
     // Guardar perfil
-    document.getElementById('profile-form').addEventListener('submit', (e) => {
-      this.handleSaveProfile(e);
-    });
+    const profileForm = document.getElementById('profile-form');
+    if (profileForm) {
+      profileForm.addEventListener('submit', (e) => {
+        this.handleSaveProfile(e);
+      });
+    }
 
     // Cancelar edición
-    document.getElementById('cancel-edit-btn').addEventListener('click', () => {
-      this.cancelProfileEdit();
-    });
+    const cancelEditBtn = document.getElementById('cancel-edit-btn');
+    if (cancelEditBtn) {
+      cancelEditBtn.addEventListener('click', () => {
+        this.cancelProfileEdit();
+      });
+    }
 
     // Agregar dirección
-    document.getElementById('add-address-btn').addEventListener('click', () => {
-      this.openAddressModal();
-    });
+    const addAddressBtn = document.getElementById('add-address-btn');
+    if (addAddressBtn) {
+      addAddressBtn.addEventListener('click', () => {
+        this.openAddressModal();
+      });
+    }
 
     // Guardar dirección
-    document.getElementById('save-address-btn').addEventListener('click', () => {
-      this.handleSaveAddress();
-    });
+    const saveAddressBtn = document.getElementById('save-address-btn');
+    if (saveAddressBtn) {
+      saveAddressBtn.addEventListener('click', () => {
+        this.handleSaveAddress();
+      });
+    }
 
     // Guardar configuraciones
-    document.getElementById('settings-form').addEventListener('submit', (e) => {
-      this.handleSaveSettings(e);
-    });
+    const settingsForm = document.getElementById('save-settings-btn');
+    if (settingsForm) {
+      settingsForm.addEventListener('click', (e) => {
+        this.handleSaveSettings(e);
+      });
+    }
 
     // Cambiar contraseña
-    document.getElementById('change-password-btn').addEventListener('click', () => {
-      this.openChangePasswordModal();
-    });
+    const changePasswordBtn = document.getElementById('change-password-btn');
+    if (changePasswordBtn) {
+      changePasswordBtn.addEventListener('click', () => {
+        this.openChangePasswordModal();
+      });
+    }
 
     // Eliminar cuenta
-    document.getElementById('delete-account-btn').addEventListener('click', () => {
-      this.handleDeleteAccount();
-    });
+    const deleteAccountBtn = document.getElementById('delete-account-btn');
+    if (deleteAccountBtn) {
+      deleteAccountBtn.addEventListener('click', () => {
+        this.handleDeleteAccount();
+      });
+    }
 
     // Menú de usuario
     this.setupUserMenu();

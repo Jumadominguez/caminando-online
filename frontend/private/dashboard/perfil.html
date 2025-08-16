@@ -194,99 +194,270 @@
           </div>
         </section>
 
-        <!-- Cambiar Contraseña -->
-        <section class="dashboard-card password-card">
-          <div class="card-header">
-            <h3 class="card-title">Seguridad</h3>
-          </div>
-          <div class="card-body">
-            <div class="security-item">
-              <div class="security-info">
-                <div class="security-title">Contraseña</div>
-                <div class="security-subtitle">Última modificación: hace 30 días</div>
+        <!-- Seguridad y Configuraciones Grid 2x2 -->
+        <div class="security-settings-grid-2x2">
+          
+          <!-- Seguridad -->
+          <section class="dashboard-card security-card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="title-icon">🔒</i>
+                Seguridad
+              </h3>
+            </div>
+            <div class="card-body">
+              <div class="security-items">
+                <div class="security-item">
+                  <div class="security-icon">🔑</div>
+                  <div class="security-content">
+                    <div class="security-info">
+                      <div class="security-title">Contraseña</div>
+                      <div class="security-subtitle">Última modificación: hace 30 días</div>
+                    </div>
+                    <button class="btn btn-outline-primary btn-sm" id="change-password-btn">
+                      ✏️ Cambiar
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="security-item">
+                  <div class="security-icon">📬</div>
+                  <div class="security-content">
+                    <div class="security-info">
+                      <div class="security-title">Verificación de email</div>
+                      <div class="security-subtitle" id="email-verification-status">
+                        <span class="status-badge status-success">✓ Verificado</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="security-item">
+                  <div class="security-icon">📱</div>
+                  <div class="security-content">
+                    <div class="security-info">
+                      <div class="security-title">Autenticación de dos factores</div>
+                      <div class="security-subtitle">Añade una capa extra de seguridad</div>
+                    </div>
+                    <button class="btn btn-outline-secondary btn-sm" id="enable-2fa-btn">
+                      🔒 Habilitar
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="security-item">
+                  <div class="security-icon">📊</div>
+                  <div class="security-content">
+                    <div class="security-info">
+                      <div class="security-title">Actividad de la cuenta</div>
+                      <div class="security-subtitle">Último acceso: Hoy a las 14:32</div>
+                    </div>
+                    <button class="btn btn-outline-info btn-sm" id="view-activity-btn">
+                      👁️ Ver historial
+                    </button>
+                  </div>
+                </div>
               </div>
-              <button class="btn btn-outline-primary btn-sm" id="change-password-btn">
-                Cambiar contraseña
-              </button>
+            </div>
+          </section>
+
+          <!-- Notificaciones -->
+          <section class="dashboard-card settings-card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="title-icon">🔔</i>
+                Notificaciones
+              </h3>
+            </div>
+            <div class="card-body">
+              <form class="settings-form">
+                <div class="settings-group">
+                  <div class="settings-grid">
+                    <div class="setting-item">
+                      <div class="setting-content">
+                        <div class="setting-info">
+                          <div class="setting-title">Notificaciones por email</div>
+                          <div class="setting-subtitle">Recibir actualizaciones y promociones</div>
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="notifications-email" name="notificaciones.email" checked>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                      <div class="setting-content">
+                        <div class="setting-info">
+                          <div class="setting-title">Ofertas y descuentos</div>
+                          <div class="setting-subtitle">Recibir alertas de ofertas especiales</div>
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="notifications-offers" name="notificaciones.ofertas" checked>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                      <div class="setting-content">
+                        <div class="setting-info">
+                          <div class="setting-title">Alertas de precios</div>
+                          <div class="setting-subtitle">Notificar cuando bajan los precios de productos favoritos</div>
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="notifications-price-alerts" name="notificaciones.alertasPrecios">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                      <div class="setting-content">
+                        <div class="setting-info">
+                          <div class="setting-title">Compras exitosas</div>
+                          <div class="setting-subtitle">Confirmar cuando una compra se realiza correctamente</div>
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="notifications-purchase-success" name="notificaciones.comprasExitosas" checked>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- Privacidad y Datos -->
+          <section class="dashboard-card settings-card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="title-icon">🔒</i>
+                Privacidad y Datos
+              </h3>
+            </div>
+            <div class="card-body">
+              <form class="settings-form">
+                <div class="settings-group">
+                  <div class="settings-grid">
+                    <div class="setting-item">
+                      <div class="setting-content">
+                        <div class="setting-info">
+                          <div class="setting-title">Compartir datos para mejorar el servicio</div>
+                          <div class="setting-subtitle">Ayudanos a personalizar tu experiencia</div>
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="privacy-share-data" name="privacidad.compartirDatos">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                      <div class="setting-content">
+                        <div class="setting-info">
+                          <div class="setting-title">Marketing personalizado</div>
+                          <div class="setting-subtitle">Recibir contenido basado en tus preferencias</div>
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="privacy-marketing" name="privacidad.recibirMarketing">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                      <div class="setting-content">
+                        <div class="setting-info">
+                          <div class="setting-title">Historial de navegación</div>
+                          <div class="setting-subtitle">Guardar historial para mejorar recomendaciones</div>
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="privacy-browsing-history" name="privacidad.historialNavegacion" checked>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                      <div class="setting-content">
+                        <div class="setting-info">
+                          <div class="setting-title">Análisis de compras</div>
+                          <div class="setting-subtitle">Analizar patrones para sugerir mejores ofertas</div>
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="privacy-purchase-analysis" name="privacidad.analisisCompras">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <!-- Preferencias de Compra -->
+          <section class="dashboard-card settings-card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="title-icon">🎯</i>
+                Preferencias de Compra
+              </h3>
+            </div>
+            <div class="card-body">
+              <form class="settings-form">
+                <div class="settings-group">
+                  <div class="settings-grid">
+                    <div class="setting-item">
+                      <div class="setting-content">
+                        <div class="setting-info">
+                          <div class="setting-title">Compra automática</div>
+                          <div class="setting-subtitle">Realizar compras automáticamente cuando hay mejores precios</div>
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="auto-purchase" name="preferencias.compraAutomatica">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                      <div class="setting-content">
+                        <div class="setting-info">
+                          <div class="setting-title">Priorizar eco-friendly</div>
+                          <div class="setting-subtitle">Dar preferencia a productos sustentables cuando estén disponibles</div>
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="eco-friendly-priority" name="preferencias.ecoFriendly">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="setting-item">
+                      <div class="setting-content">
+                        <div class="setting-info">
+                          <div class="setting-title">Recordar carrito</div>
+                          <div class="setting-subtitle">Guardar productos en el carrito para futuras compras</div>
+                        </div>
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="remember-cart" name="preferencias.recordarCarrito" checked>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
             
-            <div class="security-item">
-              <div class="security-info">
-                <div class="security-title">Verificación de email</div>
-                <div class="security-subtitle" id="email-verification-status">
-                  <span class="status-badge status-success">✓ Verificado</span>
-                </div>
-              </div>
+            <div class="settings-actions">
+              <button type="submit" class="btn btn-primary btn-lg" id="save-settings-btn">
+                <span class="btn-text">💾 Guardar todas las configuraciones</span>
+                <span class="btn-loading" style="display: none;">
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  Guardando...
+                </span>
+              </button>
+              <button type="button" class="btn btn-outline-secondary" id="reset-settings-btn">
+                🔄 Restaurar valores predeterminados
+              </button>
             </div>
-          </div>
-        </section>
-
-        <!-- Configuraciones -->
-        <section class="dashboard-card settings-card">
-          <div class="card-header">
-            <h3 class="card-title">Configuraciones</h3>
-          </div>
-          <div class="card-body">
-            <form id="settings-form" class="settings-form">
-              
-              <!-- Notificaciones -->
-              <div class="settings-group">
-                <h5 class="settings-group-title">Notificaciones</h5>
-                <div class="setting-item">
-                  <div class="setting-info">
-                    <div class="setting-title">Notificaciones por email</div>
-                    <div class="setting-subtitle">Recibir actualizaciones y promociones</div>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="notifications-email" name="notificaciones.email">
-                  </div>
-                </div>
-                <div class="setting-item">
-                  <div class="setting-info">
-                    <div class="setting-title">Ofertas y descuentos</div>
-                    <div class="setting-subtitle">Recibir alertas de ofertas especiales</div>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="notifications-offers" name="notificaciones.ofertas">
-                  </div>
-                </div>
-              </div>
-
-              <!-- Privacidad -->
-              <div class="settings-group">
-                <h5 class="settings-group-title">Privacidad</h5>
-                <div class="setting-item">
-                  <div class="setting-info">
-                    <div class="setting-title">Compartir datos para mejorar el servicio</div>
-                    <div class="setting-subtitle">Ayudanos a personalizar tu experiencia</div>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="privacy-share-data" name="privacidad.compartirDatos">
-                  </div>
-                </div>
-                <div class="setting-item">
-                  <div class="setting-info">
-                    <div class="setting-title">Marketing personalizado</div>
-                    <div class="setting-subtitle">Recibir contenido basado en tus preferencias</div>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="privacy-marketing" name="privacidad.recibirMarketing">
-                  </div>
-                </div>
-              </div>
-
-              <div class="settings-actions">
-                <button type="submit" class="btn btn-primary" id="save-settings-btn">
-                  <span class="btn-text">Guardar configuraciones</span>
-                  <span class="btn-loading" style="display: none;">
-                    <span class="spinner-border spinner-border-sm me-2"></span>
-                    Guardando...
-                  </span>
-                </button>
-              </div>
-            </form>
-          </div>
-        </section>
+          </section>
+          
+        </div>
 
         <!-- Peligro -->
         <section class="dashboard-card danger-zone-card">
@@ -400,6 +571,17 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/js/auth/auth-utils.js"></script>
+  <script src="/js/maps/address-validator.js"></script>
   <script src="/js/dashboard/perfil-completo.js"></script>
+  
+  <!-- Inicializar validador de direcciones -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.AddressValidator) {
+        window.AddressValidator.inicializar();
+        console.log('✅ AddressValidator inicializado en perfil');
+      }
+    });
+  </script>
 </body>
 </html>

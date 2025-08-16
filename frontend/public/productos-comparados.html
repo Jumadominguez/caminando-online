@@ -41,11 +41,10 @@
         </div>
       </div>
 
-      <!-- Navegación -->
+      <!-- Navegación DINÁMICA (se genera automáticamente) -->
       <nav>
         <ul>
-          <li><a href="/index.html"><i class="fas fa-home"></i> Inicio</a></li>
-          <li><a href="#perfil"><i class="fas fa-user"></i> Mi Perfil</a></li>
+          <!-- El AuthManager generará los enlaces aquí automáticamente -->
         </ul>
       </nav>
     </div>
@@ -122,6 +121,8 @@
   </footer>
 
   <!-- Scripts -->
+  <!-- AuthManager DEBE cargarse PRIMERO -->
+  <script src="/js/components/auth-manager.js"></script>
   <script src="/js/utils/data-manager.js"></script>
   <script src="/js/components/cartel-donaciones.js"></script>
   <script src="/js/components/tabla-generator.js"></script>
@@ -131,6 +132,12 @@
   <script>
     // Debug: Verificar que hay datos en sessionStorage
     document.addEventListener("DOMContentLoaded", function() {
+      // 🔐 INICIALIZAR AUTHMANAGER PRIMERO
+      if (window.AuthManager) {
+        window.AuthManager.inicializar();
+        console.log("✅ AuthManager inicializado en productos-comparados");
+      }
+      
       console.log("🔍 DEBUG - Verificando datos:");
       console.log("Productos:", sessionStorage.getItem("productosComparados"));
       console.log("Supermercados:", sessionStorage.getItem("supermercadosSeleccionados"));

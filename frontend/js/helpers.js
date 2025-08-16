@@ -62,7 +62,7 @@ export async function obtenerSupermercados() {
  * @param {string} containerId - ID del contenedor HTML
  */
 export async function renderSupermercadoButtons(containerId) {
-  const LOGO_PATH = "./assets/img/logos/";
+  const LOGO_PATH = "/assets/img/logos/";
   const DEFAULT_LOGO = "default_logo.png";
   const container = document.getElementById(containerId);
   if (!container) return;

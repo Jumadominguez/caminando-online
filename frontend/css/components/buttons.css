@@ -1,0 +1,63 @@
+/* ===============================================
+   BOTONES - COMPONENTE MODULAR
+   =============================================== */
+
+/* Botones principales */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Botones específicos */
+.btn-agregar {
+  align-items: center;
+}
+
+.comparar-btn {
+  display: block;
+  margin: 24px 0 0 auto;
+  width: fit-content;
+}
+
+/* Botón volver */
+.volver-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.volver-btn:hover {
+  transform: translateX(-4px);
+}

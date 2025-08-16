@@ -7,11 +7,9 @@ const User = require('../models/User');
 
 /**
  * Middleware para verificar y validar tokens JWT
- * Protege rutas que requieren autenticación
  */
 const authMiddleware = async (req, res, next) => {
   try {
-    // Obtener token del header Authorization
     const authHeader = req.header('Authorization');
     
     if (!authHeader) {
@@ -22,7 +20,6 @@ const authMiddleware = async (req, res, next) => {
       });
     }
 
-    // Verificar formato: "Bearer <token>"
     const token = authHeader.startsWith('Bearer ') 
       ? authHeader.slice(7) 
       : authHeader;
@@ -35,7 +32,6 @@ const authMiddleware = async (req, res, next) => {
       });
     }
 
-    // Verificar que JWT_SECRET esté configurado
     if (!process.env.JWT_SECRET) {
       console.error('❌ JWT_SECRET no definido en variables de entorno');
       return res.status(500).json({
@@ -47,27 +43,19 @@ const authMiddleware = async (req, res, next) => {
     let decodedToken;
     
     try {
-      // Decodificar y verificar token
       decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     } catch (jwtError) {
-      if (jwtError.name === 'TokenExpiredError') {
-        return res.status(401).json({
-          success: false,
-          mensaje: 'Token expirado',
-          codigo: 'TOKEN_EXPIRED'
-        });
-      } else if (jwtError.name === 'JsonWebTokenError') {
-        return res.status(401).json({
-          success: false,
-          mensaje: 'Token inválido',
-          codigo: 'INVALID_TOKEN'
-        });
-      } else {
-        throw jwtError;
-      }
+      const codeMap = {
+        TokenExpiredError: 'TOKEN_EXPIRED',
+        JsonWebTokenError: 'INVALID_TOKEN'
+      };
+      return res.status(401).json({
+        success: false,
+        mensaje: jwtError.message,
+        codigo: codeMap[jwtError.name] || 'JWT_ERROR'
+      });
     }
 
-    // Verificar que el token contenga el ID del usuario
     if (!decodedToken.id) {
       return res.status(401).json({
         success: false,
@@ -76,7 +64,6 @@ const authMiddleware = async (req, res, next) => {
       });
     }
 
-    // Buscar usuario en la base de datos
     const usuario = await User.findById(decodedToken.id).select('-password');
     
     if (!usuario) {
@@ -87,7 +74,6 @@ const authMiddleware = async (req, res, next) => {
       });
     }
 
-    // Verificar que el usuario esté activo
     if (usuario.estado !== 'activo') {
       return res.status(401).json({
         success: false,
@@ -97,18 +83,15 @@ const authMiddleware = async (req, res, next) => {
       });
     }
 
-    // Actualizar último acceso (sin await para no bloquear)
     User.findByIdAndUpdate(usuario._id, { 
       ultimoAcceso: new Date() 
     }).catch(err => {
       console.warn('⚠️ Error actualizando último acceso:', err.message);
     });
 
-    // Agregar usuario al request para uso en controladores
     req.usuario = usuario;
     req.token = token;
 
-    // Continuar con el siguiente middleware/controlador
     next();
 
   } catch (error) {
@@ -124,13 +107,11 @@ const authMiddleware = async (req, res, next) => {
 
 /**
  * Middleware opcional de autenticación
- * Permite que la ruta funcione con o sin token
  */
 const optionalAuthMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.header('Authorization');
     
-    // Si no hay token, continuar sin usuario
     if (!authHeader) {
       req.usuario = null;
       return next();
@@ -157,7 +138,6 @@ const optionalAuthMiddleware = async (req, res, next) => {
         }
       }
     } catch (jwtError) {
-      // Ignorar errores de JWT en middleware opcional
       console.log('Token opcional inválido:', jwtError.message);
     }
 
@@ -172,7 +152,6 @@ const optionalAuthMiddleware = async (req, res, next) => {
 
 /**
  * Middleware para verificar roles específicos
- * Debe usarse después de authMiddleware
  */
 const requireRole = (roles) => {
   return (req, res, next) => {
@@ -183,7 +162,6 @@ const requireRole = (roles) => {
       });
     }
 
-    // Por ahora solo verificamos que sea admin (puedes expandir esto)
     if (roles.includes('admin') && req.usuario.email !== process.env.ADMIN_EMAIL) {
       return res.status(403).json({
         success: false,
@@ -210,13 +188,11 @@ const rateLimitPerUser = (maxRequests = 100, windowMs = 15 * 60 * 1000) => {
     const now = Date.now();
     const windowStart = now - windowMs;
 
-    // Limpiar requests antiguos
     if (userRequests.has(userId)) {
       const userReqs = userRequests.get(userId);
       userRequests.set(userId, userReqs.filter(time => time > windowStart));
     }
 
-    // Obtener requests actuales del usuario
     const currentRequests = userRequests.get(userId) || [];
 
     if (currentRequests.length >= maxRequests) {
@@ -227,7 +203,6 @@ const rateLimitPerUser = (maxRequests = 100, windowMs = 15 * 60 * 1000) => {
       });
     }
 
-    // Agregar request actual
     currentRequests.push(now);
     userRequests.set(userId, currentRequests);
 

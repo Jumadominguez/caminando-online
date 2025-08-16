@@ -1,0 +1,871 @@
+/* ===============================================
+   TABLAS - COMPONENTE MODULAR
+   =============================================== */
+
+/* ===============================================
+   TABLAS DE PRODUCTOS
+   =============================================== */
+
+/* 🧱 Contenedor principal (el div con id="tabla-productos") */
+#tabla-productos {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* 🏗️ Clase adicional tabla-productos-moderna */
+.tabla-productos-moderna {
+  /* Hereda los estilos del ID #tabla-productos */
+}
+
+/* 📐 La tabla interior con clase tabla-productos-mejorada */
+.tabla-productos-mejorada {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0 !important;
+}
+
+/* 📌 Encabezado fijo al hacer scroll */
+.tabla-productos-mejorada thead.table-header-modern th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding: 0.5rem 0.25rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* 🎨 Contenido del header con iconos */
+.tabla-productos-mejorada .th-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.tabla-productos-mejorada .th-icon {
+  font-size: 1.1rem;
+}
+
+/* 🧩 Celdas del cuerpo de la tabla */
+.tabla-productos-mejorada tbody.table-body-modern td {
+  border-bottom: 1px solid #dee2e6;
+  padding: 0.5rem 0.25rem;
+  text-align: center;
+  vertical-align: middle;
+  word-wrap: break-word;
+}
+
+/* 🧊 Filas pares: efecto zebra */
+.tabla-productos-mejorada tbody tr:nth-child(even) {
+  background-color: #fdfdfd;
+}
+
+/* ✨ Efecto hover en las filas */
+.tabla-productos-mejorada tbody tr:hover {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.02) 0%, rgba(255, 193, 7, 0.01) 100%);
+}
+
+/* 📐 Anchos específicos de columnas usando las clases de tu estructura */
+.tabla-productos-mejorada .col-producto,
+.tabla-productos-mejorada .celda-producto {
+  width: 40%;
+  text-align: left !important;
+  padding-left: 0.75rem !important;
+}
+
+.tabla-productos-mejorada .col-marca,
+.tabla-productos-mejorada .celda-marca,
+.tabla-productos-mejorada .col-contenido,
+.tabla-productos-mejorada .celda-contenido,
+.tabla-productos-mejorada .col-variedad,
+.tabla-productos-mejorada .celda-variedad {
+  width: 15%;
+}
+
+.tabla-productos-mejorada .col-accion,
+.tabla-productos-mejorada .celda-accion {
+  width: 11%;
+  border-right: none !important;
+  text-align: center !important;
+  padding-right: 0.75rem !important;
+}
+
+/* 🎯 Información del producto */
+.producto-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.producto-nombre {
+  font-weight: 500;
+  color: #333;
+}
+
+.producto-codigo {
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+/* 🏷️ Badges modernos */
+.badge-marca,
+.badge-contenido,
+.badge-variedad {
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid #dee2e6;
+}
+
+.badge-marca {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  border-color: #bbdefb;
+}
+
+.badge-contenido {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+  border-color: #ce93d8;
+}
+
+.badge-variedad {
+  background-color: #e8f5e8;
+  color: #388e3c;
+  border-color: #a5d6a7;
+}
+
+/* 🔘 Botones dentro de la tabla */
+.tabla-productos-mejorada .btn-agregar {
+  white-space: nowrap;
+  border: none;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.4rem;
+}
+
+.tabla-productos-mejorada .btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.tabla-productos-mejorada .btn-success:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+.tabla-productos-mejorada .btn-success:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 📱 Responsividad para tabla de productos */
+@media (max-width: 768px) {
+  .tabla-productos-mejorada .col-producto,
+  .tabla-productos-mejorada .celda-producto {
+    width: 50%;
+  }
+  
+  .tabla-productos-mejorada .col-marca,
+  .tabla-productos-mejorada .celda-marca,
+  .tabla-productos-mejorada .col-contenido,
+  .tabla-productos-mejorada .celda-contenido,
+  .tabla-productos-mejorada .col-variedad,
+  .tabla-productos-mejorada .celda-variedad {
+    width: 12%;
+  }
+  
+  .tabla-productos-mejorada .col-accion,
+  .tabla-productos-mejorada .celda-accion {
+    width: 14%;
+  }
+}
+
+/* 🎨 Header de información de la tabla */
+.tabla-header-info {
+  padding: 1rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 0.5rem;
+  border: 1px solid #dee2e6;
+}
+
+.tabla-header-info .badge {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.tabla-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* 🎬 Animaciones de entrada para filas */
+.fila-producto {
+  animation: fadeInUp 0.3s ease forwards;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================================
+   TABLA DE COMPARACIÓN
+   =============================================== */
+#tabla-comparacion-wrapper {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border-light);
+  overflow: hidden;
+  margin-top: 2rem;
+  position: relative;
+}
+
+#tabla-comparacion-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-primary) 100%);
+}
+
+.tabla-comparacion {
+  padding: 1.5rem;
+}
+
+.tabla-comparacion h5 {
+  color: var(--color-text);
+  font-weight: 700;
+  margin: 0;
+}
+
+.tabla-a-comparar-scroll {
+  max-height: 350px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-sm);
+}
+
+.tabla-a-comparar {
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.tabla-a-comparar th {
+  background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+  color: white;
+  padding: 0.5rem 0.5rem;
+  font-weight: 600;
+  border: none;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  text-align: center;
+}
+
+.tabla-a-comparar td {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.875rem 0.75rem;
+  border-bottom: 1px solid var(--color-border-light);
+  border-right: 1px solid var(--color-border-light);
+  vertical-align: center;
+  text-align: center;
+}
+
+.tabla-a-comparar td:last-child {
+  border-right: none;
+}
+
+.tabla-a-comparar tr td:last-child {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.tabla-a-comparar tbody tr {
+  transition: var(--transition);
+}
+
+.tabla-a-comparar tbody tr:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.01) 100%);
+}
+
+/* Botón eliminar */
+.eliminar-btn {
+  background: linear-gradient(135deg, var(--color-danger) 0%, #DC2626 100%);
+  border: none;
+  color: white;
+  padding: 0.3rem 0.3rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.8rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.eliminar-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ===============================================
+   TABLA COMPARADORA PREMIUM (página resultados)
+   =============================================== */
+.comparacion-header-premium {
+  background: linear-gradient(135deg, var(--color-white) 0%, #FAFBFC 100%);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-md);
+  border-left: 4px solid var(--color-primary);
+}
+
+.header-comparacion-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.comparacion-titulo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.titulo-icon {
+  font-size: 2.5rem;
+}
+
+.comparacion-subtitulo {
+  color: var(--color-text-secondary);
+  font-size: 1.1rem;
+}
+
+.header-right {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: var(--color-white);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 100px;
+}
+
+.stat-number {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-icon {
+  font-size: 1.5rem;
+}
+
+/* Tabla comparadora wrapper premium */
+.tabla-comparadora-wrapper-premium {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  position: relative;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.tabla-comparadora-wrapper-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+}
+
+/* Tabla principal */
+.tabla-productos-comparados-premium {
+  width: 100%;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  position: relative;
+}
+
+/* HACER QUE EL THEAD SEA STICKY */
+.tabla-productos-comparados-premium thead {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Asegurar que las celdas del header también sean sticky */
+.tabla-productos-comparados-premium thead th {
+  position: sticky;
+  top: 0;
+  z-index: 101;
+  padding: 1.25rem 1rem;
+  color: white;
+  font-weight: 600;
+  border: none;
+  vertical-align: middle;
+}
+
+.celda-accion td {
+  align-items: center;
+}
+
+/* Solución para el header negro */
+.tabla-productos-comparados-premium thead th,
+.tabla-productos-comparados-premium .thead-premium th,
+.tabla-productos-comparados-premium .th-producto-premium,
+.tabla-productos-comparados-premium .th-supermercado-premium {
+  color: white !important;
+}
+
+/* Asegurar que los contenidos dentro del th también sean blancos */
+.tabla-productos-comparados-premium th .th-text,
+.tabla-productos-comparados-premium th .th-help,
+.tabla-productos-comparados-premium th .th-icon,
+.tabla-productos-comparados-premium th .th-number {
+  color: white !important;
+}
+
+/* Headers premium */
+.thead-premium {
+  color:white !important;
+}
+
+/* Asegurar que el contenido no se vea por debajo del header */
+.tbody-premium tr:first-child td {
+  padding-top: 1.25rem;
+}
+
+/* Mejorar la visibilidad del border del header sticky */
+.tabla-productos-comparados-premium thead::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  z-index: 102;
+}
+
+/* Asegurar que los logos en el header se vean bien */
+.th-content-premium .th-logo-container img {
+  position: relative;
+  z-index: 102;
+}
+
+.tabla-productos-comparados-premium .th-caminando-premium {
+  background: linear-gradient(135deg, #FFD600 0%, #FFA000 100%) !important;
+}
+
+.thead-premium th {
+  padding: 0rem;
+  color: white;
+  font-weight: 600;
+  border: none;
+  vertical-align: middle;
+}
+
+.th-content-premium {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.th-icon, .th-number {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.th-text {
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.th-help {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* Columna Caminando destacada */
+.th-caminando-premium {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-warning) 100%) !important;
+  position: relative;
+}
+
+/* Asegurar que todo el contenido dentro de este elemento sea blanco */
+.th-producto-premium *,
+.th-producto-premium .th-text,
+.th-producto-premium .th-content-premium {
+  color: white !important;
+}
+
+/* Forzar color blanco en todos los encabezados */
+.thead-premium th,
+.th-supermercado-premium,
+.th-caminando-premium {
+  color: white !important;
+}
+
+.th-content-caminando-premium {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--color-text);
+}
+
+.th-star {
+  font-size: 1.5rem;
+  animation: pulse-star 2s infinite;
+}
+
+@keyframes pulse-star {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.th-badge {
+  background: var(--color-danger);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+/* Body premium */
+.tbody-premium tr {
+  border-bottom: 1px solid var(--color-border-light);
+  transition: var(--transition);
+}
+
+.tbody-premium tr:hover {
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.02) 0%, rgba(255, 214, 0, 0.01) 100%);
+  transform: translateX(2px);
+}
+
+.fila-producto-premium {
+  animation: fadeInRow 0.5s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInRow {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Celdas premium */
+.td-producto-premium {
+  padding: 1.25rem 0.2rem;
+  border-right: 2px solid var(--color-border-light);
+  vertical-align: middle;
+}
+
+.producto-info-premium {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.producto-numero {
+  background: var(--color-primary);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.producto-detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.producto-nombre-premium {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+.producto-codigo {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-family: monospace;
+}
+
+/* Precios premium */
+.td-precio-premium {
+  padding: 1rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.precio-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.precio-box:hover {
+  background: var(--color-bg);
+}
+
+.precio-box.mejor {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
+  border: 2px solid var(--color-success);
+}
+
+.precio-valor {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.precio-diferencia {
+  color: var(--color-danger);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.precio-badge-mejor {
+  background: var(--color-success);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* Precio mínimo */
+.precio-minimo-super {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
+  border-left: 3px solid var(--color-success);
+  position: relative;
+}
+
+.precio-minimo-super::after {
+  content: '🏆';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* Celda Caminando premium */
+.td-caminando-premium {
+  background: linear-gradient(135deg, rgba(255, 214, 0, 0.15) 0%, rgba(255, 179, 0, 0.1) 100%);
+  border-left: 3px solid var(--color-accent);
+  padding: 1rem;
+  text-align: center;
+}
+
+.precio-caminando-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.precio-caminando-valor {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.precio-caminando-ahorro {
+  background: var(--color-success);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.precio-caminando-super {
+  color: var(--color-text-secondary);
+  font-size: 0.7rem;
+  font-style: italic;
+}
+
+/* ===============================================
+   SECCIÓN DE TOTALES
+   =============================================== */
+.seccion-totales-premium {
+  background: var(--color-white);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+
+.totales-titulo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tabla-totales-premium {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.tabla-totales-premium thead {
+  background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
+  color: white;
+}
+
+.tabla-totales-premium th {
+  padding: 1rem;
+  font-weight: 600;
+}
+
+.tabla-totales-premium tbody td {
+  padding: 1.25rem 1rem;
+  text-align: center;
+  background: var(--color-white);
+  border: 1px solid var(--color-border-light);
+  vertical-align: middle;
+}
+
+.total-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  gap: 0.25rem;
+}
+
+.total-valor {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.td-total-caminando {
+  background: linear-gradient(135deg, rgba(255, 214, 0, 0.2) 0%, rgba(255, 179, 0, 0.15) 100%) !important;
+  border: 2px solid var(--color-accent) !important;
+}
+
+.total-caminando-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.total-caminando-valor {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.badge-mejor-precio {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-warning) 100%);
+  color: var(--color-text);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===============================================
+   RESPONSIVIDAD PARA TABLAS
+   =============================================== */
+@media (max-width: 768px) {
+  .header-comparacion-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .stat-card {
+    min-width: auto;
+    flex: 1;
+  }
+}

@@ -1,0 +1,1 @@
+# Directorio reservado para páginas específicas\n# Se usará en futuras implementaciones\n

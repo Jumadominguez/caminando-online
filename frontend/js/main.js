@@ -544,7 +544,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="d-flex justify-content-between align-items-center">
         <h5 class="mb-0 d-flex align-items-center gap-2">
           <span class="badge bg-success">40</span>
-            Productos disponibles - ${tipoSeleccionado}
+          🛏️ Productos disponibles - ${tipoSeleccionado}
         </h5>
         <div class="tabla-filters">
           <small class="text-muted">

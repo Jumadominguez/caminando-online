@@ -23,10 +23,10 @@
 </head>
 <body>
   <header class="banner-superior">
+    <div class="logo-textual">
         <div class="logo-container">
           <img src="assets/img/caminando-logo.png" alt="Logo Caminando Online" class="logo-caminando" />
         </div>
-    <div class="logo-textual">
         <div class="logo-caminando-textual-wrapper">
             <span class="logo-caminando-text">Caminando</span>
         </div>
@@ -44,98 +44,22 @@
     </nav>
   </header>
 
-
-  <!-- Supermercados -->
-  <section id="supermercados" class="mb-0">
-    <div class="container-custom-super">
-      <h3>🛒 Elegí tus supermercados</h3>
-      <div class="d-flex flex-wrap justify-content-center gap-3" id="supermercado-buttons">
-        <!-- Botones generados dinámicamente -->
-      </div>
-    </div>
-  </section>
-
-  <main>
-    <section id="productos" class="mb-0 position-relative">
-      <div class="container-custom-filtro">
-        <div class="box-titulo-carga" id="box-titulo-carga"><h4>📋 Cargá tus productos para comparar</h4></div>
-        <div class="row g-3 align-items-center mb-3">
-          <div class="col-md-6">
-            <div class="category-dropdown w-100">
-              <input
-                type="text"
-                class="form-control"
-                id="producto"
-                placeholder="Escribe un producto"
-                autocomplete="off"
-              />
-              <div class="category-menu" id="categoryMenu"></div>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <select class="form-select w-100" id="tipo-de-producto">
-              <option selected disabled>Elegí una opción...</option>
-              <option value="Molinos Ala" data-id="molinos-ala">Molinos Ala</option>
-              <option value="Arcor" data-id="arcor">Arcor</option>
-              <option value="La Serenísima" data-id="la-serenisima">La Serenísima</option>
-              <option value="Coca-Cola" data-id="coca-cola">Coca-Cola</option>
-              <option value="Ala" data-id="ala">Ala</option>
-              <option value="Quilmes" data-id="quilmes">Quilmes</option>
-              <option value="Bimbo" data-id="bimbo">Bimbo</option>
-              <option value="Marolio" data-id="marolio">Marolio</option>
-              <option value="Hellmann's" data-id="hellmanns">Hellmann's</option>
-              <option value="Knorr" data-id="knorr">Knorr</option>
-            </select>
-          </div>
-        </div>
-        <div class="row g-3 mb-3">
-          <div class="col-md-4" id="marca-wrapper">
-            <select class="form-select" id="marca">
-              <option selected disabled>Elegí la marca.</option>
-            </select>
-          </div>
-
-          <div class="col-md-4" id="contenido-wrapper">
-            <select class="form-select" id="contenido">
-              <option selected disabled>Elegí el contenido.</option>
-            </select>
-          </div>
-
-          <div class="col-md-4" id="variedad-wrapper">
-            <select class="form-select" id="variedad">
-              <option selected disabled>Elegí la variedad.</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- La tabla de productos se insertará dinámicamente aquí -->
-
-        <!-- La tabla de productos a comparar se insertará dinámicamente aquí -->
-
-        <div id="comparar-box">
-          <!-- Botón de comparación -->
-          <button type="button" class="btn btn-primary comparar-btn">
-            🔍 Comparar productos
-          </button>
-        </div>
-      </div>
-    </section>
+  <main id="app-container">
+    <!-- Toda la aplicación se genera dinámicamente aquí -->
   </main>
 
   <footer class="text-center py-3">
     <p>&copy; 2025 Caminando Online</p>
   </footer>
 
-  <!-- Scripts -->
+  <!-- Scripts Modularizados -->
   <script src="/js/utils/data-manager.js"></script>
+  <script type="module" src="/js/components/filtros-manager.js"></script>
   <script src="/js/components/event-manager.js"></script>
-  <script src="/js/main.js"></script>
-  <script type="module">
-    import { renderSupermercadoButtons } from '/js/helpers.js';
-    document.addEventListener("DOMContentLoaded", () => {
-      renderSupermercadoButtons("supermercado-buttons");
-    });
-  </script>
+  <script src="/js/components/supermercados-manager.js"></script>
+  <script src="/js/components/productos-manager.js"></script>
+  <script src="/js/components/auth-manager.js"></script>
+  <script src="/js/components/app-manager.js"></script>
+  <script src="/js/helpers.js"></script>
 </body>
 </html>

@@ -40,8 +40,11 @@ class DashboardManager {
       
       if (this.user) {
         this.updateUserInfo();
+        return; // SALIR AQUÍ EN MODO MOCKUP
       }
 
+      // TODO: Descomentar cuando tengamos backend real
+      /*
       // Verificar token y obtener datos actualizados
       const response = await APIUtils.get('/auth/profile', AuthUtils.getToken());
       
@@ -50,18 +53,14 @@ class DashboardManager {
         AuthUtils.saveUserData(this.user);
         this.updateUserInfo();
       }
+      */
 
     } catch (error) {
       console.error('❌ Error cargando datos del usuario:', error);
       
-      if (error.message.includes('Token') || error.message.includes('401')) {
-        // Token inválido o expirado
-        AuthUtils.logout();
-      } else {
-        // Usar datos en caché si hay error de red
-        if (this.user) {
-          this.updateUserInfo();
-        }
+      // En modo mockup, usar datos en caché
+      if (this.user) {
+        this.updateUserInfo();
       }
     }
   }
@@ -266,6 +265,12 @@ class DashboardManager {
   }
 
   async refreshData() {
+    // DESHABILITADO EN MODO MOCKUP
+    console.log('🔄 Refresh de datos (modo mockup - sin backend)');
+    return;
+    
+    // TODO: Descomentar cuando tengamos backend real
+    /*
     try {
       // Verificar si el token sigue siendo válido
       const response = await APIUtils.get('/auth/verify-token', AuthUtils.getToken());
@@ -285,6 +290,7 @@ class DashboardManager {
         AuthUtils.logout();
       }
     }
+    */
   }
 
   formatCurrency(amount) {

@@ -3,124 +3,450 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Caminando Online</title>
-  <link rel="icon" href="assets/img/caminando-Favicon.png" type="image/png" />
+  <title>Pagos e Historial - Caminando Online</title>
+  <link rel="icon" href="/assets/img/caminando-Favicon.png" type="image/png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/private/css/dashboard-styles.css" />
   <!-- Fonts para logo textual -->
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:ital@1&display=swap" rel="stylesheet">
-
 </head>
-<body>
-  <header class="banner-superior">
-        <div class="logo-container">
-          <img src="assets/img/caminando-logo.png" alt="Logo Caminando Online" class="logo-caminando" />
-        </div>
-    <div class="logo-textual">
-        <div class="logo-caminando-textual-wrapper">
+
+<body class="dashboard-body">
+  <!-- Header del dashboard -->
+  <header class="dashboard-header">
+    <div class="header-container">
+      <!-- Logo y navegación principal -->
+      <div class="header-left">
+        <a href="/index.html" class="dashboard-logo-link">
+          <img src="/assets/img/caminando-logo.png" alt="Logo Caminando Online" class="dashboard-logo" />
+          <div class="dashboard-logo-text">
             <span class="logo-caminando-text">Caminando</span>
-        </div>
-      
-      <div class="logo-online-textual-wrapper">
-        <span class="logo-online-text">.Online</span>
+            <span class="logo-online-text">.Online</span>
+          </div>
+        </a>
       </div>
-    
+
+      <!-- Navegación del dashboard -->
+      <nav class="dashboard-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="/private/dashboard/dashboard.html" class="nav-link">
+              <i class="nav-icon">🏠</i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/index.html" class="nav-link">
+              <i class="nav-icon">🔍</i>
+              <span>Comparar</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/private/dashboard/perfil.html" class="nav-link">
+              <i class="nav-icon">👤</i>
+              <span>Perfil</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="/private/dashboard/pagos.html" class="nav-link">
+              <i class="nav-icon">💳</i>
+              <span>Pagos</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/private/dashboard/supermercados.html" class="nav-link">
+              <i class="nav-icon">🛒</i>
+              <span>Supermercados</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Menú de usuario -->
+      <div class="header-right">
+        <div class="user-menu">
+          <button class="user-menu-btn" id="user-menu-btn">
+            <div class="user-avatar">
+              <span id="user-initials">CU</span>
+            </div>
+            <span class="user-name" id="user-name">Cargando...</span>
+            <i class="dropdown-arrow">▼</i>
+          </button>
+          <div class="user-dropdown" id="user-dropdown">
+            <div class="dropdown-header">
+              <div class="user-info">
+                <div class="user-email" id="user-email">usuario@email.com</div>
+                <div class="user-status">Cuenta activa</div>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="/private/dashboard/perfil.html" class="dropdown-item">
+              <i class="item-icon">⚙️</i>
+              Configuración
+            </a>
+            <a href="#" class="dropdown-item" id="logout-btn">
+              <i class="item-icon">🚪</i>
+              Cerrar sesión
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <nav>
-      <ul>
-        <li><a href="#perfil">Mi Perfil</a></li>
-      </ul>
-    </nav>
   </header>
 
-
-  <!-- Supermercados -->
-  <section id="supermercados" class="mb-0">
-    <div class="container-custom-super">
-      <h3>🛒 Elegí tus supermercados</h3>
-      <div class="d-flex flex-wrap justify-content-center gap-3" id="supermercado-buttons">
-        <!-- Botones generados dinámicamente -->
+  <!-- Contenido principal -->
+  <main class="dashboard-main">
+    <div class="dashboard-container">
+      
+      <!-- Encabezado de la página -->
+      <div class="page-header">
+        <h1 class="page-title">Pagos e Historial</h1>
+        <p class="page-subtitle">Gestioná tus métodos de pago y consultá tu historial de compras</p>
       </div>
-    </div>
-  </section>
 
-  <main>
-    <section id="productos" class="mb-0 position-relative">
-      <div class="container-custom-filtro">
-        <div class="box-titulo-carga" id="box-titulo-carga"><h4>📋 Cargá tus productos para comparar</h4></div>
-        <div class="row g-3 align-items-center mb-3">
-          <div class="col-md-6">
-            <div class="category-dropdown w-100">
-              <input
-                type="text"
-                class="form-control"
-                id="producto"
-                placeholder="Escribe un producto"
-                autocomplete="off"
-              />
-              <div class="category-menu" id="categoryMenu"></div>
+      <!-- Resumen de estadísticas -->
+      <section class="payments-summary">
+        <div class="row">
+          <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card stat-card-primary">
+              <div class="stat-icon">💰</div>
+              <div class="stat-content">
+                <div class="stat-value" id="total-gastado">$0</div>
+                <div class="stat-label">Total gastado</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card stat-card-success">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-content">
+                <div class="stat-value" id="total-ahorrado">$0</div>
+                <div class="stat-label">Total ahorrado</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card stat-card-info">
+              <div class="stat-icon">🛍️</div>
+              <div class="stat-content">
+                <div class="stat-value" id="compras-mes">0</div>
+                <div class="stat-label">Compras este mes</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6 mb-3">
+            <div class="stat-card stat-card-warning">
+              <div class="stat-icon">📈</div>
+              <div class="stat-content">
+                <div class="stat-value" id="promedio-ahorro">0%</div>
+                <div class="stat-label">Ahorro promedio</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="payments-grid">
+        
+        <!-- Métodos de Pago -->
+        <section class="dashboard-card payment-methods-card">
+          <div class="card-header">
+            <h3 class="card-title">Métodos de Pago</h3>
+            <button class="btn btn-outline-primary btn-sm" id="add-payment-method-btn">
+              <i class="btn-icon">+</i>
+              Agregar
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="payment-methods-list" id="payment-methods-list">
+              <div class="empty-state">
+                <div class="empty-icon">💳</div>
+                <div class="empty-text">
+                  <div class="empty-title">No hay métodos de pago guardados</div>
+                  <div class="empty-subtitle">Agregá una tarjeta o cuenta para realizar compras</div>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" id="add-first-payment-btn">
+                  Agregar método de pago
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Filtros de historial -->
+        <section class="dashboard-card filters-card">
+          <div class="card-header">
+            <h3 class="card-title">Filtrar Historial</h3>
+          </div>
+          <div class="card-body">
+            <form id="filters-form" class="filters-form">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="filter-fecha-desde" class="form-label">Desde</label>
+                  <input type="date" class="form-control" id="filter-fecha-desde" name="fechaDesde">
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="filter-fecha-hasta" class="form-label">Hasta</label>
+                  <input type="date" class="form-control" id="filter-fecha-hasta" name="fechaHasta">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="filter-supermercado" class="form-label">Supermercado</label>
+                  <select class="form-select" id="filter-supermercado" name="supermercado">
+                    <option value="">Todos</option>
+                    <option value="carrefour">Carrefour</option>
+                    <option value="disco">Disco</option>
+                    <option value="jumbo">Jumbo</option>
+                    <option value="vea">Vea</option>
+                    <option value="dia">Día</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="filter-estado" class="form-label">Estado</label>
+                  <select class="form-select" id="filter-estado" name="estado">
+                    <option value="">Todos</option>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="procesando">Procesando</option>
+                    <option value="confirmado">Confirmado</option>
+                    <option value="entregado">Entregado</option>
+                    <option value="cancelado">Cancelado</option>
+                  </select>
+                </div>
+              </div>
+              <div class="filters-actions">
+                <button type="submit" class="btn btn-primary btn-sm">
+                  <i class="btn-icon">🔍</i>
+                  Aplicar filtros
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="clear-filters-btn">
+                  Limpiar
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Historial de Compras -->
+      <section class="dashboard-card purchases-history-card">
+        <div class="card-header">
+          <h3 class="card-title">Historial de Compras</h3>
+          <div class="card-actions">
+            <button class="btn btn-outline-secondary btn-sm" id="export-history-btn">
+              <i class="btn-icon">📥</i>
+              Exportar
+            </button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="purchases-list" id="purchases-list">
+            <div class="empty-state">
+              <div class="empty-icon">🛍️</div>
+              <div class="empty-text">
+                <div class="empty-title">No hay compras registradas</div>
+                <div class="empty-subtitle">¡Realizá tu primera compra para ver el historial aquí!</div>
+              </div>
+              <a href="/index.html" class="btn btn-outline-primary btn-sm">
+                Comparar productos
+              </a>
+            </div>
+          </div>
+          
+          <!-- Paginación -->
+          <div class="pagination-wrapper" id="pagination-wrapper" style="display: none;">
+            <nav>
+              <ul class="pagination justify-content-center">
+                <li class="page-item">
+                  <button class="page-link" id="prev-page-btn">Anterior</button>
+                </li>
+                <li class="page-item active">
+                  <span class="page-link" id="current-page">1</span>
+                </li>
+                <li class="page-item">
+                  <button class="page-link" id="next-page-btn">Siguiente</button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Modal para agregar método de pago -->
+  <div class="modal fade" id="paymentMethodModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Agregar Método de Pago</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          
+          <!-- Selector de tipo de pago -->
+          <div class="payment-type-selector mb-4">
+            <div class="row">
+              <div class="col-4">
+                <input type="radio" class="btn-check" name="payment-type" id="payment-type-card" value="tarjeta" checked>
+                <label class="btn btn-outline-primary w-100" for="payment-type-card">
+                  <div class="payment-type-icon">💳</div>
+                  <div class="payment-type-text">Tarjeta</div>
+                </label>
+              </div>
+              <div class="col-4">
+                <input type="radio" class="btn-check" name="payment-type" id="payment-type-mercadopago" value="mercadopago">
+                <label class="btn btn-outline-primary w-100" for="payment-type-mercadopago">
+                  <div class="payment-type-icon">🔵</div>
+                  <div class="payment-type-text">MercadoPago</div>
+                </label>
+              </div>
+              <div class="col-4">
+                <input type="radio" class="btn-check" name="payment-type" id="payment-type-modo" value="modo">
+                <label class="btn btn-outline-primary w-100" for="payment-type-modo">
+                  <div class="payment-type-icon">🟣</div>
+                  <div class="payment-type-text">MODO</div>
+                </label>
+              </div>
             </div>
           </div>
 
-          <div class="col-md-6">
-            <select class="form-select w-100" id="tipo-de-producto">
-              <option selected disabled>Elegí una opción...</option>
-              <option value="Molinos Ala" data-id="molinos-ala">Molinos Ala</option>
-              <option value="Arcor" data-id="arcor">Arcor</option>
-              <option value="La Serenísima" data-id="la-serenisima">La Serenísima</option>
-              <option value="Coca-Cola" data-id="coca-cola">Coca-Cola</option>
-              <option value="Ala" data-id="ala">Ala</option>
-            </select>
+          <!-- Formulario de tarjeta -->
+          <form id="payment-method-form">
+            <div id="card-form" class="payment-form">
+              <div class="mb-3">
+                <label for="card-alias" class="form-label">Alias de la tarjeta *</label>
+                <input type="text" class="form-control" id="card-alias" name="alias" placeholder="Ej: Visa personal">
+                <div class="error-message" id="error-card-alias"></div>
+              </div>
+              <div class="mb-3">
+                <label for="card-number" class="form-label">Número de tarjeta *</label>
+                <input type="text" class="form-control" id="card-number" name="numero" placeholder="1234 5678 9012 3456" maxlength="19">
+                <div class="error-message" id="error-card-number"></div>
+              </div>
+              <div class="row">
+                <div class="col-6 mb-3">
+                  <label for="card-expiry" class="form-label">Vencimiento *</label>
+                  <input type="text" class="form-control" id="card-expiry" name="vencimiento" placeholder="MM/AA" maxlength="5">
+                  <div class="error-message" id="error-card-expiry"></div>
+                </div>
+                <div class="col-6 mb-3">
+                  <label for="card-cvc" class="form-label">CVC *</label>
+                  <input type="text" class="form-control" id="card-cvc" name="cvc" placeholder="123" maxlength="4">
+                  <div class="error-message" id="error-card-cvc"></div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="card-holder" class="form-label">Titular de la tarjeta *</label>
+                <input type="text" class="form-control" id="card-holder" name="titular" placeholder="Nombre como aparece en la tarjeta">
+                <div class="error-message" id="error-card-holder"></div>
+              </div>
+              <div class="mb-3">
+                <label for="card-bank" class="form-label">Banco</label>
+                <select class="form-select" id="card-bank" name="banco">
+                  <option value="">Seleccionar banco...</option>
+                  <option value="santander">Santander</option>
+                  <option value="bbva">BBVA</option>
+                  <option value="galicia">Galicia</option>
+                  <option value="macro">Macro</option>
+                  <option value="nacion">Banco Nación</option>
+                  <option value="provincia">Banco Provincia</option>
+                  <option value="ciudad">Banco Ciudad</option>
+                  <option value="otro">Otro</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Formulario de MercadoPago -->
+            <div id="mercadopago-form" class="payment-form" style="display: none;">
+              <div class="mb-3">
+                <label for="mp-alias" class="form-label">Alias *</label>
+                <input type="text" class="form-control" id="mp-alias" name="alias" placeholder="Ej: MercadoPago personal">
+              </div>
+              <div class="mb-3">
+                <label for="mp-email" class="form-label">Email de MercadoPago *</label>
+                <input type="email" class="form-control" id="mp-email" name="email" placeholder="tu@email.com">
+                <small class="form-text text-muted">Usaremos este email para procesar los pagos</small>
+              </div>
+            </div>
+
+            <!-- Formulario de MODO -->
+            <div id="modo-form" class="payment-form" style="display: none;">
+              <div class="mb-3">
+                <label for="modo-alias" class="form-label">Alias *</label>
+                <input type="text" class="form-control" id="modo-alias" name="alias" placeholder="Ej: MODO personal">
+              </div>
+              <div class="mb-3">
+                <label for="modo-cbu" class="form-label">CBU/CVU *</label>
+                <input type="text" class="form-control" id="modo-cbu" name="cbu" placeholder="0000003100010000000001" maxlength="22">
+                <small class="form-text text-muted">Número de CBU o CVU asociado a MODO</small>
+              </div>
+            </div>
+
+            <!-- Opciones comunes -->
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="payment-is-default" name="esPrincipal">
+              <label class="form-check-label" for="payment-is-default">
+                Usar como método de pago principal
+              </label>
+            </div>
+            
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="payment-remember" name="recordarDatos">
+              <label class="form-check-label" for="payment-remember">
+                Recordar esta información para próximas compras
+              </label>
+            </div>
+          </form>
+
+          <!-- Nota de seguridad -->
+          <div class="alert alert-info">
+            <strong>🔒 Información segura:</strong> Tus datos de pago están protegidos con encriptación de nivel bancario. No almacenamos números de tarjeta completos.
           </div>
         </div>
-        <div class="row g-3 mb-3">
-          <div class="col-md-4" id="marca-wrapper">
-            <select class="form-select" id="marca">
-              <option selected disabled>Elegí la marca.</option>
-            </select>
-          </div>
-
-          <div class="col-md-4" id="contenido-wrapper">
-            <select class="form-select" id="contenido">
-              <option selected disabled>Elegí el contenido.</option>
-            </select>
-          </div>
-
-          <div class="col-md-4" id="variedad-wrapper">
-            <select class="form-select" id="variedad">
-              <option selected disabled>Elegí la variedad.</option>
-            </select>
-          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="save-payment-method-btn">
+            <span class="btn-text">Guardar método de pago</span>
+            <span class="btn-loading" style="display: none;">
+              <span class="spinner-border spinner-border-sm me-2"></span>
+              Guardando...
+            </span>
+          </button>
         </div>
-
-<!-- La tabla de productos se insertará dinámicamente aquí -->
-
-<!-- La tabla de productos a comparar se insertará dinámicamente aquí -->
-
-
-      <div id="comparar-box">
-        <!-- Botón de comparación -->
-        <button type="button" class="btn btn-primary comparar-btn">
-          🔍 Comparar productos
-        </button></div>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
 
-  <footer class="text-center py-3">
-    <p>&copy; 2025 Caminando Online</p>
-  </footer>
+  <!-- Modal de detalles de compra -->
+  <div class="modal fade" id="purchaseDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detalles de la Compra</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="purchase-details-content">
+          <!-- Contenido dinámico -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" id="reorder-btn">
+            <i class="btn-icon">🔄</i>
+            Comprar nuevamente
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Scripts -->
-  <script type="module">
-    import { renderSupermercadoButtons } from './js/helpers.js';
-
-    document.addEventListener("DOMContentLoaded", () => {
-      renderSupermercadoButtons("supermercado-buttons");
-    });
-  </script>
-  <script src="js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/auth/auth-utils.js"></script>
+  <script src="/js/dashboard/pagos-historial.js"></script>
 </body>
 </html>

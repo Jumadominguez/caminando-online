@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/usersController');
-const authMiddleware = require('../middlewares/authMiddleware');
+const { authMiddleware } = require('../middlewares/authMiddleware'); // ✅ Import corregido
 
 // Validación defensiva
 if (typeof registerUser !== 'function') {

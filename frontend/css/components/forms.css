@@ -1,0 +1,79 @@
+/* ===============================================
+   FORMULARIOS - COMPONENTE MODULAR
+   =============================================== */
+
+/* Inputs y selects generales */
+input.form-control,
+select.form-select {
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border);
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  transition: var(--transition);
+  background: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+input.form-control:focus,
+select.form-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  transform: translateY(-1px);
+}
+
+input::placeholder {
+  color: #888;
+}
+
+/* ===============================================
+   MENÚ DESPLEGABLE DE CATEGORÍAS
+   =============================================== */
+.category-dropdown {
+  position: relative;
+}
+
+.category-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  padding: 0.5rem;
+}
+
+.category-group {
+  margin-bottom: 1rem;
+}
+
+.category-group strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.subcategory-list {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.subcategory-item {
+  cursor: pointer;
+  padding: 0.25rem 0;
+  color: var(--color-text-secondary);
+  transition: var(--transition);
+}
+
+.subcategory-item:hover {
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+}

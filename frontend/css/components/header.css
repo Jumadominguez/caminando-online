@@ -1,0 +1,160 @@
+/* ===============================================
+   HEADER Y NAVEGACIÓN - COMPONENTE MODULAR
+   =============================================== */
+
+/* Banner superior principal */
+header.banner-superior {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  height: 140px;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  padding: 0 2rem;
+  align-items: center;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* Patrón de fondo sutil */
+header.banner-superior::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFFFFF' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+  z-index: 1;
+}
+
+/* Contenedor principal del header */
+.header-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 3;
+}
+
+/* ===============================================
+   LOGO VISUAL
+   =============================================== */
+.logo-container {
+  position: relative;
+  z-index: 3;
+  margin-right: 3rem;
+  transition: var(--transition);
+}
+
+.logo-container:hover {
+  transform: scale(1.05);
+}
+
+.logo-caminando {
+  width: clamp(60px, 14vw, 90px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+/* ===============================================
+   LOGO TEXTUAL
+   =============================================== */
+.logo-textual {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 0.3rem;
+  align-items: baseline;
+  z-index: 2;
+}
+
+.logo-caminando-text {
+  font-family: 'Anton', sans-serif;
+  font-size: 3.6rem;
+  color: white;
+  letter-spacing: 3px;
+}
+
+.logo-online-text {
+  font-family: 'Roboto Slab', serif;
+  font-size: 2.4rem;
+  font-style: italic;
+  color: white;
+  letter-spacing: 1px;
+}
+
+/* ===============================================
+   NAVEGACIÓN
+   =============================================== */
+nav {
+  margin-left: auto;
+  position: relative;
+  z-index: 3;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+nav a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ===============================================
+   RESPONSIVE PARA HEADER
+   =============================================== */
+@media (max-width: 768px) {
+  header.banner-superior {
+    height: 120px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 1rem;
+  }
+
+  .logo-container {
+    position: static;
+    max-width: 140px;
+    margin: 0 auto 1rem;
+  }
+
+  .logo-textual {
+    position: static;
+    transform: none;
+  }
+
+  .logo-caminando-text {
+    font-size: 2.4rem;
+  }
+
+  .logo-online-text {
+    font-size: 2rem;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+}

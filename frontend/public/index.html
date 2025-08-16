@@ -6,6 +6,15 @@
   <title>Caminando Online</title>
   <link rel="icon" href="assets/img/caminando-Favicon.png" type="image/png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/utils/variables.css" />
+  <link rel="stylesheet" href="/css/components/header.css" />
+  <link rel="stylesheet" href="/css/components/forms.css" />
+  <link rel="stylesheet" href="/css/components/buttons.css" />
+  <link rel="stylesheet" href="/css/components/tables.css" />
+  <link rel="stylesheet" href="/css/layouts/containers.css" />
+  <link rel="stylesheet" href="/css/components/special-components.css" />
+  <link rel="stylesheet" href="/css/utils/base-utils.css" />
+  <link rel="stylesheet" href="/css/utils/responsive.css" />
   <link rel="stylesheet" href="/css/styles.css" />
   <!-- Fonts para logo textual -->
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
@@ -72,6 +81,11 @@
               <option value="La Serenísima" data-id="la-serenisima">La Serenísima</option>
               <option value="Coca-Cola" data-id="coca-cola">Coca-Cola</option>
               <option value="Ala" data-id="ala">Ala</option>
+              <option value="Quilmes" data-id="quilmes">Quilmes</option>
+              <option value="Bimbo" data-id="bimbo">Bimbo</option>
+              <option value="Marolio" data-id="marolio">Marolio</option>
+              <option value="Hellmann's" data-id="hellmanns">Hellmann's</option>
+              <option value="Knorr" data-id="knorr">Knorr</option>
             </select>
           </div>
         </div>
@@ -95,16 +109,16 @@
           </div>
         </div>
 
-<!-- La tabla de productos se insertará dinámicamente aquí -->
+        <!-- La tabla de productos se insertará dinámicamente aquí -->
 
-<!-- La tabla de productos a comparar se insertará dinámicamente aquí -->
+        <!-- La tabla de productos a comparar se insertará dinámicamente aquí -->
 
-
-      <div id="comparar-box">
-        <!-- Botón de comparación -->
-        <button type="button" class="btn btn-primary comparar-btn">
-          🔍 Comparar productos
-        </button></div>
+        <div id="comparar-box">
+          <!-- Botón de comparación -->
+          <button type="button" class="btn btn-primary comparar-btn">
+            🔍 Comparar productos
+          </button>
+        </div>
       </div>
     </section>
   </main>
@@ -114,13 +128,14 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="/js/utils/data-manager.js"></script>
+  <script src="/js/components/event-manager.js"></script>
+  <script src="/js/main.js"></script>
   <script type="module">
-    import { renderSupermercadoButtons } from './js/helpers.js';
-
+    import { renderSupermercadoButtons } from '/js/helpers.js';
     document.addEventListener("DOMContentLoaded", () => {
       renderSupermercadoButtons("supermercado-buttons");
     });
   </script>
-  <script src="js/main.js"></script>
 </body>
 </html>

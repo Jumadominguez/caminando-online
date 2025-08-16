@@ -1,0 +1,1 @@
+# Directorio reservado para JavaScript específico de páginas\n# Se usará en futuras implementaciones\n

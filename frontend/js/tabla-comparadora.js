@@ -563,7 +563,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ===============================================
-// CARTEL FLOTANTE DE DONACIONES
+// CARTEL FLOTANTE DE DONACIONES CON ANIMACIÓN DE TARJETA
 // ===============================================
 
 // Esperar a que todo esté cargado y luego crear el cartel
@@ -576,24 +576,53 @@ setTimeout(() => {
   .cartel-donacion-flotante {
     position: absolute;
     left: -600px;
-    top: calc(70% + 70px);
+    top: calc(70% + 50px);
     transform: translateY(-50%);
-    height: 380px;
+    height: 410px;
     width: 350px;
-    background: white;
+    background: transparent; /* Cambiado para la animación */
     border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    border: 1px solid #ddd;
     z-index: 1000;
     font-family: 'Segoe UI', 'Roboto', sans-serif;
-    overflow: hidden;
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    perspective: 1000px; /* Para el efecto 3D */
   }
 
   .cartel-donacion-flotante.mostrar {
     opacity: 1;
-    left: calc(100% + 20px); /* Se mueve a 20px A LA DERECHA del container */
+    left: calc(100% + 20px);
+  }
+
+  /* Contenedor interno para la animación de volteo */
+  .cartel-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+
+  .cartel-donacion-flotante.volteado .cartel-inner {
+    transform: rotateY(180deg);
+  }
+
+  /* Cara frontal y trasera */
+  .cartel-cara-frontal,
+  .cartel-cara-trasera {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border: 1px solid #ddd;
+    background: white;
+    overflow: hidden;
+  }
+
+  .cartel-cara-trasera {
+    transform: rotateY(180deg);
   }
 
   .cartel-header {
@@ -605,13 +634,13 @@ setTimeout(() => {
 
   .lita-indice {
     position: absolute;
-    top: 134px; /* Más arriba que antes */
+    top: 134px;
     left: 17%;
-    transform: translateX(-50%); /* Para centrar perfectamente */
+    transform: translateX(-50%);
     width: 125px;
     height: auto;
     z-index: 1001;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)); /* Sombra opcional */
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   }
 
   .cartel-texto-titulo {
@@ -645,8 +674,23 @@ setTimeout(() => {
   .cartel-opciones {
     padding: 1rem;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .texto-elegir {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .opciones-container {
+    display: flex;
     justify-content: space-around;
     gap: 0.5rem;
+    width: 100%;
   }
 
   .opcion-donacion {
@@ -682,86 +726,70 @@ setTimeout(() => {
     text-align: center;
   }
 
-  .btn-cerrar-cartel {
+
+
+  .btn-volver {
     position: absolute;
     top: 8px;
-    right: 8px;
+    left: 8px;
     background: rgba(255, 255, 255, 0.2);
     border: none;
     color: white;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s ease;
   }
 
-  .btn-cerrar-cartel:hover {
+  .btn-volver:hover {
     background: rgba(255, 255, 255, 0.3);
   }
-
-  .modal-qr {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-  }
-
-  .modal-qr.show {
-    display: flex;
-  }
-
-  .modal-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
+  .cartel-qr-header {
+    background: linear-gradient(135deg, #ff6f00, #ffab40);
+    color: white;
+    padding: 1rem;
     text-align: center;
-    max-width: 400px;
-    margin: 0 1rem;
     position: relative;
   }
 
-  .qr-expandido {
-    width: 250px;
-    height: 250px;
-    margin: 1rem auto;
+  .cartel-qr-titulo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .cartel-qr-content {
+    padding: 2rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 80px);
+    gap: 1rem;
+  }
+
+  .qr-grande {
+    width: 200px;
+    height: 240px;
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
   }
 
-  .close-modal {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
+  .qr-descripcion {
+    text-align: center;
     color: #666;
+    font-size: .9rem;
+    line-height: 1.4;
   }
 
-  .modal-titulo {
-    color: #ff6f00;
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
 
-  .modal-descripcion {
-    color: #666;
-    font-size: 0.9rem;
-    margin-top: 1rem;
-  }
 
   /* CRÍTICO: Hacer que el container tenga position relative */
   .container-custom-comparados {
@@ -771,21 +799,23 @@ setTimeout(() => {
 
   @media (max-width: 768px) {
     .cartel-donacion-flotante {
-      width: 250px;
-      left: -270px;
+      width: 300px;
+      height: 350px;
+      left: -350px;
     }
     
     .cartel-donacion-flotante.mostrar {
       left: calc(100% + 10px);
     }
     
-    .cartel-texto {
-      font-size: 0.8rem;
+    .lita-indice {
+      width: 100px;
+      top: 120px;
     }
     
-    .qr-thumb {
-      width: 40px;
-      height: 40px;
+    .qr-grande {
+      width: 160px;
+      height: 160px;
     }
   }
 `;
@@ -793,46 +823,58 @@ setTimeout(() => {
   document.head.appendChild(estilos);
   console.log("✅ Estilos agregados");
 
-  // 2. Crear HTML del cartel
+  // 2. Crear HTML del cartel con las dos caras
   const cartelHTML = `
     <div id="cartel-donacion-flotante" class="cartel-donacion-flotante">
-      <div class="cartel-header">
-        <img src="/assets/img/lita-indice.png" alt="Lita" class="lita-indice">
-        <button class="btn-cerrar-cartel" type="button">×</button>
-        <div class="cartel-texto-titulo">Caminando Online </div>
-        <div class="cartel-texto-h1"></br> momentáneamente es gratuito y se sostiene gracias a las donaciones de sus usuarios. </div>  
-        <div class="cartel-texto-h2"></br> Si quisieras compartir parte de lo ahorrado con nosotros, ¡te lo agradeceremos mejorando la plataforma!</div>
-      </div>
-      
-      <div class="cartel-opciones">
-        <div class="opcion-donacion" onclick="window.mostrarQRCartel('btc')">
-          <img src="/assets/img/qr-btc.png" alt="Bitcoin QR" class="qr-thumb">
-          <div class="opcion-texto">Bitcoin</div>
-        </div>
+      <div class="cartel-inner">
         
-        <div class="opcion-donacion" onclick="window.mostrarQRCartel('usdt')">
-          <img src="/assets/img/qr-usdt.png" alt="USDT QR" class="qr-thumb">
-          <div class="opcion-texto">USDT</div>
+        <!-- CARA FRONTAL -->
+        <div class="cartel-cara-frontal">
+          <div class="cartel-header">
+            <img src="/assets/img/lita-indice.png" alt="Lita" class="lita-indice">
+            <div class="cartel-texto-titulo">Caminando Online </div>
+            <div class="cartel-texto-h1"></br> momentáneamente es gratuito y se sostiene gracias a las donaciones de sus usuarios. </div>  
+            <div class="cartel-texto-h2"></br> Si quisieras compartir parte de lo ahorrado con nosotros, ¡te lo agradeceremos mejorando la plataforma!</div>
+          </div>
+          
+          <div class="cartel-opciones">
+            <div class="texto-elegir">Elige una opción:</div>
+            <div class="opciones-container">
+              <div class="opcion-donacion" onclick="window.mostrarQRCartel('btc')">
+                <img src="/assets/img/qr-btc.png" alt="Bitcoin QR" class="qr-thumb">
+                <div class="opcion-texto">Bitcoin</div>
+              </div>
+              
+              <div class="opcion-donacion" onclick="window.mostrarQRCartel('usdt')">
+                <img src="/assets/img/qr-usdt.png" alt="USDT QR" class="qr-thumb">
+                <div class="opcion-texto">USDT</div>
+              </div>
+              
+              <div class="opcion-donacion" onclick="window.mostrarQRCartel('mp')">
+                <img src="/assets/img/qr-mp.png" alt="MercadoPago QR" class="qr-thumb">
+                <div class="opcion-texto">MercadoPago</div>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <div class="opcion-donacion" onclick="window.mostrarQRCartel('mp')">
-          <img src="/assets/img/qr-mp.png" alt="MercadoPago QR" class="qr-thumb">
-          <div class="opcion-texto">MercadoPago</div>
-        </div>
-      </div>
-    </div>
 
-    <div id="modal-qr-cartel" class="modal-qr">
-      <div class="modal-content">
-        <button class="close-modal" onclick="window.cerrarModalCartel()">×</button>
-        <div id="modal-titulo-cartel" class="modal-titulo"></div>
-        <img id="qr-expandido-cartel" class="qr-expandido" src="" alt="QR Code">
-        <div id="modal-descripcion-cartel" class="modal-descripcion"></div>
+        <!-- CARA TRASERA (QR AMPLIADO) -->
+        <div class="cartel-cara-trasera">
+          <div class="cartel-qr-header">
+            <button class="btn-volver" onclick="window.volverCartel()">←</button>
+            <h3 id="qr-titulo-grande" class="cartel-qr-titulo">Donación</h3>
+          </div>
+          <div class="cartel-qr-content">
+            <img id="qr-imagen-grande" class="qr-grande" src="" alt="QR Code">
+            <p id="qr-descripcion-grande" class="qr-descripcion">Escanea este código QR para realizar tu donación</p>
+          </div>
+        </div>
+
       </div>
     </div>
   `;
 
-  // 3. Insertar en el body
+  // 3. Insertar en el container
   const container = document.querySelector('.container-custom-comparados');
   if (container) {
     container.insertAdjacentHTML('beforeend', cartelHTML);
@@ -842,19 +884,14 @@ setTimeout(() => {
     console.log("⚠️ Container no encontrado, insertando en body");
   }
 
-  // 4. Configurar botón cerrar
-  const btnCerrar = document.querySelector('.btn-cerrar-cartel');
-  if (btnCerrar) {
-    btnCerrar.onclick = function() {
-      const cartel = document.getElementById('cartel-donacion-flotante');
-      if (cartel) {
-        cartel.classList.remove('mostrar');
-        setTimeout(() => {
-          cartel.style.display = 'none';
-        }, 600);
-      }
-    };
-  }
+  // 4. Configurar event listener para clicks fuera del cartel
+  document.addEventListener('click', function(event) {
+    const cartel = document.getElementById('cartel-donacion-flotante');
+    if (cartel && !cartel.contains(event.target)) {
+      // Click fuera del cartel - volver a la cara frontal
+      cartel.classList.remove('volteado');
+    }
+  });
 
   // 5. Mostrar el cartel
   setTimeout(() => {
@@ -867,46 +904,51 @@ setTimeout(() => {
     }
   }, 1000);
 
-}, 1000); // Esperar 1 segundos después de que cargue la página
+}, 1000);
 
-// Funciones globales para los QR
+// Funciones globales para la interacción de tarjeta
 window.mostrarQRCartel = function(tipo) {
-  console.log(`🔍 Mostrando QR: ${tipo}`);
-  const modal = document.getElementById('modal-qr-cartel');
-  const titulo = document.getElementById('modal-titulo-cartel');
-  const qrImg = document.getElementById('qr-expandido-cartel');
-  const descripcion = document.getElementById('modal-descripcion-cartel');
+  console.log(`🔄 Volteando tarjeta para mostrar QR: ${tipo}`);
+  
+  const cartel = document.getElementById('cartel-donacion-flotante');
+  const titulo = document.getElementById('qr-titulo-grande');
+  const qrImg = document.getElementById('qr-imagen-grande');
+  const descripcion = document.getElementById('qr-descripcion-grande');
   
   const configs = {
     btc: {
-      titulo: 'Donación con Bitcoin',
+      titulo: 'Doná con Bitcoin',
       img: '/assets/img/qr-btc.png',
-      descripcion: 'Escanea este código QR con tu wallet de Bitcoin para realizar una donación'
+      descripcion: 'bc1q3vg6q9ls962u9wp2xjxyfrfl283s05sfsges5m'
     },
     usdt: {
-      titulo: 'Donación con USDT',
+      titulo: 'Doná con USDT',
       img: '/assets/img/qr-usdt.png', 
-      descripcion: 'Escanea este código QR con tu wallet de USDT para realizar una donación'
+      descripcion: 'THXw6V4LhvXmVGcHwtYn7qzsuGBLdvZ7gj'
     },
     mp: {
-      titulo: 'Donación con MercadoPago',
+      titulo: 'Doná con MercadoPago',
       img: '/assets/img/qr-mp.png',
-      descripcion: 'Escanea este código QR con la app de MercadoPago para realizar una donación'
+      descripcion: 'Alias: caminando.online'
     }
   };
   
   const config = configs[tipo];
-  if (config && modal && titulo && qrImg && descripcion) {
+  if (config && cartel && titulo && qrImg && descripcion) {
+    // Actualizar contenido de la cara trasera
     titulo.textContent = config.titulo;
     qrImg.src = config.img;
     descripcion.textContent = config.descripcion;
-    modal.classList.add('show');
+    
+    // Voltear la tarjeta
+    cartel.classList.add('volteado');
   }
 };
 
-window.cerrarModalCartel = function() {
-  const modal = document.getElementById('modal-qr-cartel');
-  if (modal) {
-    modal.classList.remove('show');
+window.volverCartel = function() {
+  console.log("🔄 Volviendo a la cara frontal");
+  const cartel = document.getElementById('cartel-donacion-flotante');
+  if (cartel) {
+    cartel.classList.remove('volteado');
   }
 };

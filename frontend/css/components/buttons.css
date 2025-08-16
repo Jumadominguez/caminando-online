@@ -1,0 +1,131 @@
+/* ==========================================
+   BUTTONS - css/components/buttons.css
+   Estilos completos de botones del legacy
+   ========================================== */
+
+/* Botones principales */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-agregar {
+  align-items: center;
+}
+
+.comparar-btn {
+  display: block;
+  margin: 24px 0 0 auto;
+  width: fit-content;
+}
+
+/* Botón volver */
+.volver-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.volver-btn:hover {
+  transform: translateX(-4px);
+}
+
+/* Botones de supermercados */
+.supermercado-btn {
+  border: none;
+  background: var(--color-white);
+  padding: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 2px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.supermercado-btn img {
+  width: 125px;
+  height: auto;
+  filter: grayscale(100%);
+  transition: var(--transition);
+  position: relative;
+  z-index: 2;
+}
+
+.supermercado-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.supermercado-btn img:hover {
+  filter: none;
+  transform: scale(1.1);
+}
+
+.supermercado-btn.selected {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.supermercado-btn.selected img {
+  filter: none;
+  transform: scale(1.1);
+}
+
+.supermercado-btn.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 28px;
+  height: 28px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: bold;
+  z-index: 3;
+  animation: checkmark 0.3s ease-out;
+}
+
+@keyframes checkmark {
+  0% { transform: scale(0) rotate(180deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}

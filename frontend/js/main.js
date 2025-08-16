@@ -1,687 +1,930 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // ===============================================
-  // VARIABLES Y ELEMENTOS DEL DOM
-  // ===============================================
-  const productoInput = document.getElementById("producto");
-  const categoryMenu = document.getElementById("categoryMenu");
-  const btnComparar = document.querySelector("#comparar-box .comparar-btn");
-  const filtroMarca = document.getElementById("marca");
-  const filtroContenido = document.getElementById("contenido");
-  const filtroVariedad = document.getElementById("variedad");
-  const tipoProductoSelect = document.getElementById("tipo-de-producto");
+// ===============================================
+// MAIN.JS - LÓGICA PRINCIPAL DE LA APLICACIÓN
+// Ubicación: E:/caminando-online/frontend/public/js/main.js
+// ===============================================
 
-  // ===============================================
-  // INICIALIZACIÓN Y RESTAURAR ESTADO
-  // ===============================================
-  restaurarEstadoSiExiste();
+import { 
+  obtenerCategorias, 
+  mostrarError, 
+  mostrarExito,
+  mostrarAdvertencia,
+  crearSpinner,
+  debounce,
+  filtrarProductos,
+  obtenerSupermercadosSeleccionados,
+  guardarEnStorage,
+  obtenerDeStorage
+} from './helpers.js';
 
-  // ===============================================
-  // EVENT LISTENERS PRINCIPALES
-  // ===============================================
-  productoInput?.addEventListener("click", showCategoryMenu);
-  productoInput?.addEventListener("input", filterCategoryMenu);
-  btnComparar?.addEventListener("click", compararProductos);
-  tipoProductoSelect?.addEventListener("change", renderTablaProductos);
+/**
+ * 🎯 VARIABLES GLOBALES
+ */
+let categorias = [];
+let productosDisponibles = [];
+let productosSeleccionados = [];
+let filtrosActivos = {
+  categoria: '',
+  marca: '',
+  contenido: '',
+  variedad: ''
+};
 
-  // Cerrar menú si se hace clic fuera
-  document.addEventListener("click", e => {
-    if (!e.target.closest(".category-dropdown")) {
-      categoryMenu.style.display = "none";
-    }
-  });
-
-  // Event listeners para filtros
-  [filtroMarca, filtroContenido, filtroVariedad].forEach(filtro => {
-    filtro?.addEventListener("change", aplicarFiltros);
-  });
-
-  // Event delegation para botones dinámicos
-  document.addEventListener("click", handleDynamicButtons);
-
-  // ===============================================
-  // FUNCIONES PRINCIPALES
-  // ===============================================
-
-  /**
-   * Restaura el estado de productos y supermercados seleccionados
-   */
-  function restaurarEstadoSiExiste() {
-    const esVistaFiltros = document.querySelector("#productos-a-comparar");
-    if (!esVistaFiltros) return;
-
-    const supermercados = JSON.parse(sessionStorage.getItem("supermercadosSeleccionados") || "[]");
-    const productos = JSON.parse(sessionStorage.getItem("productosComparados") || "[]");
-
-    // Restaurar supermercados seleccionados
-    supermercados.forEach(nombre => {
-      const btns = Array.from(document.querySelectorAll(".supermercado-btn"));
-      btns.forEach(btn => {
-        const img = btn.querySelector("img");
-        const raw = img?.alt?.trim() || "";
-        const nombreBtn = raw.replace(/^Logo\s*/i, "");
-        if (nombreBtn === nombre) {
-          btn.classList.add("selected");
-        }
-      });
-    });
-
-    // Restaurar productos en la tabla
-    const tbody = document.querySelector("#productos-a-comparar tbody");
-    if (tbody && productos.length > 0) {
-      productos.forEach(prod => {
-        const fila = document.createElement("tr");
-        fila.innerHTML = `<td colspan="4">${prod.nombreCompleto}</td>`;
-        tbody.appendChild(fila);
-      });
-    }
+/**
+ * 🚀 INICIALIZACIÓN DE LA APLICACIÓN
+ */
+document.addEventListener('DOMContentLoaded', async function() {
+  console.log('🚀 Caminando Online - Iniciando aplicación...');
+  
+  try {
+    await inicializarAplicacion();
+  } catch (error) {
+    console.error('❌ Error al inicializar aplicación:', error);
+    mostrarError('Error al inicializar la aplicación. Por favor, recarga la página.');
   }
-
-  /**
-   * Maneja todos los clics en botones dinámicos
-   */
-  function handleDynamicButtons(e) {
-    // Botón agregar producto
-    if (e.target.matches("button.btn-success")) {
-      agregarProductoAComparacion(e.target);
-    }
-
-    // Botón eliminar producto
-    if (e.target.matches("button.eliminar-btn")) {
-      eliminarProductoDeComparacion(e.target);
-    }
-
-    // Botón limpiar filtros
-    if (e.target.matches("#btn-limpiar-filtros")) {
-      limpiarTodosLosProductos();
-    }
-  }
-
-  /**
-   * Agrega un producto a la tabla de comparación
-   */
-  function agregarProductoAComparacion(btn) {
-    const filaOriginal = btn.closest("tr");
-    const id = btn.dataset.id;
-
-    if (document.querySelector(`#productos-a-comparar tr[data-id="${id}"]`)) return;
-
-    crearTablaComparacion();
-
-    const filaClonada = filaOriginal.cloneNode(true);
-    filaClonada.setAttribute("data-id", id);
-
-    const btnEliminar = filaClonada.querySelector("button");
-    btnEliminar.textContent = "🗑 Eliminar";
-    btnEliminar.className = "btn btn-danger btn-sm eliminar-btn";
-    btnEliminar.disabled = false;
-
-    document.querySelector("#productos-a-comparar").appendChild(filaClonada);
-    btn.disabled = true;
-    
-    // Animación de entrada
-    animarEntrada(filaClonada);
-    actualizarContadorProductos();
-  }
-
-  /**
-   * Elimina un producto de la tabla de comparación
-   */
-  function eliminarProductoDeComparacion(btn) {
-    const fila = btn.closest("tr");
-    const id = fila.dataset.id;
-    
-    // Animación de salida
-    fila.style.transition = 'all 0.3s ease';
-    fila.style.opacity = '0';
-    fila.style.transform = 'translateX(-20px)';
-    
-    setTimeout(() => {
-      fila.remove();
-      
-      const btnOriginal = document.querySelector(`button.btn-success[data-id="${id}"]`);
-      if (btnOriginal) btnOriginal.disabled = false;
-
-      const compararBody = document.getElementById("productos-a-comparar");
-      if (compararBody && compararBody.children.length === 0) {
-        document.getElementById("tabla-comparacion-wrapper")?.remove();
-      }
-      
-      actualizarContadorProductos();
-    }, 300);
-  }
-
-  /**
-   * Limpia todos los productos seleccionados
-   */
-  function limpiarTodosLosProductos() {
-    const cantidad = document.querySelectorAll("#productos-a-comparar .eliminar-btn").length;
-    if (cantidad === 0) return;
-    
-    if (confirm(`¿Estás seguro de eliminar los ${cantidad} productos seleccionados?`)) {
-      const filas = document.querySelectorAll("#productos-a-comparar tr");
-      filas.forEach((fila, index) => {
-        setTimeout(() => {
-          fila.style.transition = 'all 0.2s ease';
-          fila.style.opacity = '0';
-          fila.style.transform = 'translateX(-30px)';
-        }, index * 50);
-      });
-      
-      setTimeout(() => {
-        document.querySelectorAll("#productos-a-comparar .eliminar-btn").forEach(btn => {
-          btn.click();
-        });
-        sessionStorage.removeItem("supermercadosSeleccionados");
-        sessionStorage.removeItem("productosComparados");
-      }, filas.length * 50 + 200);
-    }
-  }
-
-  /**
-   * Crea la tabla de productos a comparar
-   */
-  function crearTablaComparacion() {
-    if (document.getElementById("productos-a-comparar")) return;
-
-    const wrapper = document.createElement("div");
-    wrapper.id = "tabla-comparacion-wrapper";
-    wrapper.className = "mt-4";
-
-    wrapper.innerHTML = `
-      <div class="tabla-comparacion">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="mb-0 d-flex align-items-center gap-2">
-            <span class="badge bg-primary" id="contador-productos">0</span>
-            📊 Productos seleccionados para comparar
-          </h5>
-          <button id="btn-limpiar-filtros" class="btn btn-outline-danger btn-sm">
-            🧹 Limpiar todos
-          </button>
-        </div>
-        <div class="tabla-a-comparar-scroll mb-3">
-          <table class="table tabla-a-comparar mb-0">
-            <thead class="table-header-modern">
-              <tr>
-                <th class="col-producto">
-                  <div class="th-content">
-                    <span class="th-icon">🏷️</span>
-                    <span>Producto</span>
-                  </div>
-                </th>
-                <th class="col-marca">
-                  <div class="th-content">
-                    <span class="th-icon">🏭</span>
-                    <span>Marca</span>
-                  </div>
-                </th>
-                <th class="col-contenido">
-                  <div class="th-content">
-                    <span class="th-icon">📦</span>
-                    <span>Contenido</span>
-                  </div>
-                </th>
-                <th class="col-variedad">
-                  <div class="th-content">
-                    <span class="th-icon">🎯</span>
-                    <span>Variedad</span>
-                  </div>
-                </th>
-                <th class="col-accion">
-                  <div class="th-content">
-                    <span class="th-icon">⚡</span>
-                    <span>Acción</span>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody id="productos-a-comparar" class="table-body-modern"></tbody>
-          </table>
-        </div>
-        <div class="tabla-stats">
-          <small class="text-muted">
-            <i class="fas fa-info-circle"></i>
-            Agregá productos desde la tabla de abajo para compararlos
-          </small>
-        </div>
-      </div>
-    `;
-
-    const compararBox = document.getElementById("comparar-box");
-    compararBox.parentNode.insertBefore(wrapper, compararBox);
-  }
-
-  /**
-   * Actualiza el contador de productos en la tabla
-   */
-  function actualizarContadorProductos() {
-    const contador = document.getElementById("contador-productos");
-    if (contador) {
-      const cantidad = document.querySelectorAll("#productos-a-comparar tr").length;
-      contador.textContent = cantidad;
-      contador.classList.add("badge-count");
-      setTimeout(() => contador.classList.remove("badge-count"), 600);
-    }
-  }
-
-  /**
-   * Maneja la comparación de productos
-   */
-  function compararProductos() {
-    const productos = Array.from(document.querySelectorAll("#productos-a-comparar tr")).map(fila => {
-      const celdas = fila.querySelectorAll("td");
-      return {
-        nombreCompleto: `${celdas[0]?.textContent.trim()} ${celdas[1]?.textContent.trim()} ${celdas[2]?.textContent.trim()} ${celdas[3]?.textContent.trim()}`
-      };
-    });
-
-    if (productos.length === 0) {
-      alert("Agregá al menos un producto para comparar.");
-      return;
-    }
-
-    const supermercados = Array.from(document.querySelectorAll("#supermercado-buttons .supermercado-btn.selected"))
-      .map(btn => {
-        const img = btn.querySelector("img");
-        const raw = img?.alt?.trim() || "Sin nombre";
-        return raw.replace(/^Logo\s*/i, "");
-      });
-
-    if (supermercados.length === 0) {
-      alert("Seleccioná al menos un supermercado.");
-      return;
-    }
-
-    sessionStorage.setItem("productosComparados", JSON.stringify(productos));
-    sessionStorage.setItem("supermercadosSeleccionados", JSON.stringify(supermercados));
-
-    window.location.href = "/public/productos-comparados.html";
-  }
-
-  // ===============================================
-  // FUNCIONES DE MENÚ DE CATEGORÍAS
-  // ===============================================
-
-  /**
-   * Muestra el menú de categorías
-   */
-  async function showCategoryMenu() {
-    categoryMenu.innerHTML = "";
-
-    try {
-      const [resCategorias, resSubcategorias] = await Promise.all([
-        fetch("/api/categorias"),
-        fetch("/api/subcategorias")
-      ]);
-
-      const categories = await resCategorias.json();
-      const subcategorias = await resSubcategorias.json();
-
-      categories.forEach(cat => {
-        const groupDiv = document.createElement("div");
-        groupDiv.classList.add("category-group");
-
-        const title = document.createElement("strong");
-        title.textContent = cat.categoria_original;
-        groupDiv.appendChild(title);
-
-        const subList = document.createElement("ul");
-        subList.classList.add("subcategory-list");
-
-        const subcat = subcategorias.find(
-          s => s.categoria_normalizada?.trim().toLowerCase() === cat.categoria_normalizada?.trim().toLowerCase()
-        );
-
-        const subItems = subcat?.subcategorias || [];
-
-        subItems.forEach(sub => {
-          const item = document.createElement("li");
-          item.textContent = sub;
-          item.classList.add("subcategory-item");
-
-          item.onclick = () => seleccionarSubcategoria(sub);
-          subList.appendChild(item);
-        });
-
-        groupDiv.appendChild(subList);
-        categoryMenu.appendChild(groupDiv);
-      });
-
-      categoryMenu.style.display = "block";
-    } catch (err) {
-      console.error("❌ Error al cargar categorías y subcategorías:", err);
-    }
-  }
-
-  /**
-   * Selecciona una subcategoría del menú
-   */
-  function seleccionarSubcategoria(subcategoria) {
-    productoInput.value = subcategoria;
-    categoryMenu.style.display = "none";
-
-    // Mostrar filtros adicionales
-    mostrarFiltrosAdicionales();
-  }
-
-  /**
-   * Muestra los filtros adicionales (marca, contenido, variedad)
-   */
-  function mostrarFiltrosAdicionales() {
-    document.getElementById("marca-wrapper")?.classList.remove("d-none");
-    document.getElementById("contenido-wrapper")?.classList.remove("d-none");
-    document.getElementById("variedad-wrapper")?.classList.remove("d-none");
-
-    // Poblar filtros con datos de ejemplo
-    poblarFiltro("variedad", ["Clásico", "Integral", "Sin sal"]);
-    poblarFiltro("contenido", ["500g", "1kg", "2L"]);
-    poblarFiltro("marca", ["La Serenísima", "Ilolay", "Sancor"]);
-  }
-
-  /**
-   * Puebla un filtro con opciones
-   */
-  function poblarFiltro(filtroId, opciones) {
-    const filtro = document.getElementById(filtroId);
-    if (!filtro) return;
-
-    filtro.innerHTML = `<option value="" selected>Todos</option>`;
-    opciones.forEach(opcion => {
-      const opt = document.createElement("option");
-      opt.value = opcion;
-      opt.textContent = opcion;
-      filtro.appendChild(opt);
-    });
-  }
-
-  /**
-   * Filtra el menú de categorías basado en la entrada del usuario
-   */
-  function filterCategoryMenu() {
-    const input = productoInput.value
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
-
-    const groups = categoryMenu.querySelectorAll(".category-group");
-
-    groups.forEach(group => {
-      const categoryName = group.querySelector("strong")?.textContent || "";
-      const normalizedCategory = categoryName
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase();
-
-      const subItems = group.querySelectorAll(".subcategory-item");
-      let matchFound = normalizedCategory.includes(input);
-
-      subItems.forEach(item => {
-        const normalizedText = item.textContent
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .toLowerCase();
-
-        const match = normalizedText.includes(input);
-        item.style.display = match ? "" : "none";
-        if (match) matchFound = true;
-      });
-
-      group.style.display = matchFound ? "" : "none";
-    });
-  }
-
-  // ===============================================
-  // FUNCIONES DE FILTROS
-  // ===============================================
-
-  /**
-   * Aplica los filtros seleccionados a la tabla de productos
-   */
-  function aplicarFiltros() {
-    const marca = filtroMarca?.value || "";
-    const contenido = filtroContenido?.value || "";
-    const variedad = filtroVariedad?.value || "";
-
-    const filas = document.querySelectorAll("#tabla-productos tbody tr");
-
-    filas.forEach(fila => {
-      const celdas = fila.querySelectorAll("td");
-      const marcaTexto = celdas[1]?.textContent.trim() || "";
-      const contenidoTexto = celdas[2]?.textContent.trim() || "";
-      const variedadTexto = celdas[3]?.textContent.trim() || "";
-
-      const coincideMarca = !marca || marcaTexto === marca;
-      const coincideContenido = !contenido || contenidoTexto === contenido;
-      const coincideVariedad = !variedad || variedadTexto === variedad;
-
-      const mostrar = coincideMarca && coincideContenido && coincideVariedad;
-      
-      animarFiltroCambio(fila, mostrar);
-    });
-  }
-
-  /**
-   * Anima el cambio de visibilidad en los filtros
-   */
-  function animarFiltroCambio(fila, mostrar) {
-    if (mostrar) {
-      fila.style.display = "";
-      fila.style.opacity = "0";
-      fila.style.transform = "translateY(-10px)";
-      setTimeout(() => {
-        fila.style.transition = "all 0.3s ease";
-        fila.style.opacity = "1";
-        fila.style.transform = "translateY(0)";
-      }, 10);
-    } else {
-      fila.style.transition = "all 0.3s ease";
-      fila.style.opacity = "0";
-      fila.style.transform = "translateY(-10px)";
-      setTimeout(() => {
-        fila.style.display = "none";
-      }, 300);
-    }
-  }
-
-  // ===============================================
-  // FUNCIONES DE TABLA DE PRODUCTOS
-  // ===============================================
-
-  /**
-   * Renderiza la tabla de productos al seleccionar un tipo
-   */
-  function renderTablaProductos(e) {
-    const tipoSeleccionado = e.target.value;
-    if (!tipoSeleccionado) return;
-
-    eliminarTablaExistente();
-    
-    setTimeout(() => {
-      crearNuevaTablaProductos(tipoSeleccionado);
-    }, 300);
-  }
-
-  /**
-   * Elimina la tabla existente con animación
-   */
-  function eliminarTablaExistente() {
-    const tablaExistente = document.getElementById("tabla-productos");
-    if (tablaExistente) {
-      tablaExistente.style.transition = "all 0.3s ease";
-      tablaExistente.style.opacity = "0";
-      tablaExistente.style.transform = "translateY(-20px)";
-      setTimeout(() => tablaExistente.remove(), 300);
-    }
-  }
-
-  /**
-   * Crea una nueva tabla de productos
-   */
-  function crearNuevaTablaProductos(tipoSeleccionado) {
-    const tablaWrapper = document.createElement("div");
-    tablaWrapper.id = "tabla-productos";
-    tablaWrapper.className = "tabla-productos-moderna";
-
-    const header = crearHeaderTabla(tipoSeleccionado);
-    const tabla = crearTablaConProductos();
-
-    tablaWrapper.appendChild(header);
-    tablaWrapper.appendChild(tabla);
-
-    const compararBox = document.getElementById("comparar-box");
-    compararBox.parentNode.insertBefore(tablaWrapper, compararBox);
-
-    // Animación de entrada
-    animarEntrada(tablaWrapper);
-  }
-
-  /**
-   * Crea el header de información de la tabla
-   */
-  function crearHeaderTabla(tipoSeleccionado) {
-    const header = document.createElement("div");
-    header.className = "tabla-header-info mb-3";
-    header.innerHTML = `
-      <div class="d-flex justify-content-between align-items-center">
-        <h5 class="mb-0 d-flex align-items-center gap-2">
-          <span class="badge bg-success">40</span>
-            Productos disponibles - ${tipoSeleccionado}
-        </h5>
-        <div class="tabla-filters">
-          <small class="text-muted">
-            <i class="fas fa-filter"></i>
-            Usá los filtros de arriba para refinar tu búsqueda
-          </small>
-        </div>
-      </div>
-    `;
-    return header;
-  }
-
-  /**
-   * Crea la tabla con productos de ejemplo
-   */
-  function crearTablaConProductos() {
-    const tabla = document.createElement("table");
-    tabla.className = "table table-hover tabla-productos-mejorada mb-0";
-
-    const thead = crearThead();
-    const tbody = crearTbodyConProductos();
-
-    tabla.appendChild(thead);
-    tabla.appendChild(tbody);
-
-    return tabla;
-  }
-
-  /**
-   * Crea el thead de la tabla
-   */
-  function crearThead() {
-    const thead = document.createElement("thead");
-    thead.className = "table-header-modern";
-    thead.innerHTML = `
-      <tr>
-        <th class="col-producto">
-          <div class="th-content">
-            <span class="th-icon">🏷️</span>
-            <span>Producto</span>
-          </div>
-        </th>
-        <th class="col-marca">
-          <div class="th-content">
-            <span class="th-icon">🏭</span>
-            <span>Marca</span>
-          </div>
-        </th>
-        <th class="col-contenido">
-          <div class="th-content">
-            <span class="th-icon">📦</span>
-            <span>Contenido</span>
-          </div>
-        </th>
-        <th class="col-variedad">
-          <div class="th-content">
-            <span class="th-icon">🎯</span>
-            <span>Variedad</span>
-          </div>
-        </th>
-        <th class="col-accion">
-        </th>
-      </tr>
-    `;
-    return thead;
-  }
-
-  /**
-   * Crea el tbody con productos de ejemplo
-   */
-  function crearTbodyConProductos() {
-    const tbody = document.createElement("tbody");
-    tbody.className = "table-body-modern";
-
-    for (let i = 1; i <= 40; i++) {
-      const fila = crearFilaProducto(i);
-      tbody.appendChild(fila);
-    }
-
-    return tbody;
-  }
-
-  /**
-   * Crea una fila de producto
-   */
-  function crearFilaProducto(numero) {
-    const id = `mock-${numero}`;
-    const producto = `Producto ${numero}`;
-    const marca = ["La Serenísima", "Ilolay", "Sancor"][numero % 3];
-    const contenido = numero % 2 === 0 ? "500g" : "1kg";
-    const variedad = ["Clásico", "Integral", "Sin sal"][numero % 3];
-
-    const fila = document.createElement("tr");
-    fila.setAttribute("data-id", id);
-    fila.className = "fila-producto";
-
-    fila.innerHTML = `
-      <td class="celda-producto">
-        <div class="producto-info">
-          <span class="producto-nombre">${producto}</span>
-          <small class="producto-codigo">SKU: ${id.toUpperCase()}</small>
-        </div>
-      </td>
-      <td class="celda-marca">
-        <span class="badge badge-marca">${marca}</span>
-      </td>
-      <td class="celda-contenido">
-        <span class="badge badge-contenido">${contenido}</span>
-      </td>
-      <td class="celda-variedad">
-        <span class="badge badge-variedad">${variedad}</span>
-      </td>
-      <td class="celda-accion">
-        <button class="btn btn-success btn-sm btn-agregar" data-id="${id}">
-          ➕ Agregar
-        </button>
-      </td>
-    `;
-
-    return fila;
-  }
-
-  // ===============================================
-  // FUNCIONES DE ANIMACIÓN
-  // ===============================================
-
-  /**
-   * Anima la entrada de un elemento
-   */
-  function animarEntrada(elemento) {
-    elemento.style.opacity = "0";
-    elemento.style.transform = "translateY(20px)";
-    setTimeout(() => {
-      elemento.style.transition = "all 0.4s ease";
-      elemento.style.opacity = "1";
-      elemento.style.transform = "translateY(0)";
-    }, 100);
-  }
-
 });
+
+/**
+ * Inicializa todos los componentes de la aplicación
+ */
+async function inicializarAplicacion() {
+  // 1. Cargar datos iniciales
+  await cargarDatosIniciales();
+  
+  // 2. Configurar eventos
+  configurarEventos();
+  
+  // 3. Configurar filtros
+  configurarFiltros();
+  
+  // 4. Cargar estado guardado
+  cargarEstadoGuardado();
+  
+  console.log('✅ Aplicación inicializada correctamente');
+}
+
+/**
+ * 📊 CARGA DE DATOS INICIALES
+ */
+async function cargarDatosIniciales() {
+  console.log('🔄 Cargando datos iniciales...');
+  
+  try {
+    // Cargar categorías
+    categorias = await obtenerCategorias();
+    configurarAutocompletado();
+    
+    // Cargar productos mock
+    await cargarProductosMock();
+    
+    console.log('✅ Datos iniciales cargados');
+  } catch (error) {
+    console.error('❌ Error cargando datos:', error);
+    throw error;
+  }
+}
+
+/**
+ * Carga productos de ejemplo (mock data)
+ */
+async function cargarProductosMock() {
+  productosDisponibles = [
+    // Lácteos
+    { 
+      id: 1, 
+      nombre: 'Leche Descremada', 
+      marca: 'La Serenísima', 
+      contenido: '1L', 
+      variedad: 'Descremada',
+      categoria: 'Lácteos',
+      precio: 850.00
+    },
+    { 
+      id: 2, 
+      nombre: 'Leche Entera', 
+      marca: 'La Serenísima', 
+      contenido: '1L', 
+      variedad: 'Entera',
+      categoria: 'Lácteos',
+      precio: 820.00
+    },
+    { 
+      id: 3, 
+      nombre: 'Yogur Natural', 
+      marca: 'Danone', 
+      contenido: '200ml', 
+      variedad: 'Natural',
+      categoria: 'Lácteos',
+      precio: 320.00
+    },
+    { 
+      id: 4, 
+      nombre: 'Queso Cremoso', 
+      marca: 'La Paulina', 
+      contenido: '300g', 
+      variedad: 'Cremoso',
+      categoria: 'Lácteos',
+      precio: 1250.00
+    },
+    
+    // Bebidas
+    { 
+      id: 5, 
+      nombre: 'Coca Cola', 
+      marca: 'Coca-Cola', 
+      contenido: '2.25L', 
+      variedad: 'Original',
+      categoria: 'Bebidas',
+      precio: 1150.00
+    },
+    { 
+      id: 6, 
+      nombre: 'Agua Mineral', 
+      marca: 'Villavicencio', 
+      contenido: '2L', 
+      variedad: 'Sin Gas',
+      categoria: 'Bebidas',
+      precio: 480.00
+    },
+    { 
+      id: 7, 
+      nombre: 'Jugo de Naranja', 
+      marca: 'Baggio', 
+      contenido: '1L', 
+      variedad: 'Pulpa',
+      categoria: 'Bebidas',
+      precio: 650.00
+    },
+    
+    // Panadería
+    { 
+      id: 8, 
+      nombre: 'Pan Lactal', 
+      marca: 'Bimbo', 
+      contenido: '500g', 
+      variedad: 'Blanco',
+      categoria: 'Panadería',
+      precio: 420.00
+    },
+    { 
+      id: 9, 
+      nombre: 'Galletitas Oreo', 
+      marca: 'Nabisco', 
+      contenido: '118g', 
+      variedad: 'Original',
+      categoria: 'Panadería',
+      precio: 380.00
+    },
+    
+    // Limpieza
+    { 
+      id: 10, 
+      nombre: 'Detergente', 
+      marca: 'Ala', 
+      contenido: '800ml', 
+      variedad: 'Multiuso',
+      categoria: 'Limpieza',
+      precio: 950.00
+    },
+    { 
+      id: 11, 
+      nombre: 'Papel Higiénico', 
+      marca: 'Higienol', 
+      contenido: '4 rollos', 
+      variedad: 'Doble hoja',
+      categoria: 'Limpieza',
+      precio: 720.00
+    },
+    { 
+      id: 12, 
+      nombre: 'Lavandina', 
+      marca: 'Ayudín', 
+      contenido: '1L', 
+      variedad: 'Original',
+      categoria: 'Limpieza',
+      precio: 480.00
+    }
+  ];
+  
+  console.log('✅ Productos mock cargados:', productosDisponibles.length);
+}
+
+/**
+ * ⚙️ CONFIGURACIÓN DE EVENTOS
+ */
+function configurarEventos() {
+  console.log('🔄 Configurando eventos...');
+  
+  // Evento del buscador principal
+  const inputProducto = document.getElementById('producto');
+  if (inputProducto) {
+    inputProducto.addEventListener('input', debounce(manejarBusquedaProducto, 300));
+    inputProducto.addEventListener('focus', mostrarMenuCategorias);
+    inputProducto.addEventListener('blur', () => {
+      // Delay para permitir clicks en el menu
+      setTimeout(ocultarMenuCategorias, 200);
+    });
+  }
+  
+  // Eventos de filtros adicionales
+  const selectores = ['marca', 'contenido', 'variedad'];
+  selectores.forEach(id => {
+    const select = document.getElementById(id);
+    if (select) {
+      select.addEventListener('change', manejarCambioFiltro);
+    }
+  });
+  
+  // Evento del botón comparar
+  const btnComparar = document.getElementById('btn-comparar');
+  if (btnComparar) {
+    btnComparar.addEventListener('click', manejarComparacion);
+  }
+  
+  console.log('✅ Eventos configurados');
+}
+
+/**
+ * 🔍 CONFIGURACIÓN DE FILTROS Y AUTOCOMPLETADO
+ */
+function configurarFiltros() {
+  configurarAutocompletado();
+}
+
+function configurarAutocompletado() {
+  const categoryMenu = document.getElementById('categoryMenu');
+  if (!categoryMenu) return;
+  
+  categoryMenu.innerHTML = '';
+  
+  categorias.forEach(categoria => {
+    // Categoría principal
+    const categoriaDiv = document.createElement('div');
+    categoriaDiv.className = 'category-item';
+    categoriaDiv.textContent = categoria.nombre;
+    categoriaDiv.onclick = () => seleccionarCategoria(categoria.nombre);
+    
+    categoryMenu.appendChild(categoriaDiv);
+    
+    // Subcategorías
+    categoria.subcategorias.forEach(sub => {
+      const subDiv = document.createElement('div');
+      subDiv.className = 'subcategory-item';
+      subDiv.textContent = sub;
+      subDiv.onclick = () => seleccionarSubcategoria(sub, categoria.nombre);
+      
+      categoryMenu.appendChild(subDiv);
+    });
+  });
+}
+
+/**
+ * 📝 MANEJO DE EVENTOS
+ */
+function manejarBusquedaProducto(event) {
+  const termino = event.target.value;
+  console.log('🔍 Buscando:', termino);
+  
+  if (termino.length >= 2) {
+    buscarYMostrarProductos(termino);
+  } else {
+    ocultarTablaProductos();
+  }
+}
+
+function manejarCambioFiltro(event) {
+  const filtro = event.target.id;
+  const valor = event.target.value;
+  
+  filtrosActivos[filtro] = valor;
+  
+  console.log('🎯 Filtro aplicado:', filtro, '=', valor);
+  
+  // Re-filtrar productos si hay búsqueda activa
+  const inputProducto = document.getElementById('producto');
+  if (inputProducto && inputProducto.value.length >= 2) {
+    buscarYMostrarProductos(inputProducto.value);
+  }
+  
+  // Actualizar filtros dependientes
+  actualizarFiltrosDependientes(filtro, valor);
+}
+
+function manejarComparacion() {
+  console.log('📊 Iniciando comparación...');
+  
+  if (productosSeleccionados.length === 0) {
+    mostrarAdvertencia('Agregá al menos un producto para comparar.');
+    return;
+  }
+  
+  const supermercadosSeleccionados = obtenerSupermercadosSeleccionados();
+  if (supermercadosSeleccionados.length === 0) {
+    mostrarAdvertencia('Seleccioná al menos un supermercado para comparar.');
+    return;
+  }
+  
+  // Guardar datos para la página de comparación
+  guardarEnStorage('productosParaComparar', productosSeleccionados);
+  guardarEnStorage('supermercadosParaComparar', supermercadosSeleccionados);
+  
+  // Redirigir a página de comparación
+  window.location.href = 'productos-comparados.html';
+}
+
+/**
+ * 🔍 FUNCIONES DE BÚSQUEDA
+ */
+async function buscarYMostrarProductos(termino) {
+  console.log('🔍 Buscando productos para:', termino);
+  
+  // Filtrar productos
+  let productosFiltrados = filtrarProductos(productosDisponibles, termino);
+  
+  // Aplicar filtros adicionales
+  productosFiltrados = aplicarFiltrosAdicionales(productosFiltrados);
+  
+  // Mostrar resultados
+  mostrarTablaProductos(productosFiltrados);
+  
+  // Actualizar opciones de filtros
+  actualizarOpcionesFiltros(productosFiltrados);
+}
+
+function aplicarFiltrosAdicionales(productos) {
+  let filtrados = [...productos];
+  
+  if (filtrosActivos.marca) {
+    filtrados = filtrados.filter(p => p.marca === filtrosActivos.marca);
+  }
+  
+  if (filtrosActivos.contenido) {
+    filtrados = filtrados.filter(p => p.contenido === filtrosActivos.contenido);
+  }
+  
+  if (filtrosActivos.variedad) {
+    filtrados = filtrados.filter(p => p.variedad === filtrosActivos.variedad);
+  }
+  
+  return filtrados;
+}
+
+/**
+ * 📊 RENDERIZADO DE TABLAS
+ */
+function mostrarTablaProductos(productos) {
+  const container = document.getElementById('productos-container');
+  if (!container) return;
+  
+  if (productos.length === 0) {
+    container.innerHTML = `
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i>
+        No se encontraron productos que coincidan con tu búsqueda.
+      </div>
+    `;
+    return;
+  }
+  
+  const tabla = crearTablaProductos(productos);
+  container.innerHTML = '';
+  container.appendChild(tabla);
+  
+  console.log(`📊 Mostrando ${productos.length} productos`);
+}
+
+function crearTablaProductos(productos) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'tabla-wrapper-moderna';
+  
+  const header = document.createElement('div');
+  header.className = 'tabla-header-info';
+  header.innerHTML = `
+    <h5 class="mb-0">
+      <i class="fas fa-list me-2"></i>
+      Productos encontrados 
+      <span class="badge bg-success ms-2">${productos.length}</span>
+    </h5>
+  `;
+  
+  const scrollContainer = document.createElement('div');
+  scrollContainer.className = 'tabla-scroll-moderna';
+  scrollContainer.id = 'tabla-productos';
+  
+  const tabla = document.createElement('table');
+  tabla.className = 'tabla-productos-mejorada';
+  
+  // Header de la tabla
+  const thead = document.createElement('thead');
+  thead.className = 'table-header-modern';
+  thead.innerHTML = `
+    <tr>
+      <th class="col-producto">
+        <div class="th-content">
+          <span class="th-icon">🏷️</span>
+          <span>Producto</span>
+        </div>
+      </th>
+      <th class="col-marca">
+        <div class="th-content">
+          <span class="th-icon">🏭</span>
+          <span>Marca</span>
+        </div>
+      </th>
+      <th class="col-contenido">
+        <div class="th-content">
+          <span class="th-icon">📦</span>
+          <span>Contenido</span>
+        </div>
+      </th>
+      <th class="col-variedad">
+        <div class="th-content">
+          <span class="th-icon">🎯</span>
+          <span>Variedad</span>
+        </div>
+      </th>
+      <th class="col-accion">
+        <div class="th-content">
+          <span class="th-icon">➕</span>
+        </div>
+      </th>
+    </tr>
+  `;
+  
+  // Body de la tabla
+  const tbody = document.createElement('tbody');
+  tbody.className = 'table-body-modern';
+  
+  productos.forEach(producto => {
+    const fila = crearFilaProducto(producto);
+    tbody.appendChild(fila);
+  });
+  
+  tabla.appendChild(thead);
+  tabla.appendChild(tbody);
+  scrollContainer.appendChild(tabla);
+  wrapper.appendChild(header);
+  wrapper.appendChild(scrollContainer);
+  
+  return wrapper;
+}
+
+function crearFilaProducto(producto) {
+  const fila = document.createElement('tr');
+  
+  fila.innerHTML = `
+    <td class="celda-producto">
+      <div class="producto-info">
+        <div class="producto-nombre">${producto.nombre}</div>
+        <div class="producto-codigo">ID: ${producto.id}</div>
+      </div>
+    </td>
+    <td class="celda-marca">
+      <span class="badge-marca">${producto.marca}</span>
+    </td>
+    <td class="celda-contenido">
+      <span class="badge-contenido">${producto.contenido}</span>
+    </td>
+    <td class="celda-variedad">
+      <span class="badge-variedad">${producto.variedad}</span>
+    </td>
+    <td class="celda-accion">
+      <button class="btn btn-success btn-sm btn-agregar" onclick="agregarProducto(${producto.id})">
+        <i class="fas fa-plus me-1"></i>
+        Agregar
+      </button>
+    </td>
+  `;
+  
+  return fila;
+}
+
+function ocultarTablaProductos() {
+  const container = document.getElementById('productos-container');
+  if (container) {
+    container.innerHTML = '';
+  }
+}
+
+/**
+ * 🛒 GESTIÓN DE PRODUCTOS SELECCIONADOS
+ */
+window.agregarProducto = function(productoId) {
+  const producto = productosDisponibles.find(p => p.id === productoId);
+  
+  if (!producto) {
+    mostrarError('Producto no encontrado');
+    return;
+  }
+  
+  // Verificar si ya está agregado
+  if (productosSeleccionados.find(p => p.id === productoId)) {
+    mostrarAdvertencia(`${producto.nombre} ya está en tu lista`);
+    return;
+  }
+  
+  productosSeleccionados.push(producto);
+  mostrarExito(`${producto.nombre} agregado a la comparación`);
+  
+  actualizarListaProductosSeleccionados();
+  guardarEstado();
+  
+  console.log('✅ Producto agregado:', producto.nombre);
+};
+
+window.eliminarProducto = function(productoId) {
+  const index = productosSeleccionados.findIndex(p => p.id === productoId);
+  
+  if (index !== -1) {
+    const producto = productosSeleccionados[index];
+    productosSeleccionados.splice(index, 1);
+    
+    mostrarExito(`${producto.nombre} eliminado de la comparación`);
+    actualizarListaProductosSeleccionados();
+    guardarEstado();
+    
+    console.log('🗑️ Producto eliminado:', producto.nombre);
+  }
+};
+
+function actualizarListaProductosSeleccionados() {
+  const container = document.getElementById('productos-a-comparar-container');
+  if (!container) return;
+  
+  if (productosSeleccionados.length === 0) {
+    container.style.display = 'none';
+    document.getElementById('comparar-box').style.display = 'none';
+    return;
+  }
+  
+  container.style.display = 'block';
+  document.getElementById('comparar-box').style.display = 'block';
+  
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-shopping-cart me-2"></i>
+          Productos para comparar
+          <span class="badge bg-light text-dark ms-2">${productosSeleccionados.length}</span>
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          ${productosSeleccionados.map(producto => `
+            <div class="col-md-6 mb-2">
+              <div class="d-flex justify-content-between align-items-center p-2 border rounded">
+                <div>
+                  <strong>${producto.nombre}</strong><br>
+                  <small class="text-muted">${producto.marca} - ${producto.contenido}</small>
+                </div>
+                <button class="btn btn-outline-danger btn-sm" onclick="eliminarProducto(${producto.id})">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * 🎨 FUNCIONES DE INTERFAZ
+ */
+function mostrarMenuCategorias() {
+  const menu = document.getElementById('categoryMenu');
+  if (menu) {
+    menu.style.display = 'block';
+  }
+}
+
+function ocultarMenuCategorias() {
+  const menu = document.getElementById('categoryMenu');
+  if (menu) {
+    menu.style.display = 'none';
+  }
+}
+
+function seleccionarCategoria(categoria) {
+  const input = document.getElementById('producto');
+  if (input) {
+    input.value = categoria;
+    buscarYMostrarProductos(categoria);
+  }
+  ocultarMenuCategorias();
+}
+
+function seleccionarSubcategoria(subcategoria, categoria) {
+  const input = document.getElementById('producto');
+  if (input) {
+    input.value = subcategoria;
+    buscarYMostrarProductos(subcategoria);
+  }
+  ocultarMenuCategorias();
+}
+
+/**
+ * 🔧 ACTUALIZACIÓN DE FILTROS
+ */
+function actualizarOpcionesFiltros(productos) {
+  // Obtener valores únicos
+  const marcas = [...new Set(productos.map(p => p.marca))].sort();
+  const contenidos = [...new Set(productos.map(p => p.contenido))].sort();
+  const variedades = [...new Set(productos.map(p => p.variedad))].sort();
+  
+  // Actualizar select de marcas
+  actualizarSelect('marca', marcas);
+  actualizarSelect('contenido', contenidos);
+  actualizarSelect('variedad', variedades);
+}
+
+function actualizarSelect(selectId, opciones) {
+  const select = document.getElementById(selectId);
+  if (!select) return;
+  
+  const valorActual = select.value;
+  
+  // Limpiar opciones existentes (excepto la primera)
+  while (select.children.length > 1) {
+    select.removeChild(select.lastChild);
+  }
+  
+  // Agregar nuevas opciones
+  opciones.forEach(opcion => {
+    const option = document.createElement('option');
+    option.value = opcion;
+    option.textContent = opcion;
+    
+    if (opcion === valorActual) {
+      option.selected = true;
+    }
+    
+    select.appendChild(option);
+  });
+}
+
+function actualizarFiltrosDependientes(filtroModificado, valor) {
+  // Lógica para actualizar filtros dependientes
+  // Por ejemplo, si se selecciona una marca, filtrar contenidos y variedades
+  
+  let productosFiltrados = [...productosDisponibles];
+  
+  // Aplicar filtro del input de búsqueda si existe
+  const inputProducto = document.getElementById('producto');
+  if (inputProducto && inputProducto.value.length >= 2) {
+    productosFiltrados = filtrarProductos(productosFiltrados, inputProducto.value);
+  }
+  
+  // Aplicar filtros ya seleccionados
+  if (filtrosActivos.marca && filtroModificado !== 'marca') {
+    productosFiltrados = productosFiltrados.filter(p => p.marca === filtrosActivos.marca);
+  }
+  
+  if (filtrosActivos.contenido && filtroModificado !== 'contenido') {
+    productosFiltrados = productosFiltrados.filter(p => p.contenido === filtrosActivos.contenido);
+  }
+  
+  if (filtrosActivos.variedad && filtroModificado !== 'variedad') {
+    productosFiltrados = productosFiltrados.filter(p => p.variedad === filtrosActivos.variedad);
+  }
+  
+  // Actualizar opciones de los otros filtros
+  if (filtroModificado !== 'marca') {
+    const marcas = [...new Set(productosFiltrados.map(p => p.marca))].sort();
+    actualizarSelect('marca', marcas);
+  }
+  
+  if (filtroModificado !== 'contenido') {
+    const contenidos = [...new Set(productosFiltrados.map(p => p.contenido))].sort();
+    actualizarSelect('contenido', contenidos);
+  }
+  
+  if (filtroModificado !== 'variedad') {
+    const variedades = [...new Set(productosFiltrados.map(p => p.variedad))].sort();
+    actualizarSelect('variedad', variedades);
+  }
+}
+
+/**
+ * 💾 PERSISTENCIA DE ESTADO
+ */
+function guardarEstado() {
+  const estado = {
+    productosSeleccionados,
+    filtrosActivos,
+    timestamp: Date.now()
+  };
+  
+  guardarEnStorage('estadoAplicacion', estado);
+}
+
+function cargarEstadoGuardado() {
+  const estado = obtenerDeStorage('estadoAplicacion');
+  
+  if (estado) {
+    // Cargar productos seleccionados
+    if (estado.productosSeleccionados) {
+      productosSeleccionados = estado.productosSeleccionados;
+      actualizarListaProductosSeleccionados();
+    }
+    
+    // Cargar filtros activos
+    if (estado.filtrosActivos) {
+      filtrosActivos = { ...filtrosActivos, ...estado.filtrosActivos };
+      aplicarFiltrosGuardados();
+    }
+    
+    console.log('📚 Estado cargado desde storage');
+  }
+}
+
+function aplicarFiltrosGuardados() {
+  // Aplicar valores guardados a los selects
+  Object.keys(filtrosActivos).forEach(filtro => {
+    const select = document.getElementById(filtro);
+    if (select && filtrosActivos[filtro]) {
+      select.value = filtrosActivos[filtro];
+    }
+  });
+}
+
+/**
+ * 🧹 FUNCIONES DE UTILIDAD
+ */
+function limpiarFiltros() {
+  // Resetear filtros
+  filtrosActivos = {
+    categoria: '',
+    marca: '',
+    contenido: '',
+    variedad: ''
+  };
+  
+  // Limpiar selects
+  const selects = ['marca', 'contenido', 'variedad'];
+  selects.forEach(id => {
+    const select = document.getElementById(id);
+    if (select) {
+      select.selectedIndex = 0;
+    }
+  });
+  
+  // Limpiar búsqueda
+  const inputProducto = document.getElementById('producto');
+  if (inputProducto) {
+    inputProducto.value = '';
+  }
+  
+  // Ocultar tabla
+  ocultarTablaProductos();
+  
+  console.log('🧹 Filtros limpiados');
+}
+
+function limpiarProductosSeleccionados() {
+  productosSeleccionados = [];
+  actualizarListaProductosSeleccionados();
+  guardarEstado();
+  
+  mostrarExito('Lista de productos limpiada');
+  console.log('🧹 Productos seleccionados limpiados');
+}
+
+/**
+ * 🌐 FUNCIONES GLOBALES (disponibles en window)
+ */
+
+// Hacer funciones disponibles globalmente para onclick
+window.limpiarFiltros = limpiarFiltros;
+window.limpiarProductosSeleccionados = limpiarProductosSeleccionados;
+
+/**
+ * 🔄 EVENT LISTENERS ADICIONALES
+ */
+
+// Manejar tecla Enter en el buscador
+document.addEventListener('keypress', function(event) {
+  if (event.key === 'Enter' && event.target.id === 'producto') {
+    const valor = event.target.value;
+    if (valor.length >= 2) {
+      buscarYMostrarProductos(valor);
+    }
+  }
+});
+
+// Manejar escape para cerrar menús
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    ocultarMenuCategorias();
+  }
+});
+
+// Guardar estado antes de salir de la página
+window.addEventListener('beforeunload', function() {
+  guardarEstado();
+});
+
+/**
+ * 📱 RESPONSIVE HANDLERS
+ */
+function manejarCambioTamano() {
+  // Ajustar interfaz según el tamaño de pantalla
+  const esMobile = window.innerWidth <= 768;
+  
+  // Ajustar tabla en móviles
+  const tablas = document.querySelectorAll('.tabla-productos-mejorada');
+  tablas.forEach(tabla => {
+    if (esMobile) {
+      tabla.style.fontSize = '0.875rem';
+    } else {
+      tabla.style.fontSize = '';
+    }
+  });
+}
+
+// Escuchar cambios de tamaño
+window.addEventListener('resize', debounce(manejarCambioTamano, 250));
+
+/**
+ * 🔍 FUNCIONES DE DEBUG (solo en desarrollo)
+ */
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+  
+  // Funciones de debug disponibles en consola
+  window.debug = {
+    mostrarEstado: () => {
+      console.log('🔍 Estado actual:');
+      console.log('Productos disponibles:', productosDisponibles.length);
+      console.log('Productos seleccionados:', productosSeleccionados.length);
+      console.log('Filtros activos:', filtrosActivos);
+      console.log('Categorías:', categorias.length);
+    },
+    
+    simularProductos: (cantidad = 5) => {
+      console.log(`🎭 Simulando ${cantidad} productos...`);
+      for (let i = 0; i < cantidad; i++) {
+        const producto = productosDisponibles[Math.floor(Math.random() * productosDisponibles.length)];
+        if (!productosSeleccionados.find(p => p.id === producto.id)) {
+          window.agregarProducto(producto.id);
+        }
+      }
+    },
+    
+    limpiarTodo: () => {
+      console.log('🧹 Limpiando todo...');
+      limpiarFiltros();
+      limpiarProductosSeleccionados();
+      localStorage.clear();
+    }
+  };
+  
+  console.log('🛠️ Funciones de debug disponibles: window.debug');
+}
+
+/**
+ * 📊 ANALYTICS Y MÉTRICAS (para futuro)
+ */
+function trackearEvento(evento, datos = {}) {
+  // Placeholder para analytics
+  console.log('📊 Evento:', evento, datos);
+  
+  // Aquí se integraría con Google Analytics, Mixpanel, etc.
+  // if (typeof gtag !== 'undefined') {
+  //   gtag('event', evento, datos);
+  // }
+}
+
+// Trackear eventos importantes
+function configurarAnalytics() {
+  // Trackear búsquedas
+  const inputProducto = document.getElementById('producto');
+  if (inputProducto) {
+    inputProducto.addEventListener('input', debounce((e) => {
+      if (e.target.value.length >= 3) {
+        trackearEvento('busqueda_producto', { termino: e.target.value });
+      }
+    }, 1000));
+  }
+  
+  // Trackear productos agregados
+  const originalAgregarProducto = window.agregarProducto;
+  window.agregarProducto = function(productoId) {
+    const producto = productosDisponibles.find(p => p.id === productoId);
+    if (producto) {
+      trackearEvento('producto_agregado', { 
+        nombre: producto.nombre, 
+        marca: producto.marca,
+        categoria: producto.categoria 
+      });
+    }
+    return originalAgregarProducto(productoId);
+  };
+}
+
+// Inicializar analytics si estamos en producción
+if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+  configurarAnalytics();
+}
+
+console.log('✅ main.js cargado completamente');

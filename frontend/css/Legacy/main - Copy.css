@@ -1,0 +1,315 @@
+/* ========================================
+   MAIN.CSS - ARCHIVO PRINCIPAL MODULAR
+   ======================================== */
+
+/* Importar base */
+@import url('./base/variables.css');
+@import url('./base/reset.css');
+@import url('./base/typography.css');
+
+/* Importar componentes */
+@import url('./components/buttons.css');
+@import url('./components/forms.css');
+@import url('./components/tables.css');
+@import url('./components/cards.css');
+@import url('./components/badges.css');
+@import url('./components/modals.css');
+
+/* Importar layout */
+@import url('./layout/header.css');
+@import url('./layout/main.css');
+@import url('./layout/footer.css');
+
+/* Importar páginas específicas */
+@import url('./pages/index.css');
+@import url('./pages/productos.css');
+
+/* ========================================
+   ESTILOS ESPECÍFICOS DEL PROYECTO
+   ======================================== */
+
+/* Supermercados */
+.supermercado-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-md);
+  border: 2px solid transparent;
+  border-radius: var(--border-radius);
+  background-color: var(--color-white);
+  transition: var(--transition-base);
+  cursor: pointer;
+  text-align: center;
+  min-height: 120px;
+  justify-content: center;
+}
+
+.supermercado-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.supermercado-btn.selected {
+  border-color: var(--color-primary);
+  background-color: rgba(0, 123, 255, 0.1);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.supermercado-btn img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: var(--spacing-sm);
+}
+
+.supermercado-btn span {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+/* Productos a comparar */
+.productos-a-comparar-wrapper {
+  margin: var(--spacing-xl) 0;
+}
+
+.productos-a-comparar-wrapper .card {
+  border-color: var(--color-success);
+  box-shadow: var(--shadow-lg);
+}
+
+.productos-a-comparar-wrapper .card-header {
+  background: linear-gradient(135deg, var(--color-success) 0%, #20c997 100%);
+}
+
+/* Tabla comparadora premium */
+.comparacion-header-premium {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #6610f2 100%);
+  color: var(--color-white);
+  padding: var(--spacing-xl) var(--spacing-lg);
+  border-radius: var(--border-radius);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.header-comparacion-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+}
+
+.comparacion-titulo {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.titulo-icon {
+  font-size: 2.5rem;
+}
+
+.comparacion-subtitulo {
+  font-size: var(--font-size-lg);
+  opacity: 0.9;
+  margin-bottom: 0;
+}
+
+.header-right {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius);
+  text-align: center;
+  backdrop-filter: blur(10px);
+  min-width: 80px;
+}
+
+.stat-number {
+  display: block;
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+}
+
+.stat-label {
+  font-size: var(--font-size-sm);
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-icon {
+  font-size: 1.5rem;
+}
+
+/* Wrapper de tabla comparadora */
+.tabla-comparadora-wrapper-premium {
+  background: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  margin-bottom: var(--spacing-lg);
+  position: relative;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.tabla-comparadora-wrapper-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, #6610f2 100%);
+  z-index: 1;
+}
+
+/* Celdas específicas de supermercados */
+.celda-carrefour {
+  background-color: rgba(0, 102, 204, 0.1);
+  border-left: 4px solid var(--color-carrefour);
+}
+
+.celda-disco {
+  background-color: rgba(255, 102, 0, 0.1);
+  border-left: 4px solid var(--color-disco);
+}
+
+.celda-jumbo {
+  background-color: rgba(255, 0, 0, 0.1);
+  border-left: 4px solid var(--color-jumbo);
+}
+
+.celda-vea {
+  background-color: rgba(0, 170, 68, 0.1);
+  border-left: 4px solid var(--color-vea);
+}
+
+.celda-dia {
+  background-color: rgba(255, 107, 53, 0.1);
+  border-left: 4px solid var(--color-dia);
+}
+
+.celda-caminando {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-left: 4px solid;
+  border-image: var(--color-caminando) 1;
+  font-weight: 600;
+}
+
+/* Precio destacado */
+.precio-mejor {
+  color: var(--color-success);
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.precio-normal {
+  color: var(--color-dark);
+}
+
+.precio-caro {
+  color: var(--color-danger);
+}
+
+/* Logos en tabla */
+.th-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.th-logo-container img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-comparacion-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .comparacion-titulo {
+    font-size: 1.5rem;
+  }
+  
+  .tabla-comparadora-wrapper-premium {
+    max-height: 400px;
+  }
+  
+  .supermercado-btn {
+    min-height: 100px;
+  }
+  
+  .supermercado-btn img {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* Utilidades */
+.container-custom-comparados {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.gap-2 {
+  gap: var(--spacing-sm);
+}
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--spacing-xs); }
+.mb-2 { margin-bottom: var(--spacing-sm); }
+.mb-3 { margin-bottom: var(--spacing-md); }
+.mb-4 { margin-bottom: var(--spacing-lg); }
+.mb-5 { margin-bottom: var(--spacing-xl); }
+
+.p-0 { padding: 0; }
+.p-1 { padding: var(--spacing-xs); }
+.p-2 { padding: var(--spacing-sm); }
+.p-3 { padding: var(--spacing-md); }
+.p-4 { padding: var(--spacing-lg); }
+.p-5 { padding: var(--spacing-xl); }

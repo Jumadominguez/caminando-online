@@ -3,124 +3,279 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Caminando Online</title>
-  <link rel="icon" href="assets/img/caminando-Favicon.png" type="image/png" />
+  <title>Dashboard - Caminando Online</title>
+  <link rel="icon" href="/assets/img/caminando-Favicon.png" type="image/png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/private/css/dashboard-styles.css" />
   <!-- Fonts para logo textual -->
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:ital@1&display=swap" rel="stylesheet">
-
 </head>
-<body>
-  <header class="banner-superior">
-        <div class="logo-container">
-          <img src="assets/img/caminando-logo.png" alt="Logo Caminando Online" class="logo-caminando" />
-        </div>
-    <div class="logo-textual">
-        <div class="logo-caminando-textual-wrapper">
+
+<body class="dashboard-body">
+  <!-- Header del dashboard -->
+  <header class="dashboard-header">
+    <div class="header-container">
+      <!-- Logo y navegación principal -->
+      <div class="header-left">
+        <a href="/index.html" class="dashboard-logo-link">
+          <img src="/assets/img/caminando-logo.png" alt="Logo Caminando Online" class="dashboard-logo" />
+          <div class="dashboard-logo-text">
             <span class="logo-caminando-text">Caminando</span>
-        </div>
-      
-      <div class="logo-online-textual-wrapper">
-        <span class="logo-online-text">.Online</span>
+            <span class="logo-online-text">.Online</span>
+          </div>
+        </a>
       </div>
-    
+
+      <!-- Navegación del dashboard -->
+      <nav class="dashboard-nav">
+        <ul class="nav-list">
+          <li class="nav-item active">
+            <a href="/private/dashboard/dashboard.html" class="nav-link">
+              <i class="nav-icon">🏠</i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/index.html" class="nav-link">
+              <i class="nav-icon">🔍</i>
+              <span>Comparar</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/private/dashboard/perfil.html" class="nav-link">
+              <i class="nav-icon">👤</i>
+              <span>Perfil</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/private/dashboard/pagos.html" class="nav-link">
+              <i class="nav-icon">💳</i>
+              <span>Pagos</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/private/dashboard/supermercados.html" class="nav-link">
+              <i class="nav-icon">🛒</i>
+              <span>Supermercados</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Menú de usuario -->
+      <div class="header-right">
+        <div class="user-menu">
+          <button class="user-menu-btn" id="user-menu-btn">
+            <div class="user-avatar">
+              <span id="user-initials">CU</span>
+            </div>
+            <span class="user-name" id="user-name">Cargando...</span>
+            <i class="dropdown-arrow">▼</i>
+          </button>
+          <div class="user-dropdown" id="user-dropdown">
+            <div class="dropdown-header">
+              <div class="user-info">
+                <div class="user-email" id="user-email">usuario@email.com</div>
+                <div class="user-status">Cuenta activa</div>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="/private/dashboard/perfil.html" class="dropdown-item">
+              <i class="item-icon">⚙️</i>
+              Configuración
+            </a>
+            <a href="#" class="dropdown-item" id="logout-btn">
+              <i class="item-icon">🚪</i>
+              Cerrar sesión
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <nav>
-      <ul>
-        <li><a href="#perfil">Mi Perfil</a></li>
-      </ul>
-    </nav>
   </header>
 
+  <!-- Contenido principal del dashboard -->
+  <main class="dashboard-main">
+    <div class="dashboard-container">
+      
+      <!-- Bienvenida -->
+      <section class="welcome-section">
+        <div class="welcome-content">
+          <h1 class="welcome-title">¡Hola, <span id="welcome-name">Usuario</span>! 👋</h1>
+          <p class="welcome-subtitle">Bienvenido a tu panel de control de Caminando Online</p>
+        </div>
+        <div class="welcome-actions">
+          <a href="/index.html" class="btn btn-primary">
+            <i class="btn-icon">🔍</i>
+            Comparar productos
+          </a>
+        </div>
+      </section>
 
-  <!-- Supermercados -->
-  <section id="supermercados" class="mb-0">
-    <div class="container-custom-super">
-      <h3>🛒 Elegí tus supermercados</h3>
-      <div class="d-flex flex-wrap justify-content-center gap-3" id="supermercado-buttons">
-        <!-- Botones generados dinámicamente -->
-      </div>
-    </div>
-  </section>
-
-  <main>
-    <section id="productos" class="mb-0 position-relative">
-      <div class="container-custom-filtro">
-        <div class="box-titulo-carga" id="box-titulo-carga"><h4>📋 Cargá tus productos para comparar</h4></div>
-        <div class="row g-3 align-items-center mb-3">
-          <div class="col-md-6">
-            <div class="category-dropdown w-100">
-              <input
-                type="text"
-                class="form-control"
-                id="producto"
-                placeholder="Escribe un producto"
-                autocomplete="off"
-              />
-              <div class="category-menu" id="categoryMenu"></div>
+      <!-- Estadísticas rápidas -->
+      <section class="stats-section">
+        <div class="row">
+          <div class="col-md-3 col-6 mb-4">
+            <div class="stat-card stat-card-primary">
+              <div class="stat-icon">💰</div>
+              <div class="stat-content">
+                <div class="stat-value" id="total-ahorro">$0</div>
+                <div class="stat-label">Total ahorrado</div>
+              </div>
             </div>
           </div>
-
-          <div class="col-md-6">
-            <select class="form-select w-100" id="tipo-de-producto">
-              <option selected disabled>Elegí una opción...</option>
-              <option value="Molinos Ala" data-id="molinos-ala">Molinos Ala</option>
-              <option value="Arcor" data-id="arcor">Arcor</option>
-              <option value="La Serenísima" data-id="la-serenisima">La Serenísima</option>
-              <option value="Coca-Cola" data-id="coca-cola">Coca-Cola</option>
-              <option value="Ala" data-id="ala">Ala</option>
-            </select>
+          <div class="col-md-3 col-6 mb-4">
+            <div class="stat-card stat-card-success">
+              <div class="stat-icon">🛍️</div>
+              <div class="stat-content">
+                <div class="stat-value" id="total-compras">0</div>
+                <div class="stat-label">Compras realizadas</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6 mb-4">
+            <div class="stat-card stat-card-info">
+              <div class="stat-icon">🏪</div>
+              <div class="stat-content">
+                <div class="stat-value" id="supermercados-conectados">0</div>
+                <div class="stat-label">Supermercados</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6 mb-4">
+            <div class="stat-card stat-card-warning">
+              <div class="stat-icon">📅</div>
+              <div class="stat-content">
+                <div class="stat-value" id="dias-miembro">0</div>
+                <div class="stat-label">Días como miembro</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="row g-3 mb-3">
-          <div class="col-md-4" id="marca-wrapper">
-            <select class="form-select" id="marca">
-              <option selected disabled>Elegí la marca.</option>
-            </select>
+      </section>
+
+      <!-- Grid principal -->
+      <div class="dashboard-grid">
+        
+        <!-- Acciones rápidas -->
+        <section class="dashboard-card quick-actions-card">
+          <div class="card-header">
+            <h3 class="card-title">Acciones rápidas</h3>
           </div>
-
-          <div class="col-md-4" id="contenido-wrapper">
-            <select class="form-select" id="contenido">
-              <option selected disabled>Elegí el contenido.</option>
-            </select>
+          <div class="card-body">
+            <div class="quick-actions-grid">
+              <a href="/index.html" class="quick-action">
+                <div class="action-icon">🔍</div>
+                <div class="action-text">
+                  <div class="action-title">Comparar precios</div>
+                  <div class="action-subtitle">Encontrá los mejores precios</div>
+                </div>
+              </a>
+              <a href="/private/dashboard/supermercados.html" class="quick-action">
+                <div class="action-icon">🛒</div>
+                <div class="action-text">
+                  <div class="action-title">Conectar supermercado</div>
+                  <div class="action-subtitle">Agregá tus cuentas</div>
+                </div>
+              </a>
+              <a href="/private/dashboard/perfil.html" class="quick-action">
+                <div class="action-icon">🏠</div>
+                <div class="action-text">
+                  <div class="action-title">Agregar dirección</div>
+                  <div class="action-subtitle">Configurá tu entrega</div>
+                </div>
+              </a>
+              <a href="/private/dashboard/pagos.html" class="quick-action">
+                <div class="action-icon">💳</div>
+                <div class="action-text">
+                  <div class="action-title">Métodos de pago</div>
+                  <div class="action-subtitle">Gestioná tus tarjetas</div>
+                </div>
+              </a>
+            </div>
           </div>
+        </section>
 
-          <div class="col-md-4" id="variedad-wrapper">
-            <select class="form-select" id="variedad">
-              <option selected disabled>Elegí la variedad.</option>
-            </select>
+        <!-- Últimas compras -->
+        <section class="dashboard-card recent-orders-card">
+          <div class="card-header">
+            <h3 class="card-title">Últimas compras</h3>
+            <a href="/private/dashboard/pagos.html" class="card-action">Ver todas</a>
           </div>
-        </div>
+          <div class="card-body">
+            <div class="recent-orders" id="recent-orders">
+              <div class="empty-state">
+                <div class="empty-icon">🛍️</div>
+                <div class="empty-text">
+                  <div class="empty-title">No hay compras aún</div>
+                  <div class="empty-subtitle">¡Hacé tu primera compra para empezar a ahorrar!</div>
+                </div>
+                <a href="/index.html" class="btn btn-outline-primary btn-sm">Comparar productos</a>
+              </div>
+            </div>
+          </div>
+        </section>
 
-<!-- La tabla de productos se insertará dinámicamente aquí -->
+        <!-- Estado de supermercados -->
+        <section class="dashboard-card supermarkets-status-card">
+          <div class="card-header">
+            <h3 class="card-title">Estado de supermercados</h3>
+            <a href="/private/dashboard/supermercados.html" class="card-action">Gestionar</a>
+          </div>
+          <div class="card-body">
+            <div class="supermarkets-status" id="supermarkets-status">
+              <div class="empty-state">
+                <div class="empty-icon">🛒</div>
+                <div class="empty-text">
+                  <div class="empty-title">No hay supermercados conectados</div>
+                  <div class="empty-subtitle">Conectá tus cuentas para comprar automáticamente</div>
+                </div>
+                <a href="/private/dashboard/supermercados.html" class="btn btn-outline-primary btn-sm">Conectar supermercado</a>
+              </div>
+            </div>
+          </div>
+        </section>
 
-<!-- La tabla de productos a comparar se insertará dinámicamente aquí -->
+        <!-- Consejos y promociones -->
+        <section class="dashboard-card tips-card">
+          <div class="card-header">
+            <h3 class="card-title">Consejos para ahorrar</h3>
+          </div>
+          <div class="card-body">
+            <div class="tips-list">
+              <div class="tip-item">
+                <div class="tip-icon">💡</div>
+                <div class="tip-text">
+                  <div class="tip-title">Compará antes de comprar</div>
+                  <div class="tip-subtitle">Podés ahorrar hasta un 30% comparando precios</div>
+                </div>
+              </div>
+              <div class="tip-item">
+                <div class="tip-icon">🎯</div>
+                <div class="tip-text">
+                  <div class="tip-title">Usá la columna "Caminando Online"</div>
+                  <div class="tip-subtitle">Combina los mejores precios de todos los supermercados</div>
+                </div>
+              </div>
+              <div class="tip-item">
+                <div class="tip-icon">🚀</div>
+                <div class="tip-text">
+                  <div class="tip-title">Conectá tus supermercados</div>
+                  <div class="tip-subtitle">Automatizá tus compras y ahorrá tiempo</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-
-      <div id="comparar-box">
-        <!-- Botón de comparación -->
-        <button type="button" class="btn btn-primary comparar-btn">
-          🔍 Comparar productos
-        </button></div>
       </div>
-    </section>
+    </div>
   </main>
 
-  <footer class="text-center py-3">
-    <p>&copy; 2025 Caminando Online</p>
-  </footer>
-
   <!-- Scripts -->
-  <script type="module">
-    import { renderSupermercadoButtons } from './js/helpers.js';
-
-    document.addEventListener("DOMContentLoaded", () => {
-      renderSupermercadoButtons("supermercado-buttons");
-    });
-  </script>
-  <script src="js/main.js"></script>
+  <script src="/js/auth/auth-utils.js"></script>
+  <script src="/js/dashboard/dashboard-main.js"></script>
 </body>
 </html>

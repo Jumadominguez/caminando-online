@@ -3,124 +3,198 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Caminando Online</title>
+  <title>Caminando Online - Comparador de Precios</title>
   <link rel="icon" href="assets/img/caminando-Favicon.png" type="image/png" />
+  
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="/css/styles.css" />
-  <!-- Fonts para logo textual -->
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:ital@1&display=swap" rel="stylesheet">
-
+  
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
+
 <body>
+  <!-- 🔝 HEADER -->
   <header class="banner-superior">
-        <div class="logo-container">
-          <img src="assets/img/caminando-logo.png" alt="Logo Caminando Online" class="logo-caminando" />
-        </div>
-    <div class="logo-textual">
-        <div class="logo-caminando-textual-wrapper">
-            <span class="logo-caminando-text">Caminando</span>
-        </div>
-      
-      <div class="logo-online-textual-wrapper">
-        <span class="logo-online-text">.Online</span>
+    <div class="header-content">
+      <!-- Logo visual -->
+      <div class="logo-container">
+        <img src="assets/img/caminando-logo.png" alt="Logo Caminando Online" class="logo-caminando" />
       </div>
-    
+
+      <!-- Logo textual -->
+      <div class="logo-textual">
+        <div class="logo-caminando-textual-wrapper">
+          <span class="logo-caminando-text">Caminando</span>
+        </div>
+        <div class="logo-online-textual-wrapper">
+          <span class="logo-online-text">.Online</span>
+        </div>
+      </div>
+
+      <!-- Navegación -->
+      <nav>
+        <ul>
+          <li><a href="#inicio"><i class="fas fa-home"></i> Inicio</a></li>
+          <li><a href="private/auth/login.html"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a></li>
+          <li><a href="private/auth/registro.html"><i class="fas fa-user-plus"></i> Registrarse</a></li>
+        </ul>
+      </nav>
     </div>
-    
-    <nav>
-      <ul>
-        <li><a href="#perfil">Mi Perfil</a></li>
-      </ul>
-    </nav>
   </header>
 
-
-  <!-- Supermercados -->
+  <!-- 🛒 SECCIÓN SUPERMERCADOS -->
   <section id="supermercados" class="mb-0">
     <div class="container-custom-super">
-      <h3>🛒 Elegí tus supermercados</h3>
+      <h3><i class="fas fa-store"></i> Elegí tus supermercados favoritos</h3>
       <div class="d-flex flex-wrap justify-content-center gap-3" id="supermercado-buttons">
-        <!-- Botones generados dinámicamente -->
+        <!-- Botones generados dinámicamente por JS -->
       </div>
     </div>
   </section>
 
+  <!-- 🎯 SECCIÓN PRINCIPAL DE PRODUCTOS -->
   <main>
     <section id="productos" class="mb-0 position-relative">
       <div class="container-custom-filtro">
-        <div class="box-titulo-carga" id="box-titulo-carga"><h4>📋 Cargá tus productos para comparar</h4></div>
+        
+        <!-- Título principal -->
+        <div class="box-titulo-carga" id="box-titulo-carga">
+          <h4><i class="fas fa-clipboard-list"></i> Cargá tus productos para comparar</h4>
+        </div>
+
+        <!-- 🔍 FILTROS PRINCIPALES -->
         <div class="row g-3 align-items-center mb-3">
+          <!-- Buscador de productos -->
           <div class="col-md-6">
             <div class="category-dropdown w-100">
               <input
                 type="text"
                 class="form-control"
                 id="producto"
-                placeholder="Escribe un producto"
+                placeholder="🔍 Escribe un producto (ej: leche, pan, etc.)"
                 autocomplete="off"
               />
               <div class="category-menu" id="categoryMenu"></div>
             </div>
           </div>
 
+          <!-- Selector de marca/empresa -->
           <div class="col-md-6">
             <select class="form-select w-100" id="tipo-de-producto">
-              <option selected disabled>Elegí una opción...</option>
+              <option selected disabled>🏭 Elegí una marca...</option>
               <option value="Molinos Ala" data-id="molinos-ala">Molinos Ala</option>
               <option value="Arcor" data-id="arcor">Arcor</option>
               <option value="La Serenísima" data-id="la-serenisima">La Serenísima</option>
               <option value="Coca-Cola" data-id="coca-cola">Coca-Cola</option>
               <option value="Ala" data-id="ala">Ala</option>
+              <option value="Quilmes" data-id="quilmes">Quilmes</option>
+              <option value="Bimbo" data-id="bimbo">Bimbo</option>
+              <option value="Unilever" data-id="unilever">Unilever</option>
             </select>
           </div>
         </div>
-        <div class="row g-3 mb-3">
+
+        <!-- 📋 FILTROS ADICIONALES -->
+        <div class="row g-3 mb-3 filtros-adicionales">
+          <!-- Marca específica -->
           <div class="col-md-4" id="marca-wrapper">
             <select class="form-select" id="marca">
-              <option selected disabled>Elegí la marca.</option>
+              <option selected disabled>🏷️ Elegí la marca...</option>
             </select>
           </div>
 
+          <!-- Contenido/Tamaño -->
           <div class="col-md-4" id="contenido-wrapper">
             <select class="form-select" id="contenido">
-              <option selected disabled>Elegí el contenido.</option>
+              <option selected disabled>📦 Elegí el contenido...</option>
             </select>
           </div>
 
+          <!-- Variedad/Tipo -->
           <div class="col-md-4" id="variedad-wrapper">
             <select class="form-select" id="variedad">
-              <option selected disabled>Elegí la variedad.</option>
+              <option selected disabled>🎯 Elegí la variedad...</option>
             </select>
           </div>
         </div>
 
-<!-- La tabla de productos se insertará dinámicamente aquí -->
+        <!-- 📊 CONTENEDOR DINÁMICO PARA PRODUCTOS -->
+        <div id="productos-container">
+          <!-- La tabla de productos disponibles se generará aquí dinámicamente -->
+        </div>
 
-<!-- La tabla de productos a comparar se insertará dinámicamente aquí -->
+        <!-- 🛍️ CONTENEDOR PARA PRODUCTOS A COMPARAR -->
+        <div id="productos-a-comparar-container" class="productos-a-comparar-wrapper" style="display: none;">
+          <!-- La tabla de productos seleccionados se generará aquí dinámicamente -->
+        </div>
 
+        <!-- 🔄 BOTÓN DE COMPARACIÓN -->
+        <div id="comparar-box" class="text-center mt-4" style="display: none;">
+          <button type="button" class="btn btn-primary btn-lg comparar-btn" id="btn-comparar">
+            <i class="fas fa-chart-bar"></i> Comparar productos seleccionados
+          </button>
+        </div>
 
-      <div id="comparar-box">
-        <!-- Botón de comparación -->
-        <button type="button" class="btn btn-primary comparar-btn">
-          🔍 Comparar productos
-        </button></div>
       </div>
     </section>
   </main>
 
-  <footer class="text-center py-3">
-    <p>&copy; 2025 Caminando Online</p>
+  <!-- 📄 FOOTER -->
+  <footer class="text-center py-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p class="mb-2">&copy; 2025 Caminando Online - Comparador de Precios de Supermercados</p>
+          <p class="text-muted small">
+            <i class="fas fa-store"></i> Carrefour • Disco • Jumbo • Vea • Día
+          </p>
+        </div>
+      </div>
+    </div>
   </footer>
 
-  <!-- Scripts -->
+  <!-- 📱 SCRIPTS -->
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Scripts de la aplicación -->
   <script type="module">
+    // Importar funciones helpers
     import { renderSupermercadoButtons } from './js/helpers.js';
 
+    // Inicializar componentes cuando el DOM esté listo
     document.addEventListener("DOMContentLoaded", () => {
+      console.log("🚀 Caminando Online iniciado correctamente");
+      
+      // Renderizar botones de supermercados
       renderSupermercadoButtons("supermercado-buttons");
+      
+      // Inicializar eventos principales
+      initializeMainEvents();
     });
+
+    // Función para inicializar eventos principales
+    function initializeMainEvents() {
+      const btnComparar = document.getElementById('btn-comparar');
+      
+      if (btnComparar) {
+        btnComparar.addEventListener('click', () => {
+          // Redirigir a la página de comparación
+          window.location.href = 'productos-comparados.html';
+        });
+      }
+    }
   </script>
+  
+  <!-- Script principal de la aplicación -->
   <script src="js/main.js"></script>
 </body>
 </html>

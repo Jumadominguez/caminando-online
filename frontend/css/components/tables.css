@@ -1,0 +1,60 @@
+/* /css/components/tables.css */
+.table {
+  width: 100%;
+  margin-bottom: var(--spacing-md);
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: var(--spacing-md);
+  vertical-align: middle;
+  border-bottom: var(--border-width) solid #dee2e6;
+}
+
+.table thead th {
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-primary);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.025);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  border-radius: var(--border-radius);
+}
+
+/* Tablas específicas */
+.tabla-productos-mejorada {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.tabla-productos-comparados-premium {
+  margin: 0;
+  border-spacing: 0;
+}
+
+.tabla-productos-comparados-premium thead th {
+  background: linear-gradient(135deg, var(--color-dark) 0%, #495057 100%);
+  color: var(--color-white) !important;
+  font-weight: 600;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}

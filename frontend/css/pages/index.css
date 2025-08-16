@@ -1,0 +1,507 @@
+/* ==========================================
+   INDEX PAGE - css/pages/index.css
+   ========================================== */
+
+/* Sección de supermercados */
+#supermercados {
+  background: var(--color-white);
+  position: relative;
+  padding: var(--spacing-xxl) 0;
+}
+
+#supermercados::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--color-caminando-gradient);
+}
+
+#supermercados h2 {
+  text-align: center;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-md);
+  color: var(--color-dark);
+}
+
+#supermercados .lead {
+  text-align: center;
+  font-size: var(--font-size-lg);
+  color: var(--color-secondary);
+  margin-bottom: var(--spacing-xxl);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Grid de supermercados específico para index */
+.supermercados-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Supermercados individuales en index */
+.supermercados-grid .supermercado-btn {
+  background: var(--color-white);
+  border: var(--border-width-thick) solid transparent;
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-xl) var(--spacing-lg);
+  cursor: pointer;
+  transition: var(--transition-base);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+
+.supermercados-grid .supermercado-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.03) 0%, rgba(249, 202, 36, 0.03) 100%);
+  opacity: 0;
+  transition: var(--transition-base);
+}
+
+.supermercados-grid .supermercado-btn:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-2xl);
+  border-color: var(--color-caminando-primary);
+  text-decoration: none;
+  color: inherit;
+}
+
+.supermercados-grid .supermercado-btn:hover::before {
+  opacity: 1;
+}
+
+.supermercados-grid .supermercado-btn.selected {
+  border-color: var(--color-primary);
+  background: rgba(0, 123, 255, 0.08);
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-2xl);
+}
+
+.supermercados-grid .supermercado-btn.selected::before {
+  background: linear-gradient(135deg, rgba(0, 123, 255, 0.05) 0%, rgba(102, 126, 234, 0.05) 100%);
+  opacity: 1;
+}
+
+.supermercados-grid .supermercado-btn img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: var(--spacing-md);
+  transition: var(--transition-base);
+  position: relative;
+  z-index: 2;
+}
+
+.supermercados-grid .supermercado-btn:hover img {
+  transform: scale(1.15);
+}
+
+.supermercados-grid .supermercado-btn .fw-bold {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-dark);
+  position: relative;
+  z-index: 2;
+  margin-top: var(--spacing-sm);
+}
+
+/* Sección de carga de productos */
+#cargar-productos {
+  background: var(--color-light);
+  padding: var(--spacing-xxl) 0;
+  position: relative;
+}
+
+#cargar-productos h2 {
+  text-align: center;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-md);
+  color: var(--color-dark);
+}
+
+#cargar-productos .lead {
+  text-align: center;
+  font-size: var(--font-size-lg);
+  color: var(--color-secondary);
+  margin-bottom: var(--spacing-xxl);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Input de búsqueda de productos */
+.category-dropdown {
+  position: relative;
+  width: 100%;
+  margin-bottom: var(--spacing-xl);
+}
+
+.category-dropdown .form-control {
+  font-size: var(--font-size-lg);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border: var(--border-width-thick) solid #e0e0e0;
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition-base);
+  background: var(--color-white);
+}
+
+.category-dropdown .form-control:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, 0.15), var(--shadow-xl);
+  transform: translateY(-2px);
+}
+
+.category-dropdown .form-control::placeholder {
+  color: var(--color-secondary);
+  font-style: italic;
+}
+
+/* Menú de categorías */
+.category-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-white);
+  border: var(--border-width) solid #e0e0e0;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-2xl);
+  max-height: 350px;
+  overflow-y: auto;
+  z-index: var(--z-index-dropdown);
+  margin-top: var(--spacing-sm);
+  display: none;
+}
+
+.category-menu.show {
+  display: block;
+  animation: fadeInDown 0.3s ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.category-group {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-light);
+}
+
+.category-group:last-child {
+  border-bottom: none;
+}
+
+.category-group strong {
+  color: var(--color-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-md);
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.subcategory-item {
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+  transition: var(--transition-base);
+  border-radius: var(--border-radius);
+  margin: var(--spacing-xs) 0;
+  color: var(--color-dark);
+  display: block;
+}
+
+.subcategory-item:hover {
+  background: linear-gradient(90deg, var(--color-light) 0%, rgba(0, 123, 255, 0.1) 100%);
+  color: var(--color-primary);
+  transform: translateX(8px);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Filtros adicionales */
+.filtros-adicionales {
+  margin: var(--spacing-xl) 0;
+}
+
+.filtros-adicionales .row {
+  gap: var(--spacing-md);
+}
+
+.filtros-adicionales .form-select {
+  border: var(--border-width) solid #e0e0e0;
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-base);
+  background: var(--color-white);
+  transition: var(--transition-base);
+}
+
+.filtros-adicionales .form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
+}
+
+/* Contenedor de productos dinámico */
+#productos-container {
+  margin: var(--spacing-xl) 0;
+}
+
+/* Tabla de productos en index */
+.tabla-wrapper-moderna {
+  background: var(--color-white);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  margin: var(--spacing-xl) 0;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.tabla-header-info {
+  background: linear-gradient(90deg, var(--color-light) 0%, #f0f0f0 100%);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tabla-header-info h5 {
+  color: var(--color-dark);
+  font-weight: var(--font-weight-semibold);
+}
+
+.tabla-header-info .badge {
+  background: var(--color-success);
+  color: var(--color-white);
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--border-radius-xl);
+}
+
+.tabla-scroll-moderna {
+  max-height: 500px;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Productos a comparar wrapper específico */
+.productos-a-comparar-wrapper {
+  margin: var(--spacing-xxl) 0;
+  position: relative;
+}
+
+.productos-a-comparar-wrapper .card {
+  border: var(--border-width-thick) solid var(--color-success);
+  box-shadow: var(--shadow-xl);
+  border-radius: var(--border-radius-xl);
+  overflow: hidden;
+}
+
+.productos-a-comparar-wrapper .card-header {
+  background: linear-gradient(135deg, var(--color-success) 0%, #20c997 100%);
+  color: var(--color-white);
+  font-weight: var(--font-weight-semibold);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: var(--font-size-lg);
+}
+
+.productos-a-comparar-wrapper .card-body {
+  padding: 0;
+}
+
+.productos-a-comparar-wrapper .card-footer {
+  background: var(--color-light);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  text-align: center;
+}
+
+.productos-a-comparar-wrapper .table {
+  margin: 0;
+}
+
+.productos-a-comparar-wrapper .table thead th {
+  background: var(--color-dark);
+  color: var(--color-white);
+  font-weight: var(--font-weight-semibold);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: none;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.productos-a-comparar-wrapper .table tbody td {
+  padding: var(--spacing-md) var(--spacing-lg);
+  vertical-align: middle;
+}
+
+.productos-a-comparar-wrapper .table-responsive {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Contador de productos específico */
+#contador-productos {
+  background: var(--color-white) !important;
+  color: var(--color-success) !important;
+  font-weight: var(--font-weight-bold);
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-size: var(--font-size-base);
+  min-width: 2.5rem;
+  text-align: center;
+  border: 2px solid var(--color-success);
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+}
+
+/* Botón comparar específico */
+#comparar-btn {
+  background: linear-gradient(135deg, var(--color-success) 0%, #20c997 100%);
+  border: none;
+  color: var(--color-white);
+  font-weight: var(--font-weight-bold);
+  padding: var(--spacing-lg) var(--spacing-xxl);
+  font-size: var(--font-size-xl);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-xl);
+  transition: var(--transition-base);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#comparar-btn:hover {
+  background: linear-gradient(135deg, #218838 0%, #1ea896 100%);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-2xl);
+  color: var(--color-white);
+}
+
+#comparar-btn:disabled {
+  background: var(--color-secondary);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--shadow-md);
+  opacity: 0.6;
+}
+
+#comparar-btn i {
+  margin-right: var(--spacing-sm);
+  font-size: var(--font-size-lg);
+}
+
+/* Responsive para index */
+@media (max-width: 1200px) {
+  .supermercados-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+  }
+}
+
+@media (max-width: 768px) {
+  .supermercados-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+  
+  .supermercados-grid .supermercado-btn {
+    min-height: 140px;
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+  
+  .supermercados-grid .supermercado-btn img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .supermercados-grid .supermercado-btn .fw-bold {
+    font-size: var(--font-size-base);
+  }
+  
+  #supermercados h2,
+  #cargar-productos h2 {
+    font-size: var(--font-size-xxl);
+  }
+  
+  .category-dropdown .form-control {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+  
+  #comparar-btn {
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: var(--font-size-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .supermercados-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-sm);
+  }
+  
+  .supermercados-grid .supermercado-btn {
+    min-height: 120px;
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+  
+  .supermercados-grid .supermercado-btn img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .supermercados-grid .supermercado-btn .fw-bold {
+    font-size: var(--font-size-sm);
+  }
+  
+  #supermercados h2,
+  #cargar-productos h2 {
+    font-size: var(--font-size-xl);
+  }
+  
+  .category-dropdown .form-control {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  #comparar-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: var(--font-size-base);
+  }
+  
+  .tabla-header-info {
+    padding: var(--spacing-md);
+  }
+  
+  .productos-a-comparar-wrapper .card-header,
+  .productos-a-comparar-wrapper .card-footer {
+    padding: var(--spacing-md);
+  }
+}

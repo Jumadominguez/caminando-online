@@ -117,7 +117,7 @@ function crearTablaComparacion() {
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="mb-0 d-flex align-items-center gap-2">
           <span class="badge bg-primary" id="contador-productos">0</span>
-          📊 Productos seleccionados para comparar
+            Productos seleccionados para comparar
         </h5>
         <button id="btn-limpiar-filtros" class="btn btn-outline-danger btn-sm">
           🧹 Limpiar todos

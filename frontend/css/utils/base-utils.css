@@ -51,6 +51,7 @@
 /* ===============================================
    FOOTER
    =============================================== */
+/* Footer simple para compatibilidad */
 footer {
   background-color: var(--color-primary);
   color: var(--color-white);
@@ -64,6 +65,9 @@ footer {
   right: 0;
   z-index: 1000;
 }
+
+/* Footer moderno - usar clase .footer-moderno */
+/* Los estilos del footer moderno están en components/footer.css */
 
 /* Agregar padding al body para que el contenido no quede oculto bajo el footer */
 body {

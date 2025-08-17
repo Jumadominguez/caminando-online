@@ -31,22 +31,40 @@ input::placeholder {
    =============================================== */
 .category-dropdown {
   position: relative;
+  /* CRUCIAL: Permitir que el dropdown se desborde */
+  overflow: visible !important;
+  z-index: 1;
+}
+
+/* Asegurar que todos los contenedores padre permitan el desborde */
+.container-custom-filtro,
+.row,
+.col-md-6,
+.tabla-comparacion,
+.category-dropdown,
+#tabla-comparacion-wrapper,
+#app-container,
+main,
+.container,
+.container-fluid {
+  overflow: visible !important;
 }
 
 .category-menu {
   display: none;
   position: absolute;
-  top: 100%;
+  top: calc(100% + 8px);
   left: 0;
+  right: 0;
   width: 100%;
-  max-height: 300px;
+  max-height: 400px;
   overflow-y: auto;
   background-color: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-lg);
-  z-index: 1000;
-  padding: 0.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 99999;
+  padding: 0.75rem;
 }
 
 .category-group {
@@ -68,12 +86,16 @@ input::placeholder {
 
 .subcategory-item {
   cursor: pointer;
-  padding: 0.25rem 0;
+  padding: 0.5rem 0.75rem;
   color: var(--color-text-secondary);
-  transition: var(--transition);
+  transition: none;
+  border-radius: 4px;
+  margin: 2px 0;
+  user-select: none;
 }
 
 .subcategory-item:hover {
-  background-color: var(--color-bg);
+  background-color: #f0f8ff;
   color: var(--color-primary);
+  transform: none;
 }

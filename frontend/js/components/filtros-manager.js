@@ -254,10 +254,10 @@ function obtenerElementosDOM() {
 // ===============================================
 
 /**
- * Inicializa el sistema de categorías
+ * Inicializa el sistema de categorías de forma simple
  */
 function inicializarFiltroCategorias() {
-  // Obtener referencias frescas justo antes de usar
+  // Obtener referencias frescas
   const inputElemento = document.getElementById("producto");
   const menuElemento = document.getElementById("categoryMenu");
   
@@ -266,18 +266,18 @@ function inicializarFiltroCategorias() {
     return;
   }
   
-  // Actualizar las variables globales
+  // Actualizar variables globales
   productoInput = inputElemento;
   categoryMenu = menuElemento;
   
   console.log("📋 Inicializando filtro de categorías...");
   
-  // Configurar eventos específicos de categorías
+  // Event listeners simples
   productoInput.addEventListener("click", mostrarMenuCategorias);
   productoInput.addEventListener("input", filtrarMenuCategorias);
   
-  // Cerrar menú al hacer clic fuera
-  document.addEventListener("click", (e) => {
+  // Click fuera para cerrar
+  document.addEventListener("click", function(e) {
     if (!e.target.closest(".category-dropdown")) {
       ocultarMenuCategorias();
     }
@@ -287,39 +287,41 @@ function inicializarFiltroCategorias() {
 }
 
 /**
- * Muestra el menú de categorías con datos mock
+ * Maneja clicks fuera del menú (función ya no necesaria)
+ */
+function manejarClickFuera(e) {
+  // Esta función se mantiene por compatibilidad pero ya no se usa
+}
+
+/**
+ * Muestra el menú de categorías de forma simple
  */
 async function mostrarMenuCategorias() {
-  if (!categoryMenu) return;
+  if (!categoryMenu || !productoInput) return;
   
-  try {
-    console.log("🔄 Cargando categorías desde mock data...");
-    
-    // Limpiar menú
-    categoryMenu.innerHTML = "";
-    
-    // Generar contenido del menú
-    CATEGORIAS_SUBCATEGORIAS_MOCK.forEach(categoria => {
-      const groupDiv = crearGrupoCategorias(categoria);
-      categoryMenu.appendChild(groupDiv);
-    });
-    
-    // Mostrar menú con animación
-    categoryMenu.style.display = "block";
-    categoryMenu.style.opacity = "0";
-    categoryMenu.style.transform = "translateY(-10px)";
-    
-    setTimeout(() => {
-      categoryMenu.style.transition = "all 0.3s ease";
-      categoryMenu.style.opacity = "1";
-      categoryMenu.style.transform = "translateY(0)";
-    }, 10);
-    
-    console.log("✅ Menú de categorías mostrado");
-    
-  } catch (error) {
-    console.error("❌ Error al mostrar categorías:", error);
-  }
+  console.log("🔄 Mostrando menú de categorías...");
+  
+  // Limpiar menú
+  categoryMenu.innerHTML = "";
+  
+  // Generar contenido
+  CATEGORIAS_SUBCATEGORIAS_MOCK.forEach(categoria => {
+    const groupDiv = crearGrupoCategorias(categoria);
+    categoryMenu.appendChild(groupDiv);
+  });
+  
+  // Mostrar menú
+  categoryMenu.style.display = "block";
+  
+  console.log("✅ Menú mostrado");
+}
+
+/**
+ * Oculta el menú de categorías
+ */
+function ocultarMenuCategorias() {
+  if (!categoryMenu) return;
+  categoryMenu.style.display = "none";
 }
 
 /**
@@ -347,8 +349,10 @@ function crearGrupoCategorias(categoria) {
     item.setAttribute("data-subcategoria", subcategoria);
     item.setAttribute("data-categoria-padre", categoria.id);
     
-    // Event listener para selección
-    item.addEventListener("click", () => seleccionarSubcategoria(subcategoria, categoria));
+    // Event listener para selección simple
+    item.addEventListener("click", function() {
+      seleccionarSubcategoria(subcategoria, categoria);
+    });
     
     subList.appendChild(item);
   });
@@ -428,18 +432,31 @@ function filtrarMenuCategorias() {
 }
 
 /**
- * Oculta el menú de categorías
+ * Selecciona una subcategoría
  */
-function ocultarMenuCategorias() {
-  if (!categoryMenu) return;
+function seleccionarSubcategoria(subcategoria, categoria) {
+  console.log(`🎯 Subcategoría seleccionada: ${subcategoria}`);
   
-  categoryMenu.style.transition = "all 0.2s ease";
-  categoryMenu.style.opacity = "0";
-  categoryMenu.style.transform = "translateY(-10px)";
+  // Actualizar input
+  if (productoInput) {
+    productoInput.value = subcategoria;
+  }
   
-  setTimeout(() => {
-    categoryMenu.style.display = "none";
-  }, 200);
+  // Ocultar menú
+  ocultarMenuCategorias();
+  
+  // Actualizar estado
+  filtroActual.categoria = categoria.id;
+  filtroActual.subcategoria = subcategoria;
+  
+  // Notificar cambio
+  notificarCambioFiltro("categoria", { 
+    categoria: categoria.id, 
+    subcategoria: subcategoria 
+  });
+  
+  // Mostrar filtros adicionales
+  mostrarFiltrosSecundarios();
 }
 
 // ===============================================

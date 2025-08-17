@@ -223,7 +223,6 @@ function inicializarFiltros() {
  * Obtiene todas las referencias a elementos del DOM
  */
 function obtenerElementosDOM() {
-  // Filtro de categorías
   productoInput = document.getElementById("producto");
   categoryMenu = document.getElementById("categoryMenu");
   
@@ -258,10 +257,18 @@ function obtenerElementosDOM() {
  * Inicializa el sistema de categorías
  */
 function inicializarFiltroCategorias() {
-  if (!productoInput || !categoryMenu) {
+  // Obtener referencias frescas justo antes de usar
+  const inputElemento = document.getElementById("producto");
+  const menuElemento = document.getElementById("categoryMenu");
+  
+  if (!inputElemento || !menuElemento) {
     console.warn("⚠️ Elementos de categorías no encontrados");
     return;
   }
+  
+  // Actualizar las variables globales
+  productoInput = inputElemento;
+  categoryMenu = menuElemento;
   
   console.log("📋 Inicializando filtro de categorías...");
   
@@ -443,10 +450,16 @@ function ocultarMenuCategorias() {
  * Inicializa el filtro de tipo de producto
  */
 function inicializarFiltroTipoProducto() {
-  if (!tipoProductoSelect) {
+  // Obtener referencia fresca justo antes de usar
+  const selectElemento = document.getElementById("tipo-de-producto");
+  
+  if (!selectElemento) {
     console.warn("⚠️ Select tipo-de-producto no encontrado");
     return;
   }
+  
+  // Actualizar la variable global
+  tipoProductoSelect = selectElemento;
   
   console.log("📦 Inicializando filtro tipo de producto...");
   
@@ -529,6 +542,14 @@ function manejarCambioTipoProducto(event) {
  */
 function inicializarFiltrosSecundarios() {
   console.log("🔧 Inicializando filtros secundarios...");
+  
+  // Obtener referencias frescas justo antes de usar
+  marcaSelect = document.getElementById("marca");
+  contenidoSelect = document.getElementById("contenido");
+  variedadSelect = document.getElementById("variedad");
+  marcaWrapper = document.getElementById("marca-wrapper");
+  contenidoWrapper = document.getElementById("contenido-wrapper");
+  variedadWrapper = document.getElementById("variedad-wrapper");
   
   // Event listeners
   if (marcaSelect) {

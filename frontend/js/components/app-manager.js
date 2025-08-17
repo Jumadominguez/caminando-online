@@ -155,7 +155,7 @@ async function renderizarAplicacion() {
   
   try {
     // Renderizar sección completa (supermercados + productos)
-    const resultado = window.ProductosManager.renderizarCompleto(CONFIG_APP.contenedor_principal);
+    const resultado = window.ProductosManager.renderizarSeccionCompleta(CONFIG_APP.contenedor_principal);
     
     if (!resultado) {
       throw new Error("Error al renderizar la sección principal");

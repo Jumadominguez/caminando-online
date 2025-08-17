@@ -219,7 +219,7 @@ function integrarFiltrosManager() {
   console.log("🔗 Integrando FiltrosManager...");
   
   try {
-    // Inicializar FiltrosManager después de que el DOM esté listo
+    // Simplemente inicializar - FiltrosManager maneja sus propias verificaciones
     window.FiltrosManager.inicializar();
     filtrosManagerIntegrado = true;
     
@@ -395,6 +395,8 @@ function renderizarSeccionCompleta(containerId) {
     return null;
   }
   
+  console.log(`🏗️ Renderizando sección completa en ${containerId}`);
+  
   // Renderizar supermercados
   window.SupermercadosManager.renderizar(containerId);
   
@@ -402,6 +404,15 @@ function renderizarSeccionCompleta(containerId) {
   renderizarEnContenedor(containerId);
   
   console.log("✅ Sección completa renderizada");
+  
+  // Debug: verificar que los elementos existan después del renderizado
+  setTimeout(() => {
+    console.log("🔍 Debug post-renderizado:");
+    console.log("- producto:", !!document.getElementById("producto"));
+    console.log("- categoryMenu:", !!document.getElementById("categoryMenu"));
+    console.log("- tipo-de-producto:", !!document.getElementById("tipo-de-producto"));
+  }, 50);
+  
   return container;
 }
 
@@ -415,7 +426,8 @@ window.ProductosManager = {
   
   // Renderizado
   renderizar: renderizarEnContenedor,
-  renderizarCompleto: renderizarSeccionCompleta,
+  renderizarCompleto: renderizarSeccionCompleta, // Alias para compatibilidad
+  renderizarSeccionCompleta: renderizarSeccionCompleta,
   generarSeccion: generarSeccionProductos,
   
   // Integración

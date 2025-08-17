@@ -3,8 +3,789 @@
    =============================================== */
 
 /* ===============================================
-   TABLAS DE PRODUCTOS
+   🛍️ TABLA DE PRODUCTOS PROFESIONAL - REDISEÑO COMPLETO
    =============================================== */
+
+/* ============================= */
+/* 🎨 VARIABLES ESPECÍFICAS PARA TABLA DE PRODUCTOS */
+/* ============================= */
+:root {
+  --tabla-bg: #ffffff;
+  --tabla-border: #e3e6ea;
+  --tabla-header-bg: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  --tabla-header-text: #495057;
+  --tabla-row-hover: linear-gradient(135deg, rgba(255, 111, 0, 0.03) 0%, rgba(255, 202, 40, 0.02) 100%);
+  --tabla-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --tabla-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --tabla-radius: 12px;
+  --tabla-border-radius-sm: 8px;
+  --badge-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --btn-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
+/* ============================= */
+/* 🏢 CONTENEDOR PRINCIPAL MODERNO */
+/* ============================= */
+#tabla-productos {
+  background: var(--tabla-bg);
+  border-radius: var(--tabla-radius);
+  box-shadow: var(--tabla-shadow);
+  overflow: hidden;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--tabla-border);
+  transition: all 0.3s ease;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+#tabla-productos:hover {
+  box-shadow: var(--tabla-shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* ============================= */
+/* 📋 HEADER DE INFORMACIÓN MEJORADO */
+/* ============================= */
+.tabla-header-info {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  padding: 1.25rem 1.5rem;
+  border-bottom: 2px solid var(--tabla-border);
+  margin: 0;
+}
+
+.tabla-header-info h5 {
+  font-weight: 600;
+  color: #495057;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tabla-header-info .badge {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  box-shadow: var(--badge-shadow);
+}
+
+.tabla-filters {
+  color: #6c757d;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tabla-filters i {
+  color: #28a745;
+}
+
+/* ============================= */
+/* 🎯 TABLA PRINCIPAL PROFESIONAL */
+/* ============================= */
+.tabla-productos-mejorada {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ============================= */
+/* 📌 HEADER DE TABLA MODERNO */
+/* ============================= */
+.tabla-productos-mejorada thead th {
+  background: var(--tabla-header-bg);
+  color: var(--tabla-header-text);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1rem 0.75rem;
+  text-align: center;
+  border-bottom: 2px solid var(--tabla-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.tabla-productos-mejorada .th-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.tabla-productos-mejorada .th-icon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* ============================= */
+/* 🧩 CELDAS DEL CUERPO - DISEÑO MODERNO */
+/* ============================= */
+.tabla-productos-mejorada tbody td {
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid #f1f3f4;
+  vertical-align: middle;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+/* ============================= */
+/* ✨ EFECTOS HOVER Y ZEBRA MODERNOS */
+/* ============================= */
+.tabla-productos-mejorada tbody tr {
+  transition: all 0.2s ease;
+}
+
+.tabla-productos-mejorada tbody tr:nth-child(even) {
+  background-color: rgba(248, 249, 250, 0.5);
+}
+
+.tabla-productos-mejorada tbody tr:hover {
+  background: var(--tabla-row-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================= */
+/* 📀 ANCHOS DE COLUMNAS OPTIMIZADOS */
+/* ============================= */
+.tabla-productos-mejorada .col-producto,
+.tabla-productos-mejorada .celda-producto {
+  width: 35%;
+  text-align: left;
+  padding-left: 1rem;
+}
+
+.tabla-productos-mejorada .col-marca,
+.tabla-productos-mejorada .celda-marca {
+  width: 18%;
+  text-align: center;
+}
+
+.tabla-productos-mejorada .col-contenido,
+.tabla-productos-mejorada .celda-contenido {
+  width: 15%;
+  text-align: center;
+}
+
+.tabla-productos-mejorada .col-variedad,
+.tabla-productos-mejorada .celda-variedad {
+  width: 17%;
+  text-align: center;
+}
+
+.tabla-productos-mejorada .col-accion,
+.tabla-productos-mejorada .celda-accion {
+  width: 15%;
+  text-align: center;
+  padding-right: 1rem;
+}
+
+/* ============================= */
+/* 🎯 INFORMACIÓN DEL PRODUCTO ELEGANTE */
+/* ============================= */
+.producto-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.375rem;
+  padding: 0.25rem 0;
+}
+
+.producto-nombre {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.producto-codigo {
+  color: #718096;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: rgba(113, 128, 150, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  letter-spacing: 0.3px;
+}
+
+/* ============================= */
+/* 🏷️ BADGES PROFESIONALES */
+/* ============================= */
+.badge-marca,
+.badge-contenido,
+.badge-variedad {
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid #dee2e6;
+  display: inline-block;
+}
+
+.badge-marca {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  border-color: #bbdefb;
+}
+
+.badge-contenido {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+  border-color: #ce93d8;
+}
+
+.badge-variedad {
+  background-color: #e8f5e8;
+  color: #388e3c;
+  border-color: #a5d6a7;
+}
+
+.badge-marca:hover,
+.badge-contenido:hover,
+.badge-variedad:hover {
+  opacity: 0.8;
+}
+
+/* ============================= */
+/* 🔘 BOTONES MODERNOS Y PROFESIONALES */
+/* ============================= */
+.tabla-productos-mejorada .btn-agregar {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: var(--btn-shadow);
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.tabla-productos-mejorada .btn-agregar:hover {
+  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.tabla-productos-mejorada .btn-agregar:active {
+  transform: translateY(0);
+}
+
+.tabla-productos-mejorada .btn-agregar:disabled {
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ============================= */
+/* 📱 RESPONSIVE DESIGN AVANZADO */
+/* ============================= */
+@media (max-width: 992px) {
+  .tabla-productos-mejorada .col-producto,
+  .tabla-productos-mejorada .celda-producto {
+    width: 40%;
+  }
+  
+  .tabla-productos-mejorada .col-marca,
+  .tabla-productos-mejorada .celda-marca {
+    width: 15%;
+  }
+  
+  .tabla-productos-mejorada .col-contenido,
+  .tabla-productos-mejorada .celda-contenido {
+    width: 12%;
+  }
+  
+  .tabla-productos-mejorada .col-variedad,
+  .tabla-productos-mejorada .celda-variedad {
+    width: 15%;
+  }
+  
+  .tabla-productos-mejorada .col-accion,
+  .tabla-productos-mejorada .celda-accion {
+    width: 18%;
+  }
+}
+
+@media (max-width: 768px) {
+  #tabla-productos {
+    margin-top: 1rem;
+    border-radius: var(--tabla-border-radius-sm);
+  }
+  
+  .tabla-header-info {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .tabla-productos-mejorada thead th {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .tabla-productos-mejorada tbody td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .tabla-productos-mejorada .col-producto,
+  .tabla-productos-mejorada .celda-producto {
+    width: 45%;
+    padding-left: 0.75rem;
+  }
+  
+  .tabla-productos-mejorada .col-marca,
+  .tabla-productos-mejorada .celda-marca,
+  .tabla-productos-mejorada .col-contenido,
+  .tabla-productos-mejorada .celda-contenido,
+  .tabla-productos-mejorada .col-variedad,
+  .tabla-productos-mejorada .celda-variedad {
+    width: 13%;
+  }
+  
+  .tabla-productos-mejorada .col-accion,
+  .tabla-productos-mejorada .celda-accion {
+    width: 16%;
+    padding-right: 0.75rem;
+  }
+  
+  .badge-marca,
+  .badge-contenido,
+  .badge-variedad {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .tabla-productos-mejorada .btn-agregar {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.7rem;
+  }
+  
+  .producto-nombre {
+    font-size: 0.85rem;
+  }
+  
+  .producto-codigo {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabla-productos-mejorada .col-producto,
+  .tabla-productos-mejorada .celda-producto {
+    width: 50%;
+  }
+  
+  .tabla-productos-mejorada .col-marca,
+  .tabla-productos-mejorada .celda-marca,
+  .tabla-productos-mejorada .col-contenido,
+  .tabla-productos-mejorada .celda-contenido,
+  .tabla-productos-mejorada .col-variedad,
+  .tabla-productos-mejorada .celda-variedad {
+    width: 12%;
+  }
+  
+  .tabla-productos-mejorada .col-accion,
+  .tabla-productos-mejorada .celda-accion {
+    width: 14%;
+  }
+  
+  .producto-info {
+    gap: 0.25rem;
+  }
+  
+  .tabla-productos-mejorada .btn-agregar {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.65rem;
+  }
+  
+  .tabla-productos-mejorada .btn-agregar::before {
+    font-size: 0.8rem;
+  }
+}
+
+/* ============================= */
+/* 🎭 ANIMACIONES PROFESIONALES */
+/* ============================= */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#tabla-productos {
+  animation: slideInUp 0.6s ease-out;
+}
+
+.tabla-productos-mejorada tbody tr {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.tabla-productos-mejorada tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.tabla-productos-mejorada tbody tr:nth-child(2) { animation-delay: 0.15s; }
+.tabla-productos-mejorada tbody tr:nth-child(3) { animation-delay: 0.2s; }
+.tabla-productos-mejorada tbody tr:nth-child(4) { animation-delay: 0.25s; }
+.tabla-productos-mejorada tbody tr:nth-child(5) { animation-delay: 0.3s; }
+
+/* ============================= */
+/* 🔍 ESTADOS ESPECIALES */
+/* ============================= */
+.tabla-productos-mejorada tbody tr.producto-seleccionado {
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(32, 201, 151, 0.05) 100%);
+  border-left: 4px solid #28a745;
+}
+
+.tabla-productos-mejorada tbody tr.producto-agotado {
+  opacity: 0.6;
+  filter: grayscale(30%);
+}
+
+.tabla-productos-mejorada tbody tr.producto-agotado .btn-agregar {
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  cursor: not-allowed;
+}
+
+/* ============================= */
+/* 🎨 MEJORAS VISUALES ADICIONALES */
+/* ============================= */
+.tabla-productos-mejorada::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #28a745 0%, #20c997 50%, #28a745 100%);
+  z-index: 20;
+}
+
+/* Scrollbar personalizado */
+#tabla-productos::-webkit-scrollbar {
+  width: 8px;
+}
+
+#tabla-productos::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+#tabla-productos::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border-radius: 4px;
+}
+
+#tabla-productos::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+}
+
+/* ===============================================
+   TABLA PROFESIONAL - ESTILOS FINALES LIMPIOS
+   =============================================== */
+
+.tabla-productos-profesional {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: visible !important;
+  margin: 1.5rem 0;
+  border: 1px solid #e3e6ea;
+  max-height: none !important;
+}
+
+.tabla-productos-profesional .tabla-header-info {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  padding: 1.25rem 1.5rem;
+  border-bottom: 2px solid #e3e6ea;
+}
+
+.tabla-productos-profesional .tabla-header-info h5 {
+  font-weight: 600;
+  color: #495057;
+  margin: 0;
+}
+
+.tabla-productos-profesional .tabla-header-info .badge {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.tabla-productos-profesional .tabla-filters {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.tabla-productos-profesional .tabla-filters i {
+  color: #28a745;
+}
+
+.tabla-scroll-container {
+  max-height: 500px;
+  overflow-y: auto;
+  min-height: 200px;
+  border-radius: 8px;
+}
+
+.tabla-productos-profesional .tabla-productos-mejorada {
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.tabla-productos-profesional .table-header-modern th {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1rem 0.75rem;
+  text-align: center;
+  border-bottom: 2px solid #e3e6ea;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tabla-productos-profesional .th-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.tabla-productos-profesional .th-icon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.tabla-productos-profesional .table-body-modern tr {
+  transition: all 0.2s ease;
+}
+
+.tabla-productos-profesional .table-body-modern tr:nth-child(even) {
+  background-color: rgba(248, 249, 250, 0.5);
+}
+
+.tabla-productos-profesional .table-body-modern tr:hover {
+  background: linear-gradient(135deg, rgba(255, 111, 0, 0.03) 0%, rgba(255, 202, 40, 0.02) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.tabla-productos-profesional .table-body-modern td {
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid #f1f3f4;
+  vertical-align: middle;
+  font-size: 0.875rem;
+}
+
+.tabla-productos-profesional .producto-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.tabla-productos-profesional .producto-nombre {
+  font-weight: 500;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.tabla-productos-profesional .producto-codigo {
+  color: #6c757d;
+  font-size: 0.75rem;
+  background: rgba(113, 128, 150, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+}
+
+/* Texto simple sin badges - solo texto limpio */
+.tabla-productos-profesional .marca-texto,
+.tabla-productos-profesional .contenido-texto,
+.tabla-productos-profesional .variedad-texto {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #495057;
+  display: inline-block;
+}
+
+.tabla-productos-profesional .marca-texto {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.tabla-productos-profesional .contenido-texto {
+  color: #7c3aed;
+  font-weight: 600;
+}
+
+.tabla-productos-profesional .variedad-texto {
+  color: #059669;
+  font-weight: 600;
+}
+
+/* Botones profesionales */
+.tabla-productos-profesional .btn-agregar {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;  /* Más padding */
+  font-weight: 600;
+  font-size: 0.85rem;  /* Fuente más grande */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tabla-productos-profesional .btn-agregar:hover {
+  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.tabla-productos-profesional .btn-agregar:disabled {
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Scrollbar personalizado */
+.tabla-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tabla-scroll-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.tabla-scroll-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border-radius: 4px;
+}
+
+.tabla-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+}
+
+/* ===============================================
+   ESTILOS ESENCIALES PARA QUE LA TABLA FUNCIONE
+   =============================================== */
+
+/* Forzar visibilidad del tbody */
+.tabla-productos-profesional #tabla-productos-body,
+.tabla-productos-profesional tbody {
+  display: table-row-group !important;
+  height: auto !important;
+}
+
+/* Forzar visibilidad de las filas */
+.tabla-productos-profesional .fila-producto,
+.tabla-productos-profesional tr[data-id],
+.tabla-productos-profesional tbody tr,
+#tabla-productos-body tr {
+  display: table-row !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: static !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Forzar visibilidad de las celdas */
+.tabla-productos-profesional .table-body-modern td {
+  display: table-cell !important;
+  padding: 1.2rem 1rem !important;  /* Más padding */
+  border-bottom: 1px solid #f1f3f4;
+  vertical-align: middle;
+  font-size: 1rem;  /* Fuente más grande */
+}
+
+/* Columna producto con más espacio */
+.tabla-productos-profesional .celda-producto {
+  padding-left: 2rem !important;  /* Más separación del borde izquierdo */
+}
+
+.tabla-productos-profesional .producto-nombre {
+  font-weight: 600;  /* Más bold */
+  color: #333;
+  font-size: 1.1rem;  /* Fuente más grande */
+}
+
+.tabla-productos-profesional .producto-codigo {
+  color: #6c757d;
+  font-size: 0.85rem;  /* Un poco más grande */
+  background: rgba(113, 128, 150, 0.1);
+  padding: 0.3rem 0.6rem;  /* Más padding */
+  border-radius: 12px;
+}
+
+/* Forzar visibilidad de los headers */
+.tabla-productos-profesional .table-header-modern th {
+  display: table-cell !important;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 1rem 0.75rem;
+  text-align: center;
+  border-bottom: 2px solid #e3e6ea;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
 
 /* 🧱 Contenedor principal (el div con id="tabla-productos") */
 #tabla-productos {
@@ -233,107 +1014,332 @@
 }
 
 /* ===============================================
-   TABLA DE COMPARACIÓN
+   TABLA DE COMPARACIÓN - NUEVA VERSIÓN MODERNA
    =============================================== */
+
+/* Wrapper principal con diseño minimalista */
 #tabla-comparacion-wrapper {
-  background: var(--color-white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--color-border-light);
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
   overflow: hidden;
   margin-top: 2rem;
   position: relative;
+  backdrop-filter: blur(10px);
 }
 
+/* Borde superior elegante en tonos naranjas */
 #tabla-comparacion-wrapper::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-primary) 100%);
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b35 0%, #f7931e 50%, #ff8c42 100%);
 }
 
+/* Contenido principal con header integrado */
 .tabla-comparacion {
-  padding: 1.5rem;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, #fff5f0 0%, #ffffff 100%);
+  border: 1px solid rgba(255, 107, 53, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 10px;
 }
 
-.tabla-comparacion h5 {
-  color: var(--color-text);
+/* Header directo sin contenedor adicional */
+.tabla-comparacion .d-flex {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  margin-bottom: 1.5rem;
+  box-shadow: none;
+  align-items: center;
+  min-height: auto;
+}
+
+.tabla-comparacion .d-flex h5 {
+  color: #1f2937;
   font-weight: 700;
+  font-size: 1.3rem;
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
+.tabla-comparacion .d-flex h5 .badge {
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  color: white;
+  font-size: 1rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 20px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+  min-width: 40px;
+  text-align: center;
+}
+
+/* Botón limpiar todos ajustado al header */
+#btn-limpiar-filtros {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border: none;
+  color: white;
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: fit-content;
+}
+
+#btn-limpiar-filtros:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+}
+
+#btn-limpiar-filtros:active {
+  transform: translateY(0);
+}
+
+/* Botón comparar inicialmente oculto */
+.comparar-btn {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+/* Contenedor de scroll mejorado */
 .tabla-a-comparar-scroll {
-  max-height: 350px;
+  max-height: 500px;
   overflow-y: auto;
-  border: 1px solid var(--color-border-light);
-  border-radius: var(--radius-sm);
+  border: none;
+  border-radius: 12px;
+  background: #fafbfc;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.06);
+  min-height: 200px;
 }
 
+/* Tabla rediseñada */
 .tabla-a-comparar {
   margin: 0;
   border-collapse: separate;
   border-spacing: 0;
   width: 100%;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
+/* Header moderno con gradiente naranja y más angosto */
 .tabla-a-comparar th {
-  background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ff8c42 100%);
   color: white;
-  padding: 0.5rem 0.5rem;
-  font-weight: 600;
+  padding: 1rem 1.5rem;
+  font-weight: 700;
+  font-size: 1rem;
   border: none;
   position: sticky;
   top: 0;
   z-index: 5;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+/* Celdas del cuerpo con mejor spacing y textos más grandes pero más angostas */
 .tabla-a-comparar td {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 500;
-  padding: 0.875rem 0.75rem;
-  border-bottom: 1px solid var(--color-border-light);
-  border-right: 1px solid var(--color-border-light);
-  vertical-align: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #f3f4f6;
+  border-right: 1px solid #f3f4f6;
+  vertical-align: middle;
+  text-align: left;
+  background: white;
+  transition: all 0.2s ease;
+  line-height: 1.4;
+}
+
+/* Anchos de columnas para tabla de 2 columnas */
+.tabla-a-comparar .col-producto,
+.tabla-a-comparar .celda-producto {
+  width: 80%;
+  text-align: center; /* Centrar el header */
+  padding-left: 2rem;
+}
+
+.tabla-a-comparar .col-accion,
+.tabla-a-comparar .celda-accion {
+  width: 20%;
   text-align: center;
-}
-
-.tabla-a-comparar td:last-child {
   border-right: none;
+  padding-right: 2rem;
 }
 
-.tabla-a-comparar tr td:last-child {
-  text-align: center !important;
-  vertical-align: middle !important;
+/* Pero el contenido de las celdas del body sigue siendo left */
+.tabla-a-comparar tbody .celda-producto {
+  text-align: left;
 }
 
+/* Columna de producto con estilo especial */
+.tabla-a-comparar td:first-child {
+  font-weight: 600;
+  color: #1f2937;
+  padding-left: 2.5rem;
+  background: linear-gradient(135deg, #fafbfc 0%, #ffffff 100%);
+  border-left: 4px solid #ff6b35;
+}
+
+/* Hover effect mejorado */
 .tabla-a-comparar tbody tr {
-  transition: var(--transition);
+  transition: all 0.3s ease;
 }
 
 .tabla-a-comparar tbody tr:hover {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.01) 100%);
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.04) 0%, rgba(247, 147, 30, 0.02) 100%);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* Botón eliminar */
+.tabla-a-comparar tbody tr:hover td {
+  background: transparent;
+}
+
+/* Botón eliminar rediseñado y más grande */
 .eliminar-btn {
-  background: linear-gradient(135deg, var(--color-danger) 0%, #DC2626 100%);
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   border: none;
   color: white;
-  padding: 0.3rem 0.3rem;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
-  font-size: 0.8rem;
-  transition: var(--transition);
-  box-shadow: var(--shadow-sm);
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 120px;
 }
 
 .eliminar-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+.eliminar-btn:active {
+  transform: translateY(0);
+}
+
+/* Animación de eliminación mejorada - fade out rápido hacia la izquierda */
+/* IMPORTANTE: Esta animación debe tener alta prioridad */
+.fila-eliminando,
+.tabla-a-comparar .fila-eliminando,
+.tabla-a-comparar tbody .fila-eliminando {
+  animation: fadeOutLeft 0.25s ease-out forwards !important;
+  transform-origin: center !important;
+}
+
+@keyframes fadeOutLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50px) scale(0.98);
+  }
+}
+
+/* Scrollbar personalizado */
+.tabla-a-comparar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tabla-a-comparar-scroll::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 3px;
+}
+
+.tabla-a-comparar-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  border-radius: 3px;
+}
+
+.tabla-a-comparar-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #e55a2b 0%, #d6831a 100%);
+}
+
+/* Estado vacío */
+.tabla-a-comparar tbody:empty::after {
+  content: '🛒 No hay productos agregados aún';
+  display: table-row;
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Efecto de carga suave */
+.tabla-a-comparar tbody tr {
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Escalonamiento de animaciones */
+.tabla-a-comparar tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.tabla-a-comparar tbody tr:nth-child(2) { animation-delay: 0.15s; }
+.tabla-a-comparar tbody tr:nth-child(3) { animation-delay: 0.2s; }
+.tabla-a-comparar tbody tr:nth-child(4) { animation-delay: 0.25s; }
+.tabla-a-comparar tbody tr:nth-child(5) { animation-delay: 0.3s; }
+
+/* Estilos para el contenido de la celda de producto */
+.tabla-a-comparar .producto-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tabla-a-comparar .producto-nombre {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.tabla-a-comparar .producto-codigo {
+  font-size: 0.9rem;
+  color: #6b7280;
+  font-weight: 500;
+  background: rgba(107, 114, 128, 0.1);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  display: inline-block;
+  max-width: fit-content;
 }
 
 /* ===============================================

@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="/css/components/forms.css" />
   <link rel="stylesheet" href="/css/components/buttons.css" />
   <link rel="stylesheet" href="/css/components/tables.css" />
+  <link rel="stylesheet" href="/css/components/footer.css" />
   <link rel="stylesheet" href="/css/layouts/containers.css" />
   <link rel="stylesheet" href="/css/components/special-components.css" />
   <link rel="stylesheet" href="/css/utils/base-utils.css" />
@@ -116,11 +117,11 @@
     </div>
   </div>
 
-  <footer class="text-center py-3">
-    <p>&copy; 2025 Caminando Online</p>
-  </footer>
+  <!-- El footer se carga dinámicamente mediante footer-manager.js -->
 
   <!-- Scripts -->
+  <!-- Footer Manager - DEBE cargarse PRIMERO para insertar el footer dinámicamente -->
+  <script src="/js/components/footer-manager.js"></script>
   <!-- AuthManager DEBE cargarse PRIMERO -->
   <script src="/js/components/auth-manager.js"></script>
   <script src="/js/utils/data-manager.js"></script>

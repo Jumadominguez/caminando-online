@@ -123,24 +123,26 @@ function crearTablaComparacion() {
           🧹 Limpiar todos
         </button>
       </div>
+      
+      <!-- Header independiente (fuera de la tabla) -->
+      <div class="tabla-header-independiente">
+        <div class="header-producto">
+          <div class="th-content">
+            <span class="th-icon">🏷️</span>
+            <span>Producto</span>
+          </div>
+        </div>
+        <div class="header-accion">
+          <div class="th-content">
+            <span class="th-icon">⚡</span>
+            <span>Acción</span>
+          </div>
+        </div>
+      </div>
+      
       <div class="tabla-a-comparar-scroll mb-3">
         <table class="table tabla-a-comparar mb-0">
-          <thead class="table-header-modern">
-            <tr>
-              <th class="col-producto">
-                <div class="th-content">
-                  <span class="th-icon">🏷️</span>
-                  <span>Producto</span>
-                </div>
-              </th>
-              <th class="col-accion">
-                <div class="th-content">
-                  <span class="th-icon">⚡</span>
-                  <span>Acción</span>
-                </div>
-              </th>
-            </tr>
-          </thead>
+          <!-- THEAD ELIMINADO - Header ahora es independiente -->
           <tbody id="productos-a-comparar" class="table-body-modern"></tbody>
         </table>
       </div>

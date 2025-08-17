@@ -1,3 +1,136 @@
+/* Wrapper de tabla comparación - BORDER-RADIUS COMO TABLA NARANJA */
+#tabla-comparacion-wrapper {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+#tabla-comparacion-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #28a745 0%, #20c997 50%, #16a085 100%);
+}
+
+/* ===============================================
+   HEADER INDEPENDIENTE PARA TABLA VERDE
+   =============================================== */
+
+/* Contenedor principal del header independiente - RESTAURADO */
+.tabla-header-independiente {
+  display: flex;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 50%, #1a9f89 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;  /* Ambas esquinas superiores redondeadas */
+  margin-bottom: 0;
+  position: relative;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.25);
+}
+
+/* Header PRODUCTO - 80% ancho - SIN BORDE DERECHO */
+.tabla-header-independiente .header-producto {
+  width: 80%;
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  /* border-right eliminado */
+}
+
+/* Header ACCIÓN - ALINEACIÓN VERTICAL CON BOTONES */
+.tabla-header-independiente .header-accion {
+  width: 20%;
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  display: flex;
+  align-items: center;  /* Alineación vertical */
+  justify-content: center;  /* Alineación horizontal */
+}
+
+/* Contenido de los headers */
+.tabla-header-independiente .th-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  line-height: 1.2;
+}
+
+/* Iconos en el header independiente */
+.tabla-header-independiente .th-icon {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* Contenedor de scroll - CON SCROLL RESTAURADO */
+.tabla-a-comparar-scroll {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #fafbfc;
+  box-shadow: none;
+  max-height: 400px !important;  /* Máximo 400px para activar scroll */
+  overflow-y: auto !important;  /* Scroll vertical */
+  border: none;
+  min-height: 0 !important;
+  height: auto !important;  /* Altura automática hasta max-height */
+  position: relative;
+  display: block;
+  line-height: normal;  /* Restaurar line-height normal */
+}
+
+/* Tabla rediseñada - SIN BORDER-RADIUS SUPERIOR (COMO LO RESOLVIMOS) */
+.tabla-a-comparar {
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  background: white;
+  border-radius: 0 0 12px 12px;  /* Solo esquinas inferiores - COMO DEBE ESTAR */
+  overflow: hidden;
+  position: relative;
+}
+
+/* THEAD forzadamente oculto */
+.tabla-a-comparar thead {
+  display: none !important;
+}
+
+
+
+/* Ajustar el tbody para que no tenga padding superior - ESQUINAS SUPERIORES CUADRADAS */
+.tabla-a-comparar tbody {
+  border-radius: 0 0 12px 12px;  /* Solo esquinas inferiores redondeadas */
+}
+
+/* Primera fila del tbody sin border superior NI BORDER-RADIUS SUPERIOR */
+.tabla-a-comparar tbody tr:first-child {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.tabla-a-comparar tbody tr:first-child td {
+  border-top: none;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
 /* Eliminar todos los bordes verticales de celdas */
 .tabla-productos-profesional td,
 .tabla-productos-mejorada td,
@@ -64,13 +197,13 @@ tbody td {
 }
 
 .tabla-header-info h5 {
-  font-weight: 600;
-  color: #495057;
+  color: #495057;  /* Como tabla-header-info */
+  font-weight: 600;  /* Como tabla-header-info */
+  font-size: 1.25rem;  /* Mismo tamaño que productos disponibles */
   margin: 0;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-size: 1.25rem;  /* Tamaño específico para productos disponibles */
 }
 
 .tabla-header-info .badge {
@@ -85,10 +218,18 @@ tbody td {
 
 .tabla-filters {
   color: #6c757d;
-  font-size: 0.875rem;
+  font-size: 1.2rem;  /* Aumentado 20% de 1rem a 1.2rem */
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-weight: 500;
+}
+
+/* Específicamente para el small dentro de tabla-filters */
+.tabla-filters small {
+  font-size: 0.9rem !important;  /* Tamaño intermedio y legible */
+  color: #6c757d;
+  font-weight: 500;
 }
 
 .tabla-filters i {
@@ -530,14 +671,26 @@ tbody td {
    TABLA PROFESIONAL - ESTILOS FINALES LIMPIOS
    =============================================== */
 
+/* Wrapper principal de tabla naranja - BORDER-RADIUS COMPLETO */
 .tabla-productos-profesional {
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 16px;  /* Border-radius del wrapper completo */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  overflow: visible !important;
+  overflow: hidden;  /* Cambiado de visible a hidden */
   margin: 1.5rem 0;
   border: 1px solid #e3e6ea;
   max-height: none !important;
+}
+
+/* Borde superior elegante en tonos naranjas para tabla-productos */
+.tabla-productos-profesional::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b35 0%, #f7931e 50%, #ff8c42 100%);
 }
 
 .tabla-productos-profesional .tabla-header-info {
@@ -571,11 +724,12 @@ tbody td {
   color: #28a745;
 }
 
+/* Contenedor de scroll tabla naranja - BORDER-RADIUS RESTAURADO */
 .tabla-scroll-container {
   max-height: 500px;
   overflow-y: auto;
   min-height: 200px;
-  border-radius: 8px;
+  border-radius: 12px;  /* Border-radius completo restaurado */
 }
 
 .tabla-productos-profesional .tabla-productos-mejorada {
@@ -776,12 +930,12 @@ tbody td {
 
 .tabla-scroll-container::-webkit-scrollbar-track {
   background: #f1f1f1;
-  border-radius: 4px;
+  border-radius: 0;  /* Sin border-radius para bordes rectos */
 }
 
 .tabla-scroll-container::-webkit-scrollbar-thumb {
   background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-  border-radius: 4px;
+  border-radius: 0;  /* Sin border-radius para bordes rectos */
 }
 
 .tabla-scroll-container::-webkit-scrollbar-thumb:hover {
@@ -877,8 +1031,8 @@ td.celda-variedad {
 
 .tabla-productos-profesional .producto-nombre {
   font-weight: 600;  /* Como tabla-a-comparar */
-  color: #1f2937;  /* Como tabla-a-comparar */
-  font-size: 1.2rem;  /* Como tabla-a-comparar */
+  color: #495057;  /* Gris suave en lugar de negro */
+  font-size: 1.35rem;  /* Aumentado de 1.2rem a 1.35rem */
   line-height: 1.3;
   margin: 0;
   text-shadow: none;
@@ -887,11 +1041,11 @@ td.celda-variedad {
 
 .tabla-productos-profesional .producto-codigo {
   color: #64748b;
-  font-size: 0.95rem;  /* Bastante más grande */
+  font-size: 0.8rem;  /* Reducido de 0.95rem a 0.8rem */
   background: linear-gradient(135deg, rgba(100, 116, 139, 0.12) 0%, rgba(148, 163, 184, 0.08) 100%);
-  padding: 0.5rem 1rem;  /* Mucho más padding */
-  border-radius: 16px;
-  font-weight: 600;
+  padding: 0.35rem 0.7rem;  /* Reducido el padding */
+  border-radius: 12px;  /* Ligeramente más pequeño */
+  font-weight: 500;  /* Reducido de 600 a 500 */
   border: 1px solid rgba(100, 116, 139, 0.15);
 }
 
@@ -1149,17 +1303,17 @@ td.celda-variedad {
   max-height: 500px;
   overflow-y: auto;
   border: none;
-  border-radius: 0;
+  border-radius: 0;  /* Sin border-radius para bordes rectos */
   background: #fafbfc;
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.06);
   min-height: 200px;
 }
 
-/* Headers de tabla con estilo naranja para tabla-productos */
+/* Headers de tabla con estilo naranja para tabla-productos - ALTURA 50PX */
 .tabla-productos-profesional .table-header-modern th {
   background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ff8c42 100%);
-  color: white;
-  padding: 1rem 1.5rem;
+  color: white !important;
+  padding: 0.75rem 1.5rem;  /* Ajustado para altura de 50px */
   font-weight: 700;
   font-size: 1rem;
   border: none;
@@ -1171,6 +1325,17 @@ td.celda-variedad {
   letter-spacing: 0.6px;
   box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', 'Roboto', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.2;
+  height: 50px;
+  box-sizing: border-box;
+}
+
+/* Forzar color blanco en todo el contenido del header */
+.tabla-productos-profesional .table-header-modern th *,
+.tabla-productos-profesional .table-header-modern th .th-content,
+.tabla-productos-profesional .table-header-modern th .th-content span {
+  color: white !important;
 }
 
 /* Celdas del cuerpo con mejor spacing pero height reducido - SIN BORDES VERTICALES */
@@ -1374,44 +1539,20 @@ td.celda-variedad {
   transition: all 0.3s ease;
 }
 
-/* Contenedor de scroll mejorado */
+/* Contenedor de scroll con header fijo externo */
 .tabla-a-comparar-scroll {
   max-height: 500px;
   overflow-y: auto;
   border: none;
   border-radius: 12px;
-  background: #fafbfc;
+  background: linear-gradient(to bottom, 
+    #1a9f89 0%, 
+    #1a9f89 50px, 
+    #fafbfc 50px, 
+    #fafbfc 100%);
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.06);
   min-height: 200px;
-}
-
-/* Tabla rediseñada */
-.tabla-a-comparar {
-  margin: 0;
-  border-collapse: separate;
-  border-spacing: 0;
-  width: 100%;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-/* Header moderno con gradiente verde y más angosto */
-.tabla-a-comparar th {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 50%, #16a085 100%);
-  color: white;
-  padding: 1rem 1.5rem;
-  font-weight: 700;
-  font-size: 1rem;
-  border: none;
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.25);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 /* Celdas del cuerpo con mejor spacing y textos más grandes pero más angostas */
@@ -1428,12 +1569,12 @@ td.celda-variedad {
   line-height: 1.4;
 }
 
-/* Anchos de columnas para tabla de 2 columnas */
+/* Anchos de columnas para tabla de 2 columnas - ALINEACIÓN CORREGIDA */
 .tabla-a-comparar .col-producto,
 .tabla-a-comparar .celda-producto {
   width: 80%;
-  text-align: center; /* Centrar el header */
-  padding-left: 2rem;
+  text-align: left;
+  padding-left: 2.5rem;
 }
 
 .tabla-a-comparar .col-accion,
@@ -1441,12 +1582,7 @@ td.celda-variedad {
   width: 20%;
   text-align: center;
   border-right: none;
-  padding-right: 2rem;
-}
-
-/* Pero el contenido de las celdas del body sigue siendo left */
-.tabla-a-comparar tbody .celda-producto {
-  text-align: left;
+  padding-right: 1rem;
 }
 
 /* Columna de producto con estilo especial */
@@ -1520,7 +1656,7 @@ td.celda-variedad {
   }
 }
 
-/* Scrollbar personalizado */
+/* Scrollbar personalizado - SIN MARGIN-TOP */
 .tabla-a-comparar-scroll::-webkit-scrollbar {
   width: 6px;
 }
@@ -1528,15 +1664,16 @@ td.celda-variedad {
 .tabla-a-comparar-scroll::-webkit-scrollbar-track {
   background: #f3f4f6;
   border-radius: 3px;
+  /* margin-top eliminado - ya no necesario sin parche */
 }
 
 .tabla-a-comparar-scroll::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  background: linear-gradient(135deg, #20c997 0%, #28a745 100%);  /* Gradiente invertido */
   border-radius: 3px;
 }
 
 .tabla-a-comparar-scroll::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #218838 0%, #1a9e85 100%);
+  background: linear-gradient(135deg, #1a9e85 0%, #218838 100%);  /* Gradiente invertido */
 }
 
 /* Estado vacío */

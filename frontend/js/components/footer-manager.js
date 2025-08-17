@@ -1,338 +1,351 @@
-/* ===============================================
-   FOOTER MANAGER - CAMINANDO.ONLINE
-   =============================================== */
-
 /**
- * Módulo responsable de la funcionalidad del footer
- * Incluye: estadísticas en tiempo real, enlaces dinámicos, redes sociales
+ * FOOTER MANAGER - CAMINANDO.ONLINE
+ * ===============================================
+ * Gestiona la inserción dinámica del footer en todas las páginas
+ * Autor: Juan + Claude
+ * Fecha: 17/08/2025
+ * ===============================================
  */
 
 class FooterManager {
-  constructor() {
-    this.stats = {
-      supermercados: 5,
-      productos: 1000,
-      actualizacion: '24/7'
-    };
-    
-    this.supermercados = [
-      { name: 'Carrefour', icon: 'C', url: 'https://www.carrefour.com.ar/' },
-      { name: 'Disco', icon: 'D', url: 'https://www.disco.com.ar/' },
-      { name: 'Jumbo', icon: 'J', url: 'https://www.jumbo.com.ar/' },
-      { name: 'Vea', icon: 'V', url: 'https://www.vea.com.ar/' },
-      { name: 'Día', icon: 'D', url: 'https://diaonline.supermercadosdia.com.ar/' }
-    ];
-    
-    this.redesSociales = [
-      { name: 'Facebook', icon: '📘', url: '#facebook' },
-      { name: 'Twitter', icon: '🐦', url: '#twitter' },
-      { name: 'Instagram', icon: '📷', url: '#instagram' },
-      { name: 'LinkedIn', icon: '💼', url: '#linkedin' }
-    ];
-    
-    this.init();
-  }
+  
+  /**
+   * Configuración del Footer Manager
+   */
+  static config = {
+    templatePath: '/templates/footer.html',
+    targetSelector: 'body',
+    insertMethod: 'append', // 'append' o 'insertBefore'
+    autoInit: true,
+    debug: false
+  };
 
   /**
-   * Inicializa el footer
+   * Inicialización automática del footer
    */
-  init() {
-    this.createFooter();
-    this.setupEventListeners();
-    this.updateStats();
-    console.log('✅ Footer Manager inicializado');
-  }
-
-  /**
-   * Crea el footer dinámicamente
-   */
-  createFooter() {
-    const footerHTML = `
-      <footer class="footer-moderno">
-        <div class="footer-container">
-          
-          <!-- Grid principal del footer -->
-          <div class="footer-grid">
-            
-            <!-- Sección principal - Marca -->
-            <div class="footer-brand">
-              <div class="footer-logo">
-                <span class="footer-logo-icon">🛒</span>
-                <span class="footer-logo-text">Caminando.Online</span>
-              </div>
-              
-              <p class="footer-descripcion">
-                La plataforma que te ayuda a encontrar los mejores precios en los principales supermercados de Argentina. 
-                Comparamos productos en tiempo real para que ahorres tiempo y dinero en tus compras.
-              </p>
-              
-              <div class="footer-stats">
-                <div class="footer-stat">
-                  <span class="footer-stat-number" id="footer-stat-supermercados">${this.stats.supermercados}</span>
-                  <span class="footer-stat-label">Supermercados</span>
-                </div>
-                <div class="footer-stat">
-                  <span class="footer-stat-number" id="footer-stat-productos">${this.stats.productos}+</span>
-                  <span class="footer-stat-label">Productos</span>
-                </div>
-                <div class="footer-stat">
-                  <span class="footer-stat-number" id="footer-stat-actualizacion">${this.stats.actualizacion}</span>
-                  <span class="footer-stat-label">Actualización</span>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Navegación -->
-            <div class="footer-section">
-              <h4>Navegación</h4>
-              <ul class="footer-links">
-                <li><a href="index.html"><span class="footer-icon">🏠</span>Inicio</a></li>
-                <li><a href="#productos"><span class="footer-icon">📦</span>Productos</a></li>
-                <li><a href="productos-comparados.html"><span class="footer-icon">⚖️</span>Comparar</a></li>
-                <li><a href="#promociones"><span class="footer-icon">🎯</span>Promociones</a></li>
-                <li><a href="#ayuda"><span class="footer-icon">❓</span>Ayuda</a></li>
-              </ul>
-            </div>
-            
-            <!-- Supermercados -->
-            <div class="footer-section">
-              <h4>Supermercados</h4>
-              <div class="footer-supermercados">
-                ${this.generateSupermercadosHTML()}
-              </div>
-            </div>
-            
-            <!-- Contacto y Redes -->
-            <div class="footer-section">
-              <h4>Contacto</h4>
-              <div class="footer-contacto">
-                <div class="footer-contacto-item">
-                  <span class="footer-contacto-icon">📧</span>
-                  <span>info@caminando.online</span>
-                </div>
-                <div class="footer-contacto-item">
-                  <span class="footer-contacto-icon">📞</span>
-                  <span>+54 11 1234-5678</span>
-                </div>
-                <div class="footer-contacto-item">
-                  <span class="footer-contacto-icon">📍</span>
-                  <span>Buenos Aires, Argentina</span>
-                </div>
-              </div>
-              
-              <div class="footer-redes">
-                ${this.generateRedesHTML()}
-              </div>
-            </div>
-            
-          </div>
-          
-          <!-- Footer inferior -->
-          <div class="footer-bottom">
-            <div class="footer-copyright">
-              © ${new Date().getFullYear()} Caminando.Online. Todos los derechos reservados.
-            </div>
-            <div class="footer-legal">
-              <a href="#privacidad">Política de Privacidad</a>
-              <a href="#terminos">Términos de Uso</a>
-              <a href="#cookies">Cookies</a>
-            </div>
-          </div>
-          
-        </div>
-      </footer>
-    `;
-
-    // Insertar el footer al final del body
-    document.body.insertAdjacentHTML('beforeend', footerHTML);
-  }
-
-  /**
-   * Genera HTML de supermercados
-   */
-  generateSupermercadosHTML() {
-    return this.supermercados.map(super_ => `
-      <div class="footer-super" data-super="${super_.name}">
-        <div class="footer-super-icon">${super_.icon}</div>
-        <span class="footer-super-name">${super_.name}</span>
-      </div>
-    `).join('');
-  }
-
-  /**
-   * Genera HTML de redes sociales
-   */
-  generateRedesHTML() {
-    return this.redesSociales.map(red => `
-      <a href="${red.url}" class="footer-red" title="${red.name}" data-red="${red.name}">
-        ${red.icon}
-      </a>
-    `).join('');
-  }
-
-  /**
-   * Configura event listeners
-   */
-  setupEventListeners() {
-    // Event listener para supermercados
-    document.addEventListener('click', (e) => {
-      const superElement = e.target.closest('.footer-super');
-      if (superElement) {
-        const superName = superElement.dataset.super;
-        this.handleSupermercadoClick(superName);
+  static async init() {
+    try {
+      if (this.config.debug) {
+        console.log('🦶 FooterManager: Iniciando...');
       }
-    });
 
-    // Event listener para redes sociales
-    document.addEventListener('click', (e) => {
-      const redElement = e.target.closest('.footer-red');
-      if (redElement) {
-        e.preventDefault();
-        const redName = redElement.dataset.red;
-        this.handleRedSocialClick(redName);
+      // Verificar si ya existe un footer
+      if (this.footerExists()) {
+        if (this.config.debug) {
+          console.log('🦶 FooterManager: Footer ya existe, saltando inserción');
+        }
+        return;
       }
-    });
 
-    // Event listener para enlaces legales
-    document.addEventListener('click', (e) => {
-      if (e.target.matches('.footer-legal a')) {
-        e.preventDefault();
-        this.handleLegalClick(e.target.href);
+      // Cargar el footer
+      await this.loadFooter();
+
+      if (this.config.debug) {
+        console.log('🦶 FooterManager: Footer cargado exitosamente');
       }
-    });
-  }
 
-  /**
-   * Maneja click en supermercado
-   */
-  handleSupermercadoClick(superName) {
-    const supermercado = this.supermercados.find(s => s.name === superName);
-    if (supermercado) {
-      console.log(`🏪 Navegando a ${superName}`);
-      // Aquí puedes agregar lógica personalizada
-      // window.open(supermercado.url, '_blank');
-      
-      // Por ahora solo mostramos un mensaje
-      this.showToast(`Conectando con ${superName}...`);
+    } catch (error) {
+      console.error('🦶 FooterManager Error:', error);
+      this.createFallbackFooter();
     }
   }
 
   /**
-   * Maneja click en red social
+   * Verificar si ya existe un footer en la página
    */
-  handleRedSocialClick(redName) {
-    console.log(`📱 Abriendo ${redName}`);
-    this.showToast(`Abriendo ${redName}...`);
+  static footerExists() {
+    return document.querySelector('footer') !== null;
   }
 
   /**
-   * Maneja click en enlaces legales
+   * Cargar el footer desde el template
    */
-  handleLegalClick(href) {
-    const section = href.split('#')[1];
-    console.log(`📄 Abriendo sección: ${section}`);
-    this.showToast(`Cargando información legal...`);
-  }
-
-  /**
-   * Actualiza estadísticas del footer
-   */
-  updateStats() {
-    // Simular actualización de productos
-    setInterval(() => {
-      const productosElement = document.getElementById('footer-stat-productos');
-      if (productosElement) {
-        const currentCount = parseInt(productosElement.textContent.replace('+', ''));
-        const newCount = currentCount + Math.floor(Math.random() * 5);
-        productosElement.textContent = `${newCount}+`;
-        
-        // Efecto de animación
-        productosElement.classList.add('footer-stat-updated');
-        setTimeout(() => {
-          productosElement.classList.remove('footer-stat-updated');
-        }, 1000);
+  static async loadFooter() {
+    try {
+      // Hacer fetch del template
+      const response = await fetch(this.config.templatePath);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
+
+      const footerHTML = await response.text();
+      
+      // Insertar el footer en el DOM
+      this.insertFooter(footerHTML);
+
+      // Inicializar funcionalidades del footer
+      this.initFooterFeatures();
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Insertar el footer en el DOM
+   */
+  static insertFooter(footerHTML) {
+    const targetElement = document.querySelector(this.config.targetSelector);
+    
+    if (!targetElement) {
+      throw new Error(`Elemento target no encontrado: ${this.config.targetSelector}`);
+    }
+
+    if (this.config.insertMethod === 'append') {
+      targetElement.insertAdjacentHTML('beforeend', footerHTML);
+    } else {
+      // insertBefore - insertar antes del último elemento
+      targetElement.insertAdjacentHTML('beforeend', footerHTML);
+    }
+  }
+
+  /**
+   * Inicializar funcionalidades interactivas del footer
+   */
+  static initFooterFeatures() {
+    // Actualizar año en copyright
+    this.updateCopyright();
+    
+    // Agregar event listeners
+    this.addEventListeners();
+    
+    // Inicializar estadísticas dinámicas (si está habilitado)
+    if (this.config.dynamicStats) {
+      this.initDynamicStats();
+    }
+  }
+
+  /**
+   * Actualizar el año en el copyright
+   */
+  static updateCopyright() {
+    const copyrightElement = document.querySelector('.footer-copyright');
+    if (copyrightElement) {
+      const currentYear = new Date().getFullYear();
+      copyrightElement.textContent = `© ${currentYear} Caminando.Online. Todos los derechos reservados.`;
+    }
+  }
+
+  /**
+   * Agregar event listeners para elementos del footer
+   */
+  static addEventListeners() {
+    // Links de navegación
+    document.querySelectorAll('.footer-links a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (link.getAttribute('href').startsWith('#')) {
+          e.preventDefault();
+          this.handleFooterNavigation(link.getAttribute('href'));
+        }
+      });
+    });
+
+    // Links legales
+    document.querySelectorAll('.footer-legal a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (link.getAttribute('href').startsWith('#')) {
+          e.preventDefault();
+          this.handleLegalLink(link.getAttribute('href'));
+        }
+      });
+    });
+
+    // Redes sociales
+    document.querySelectorAll('.footer-red').forEach(socialLink => {
+      socialLink.addEventListener('click', (e) => {
+        if (socialLink.getAttribute('href') === '#') {
+          e.preventDefault();
+          this.handleSocialLink(socialLink);
+        }
+      });
+    });
+  }
+
+  /**
+   * Manejar navegación desde el footer
+   */
+  static handleFooterNavigation(href) {
+    const section = href.replace('#', '');
+    
+    if (this.config.debug) {
+      console.log(`🦶 FooterManager: Navegando a sección: ${section}`);
+    }
+
+    // Aquí puedes agregar lógica específica para cada sección
+    switch (section) {
+      case 'productos':
+        // Lógica para mostrar productos
+        this.showToast('Navegando a Productos...');
+        break;
+      case 'promociones':
+        // Lógica para mostrar promociones
+        this.showToast('Navegando a Promociones...');
+        break;
+      case 'ayuda':
+        // Lógica para mostrar ayuda
+        this.showToast('Navegando a Ayuda...');
+        break;
+      default:
+        this.showToast(`Función "${section}" próximamente`);
+    }
+  }
+
+  /**
+   * Manejar links legales
+   */
+  static handleLegalLink(href) {
+    const page = href.replace('#', '');
+    
+    if (this.config.debug) {
+      console.log(`🦶 FooterManager: Abriendo página legal: ${page}`);
+    }
+
+    this.showToast(`Abriendo ${page}...`);
+  }
+
+  /**
+   * Manejar links de redes sociales
+   */
+  static handleSocialLink(socialElement) {
+    const socialNetwork = socialElement.classList[1]; // 'facebook', 'twitter', etc.
+    
+    if (this.config.debug) {
+      console.log(`🦶 FooterManager: Abriendo red social: ${socialNetwork}`);
+    }
+
+    this.showToast(`Próximamente: ${socialNetwork.charAt(0).toUpperCase() + socialNetwork.slice(1)}`);
+  }
+
+  /**
+   * Inicializar estadísticas dinámicas (opcional)
+   */
+  static initDynamicStats() {
+    setInterval(() => {
+      this.updateStats();
     }, 30000); // Actualizar cada 30 segundos
   }
 
   /**
-   * Muestra un toast de notificación
+   * Actualizar estadísticas del footer
    */
-  showToast(message) {
+  static updateStats() {
+    // Simular datos actualizados
+    const stats = {
+      supermercados: 5,
+      productos: Math.floor(Math.random() * 100) + 1000,
+      actualizacion: '24/7'
+    };
+
+    const statNumbers = document.querySelectorAll('.footer-stat-number');
+    if (statNumbers.length >= 2) {
+      statNumbers[1].textContent = stats.productos + '+';
+    }
+  }
+
+  /**
+   * Mostrar toast de notificación
+   */
+  static showToast(message, type = 'info') {
     // Crear toast simple
     const toast = document.createElement('div');
-    toast.className = 'footer-toast';
+    toast.className = `footer-toast footer-toast-${type}`;
     toast.textContent = message;
+    
+    // Estilos del toast
     toast.style.cssText = `
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      background: var(--color-primary);
       color: white;
-      padding: 1rem 1.5rem;
-      border-radius: 8px;
+      padding: 12px 20px;
+      border-radius: 6px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       z-index: 10000;
-      font-size: 0.9rem;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.3s ease;
+      font-size: 14px;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
     `;
 
     document.body.appendChild(toast);
 
     // Animar entrada
     setTimeout(() => {
-      toast.style.opacity = '1';
-      toast.style.transform = 'translateY(0)';
+      toast.style.transform = 'translateX(0)';
     }, 100);
 
     // Remover después de 3 segundos
     setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateY(20px)';
+      toast.style.transform = 'translateX(400px)';
       setTimeout(() => {
-        document.body.removeChild(toast);
+        if (toast.parentNode) {
+          toast.parentNode.removeChild(toast);
+        }
       }, 300);
     }, 3000);
   }
 
   /**
-   * Reemplaza el footer simple por el footer moderno
+   * Crear footer de fallback en caso de error
    */
-  static replaceSimpleFooter() {
-    const simpleFooter = document.querySelector('footer:not(.footer-moderno)');
-    if (simpleFooter) {
-      simpleFooter.remove();
+  static createFallbackFooter() {
+    if (this.config.debug) {
+      console.log('🦶 FooterManager: Creando footer de fallback');
     }
-    
-    // Crear nueva instancia del footer moderno
-    new FooterManager();
+
+    const fallbackHTML = `
+      <footer style="background: #2d3748; color: white; text-align: center; padding: 2rem;">
+        <div>
+          <h3>🛒 Caminando.Online</h3>
+          <p>Comparamos precios para que ahorres en tus compras</p>
+          <p>© 2025 Caminando.Online. Todos los derechos reservados.</p>
+        </div>
+      </footer>
+    `;
+
+    this.insertFooter(fallbackHTML);
+  }
+
+  /**
+   * Configurar opciones del Footer Manager
+   */
+  static configure(options = {}) {
+    this.config = { ...this.config, ...options };
+  }
+
+  /**
+   * Destruir footer actual (útil para SPA)
+   */
+  static destroy() {
+    const footer = document.querySelector('footer');
+    if (footer) {
+      footer.remove();
+    }
+  }
+
+  /**
+   * Recargar footer
+   */
+  static async reload() {
+    this.destroy();
+    await this.init();
   }
 }
 
-// Agregar estilos para animaciones adicionales
-const footerStyles = `
-  .footer-stat-updated {
-    animation: footerStatPulse 1s ease-in-out;
+// Auto-inicialización cuando el DOM esté listo
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    if (FooterManager.config.autoInit) {
+      FooterManager.init();
+    }
+  });
+} else {
+  // DOM ya está listo
+  if (FooterManager.config.autoInit) {
+    FooterManager.init();
   }
-  
-  @keyframes footerStatPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); color: #28a745; }
-  }
-  
-  .footer-toast {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  }
-`;
-
-// Insertar estilos
-const styleSheet = document.createElement('style');
-styleSheet.textContent = footerStyles;
-document.head.appendChild(styleSheet);
+}
 
 // Exportar para uso global
 window.FooterManager = FooterManager;
-
-console.log('📦 Footer Manager cargado');

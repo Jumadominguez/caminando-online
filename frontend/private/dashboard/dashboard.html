@@ -7,6 +7,7 @@
   <link rel="icon" href="/assets/img/caminando-Favicon.png" type="image/png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/components/footer.css" />
   <link rel="stylesheet" href="/private/css/dashboard-styles.css" />
   <!-- Fonts para logo textual -->
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
@@ -274,7 +275,11 @@
     </div>
   </main>
 
+  <!-- El footer se carga dinámicamente mediante footer-manager.js -->
+
   <!-- Scripts -->
+  <!-- Footer Manager - DEBE cargarse PRIMERO para insertar el footer dinámicamente -->
+  <script src="/js/components/footer-manager.js"></script>
   <script src="/js/utils/data-manager.js"></script>
   <script src="/js/components/auth-manager.js"></script>
   <script src="/js/auth/auth-utils.js"></script>

@@ -51,27 +51,27 @@
 /* ===============================================
    FOOTER
    =============================================== */
-/* Footer simple para compatibilidad */
-footer {
+/* Footer simple para compatibilidad - NO FIJO */
+footer:not(.footer-moderno) {
   background-color: var(--color-primary);
   color: var(--color-white);
   text-align: center;
   padding: 1rem;
   font-size: 0.9rem;
-  margin-top: auto;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
+  margin-top: 2rem;
 }
 
 /* Footer moderno - usar clase .footer-moderno */
 /* Los estilos del footer moderno están en components/footer.css */
 
-/* Agregar padding al body para que el contenido no quede oculto bajo el footer */
+/* Ajustes para footer moderno estático */
+.footer-moderno {
+  position: relative;
+  margin-top: auto;
+}
+
+/* Ajustes para el layout general */
 body {
-  padding-bottom: 60px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -80,11 +80,10 @@ body {
 /* Asegurar que el main tenga suficiente altura */
 main {
   flex: 1;
-  min-height: calc(100vh - 200px);
 }
 
 /* Contenedor de la aplicación */
 #app-container {
-  min-height: calc(100vh - 200px);
+  flex: 1;
   padding-bottom: 2rem;
 }

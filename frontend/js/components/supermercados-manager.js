@@ -60,7 +60,7 @@ const SUPERMERCADOS_DATA = [
 
 const CONFIG_SUPERMERCADOS = {
   container_id: "supermercados-section",
-  titulo: "🛒 Elegí tus supermercados",
+  titulo: "Elegí tus supermercados",
   min_selecciones: 1,
   max_selecciones: 5,
   clases_css: {

@@ -13,7 +13,7 @@
 
 const CONFIG_PRODUCTOS = {
   container_id: "productos-section",
-  titulo: "📋 Cargá tus productos para comparar",
+  titulo: "Cargá tus productos para comparar",
   placeholder_input: "Escribe un producto",
   clases_css: {
     section: "mb-0 position-relative",

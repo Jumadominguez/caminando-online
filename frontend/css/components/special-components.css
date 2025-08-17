@@ -3,6 +3,43 @@
    =============================================== */
 
 /* ===============================================
+   TÍTULOS DE SECCIONES
+   =============================================== */
+.container-custom-super h3,
+.container-custom-filtro h4 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+  color: #5a6c7d;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0 0 1.5rem 0;
+  position: relative;
+  display: inline-block;
+}
+
+.container-custom-super h3::after,
+.container-custom-filtro h4::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  border-radius: 2px;
+}
+
+/* Responsive para títulos */
+@media (max-width: 768px) {
+  .container-custom-super h3,
+  .container-custom-filtro h4 {
+    font-size: clamp(1.5rem, 3.5vw, 1.8rem);
+    letter-spacing: 0.5px;
+  }
+}
+
+/* ===============================================
    BOTONES DE SUPERMERCADOS
    =============================================== */
 #supermercado-buttons {

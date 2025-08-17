@@ -145,13 +145,13 @@ function generarNavegacionInvitado() {
       texto: "Iniciar Sesión",
       enlace: CONFIG_AUTH.rutas.login,
       clase: "nav-auth-login",
-      icono: "🔓"
+      icono: ""
     },
     {
       texto: "Registrarse",
       enlace: CONFIG_AUTH.rutas.registro,
       clase: "nav-auth-registro", 
-      icono: "📝"
+      icono: ""
     }
   ];
   
@@ -161,7 +161,15 @@ function generarNavegacionInvitado() {
     
     a.href = item.enlace;
     a.className = item.clase;
-    a.innerHTML = `${item.icono} ${item.texto}`;
+    
+    // Envolver el texto en span para el botón de registro (para efectos CSS)
+    if (item.clase === "nav-auth-registro") {
+      const span = document.createElement("span");
+      span.textContent = item.texto;
+      a.appendChild(span);
+    } else {
+      a.textContent = item.texto;
+    }
     
     // Event listener para navegación
     a.addEventListener("click", (e) => {
@@ -185,19 +193,19 @@ function generarNavegacionAutenticado() {
       texto: "Dashboard",
       enlace: CONFIG_AUTH.rutas.dashboard,
       clase: "nav-dashboard",
-      icono: "📊"
+      icono: ""
     },
     {
       texto: "Mi Perfil",
       enlace: CONFIG_AUTH.rutas.perfil,
       clase: "nav-perfil",
-      icono: "👤"
+      icono: ""
     },
     {
       texto: "Cerrar Sesión",
       enlace: "#logout",
       clase: "nav-logout",
-      icono: "🚪",
+      icono: "",
       accion: "logout"
     }
   ];
@@ -208,7 +216,7 @@ function generarNavegacionAutenticado() {
     
     a.href = item.enlace;
     a.className = item.clase;
-    a.innerHTML = `${item.icono} ${item.texto}`;
+    a.textContent = item.texto;
     
     // Event listener especial para logout
     if (item.accion === "logout") {

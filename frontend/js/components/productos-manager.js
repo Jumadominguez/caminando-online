@@ -188,7 +188,7 @@ function crearAreaTablas() {
 }
 
 /**
- * Crea el box del botón de comparación
+ * Crea el box del botón de comparación - OCULTO POR DEFECTO
  */
 function crearCompararBox() {
   const box = document.createElement("div");
@@ -198,6 +198,11 @@ function crearCompararBox() {
   boton.type = "button";
   boton.className = "btn btn-primary comparar-btn";
   boton.innerHTML = "🔍 Comparar productos";
+  
+  // OCULTAR POR DEFECTO - solo se muestra cuando hay productos
+  boton.style.display = "none";
+  boton.style.opacity = "0";
+  boton.style.transform = "translateY(10px)";
   
   box.appendChild(boton);
   return box;

@@ -144,6 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Crear estructura de la tabla usando el módulo TablaGenerator
     const thead = window.TablaGenerator.crearThead(supermercados);
     const tbody = window.TablaGenerator.crearTbody(productos, supermercados, frecuenciaSupermercado);
+    tbody.id = "tabla-productos-body";
     
     tabla.appendChild(thead);
     tabla.appendChild(tbody);
@@ -162,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if (window.DataManager) {
       const resultado = window.DataManager.calcularTotalesDesdeDOM(
-        "#tabla-productos-comparados-body", 
+        "#tabla-productos-body", 
         supermercados
       );
       console.log("✅ Datos calculados con DataManager:", resultado);
@@ -175,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
       supermercados.forEach(s => totales[s] = 0);
 
       // Calcular totales recorriendo las filas
-      document.querySelectorAll("#tabla-productos-comparados-body tr").forEach(fila => {
+      document.querySelectorAll("#tabla-productos-body tr").forEach(fila => {
         const celdas = fila.querySelectorAll("td");
         
         supermercados.forEach((s, i) => {

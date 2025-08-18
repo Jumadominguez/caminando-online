@@ -1,3 +1,118 @@
+/**
+ * Ordena la tabla de productos según la columna seleccionada
+ */
+function ordenarTablaProductos(header) {
+  console.log('🔄 Ordenando tabla por:', header.dataset.column);
+  
+  const column = header.dataset.column;
+  const currentOrder = header.dataset.order;
+  
+  // Determinar nuevo orden
+  let newOrder;
+  if (currentOrder === 'none') {
+    newOrder = 'asc';
+  } else if (currentOrder === 'asc') {
+    newOrder = 'desc';
+  } else {
+    newOrder = 'asc';
+  }
+  
+  // Resetear todos los headers
+  document.querySelectorAll('.sortable').forEach(th => {
+    th.dataset.order = 'none';
+    const icon = th.querySelector('.sort-icon');
+    if (icon) {
+      icon.className = 'fas fa-sort sort-icon';
+    }
+  });
+  
+  // Establecer el nuevo orden
+  header.dataset.order = newOrder;
+  const sortIcon = header.querySelector('.sort-icon');
+  if (sortIcon) {
+    if (newOrder === 'asc') {
+      sortIcon.className = 'fas fa-sort-up sort-icon active';
+    } else {
+      sortIcon.className = 'fas fa-sort-down sort-icon active';
+    }
+  }
+  
+  // Obtener filas
+  const tbody = document.querySelector('#tabla-productos-body');
+  const filas = Array.from(tbody.querySelectorAll('tr'));
+  
+  // Ordenar filas
+  filas.sort((a, b) => {
+    let valorA, valorB;
+    
+    switch (column) {
+      case 'producto':
+        valorA = a.querySelector('.fw-bold')?.textContent?.trim() || '';
+        valorB = b.querySelector('.fw-bold')?.textContent?.trim() || '';
+        break;
+      case 'marca':
+        valorA = a.querySelector('.badge.bg-primary')?.textContent?.trim() || '';
+        valorB = b.querySelector('.badge.bg-primary')?.textContent?.trim() || '';
+        break;
+      case 'contenido':
+        valorA = a.querySelector('.badge.bg-info')?.textContent?.trim() || '';
+        valorB = b.querySelector('.badge.bg-info')?.textContent?.trim() || '';
+        // Para contenido, intentar convertir a número si es posible
+        const numA = extraerNumeroDeContenido(valorA);
+        const numB = extraerNumeroDeContenido(valorB);
+        if (numA !== null && numB !== null) {
+          if (newOrder === 'asc') {
+            return numA - numB;
+          } else {
+            return numB - numA;
+          }
+        }
+        break;
+      case 'variedad':
+        valorA = a.querySelector('.badge.bg-success')?.textContent?.trim() || '';
+        valorB = b.querySelector('.badge.bg-success')?.textContent?.trim() || '';
+        break;
+    }
+    
+    // Ordenamiento alfabético
+    if (newOrder === 'asc') {
+      return valorA.localeCompare(valorB, 'es', { numeric: true, sensitivity: 'base' });
+    } else {
+      return valorB.localeCompare(valorA, 'es', { numeric: true, sensitivity: 'base' });
+    }
+  });
+  
+  // Limpiar tbody y agregar filas ordenadas
+  tbody.innerHTML = '';
+  filas.forEach((fila, index) => {
+    // Aplicar animación escalonada
+    fila.style.animationDelay = `${index * 0.05}s`;
+    tbody.appendChild(fila);
+  });
+  
+  console.log(`✅ Tabla ordenada por ${column} en orden ${newOrder}`);
+}
+
+/**
+ * Extrae número del contenido para ordenamiento numérico
+ */
+function extraerNumeroDeContenido(texto) {
+  const match = texto.match(/([\d.,]+)\s*(ml|l|gr?|kg|cc|oz|lb)/i);
+  if (match) {
+    let numero = parseFloat(match[1].replace(',', '.'));
+    const unidad = match[2].toLowerCase();
+    
+    // Convertir a la misma unidad base
+    if (unidad === 'l') numero *= 1000; // litros a ml
+    if (unidad === 'kg') numero *= 1000; // kg a gr
+    if (unidad === 'lb') numero *= 453.592; // lb a gr
+    if (unidad === 'oz') numero *= 29.5735; // oz a ml
+    
+    return numero;
+  }
+  return null;
+}
+
 // ===============================================
 // MANEJADOR DE EVENTOS - MÓDULO INDEPENDIENTE
 // ===============================================
@@ -82,19 +197,37 @@ function configurarEventDelegation() {
  * Maneja todos los clics en botones dinámicos
  */
 function handleDynamicButtons(e) {
-  // Botón agregar producto
-  if (e.target.matches("button.btn-success")) {
-    agregarProductoAComparacion(e.target);
+  console.log('🔍 Click detectado en:', e.target);
+  
+  // Click en header para ordenar
+  const headerSortable = e.target.closest(".sortable");
+  if (headerSortable) {
+    ordenarTablaProductos(headerSortable);
+    return;
   }
 
-  // Botón eliminar producto
-  if (e.target.matches("button.eliminar-btn")) {
-    eliminarProductoDeComparacion(e.target);
+  // Botón eliminar producto - Mejorar detección
+  if (e.target.matches(".eliminar-btn") || e.target.matches(".eliminar-btn *") || e.target.closest(".eliminar-btn")) {
+    e.preventDefault();
+    e.stopPropagation();
+    const btn = e.target.closest(".eliminar-btn") || e.target;
+    console.log('🗑️ Botón eliminar clickeado:', btn);
+    eliminarProductoDeComparacion(btn);
+    return;
   }
 
-  // Botón limpiar filtros
-  if (e.target.matches("#btn-limpiar-filtros")) {
+  // Click en fila de producto (para agregar) - Solo si no es un botón
+  const filaProducto = e.target.closest("#tabla-productos .fila-clickeable");
+  if (filaProducto && !e.target.closest("button")) {
+    agregarProductoDesdeFilaCompleta(filaProducto);
+    return;
+  }
+
+  // Botón limpiar filtros - MEJORAR DETECCIÓN
+  if (e.target.matches("#btn-limpiar-filtros") || e.target.closest("#btn-limpiar-filtros")) {
+    console.log('🧹 Botón limpiar todos clickeado');
     limpiarTodosLosProductos();
+    return;
   }
 }
 
@@ -119,23 +252,17 @@ function crearTablaComparacion() {
           <span class="badge bg-primary" id="contador-productos">0</span>
             Productos seleccionados para comparar
         </h5>
-        <button id="btn-limpiar-filtros" class="btn btn-outline-danger btn-sm">
-          🧹 Limpiar todos
+        <button id="btn-limpiar-filtros" class="btn-limpiar-personalizado">
+          <i class="fas fa-broom"></i>
+          <span>Limpiar todos</span>
         </button>
       </div>
       
-      <!-- Header independiente (fuera de la tabla) -->
+      <!-- Header independiente (sin contenido) -->
       <div class="tabla-header-independiente">
         <div class="header-producto">
           <div class="th-content">
-            <span class="th-icon">🏷️</span>
-            <span>Producto</span>
-          </div>
-        </div>
-        <div class="header-accion">
-          <div class="th-content">
-            <span class="th-icon">⚡</span>
-            <span>Acción</span>
+            <!-- Sin contenido, solo el fondo verde -->
           </div>
         </div>
       </div>
@@ -145,12 +272,6 @@ function crearTablaComparacion() {
           <!-- THEAD ELIMINADO - Header ahora es independiente -->
           <tbody id="productos-a-comparar" class="table-body-modern"></tbody>
         </table>
-      </div>
-      <div class="tabla-stats">
-        <small class="text-muted">
-          <i class="fas fa-info-circle"></i>
-          Agregá productos desde la tabla de abajo para compararlos
-        </small>
       </div>
     </div>
   `;
@@ -162,23 +283,30 @@ function crearTablaComparacion() {
 }
 
 /**
- * Agrega un producto a la tabla de comparación
+ * Agrega un producto a la tabla de comparación desde una fila completa
  */
-function agregarProductoAComparacion(btn) {
-  const filaOriginal = btn.closest("tr");
-  const id = btn.dataset.id;
+function agregarProductoDesdeFilaCompleta(fila) {
+  const id = fila.getAttribute("data-id");
+  
+  if (!id) {
+    console.warn("⚠️ Fila sin ID encontrada");
+    return;
+  }
 
-  if (document.querySelector(`#productos-a-comparar tr[data-id="${id}"]`)) return;
+  if (document.querySelector(`#productos-a-comparar tr[data-id="${id}"]`)) {
+    console.log(`📋 Producto ${id} ya está en la lista`);
+    return;
+  }
 
   // Crear tabla si no existe
   crearTablaComparacion();
 
-  // Extraer datos de la fila original
-  const nombreProducto = filaOriginal.querySelector('.producto-nombre')?.textContent || 'Producto';
-  const sku = filaOriginal.querySelector('.producto-codigo')?.textContent || `SKU: ${id.toUpperCase()}`;
-  const marca = filaOriginal.querySelector('.marca-texto')?.textContent || '';
-  const contenido = filaOriginal.querySelector('.contenido-texto')?.textContent || '';
-  const variedad = filaOriginal.querySelector('.variedad-texto')?.textContent || '';
+  // Extraer datos de la fila usando selectores de Bootstrap
+  const nombreProducto = fila.querySelector('.fw-bold')?.textContent || 'Producto';
+  const sku = fila.querySelector('.text-muted')?.textContent || `SKU: ${id.toUpperCase()}`;
+  const marca = fila.querySelector('.badge.bg-primary')?.textContent || '';
+  const contenido = fila.querySelector('.badge.bg-info')?.textContent || '';
+  const variedad = fila.querySelector('.badge.bg-success')?.textContent || '';
   
   // Crear string con los badges
   const badges = [marca, contenido, variedad].filter(item => item).join(', ');
@@ -195,10 +323,8 @@ function agregarProductoAComparacion(btn) {
         <span class="producto-nombre">${nombreCompleto}</span>
         <small class="producto-codigo">${sku}</small>
       </div>
-    </td>
-    <td class="celda-accion">
-      <button class="btn btn-danger btn-sm eliminar-btn" data-id="${id}">
-        🗑 Eliminar
+      <button class="eliminar-btn" data-id="${id}">
+        <i class="fas fa-times"></i>
       </button>
     </td>
   `;
@@ -208,12 +334,17 @@ function agregarProductoAComparacion(btn) {
     tbody.appendChild(nuevaFila);
   }
   
-  btn.disabled = true;
+  // Marcar fila original como seleccionada
+  fila.classList.add('fila-seleccionada');
   
   // Animación de entrada
   animarEntrada(nuevaFila);
   actualizarContadorProductos();
+  
+  console.log(`✅ Producto ${id} agregado desde fila completa`);
 }
+
+
 
 /**
  * Elimina un producto de la tabla de comparación
@@ -222,6 +353,8 @@ function eliminarProductoDeComparacion(btn) {
   const fila = btn.closest("tr");
   const id = fila.dataset.id;
   
+  console.log(`🗑️ Eliminando producto ID: ${id}`);
+  
   // Aplicar la clase de animación fade-out hacia la izquierda
   fila.classList.add('fila-eliminando');
   
@@ -229,12 +362,26 @@ function eliminarProductoDeComparacion(btn) {
   setTimeout(() => {
     fila.remove();
     
+    // Quitar marca de selección de la fila original en la tabla de productos
+    const filaOriginal = document.querySelector(`#tabla-productos tbody .fila-clickeable[data-id="${id}"]`);
+    if (filaOriginal) {
+      filaOriginal.classList.remove('fila-seleccionada');
+      console.log(`✅ Clase 'fila-seleccionada' removida de producto ${id}`);
+    } else {
+      console.warn(`⚠️ No se encontró fila original para producto ${id}`);
+    }
+    
+    // Re-habilitar botón original si existe (por compatibilidad)
     const btnOriginal = document.querySelector(`button.btn-success[data-id="${id}"]`);
-    if (btnOriginal) btnOriginal.disabled = false;
+    if (btnOriginal) {
+      btnOriginal.disabled = false;
+      console.log(`✅ Botón original rehabilitado para producto ${id}`);
+    }
 
     const compararBody = document.getElementById("productos-a-comparar");
     if (compararBody && compararBody.children.length === 0) {
       document.getElementById("tabla-comparacion-wrapper")?.remove();
+      console.log(`🗑️ Tabla de comparación eliminada - no quedan productos`);
     }
     
     actualizarContadorProductos();
@@ -250,7 +397,10 @@ function limpiarTodosLosProductos() {
   
   if (cantidad === 0) return;
   
-  if (confirm(`¿Estás seguro de eliminar los ${cantidad} productos seleccionados?`)) {
+  // Usar popup personalizado en lugar de confirm genérico
+  mostrarPopupLimpiarProductos(cantidad, () => {
+    console.log(`🧩 Limpiando ${cantidad} productos...`);
+    
     // Aplicar animación de fade out a la izquierda a todas las filas
     filas.forEach((fila, index) => {
       setTimeout(() => {
@@ -261,11 +411,26 @@ function limpiarTodosLosProductos() {
     // Esperar a que todas las animaciones terminen y luego eliminar
     const tiempoTotal = cantidad * 75 + 250; // Tiempo de animación + última fila
     setTimeout(() => {
-      // Eliminar todas las filas
+      // Eliminar todas las filas y quitar selección
       filas.forEach(fila => {
         const id = fila.dataset.id;
+        
+        // Quitar marca de selección de la fila original en la tabla de productos
+        const filaOriginal = document.querySelector(`#tabla-productos tbody .fila-clickeable[data-id="${id}"]`);
+        if (filaOriginal) {
+          filaOriginal.classList.remove('fila-seleccionada');
+          console.log(`✅ Clase 'fila-seleccionada' removida de producto ${id}`);
+        } else {
+          console.warn(`⚠️ No se encontró fila original para producto ${id}`);
+        }
+        
+        // Re-habilitar botón original si existe (por compatibilidad)
         const btnOriginal = document.querySelector(`button.btn-success[data-id="${id}"]`);
-        if (btnOriginal) btnOriginal.disabled = false;
+        if (btnOriginal) {
+          btnOriginal.disabled = false;
+          console.log(`✅ Botón original rehabilitado para producto ${id}`);
+        }
+        
         fila.remove();
       });
       
@@ -273,6 +438,7 @@ function limpiarTodosLosProductos() {
       const compararBody = document.getElementById("productos-a-comparar");
       if (compararBody && compararBody.children.length === 0) {
         document.getElementById("tabla-comparacion-wrapper")?.remove();
+        console.log(`🗑️ Tabla de comparación eliminada - todos los productos limpiados`);
       }
       
       // Limpiar sessionStorage
@@ -280,8 +446,9 @@ function limpiarTodosLosProductos() {
       sessionStorage.removeItem("productosComparados");
       
       actualizarContadorProductos();
+      console.log(`✅ Todos los productos limpiados exitosamente`);
     }, tiempoTotal);
-  }
+  });
 }
 
 /**
@@ -520,15 +687,15 @@ function renderTablaProductos(e) {
   eliminarTablaExistente();
   
   setTimeout(() => {
-    crearTablaProductosProfesional(tipoSeleccionado);
+    crearTablaProductos(tipoSeleccionado);
   }, 300);
 }
 
 /**
- * Crea una tabla de productos completamente nueva con estilo profesional
+ * Crea una tabla de productos completamente nueva
  */
-function crearTablaProductosProfesional(tipoSeleccionado) {
-  console.log(`🎯 Creando tabla profesional para: ${tipoSeleccionado}`);
+function crearTablaProductos(tipoSeleccionado) {
+  console.log(`🎯 Creando tabla para: ${tipoSeleccionado}`);
   
   // Buscar contenedor
   let contenedor = document.getElementById("area-tablas-dinamicas");
@@ -545,66 +712,62 @@ function crearTablaProductosProfesional(tipoSeleccionado) {
   // Crear wrapper principal
   const tablaWrapper = document.createElement("div");
   tablaWrapper.id = "tabla-productos";
-  tablaWrapper.className = "tabla-productos-profesional";
+  tablaWrapper.className = "tabla-productos";
   
-  // HTML completo de la tabla profesional
+  // HTML básico usando solo Bootstrap
   tablaWrapper.innerHTML = `
     <!-- Header de la tabla -->
-    <div class="tabla-header-info">
+    <div class="card-header">
       <div class="d-flex justify-content-between align-items-center">
-        <h5 class="mb-0 d-flex align-items-center gap-2">
-          <span class="badge bg-success">40</span>
-          <i class="fas fa-shopping-cart"></i>
+        <h5 class="mb-0 d-flex align-items-center">
+          <span class="badge bg-success me-2">${40}</span>
+          <i class="fas fa-shopping-cart me-2"></i>
           Productos disponibles - ${tipoSeleccionado}
         </h5>
-        <div class="tabla-filters">
-          <small class="text-muted">
-            <i class="fas fa-filter"></i>
-            Usá los filtros de arriba para refinar tu búsqueda
-          </small>
+        <div class="text-muted small">
+          <i class="fas fa-filter me-1"></i>
+          Usá los filtros de arriba para refinar tu búsqueda
         </div>
       </div>
     </div>
     
     <!-- Tabla principal -->
-    <div class="tabla-scroll-container">
-      <table class="table tabla-productos-mejorada mb-0">
-        <thead class="table-header-modern">
+    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+      <table class="table table-hover mb-0">
+        <thead class="table-light sticky-top">
           <tr>
-            <th class="col-producto">
-              <div class="th-content">
-                <span class="th-icon">🏷️</span>
+            <th class="text-center sortable" data-column="producto" data-order="none">
+              <div class="d-flex align-items-center justify-content-center gap-2 sort-header">
+                <i class="fas fa-tag me-1"></i>
                 <span>Producto</span>
+                <i class="fas fa-sort sort-icon"></i>
               </div>
             </th>
-            <th class="col-marca">
-              <div class="th-content">
-                <span class="th-icon">🏭</span>
+            <th class="text-center sortable" data-column="marca" data-order="none">
+              <div class="d-flex align-items-center justify-content-center gap-2 sort-header">
+                <i class="fas fa-building me-1"></i>
                 <span>Marca</span>
+                <i class="fas fa-sort sort-icon"></i>
               </div>
             </th>
-            <th class="col-contenido">
-              <div class="th-content">
-                <span class="th-icon">📦</span>
+            <th class="text-center sortable" data-column="contenido" data-order="none">
+              <div class="d-flex align-items-center justify-content-center gap-2 sort-header">
+                <i class="fas fa-box me-1"></i>
                 <span>Contenido</span>
+                <i class="fas fa-sort sort-icon"></i>
               </div>
             </th>
-            <th class="col-variedad">
-              <div class="th-content">
-                <span class="th-icon">🎯</span>
+            <th class="text-center sortable" data-column="variedad" data-order="none">
+              <div class="d-flex align-items-center justify-content-center gap-2 sort-header">
+                <i class="fas fa-star me-1"></i>
                 <span>Variedad</span>
-              </div>
-            </th>
-            <th class="col-accion">
-              <div class="th-content">
-                <span class="th-icon">⚡</span>
-                <span>Acción</span>
+                <i class="fas fa-sort sort-icon"></i>
               </div>
             </th>
           </tr>
         </thead>
-        <tbody class="table-body-modern" id="tabla-productos-body">
-          ${generarFilasProductosProfesional()}
+        <tbody id="tabla-productos-body">
+          ${generarFilasProductos()}
         </tbody>
       </table>
     </div>
@@ -620,9 +783,33 @@ function crearTablaProductosProfesional(tipoSeleccionado) {
     }
   }
   
+  // Crear y agregar el texto instructivo DEBAJO de la tabla
+  const notaInstructiva = document.createElement("div");
+  notaInstructiva.className = "tabla-note";
+  notaInstructiva.innerHTML = `
+    <small class="text-muted">
+      <i class="fas fa-info-circle"></i>
+      Hacé clic en cualquier producto para agregarlo a la comparación
+    </small>
+  `;
+  
+  // Insertar la nota después de la tabla
+  if (contenedor.id === "area-tablas-dinamicas") {
+    contenedor.appendChild(notaInstructiva);
+  } else {
+    const compararBox = document.getElementById("comparar-box");
+    if (compararBox) {
+      contenedor.insertBefore(notaInstructiva, compararBox);
+    }
+  }
+  
   // Animación de entrada
   tablaWrapper.style.opacity = "0";
   tablaWrapper.style.transform = "translateY(20px)";
+  
+  // Animación inicial para la nota instructiva
+  notaInstructiva.style.opacity = "0";
+  notaInstructiva.style.transform = "translateY(10px)";
   
   // Debug: verificar que la tabla se insertó correctamente
   console.log("🔍 Debug post-inserción:");
@@ -633,6 +820,13 @@ function crearTablaProductosProfesional(tipoSeleccionado) {
     tablaWrapper.style.transition = "all 0.5s ease";
     tablaWrapper.style.opacity = "1";
     tablaWrapper.style.transform = "translateY(0)";
+    
+    // Animar la nota instructiva con un pequeño delay
+    setTimeout(() => {
+      notaInstructiva.style.transition = "all 0.3s ease";
+      notaInstructiva.style.opacity = "1";
+      notaInstructiva.style.transform = "translateY(0)";
+    }, 200);
     
     // Debug: verificar que sigue ahí después de la animación
     setTimeout(() => {
@@ -706,7 +900,7 @@ function crearTablaProductosProfesional(tipoSeleccionado) {
     }, 600);
   }, 100);
   
-  console.log(`✅ Tabla profesional creada para ${tipoSeleccionado}`);
+  console.log(`✅ Tabla creada para ${tipoSeleccionado}`);
   
   // Debug: Observer para detectar si algo elimina la tabla
   const observer = new MutationObserver((mutations) => {
@@ -731,7 +925,7 @@ function crearTablaProductosProfesional(tipoSeleccionado) {
 /**
  * Genera las filas de productos con datos mock
  */
-function generarFilasProductosProfesional() {
+function generarFilasProductos() {
   const marcas = ["La Serenísima", "Ilolay", "Sancor", "Tregar", "Manfrey"];
   const contenidos = ["500ml", "1L", "500g", "1kg", "2L"];
   const variedades = ["Clásico", "Integral", "Sin sal", "Light", "Orgánico"];
@@ -745,27 +939,22 @@ function generarFilasProductosProfesional() {
     const contenido = contenidos[i % contenidos.length];
     const variedad = variedades[i % variedades.length];
     
-    // Generar HTML más simple y limpio
-    filasHTML += `<tr class="fila-producto" data-id="${id}">`;
-    filasHTML += `<td class="celda-producto">`;
-    filasHTML += `<div class="producto-info">`;
-    filasHTML += `<span class="producto-nombre">${producto}</span>`;
-    filasHTML += `<small class="producto-codigo">SKU: ${id.toUpperCase()}</small>`;
+    // Generar HTML usando solo Bootstrap
+    filasHTML += `<tr class="fila-clickeable" data-id="${id}" title="Click para agregar a la comparación">`;
+    filasHTML += `<td class="text-start">`;
+    filasHTML += `<div class="d-flex flex-column">`;
+    filasHTML += `<span class="fw-bold">${producto}</span>`;
+    filasHTML += `<small class="text-muted">SKU: ${id.toUpperCase()}</small>`;
     filasHTML += `</div>`;
     filasHTML += `</td>`;
-    filasHTML += `<td class="celda-marca">`;
-    filasHTML += `<span class="marca-texto">${marca}</span>`;
+    filasHTML += `<td class="text-center">`;
+    filasHTML += `<span class="badge bg-primary">${marca}</span>`;
     filasHTML += `</td>`;
-    filasHTML += `<td class="celda-contenido">`;
-    filasHTML += `<span class="contenido-texto">${contenido}</span>`;
+    filasHTML += `<td class="text-center">`;
+    filasHTML += `<span class="badge bg-info">${contenido}</span>`;
     filasHTML += `</td>`;
-    filasHTML += `<td class="celda-variedad">`;
-    filasHTML += `<span class="variedad-texto">${variedad}</span>`;
-    filasHTML += `</td>`;
-    filasHTML += `<td class="celda-accion">`;
-    filasHTML += `<button class="btn btn-success btn-sm btn-agregar" data-id="${id}">`;
-    filasHTML += `➕ Agregar`;  // Solo el emoji, sin + extra
-    filasHTML += `</button>`;
+    filasHTML += `<td class="text-center">`;
+    filasHTML += `<span class="badge bg-success">${variedad}</span>`;
     filasHTML += `</td>`;
     filasHTML += `</tr>`;
   }
@@ -788,54 +977,151 @@ function eliminarTablaExistente() {
   }
 }
 
+
+
+// ===============================================
+// POPUP PERSONALIZADO - SISTEMA PREMIUM
+// ===============================================
+
 /**
- * Crea una nueva tabla de productos
+ * Crea y muestra un popup de confirmación personalizado
+ * @param {Object} options - Opciones del popup
+ * @param {string} options.title - Título del popup
+ * @param {string} options.message - Mensaje del popup
+ * @param {string} options.icon - Icono del popup (FontAwesome)
+ * @param {string} options.confirmText - Texto del botón confirmar
+ * @param {string} options.cancelText - Texto del botón cancelar
+ * @param {Function} options.onConfirm - Callback al confirmar
+ * @param {Function} options.onCancel - Callback al cancelar (opcional)
  */
-function crearNuevaTablaProductos(tipoSeleccionado) {
-  const tablaWrapper = document.createElement("div");
-  tablaWrapper.id = "tabla-productos";
-  tablaWrapper.className = "tabla-productos-moderna";
+function mostrarPopupConfirmacion(options) {
+  const {
+    title = "Confirmar Acción",
+    message = "¿Estás seguro de continuar?",
+    icon = "fas fa-question-circle",
+    confirmText = "Confirmar",
+    cancelText = "Cancelar",
+    onConfirm = () => {},
+    onCancel = () => {}
+  } = options;
 
-  const header = crearHeaderTabla(tipoSeleccionado);
-  const tabla = crearTablaConProductos();
-
-  tablaWrapper.appendChild(header);
-  tablaWrapper.appendChild(tabla);
-
-  // Buscar el área específica para tablas dinámicas
-  let contenedor = document.getElementById("area-tablas-dinamicas");
+  // Crear overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'popup-overlay';
   
-  // Fallback al método anterior si no existe el área
-  if (!contenedor) {
-    const compararBox = document.getElementById("comparar-box");
-    if (compararBox) {
-      compararBox.parentNode.insertBefore(tablaWrapper, compararBox);
-    } else {
-      console.warn("⚠️ No se encontró contenedor para la tabla de productos");
-      return;
+  // HTML del popup
+  overlay.innerHTML = `
+    <div class="popup-container">
+      <div class="popup-header">
+        <div class="popup-header-content">
+          <i class="${icon} popup-icon"></i>
+          <h3 class="popup-title">${title}</h3>
+        </div>
+      </div>
+      <div class="popup-body">
+        <p class="popup-message">${message}</p>
+        <div class="popup-buttons">
+          <button class="popup-btn-cancel" data-action="cancel">
+            <i class="fas fa-times me-2"></i>
+            ${cancelText}
+          </button>
+          <button class="popup-btn-confirm" data-action="confirm">
+            <i class="fas fa-check me-2"></i>
+            ${confirmText}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Agregar al DOM
+  document.body.appendChild(overlay);
+  
+  // Forzar reflow para animación
+  overlay.offsetHeight;
+  
+  // Mostrar con animación
+  setTimeout(() => {
+    overlay.classList.add('show');
+    const container = overlay.querySelector('.popup-container');
+    container.classList.add('entering');
+  }, 10);
+
+  // Función para cerrar el popup
+  const cerrarPopup = (confirmar = false) => {
+    const container = overlay.querySelector('.popup-container');
+    
+    // Animación de salida
+    overlay.classList.remove('show');
+    container.classList.add('leaving');
+    
+    setTimeout(() => {
+      overlay.remove();
+      
+      // Ejecutar callback
+      if (confirmar) {
+        onConfirm();
+      } else {
+        onCancel();
+      }
+    }, 300);
+  };
+
+  // Event listeners
+  overlay.addEventListener('click', (e) => {
+    const action = e.target.dataset.action;
+    
+    if (action === 'confirm') {
+      cerrarPopup(true);
+    } else if (action === 'cancel') {
+      cerrarPopup(false);
+    } else if (e.target === overlay) {
+      // Click fuera del popup
+      cerrarPopup(false);
     }
-  } else {
-    contenedor.appendChild(tablaWrapper);
-  }
+  });
 
-  // Animación de entrada
-  animarEntrada(tablaWrapper);
+  // Escape key
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') {
+      cerrarPopup(false);
+      document.removeEventListener('keydown', handleEscape);
+    }
+  };
   
-  console.log(`✅ Tabla de productos creada para ${tipoSeleccionado}`);
+  document.addEventListener('keydown', handleEscape);
+  
+  console.log('🎆 Popup personalizado mostrado');
 }
 
-// ===============================================
-// FUNCIONES UTILITARIAS Y AUXILIARES
-// ===============================================
+/**
+ * Popup específico para limpiar productos
+ * @param {number} cantidad - Cantidad de productos a eliminar
+ * @param {Function} onConfirm - Callback al confirmar
+ */
+function mostrarPopupLimpiarProductos(cantidad, onConfirm) {
+  mostrarPopupConfirmacion({
+    title: "Limpiar Productos",
+    message: `¿Estás seguro de eliminar los <span class="popup-highlight">${cantidad}</span> productos seleccionados?`,
+    icon: "fas fa-broom",
+    confirmText: "Sí, Limpiar",
+    cancelText: "Cancelar",
+    onConfirm: onConfirm,
+    onCancel: () => {
+      console.log('🙅 Usuario canceló la limpieza de productos');
+    }
+  });
+}
 
 /**
  * Actualiza el contador de productos en la tabla y controla la visibilidad del botón comparar
  */
 function actualizarContadorProductos() {
   const contador = document.getElementById("contador-productos");
-  const botonComparar = document.querySelector(".comparar-btn");
+  const botonComparar = document.querySelector("#comparar-box .comparar-btn");
   const cantidad = document.querySelectorAll("#productos-a-comparar tr").length;
   
+  // Actualizar contador
   if (contador) {
     contador.textContent = cantidad;
     contador.classList.add("badge-count");
@@ -846,15 +1132,14 @@ function actualizarContadorProductos() {
   if (botonComparar) {
     if (cantidad > 0) {
       // Mostrar botón con animación
-      botonComparar.style.display = "block";
-      botonComparar.style.opacity = "0";
-      botonComparar.style.transform = "translateY(10px)";
+      botonComparar.style.display = "inline-block";
       
-      setTimeout(() => {
-        botonComparar.style.transition = "all 0.3s ease";
-        botonComparar.style.opacity = "1";
-        botonComparar.style.transform = "translateY(0)";
-      }, 10);
+      // Forzar un reflow antes de aplicar la transición
+      botonComparar.offsetHeight;
+      
+      botonComparar.style.transition = "all 0.3s ease";
+      botonComparar.style.opacity = "1";
+      botonComparar.style.transform = "translateY(0)";
     } else {
       // Ocultar botón con animación
       botonComparar.style.transition = "all 0.3s ease";
@@ -865,7 +1150,11 @@ function actualizarContadorProductos() {
         botonComparar.style.display = "none";
       }, 300);
     }
+  } else {
+    console.warn("⚠️ Botón comparar no encontrado. Selector: #comparar-box .comparar-btn");
   }
+  
+  console.log(`📊 Contador actualizado: ${cantidad} productos seleccionados`);
 }
 
 /**
@@ -881,138 +1170,15 @@ function animarEntrada(elemento) {
   }, 100);
 }
 
-/**
- * Crea el header de información de la tabla
- */
-function crearHeaderTabla(tipoSeleccionado) {
-  const header = document.createElement("div");
-  header.className = "tabla-header-info mb-3";
-  header.innerHTML = `
-    <div class="d-flex justify-content-between align-items-center">
-      <h5 class="mb-0 d-flex align-items-center gap-2">
-        <span class="badge bg-success">40</span>
-          Productos disponibles - ${tipoSeleccionado}
-      </h5>
-      <div class="tabla-filters">
-        <small class="text-muted">
-          <i class="fas fa-filter"></i>
-          Usá los filtros de arriba para refinar tu búsqueda
-        </small>
-      </div>
-    </div>
-  `;
-  return header;
-}
 
-/**
- * Crea la tabla con productos de ejemplo
- */
-function crearTablaConProductos() {
-  const tabla = document.createElement("table");
-  tabla.className = "table table-hover tabla-productos-mejorada mb-0";
 
-  const thead = crearThead();
-  const tbody = crearTbodyConProductos();
 
-  tabla.appendChild(thead);
-  tabla.appendChild(tbody);
 
-  return tabla;
-}
 
-/**
- * Crea el thead de la tabla
- */
-function crearThead() {
-  const thead = document.createElement("thead");
-  thead.className = "table-header-modern";
-  thead.innerHTML = `
-    <tr>
-      <th class="col-producto">
-        <div class="th-content">
-          <span class="th-icon">🏷️</span>
-          <span>Producto</span>
-        </div>
-      </th>
-      <th class="col-marca">
-        <div class="th-content">
-          <span class="th-icon">🏭</span>
-          <span>Marca</span>
-        </div>
-      </th>
-      <th class="col-contenido">
-        <div class="th-content">
-          <span class="th-icon">📦</span>
-          <span>Contenido</span>
-        </div>
-      </th>
-      <th class="col-variedad">
-        <div class="th-content">
-          <span class="th-icon">🎯</span>
-          <span>Variedad</span>
-        </div>
-      </th>
-      <th class="col-accion">
-      </th>
-    </tr>
-  `;
-  return thead;
-}
 
-/**
- * Crea el tbody con productos de ejemplo
- */
-function crearTbodyConProductos() {
-  const tbody = document.createElement("tbody");
-  tbody.className = "table-body-modern";
 
-  for (let i = 1; i <= 40; i++) {
-    const fila = crearFilaProducto(i);
-    tbody.appendChild(fila);
-  }
 
-  return tbody;
-}
 
-/**
- * Crea una fila de producto
- */
-function crearFilaProducto(numero) {
-  const id = `mock-${numero}`;
-  const producto = `Producto ${numero}`;
-  const marca = ["La Serenísima", "Ilolay", "Sancor"][numero % 3];
-  const contenido = numero % 2 === 0 ? "500g" : "1kg";
-  const variedad = ["Clásico", "Integral", "Sin sal"][numero % 3];
-
-  const fila = document.createElement("tr");
-  fila.setAttribute("data-id", id);
-  fila.className = "fila-producto";
-
-  fila.innerHTML = `
-    <td class="celda-producto">
-      <div class="producto-info">
-        <span class="producto-nombre">${producto}</span>
-        <small class="producto-codigo">SKU: ${id.toUpperCase()}</small>
-      </div>
-    </td>
-    <td class="celda-marca">
-      <span class="marca-texto">${marca}</span>
-    </td>
-    <td class="celda-contenido">
-      <span class="contenido-texto">${contenido}</span>
-    </td>
-    <td class="celda-variedad">
-      <span class="variedad-texto">${variedad}</span>
-    </td>
-    <td class="celda-accion">
-      <button class="btn btn-success btn-sm btn-agregar" data-id="${id}">
-        ➕ Agregar
-      </button>
-    </td>
-  `;
-
-  return fila;
-}
 
 // ===============================================
 // API PÚBLICA DEL MÓDULO
@@ -1028,7 +1194,7 @@ window.EventManager = {
   
   // Gestión de tablas
   crearTablaComparacion: crearTablaComparacion,
-  agregarProducto: agregarProductoAComparacion,
+  agregarProducto: agregarProductoDesdeFilaCompleta,
   eliminarProducto: eliminarProductoDeComparacion,
   limpiarTodos: limpiarTodosLosProductos,
   

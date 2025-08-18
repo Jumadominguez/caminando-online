@@ -69,7 +69,7 @@ function crearThead(supermercados) {
 function crearTbody(productos, supermercados, frecuenciaSupermercado) {
   const tbody = document.createElement("tbody");
   tbody.className = "tbody-premium";
-  tbody.id = "tabla-productos-comparados-body";
+  tbody.id = "tabla-productos-body";
 
   productos.forEach((prod, index) => {
     const fila = crearFilaProducto(prod, index, supermercados, frecuenciaSupermercado);

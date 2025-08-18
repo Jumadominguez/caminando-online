@@ -1,587 +1,353 @@
-/* Wrapper de tabla comparación - BORDER-RADIUS COMO TABLA NARANJA */
-#tabla-comparacion-wrapper {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb;
-  overflow: hidden;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  position: relative;
-  backdrop-filter: blur(10px);
+/* ===============================================
+   TABLA-PRODUCTOS - DISEÑO MODERNO CON NARANJA
+   =============================================== */
+
+/* Variables CSS para el tema naranja */
+:root {
+  --naranja-principal: #ff6b35;
+  --naranja-secundario: #f7931e;
+  --naranja-claro: #ffab70;
+  --naranja-oscuro: #e55a2b;
+  --blanco: #ffffff;
+  --gris-claro: #f8f9fa;
+  --gris-medio: #6c757d;
+  --gris-oscuro: #495057;
+  --sombra-suave: 0 2px 8px rgba(255, 107, 53, 0.15);
+  --sombra-hover: 0 4px 16px rgba(255, 107, 53, 0.25);
+  --radio-pequeno: 8px;
+  --radio-grande: 16px;
+  --transicion: all 0.3s ease;
 }
 
-#tabla-comparacion-wrapper::before {
+/* ===============================================
+   CONTENEDOR PRINCIPAL #tabla-productos
+   =============================================== */
+#tabla-productos {
+  background: var(--blanco);
+  border-radius: var(--radio-grande);
+  box-shadow: var(--sombra-suave);
+  overflow: hidden;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  transition: var(--transicion);
+  position: relative;
+}
+
+/* Borde superior naranja elegante */
+#tabla-productos::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #28a745 0%, #20c997 50%, #16a085 100%);
+  height: 4px;
+  background: linear-gradient(90deg, var(--naranja-principal) 0%, var(--naranja-secundario) 50%, var(--naranja-claro) 100%);
+  z-index: 10;
 }
 
-/* ===============================================
-   HEADER INDEPENDIENTE PARA TABLA VERDE
-   =============================================== */
-
-/* Contenedor principal del header independiente - RESTAURADO */
-.tabla-header-independiente {
-  display: flex;
-  background: linear-gradient(135deg, #28a745 0%, #20c997 50%, #1a9f89 100%);
-  color: white;
-  border-radius: 12px 12px 0 0;  /* Ambas esquinas superiores redondeadas */
-  margin-bottom: 0;
-  position: relative;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.25);
-}
-
-/* Header PRODUCTO - 80% ancho - SIN BORDE DERECHO */
-.tabla-header-independiente .header-producto {
-  width: 80%;
-  padding: 0.75rem 1.5rem;
-  text-align: center;
-  /* border-right eliminado */
-}
-
-/* Header ACCIÓN - ALINEACIÓN VERTICAL CON BOTONES */
-.tabla-header-independiente .header-accion {
-  width: 20%;
-  padding: 0.75rem 1.5rem;
-  text-align: center;
-  display: flex;
-  align-items: center;  /* Alineación vertical */
-  justify-content: center;  /* Alineación horizontal */
-}
-
-/* Contenido de los headers */
-.tabla-header-independiente .th-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-weight: 700;
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  line-height: 1.2;
-}
-
-/* Iconos en el header independiente */
-.tabla-header-independiente .th-icon {
-  font-size: 1.2rem;
-  opacity: 0.9;
-}
-
-/* Contenedor de scroll - CON SCROLL RESTAURADO */
-.tabla-a-comparar-scroll {
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  margin: 0 !important;
-  padding: 0 !important;
-  background: #fafbfc;
-  box-shadow: none;
-  max-height: 400px !important;  /* Máximo 400px para activar scroll */
-  overflow-y: auto !important;  /* Scroll vertical */
-  border: none;
-  min-height: 0 !important;
-  height: auto !important;  /* Altura automática hasta max-height */
-  position: relative;
-  display: block;
-  line-height: normal;  /* Restaurar line-height normal */
-}
-
-/* Tabla rediseñada - SIN BORDER-RADIUS SUPERIOR (COMO LO RESOLVIMOS) */
-.tabla-a-comparar {
-  margin: 0;
-  border-collapse: separate;
-  border-spacing: 0;
-  width: 100%;
-  background: white;
-  border-radius: 0 0 12px 12px;  /* Solo esquinas inferiores - COMO DEBE ESTAR */
-  overflow: hidden;
-  position: relative;
-}
-
-/* THEAD forzadamente oculto */
-.tabla-a-comparar thead {
-  display: none !important;
-}
-
-
-
-/* Ajustar el tbody para que no tenga padding superior - ESQUINAS SUPERIORES CUADRADAS */
-.tabla-a-comparar tbody {
-  border-radius: 0 0 12px 12px;  /* Solo esquinas inferiores redondeadas */
-}
-
-/* Primera fila del tbody sin border superior NI BORDER-RADIUS SUPERIOR */
-.tabla-a-comparar tbody tr:first-child {
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-}
-
-.tabla-a-comparar tbody tr:first-child td {
-  border-top: none;
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-}
-
-/* Eliminar todos los bordes verticales de celdas */
-.tabla-productos-profesional td,
-.tabla-productos-mejorada td,
-.table-body-modern td,
-tbody td {
-  border-right: none !important;
-  border-left: none !important;
-}
-
-/* ===============================================
-   TABLAS - COMPONENTE MODULAR
-   =============================================== */
-
-/* ===============================================
-   🛍️ TABLA DE PRODUCTOS PROFESIONAL - REDISEÑO COMPLETO
-   =============================================== */
-
-/* ============================= */
-/* 🎨 VARIABLES ESPECÍFICAS PARA TABLA DE PRODUCTOS */
-/* ============================= */
-:root {
-  --tabla-bg: #ffffff;
-  --tabla-border: #e3e6ea;
-  --tabla-header-bg: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  --tabla-header-text: #495057;
-  --tabla-row-hover: linear-gradient(135deg, rgba(255, 111, 0, 0.03) 0%, rgba(255, 202, 40, 0.02) 100%);
-  --tabla-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  --tabla-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
-  --tabla-radius: 12px;
-  --tabla-border-radius-sm: 8px;
-  --badge-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --btn-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
-}
-
-/* ============================= */
-/* 🏢 CONTENEDOR PRINCIPAL MODERNO */
-/* ============================= */
-#tabla-productos {
-  background: var(--tabla-bg);
-  border-radius: var(--tabla-radius);
-  box-shadow: var(--tabla-shadow);
-  overflow: hidden;
-  margin-top: 1.5rem;
-  margin-bottom: 2rem;
-  border: 1px solid var(--tabla-border);
-  transition: all 0.3s ease;
-  max-height: 500px;
-  overflow-y: auto;
-}
-
+/* Efecto hover del contenedor */
 #tabla-productos:hover {
-  box-shadow: var(--tabla-shadow-hover);
+  box-shadow: var(--sombra-hover);
   transform: translateY(-2px);
 }
 
-/* ============================= */
-/* 📋 HEADER DE INFORMACIÓN MEJORADO */
-/* ============================= */
-.tabla-header-info {
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-  padding: 1.25rem 1.5rem;
-  border-bottom: 2px solid var(--tabla-border);
-  margin: 0;
+/* ===============================================
+   HEADER DE LA TABLA (.card-header)
+   =============================================== */
+#tabla-productos .card-header {
+  background: linear-gradient(135deg, var(--gris-claro) 0%, var(--blanco) 100%);
+  border-bottom: 2px solid rgba(255, 107, 53, 0.1);
+  padding: 1.5rem;
+  border-radius: 0;
 }
 
-.tabla-header-info h5 {
-  color: #495057;  /* Como tabla-header-info */
-  font-weight: 600;  /* Como tabla-header-info */
-  font-size: 1.25rem;  /* Mismo tamaño que productos disponibles */
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.tabla-header-info .badge {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  color: white;
+#tabla-productos .card-header h5 {
+  color: var(--gris-oscuro);
   font-weight: 600;
-  padding: 0.52rem 1.04rem;  /* Aumentado 30% de 0.4rem y 0.8rem */
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+/* Badge naranja en el header */
+#tabla-productos .badge.bg-success {
+  background: linear-gradient(135deg, var(--naranja-principal) 0%, var(--naranja-secundario) 100%) !important;
+  color: var(--blanco);
+  font-weight: 700;
+  padding: 0.6rem 1.2rem;
   border-radius: 20px;
-  font-size: 1.105rem;  /* Aumentado 30% de 0.85rem */
-  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+  border: none;
 }
 
-.tabla-filters {
-  color: #6c757d;
-  font-size: 1.2rem;  /* Aumentado 20% de 1rem a 1.2rem */
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+/* Texto de filtros */
+#tabla-productos .text-muted.small {
+  color: var(--gris-medio) !important;
   font-weight: 500;
 }
 
-/* Específicamente para el small dentro de tabla-filters */
-.tabla-filters small {
-  font-size: 0.9rem !important;  /* Tamaño intermedio y legible */
-  color: #6c757d;
-  font-weight: 500;
+#tabla-productos .fas.fa-filter {
+  color: var(--naranja-principal);
 }
 
-.tabla-filters i {
-  color: #28a745;
+/* ===============================================
+   CONTENEDOR DE SCROLL (.table-responsive)
+   =============================================== */
+#tabla-productos .table-responsive {
+  border-radius: 0 0 var(--radio-grande) var(--radio-grande);
+  background: var(--blanco);
 }
 
-/* ============================= */
-/* 🎯 TABLA PRINCIPAL PROFESIONAL */
-/* ============================= */
-.tabla-productos-mejorada {
-  width: 100%;
+/* Scrollbar personalizado naranja */
+#tabla-productos .table-responsive::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+#tabla-productos .table-responsive::-webkit-scrollbar-track {
+  background: var(--gris-claro);
+  border-radius: 4px;
+}
+
+#tabla-productos .table-responsive::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--naranja-principal) 0%, var(--naranja-secundario) 100%);
+  border-radius: 4px;
+}
+
+#tabla-productos .table-responsive::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--naranja-oscuro) 0%, var(--naranja-principal) 100%);
+}
+
+/* ===============================================
+   TABLA PRINCIPAL (.table)
+   =============================================== */
+#tabla-productos .table {
+  margin: 0;
   border-collapse: separate;
   border-spacing: 0;
-  margin: 0;
   font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
 }
 
-/* ============================= */
-/* 📌 HEADER DE TABLA MODERNO */
-/* ============================= */
-.tabla-productos-mejorada thead th {
-  background: var(--tabla-header-bg);
-  color: var(--tabla-header-text);
-  font-weight: 600;
-  font-size: 0.875rem;
+/* ===============================================
+   HEADER DE LA TABLA (thead) - CON FUNCIONALIDAD DE ORDENAMIENTO
+   =============================================== */
+#tabla-productos .table-light.sticky-top th {
+  background: linear-gradient(135deg, var(--naranja-principal) 0%, var(--naranja-secundario) 50%, var(--naranja-claro) 100%) !important;
+  color: var(--blanco) !important;
+  font-weight: 700;
+  font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   padding: 1rem 0.75rem;
   text-align: center;
-  border-bottom: 2px solid var(--tabla-border);
+  border: none;
   position: sticky;
   top: 0;
-  z-index: 10;
-  white-space: nowrap;
+  z-index: 5;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.2);
 }
 
-.tabla-productos-mejorada .th-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-weight: 600;
+/* Headers ordenables */
+#tabla-productos .sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transicion);
 }
 
-.tabla-productos-mejorada .th-icon {
-  font-size: 1rem;
-  opacity: 0.8;
-}
-
-/* ============================= */
-/* 🧩 CELDAS DEL CUERPO - DISEÑO MODERNO CON HEIGHT REDUCIDO - SIN BORDES VERTICALES */
-/* ============================= */
-.tabla-productos-mejorada tbody td {
-  padding: 0.8rem 0.6rem;  /* Reducido 20% de 1rem */
-  border-bottom: 1px solid #f1f3f4;
-  border-right: none;  /* Eliminar borde vertical */
-  vertical-align: middle;
-  transition: all 0.2s ease;
-  font-size: 0.875rem;
-}
-
-/* ============================= */
-/* ✨ EFECTOS HOVER Y ZEBRA MODERNOS */
-/* ============================= */
-.tabla-productos-mejorada tbody tr {
-  transition: all 0.2s ease;
-}
-
-.tabla-productos-mejorada tbody tr:nth-child(even) {
-  background-color: rgba(248, 249, 250, 0.5);
-}
-
-.tabla-productos-mejorada tbody tr:hover {
-  background: var(--tabla-row-hover);
+#tabla-productos .sortable:hover {
+  background: linear-gradient(135deg, var(--naranja-oscuro) 0%, var(--naranja-principal) 50%, var(--naranja-secundario) 100%) !important;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* ============================= */
-/* 📀 ANCHOS DE COLUMNAS OPTIMIZADOS PARA MEJOR VISIBILIDAD DEL BOTÓN */
-/* ============================= */
-.tabla-productos-mejorada .col-producto,
-.tabla-productos-mejorada .celda-producto {
-  width: 40% !important;  /* Reducido de 43% a 40% */
-  text-align: left !important;
-  padding-left: 3rem !important;  /* Más margen izquierdo forzado */
+/* Contenedor de header con iconos de ordenamiento */
+#tabla-productos .sort-header {
+  cursor: pointer;
+  transition: var(--transicion);
 }
 
-.tabla-productos-mejorada .col-marca,
-.tabla-productos-mejorada .celda-marca {
-  width: 15% !important;  /* Tamaño equilibrado */
-  text-align: center !important;
+/* Iconos de ordenamiento */
+#tabla-productos .sort-icon {
+  opacity: 0.6;
+  transition: var(--transicion);
+  font-size: 0.8rem;
 }
 
-.tabla-productos-mejorada .col-contenido,
-.tabla-productos-mejorada .celda-contenido {
-  width: 15% !important;  /* Tamaño equilibrado */
-  text-align: center !important;
+#tabla-productos .sortable:hover .sort-icon {
+  opacity: 1;
+  transform: scale(1.1);
 }
 
-.tabla-productos-mejorada .col-variedad,
-.tabla-productos-mejorada .celda-variedad {
-  width: 15% !important;  /* Tamaño equilibrado */
-  text-align: center !important;
+#tabla-productos .sort-icon.active {
+  opacity: 1;
+  color: #fff200 !important;
+  text-shadow: 0 0 4px rgba(255, 242, 0, 0.3);
 }
 
-.tabla-productos-mejorada .col-accion,
-.tabla-productos-mejorada .celda-accion {
-  width: 15% !important;  /* Aumentado de 12% a 15% */
-  text-align: center !important;
-  padding-right: 0.5rem !important;
+/* Iconos en el header */
+#tabla-productos .table-light.sticky-top th i {
+  color: var(--blanco) !important;
+  opacity: 0.9;
+  font-size: 1rem;
 }
 
-/* ============================= */
-/* 🎯 INFORMACIÓN DEL PRODUCTO ELEGANTE */
-/* ============================= */
-.producto-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.375rem;
-  padding: 0.25rem 0;
+/* ===============================================
+   FILAS DE LA TABLA (tbody tr)
+   =============================================== */
+#tabla-productos tbody tr {
+  transition: var(--transicion);
+  border-bottom: 1px solid rgba(255, 107, 53, 0.1);
 }
 
-.producto-nombre {
-  font-weight: 600;
-  color: #2d3748;
+/* Efecto zebra sutil */
+#tabla-productos tbody tr:nth-child(even) {
+  background-color: rgba(255, 107, 53, 0.02);
+}
+
+/* Efecto hover espectacular */
+#tabla-productos tbody tr:hover {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(247, 147, 30, 0.04) 100%);
+  transform: translateX(4px) translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+  border-left: 4px solid var(--naranja-principal);
+}
+
+/* ===============================================
+   CELDAS DE LA TABLA (td)
+   =============================================== */
+#tabla-productos tbody td {
+  padding: 1rem 0.75rem;
+  vertical-align: middle;
+  border-right: none;
+  border-bottom: 1px solid rgba(255, 107, 53, 0.08);
+  transition: var(--transicion);
   font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Celda de producto (primera columna) */
+#tabla-productos tbody td.text-start {
+  padding-left: 2.5rem;  /* Aumentado de 1.5rem a 2.5rem */
+  width: 40%;
+}
+
+/* Celdas de badges (centradas) */
+#tabla-productos tbody td.text-center {
+  width: 20%;
+  text-align: center;
+}
+
+/* ===============================================
+   INFORMACIÓN DEL PRODUCTO (.d-flex.flex-column)
+   =============================================== */
+#tabla-productos .d-flex.flex-column {
+  gap: 0.4rem;
+}
+
+#tabla-productos .fw-bold {
+  color: #6c757d;  /* Gris suave en lugar de gris oscuro */
+  font-size: 1.265rem;  /* Aumentado 15% de 1.1rem */
+  font-weight: 600;
   line-height: 1.3;
   margin: 0;
 }
 
-.producto-codigo {
-  color: #718096;
-  font-size: 0.75rem;
+#tabla-productos .text-muted {
+  color: var(--gris-medio) !important;
+  font-size: 0.648rem;  /* Reducido otro 10% de 0.72rem (20% total) */
   font-weight: 500;
-  background: rgba(113, 128, 150, 0.1);
-  padding: 0.2rem 0.5rem;
-  border-radius: 12px;
+  background: rgba(108, 117, 125, 0.1);
+  padding: 0.243rem 0.486rem;  /* Reducido otro 10% de 0.27rem y 0.54rem */
+  border-radius: var(--radio-pequeno);
+  display: inline-block;
+  max-width: fit-content;
   letter-spacing: 0.3px;
 }
 
-/* ============================= */
-/* 🏷️ BADGES PROFESIONALES */
-/* ============================= */
-.badge-marca,
-.badge-contenido,
-.badge-variedad {
-  background-color: #e9ecef;
-  color: #495057;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.375rem;
-  font-size: 0.85rem;
-  font-weight: 500;
-  border: 1px solid #dee2e6;
-  display: inline-block;
-}
-
-.badge-marca {
-  background-color: #e3f2fd;
-  color: #1976d2;
-  border-color: #bbdefb;
-}
-
-.badge-contenido {
-  background-color: #f3e5f5;
-  color: #7b1fa2;
-  border-color: #ce93d8;
-}
-
-.badge-variedad {
-  background-color: #e8f5e8;
-  color: #388e3c;
-  border-color: #a5d6a7;
-}
-
-.badge-marca:hover,
-.badge-contenido:hover,
-.badge-variedad:hover {
-  opacity: 0.8;
-}
-
-/* ============================= */
-/* 🔘 BOTONES MODERNOS Y PROFESIONALES */
-/* ============================= */
-.tabla-productos-mejorada .btn-agregar {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  color: white;
+/* ===============================================
+   BADGES COLORIDOS
+   =============================================== */
+/* Badge de Marca (Naranja) */
+#tabla-productos .badge.bg-primary {
+  background: linear-gradient(135deg, var(--naranja-principal) 0%, var(--naranja-secundario) 100%) !important;
+  color: var(--blanco);
   border: none;
-  border-radius: 25px;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-  box-shadow: var(--btn-shadow);
+  font-weight: 700;
+  font-size: 0.9775rem;  /* Aumentado 15% de 0.85rem */
+  padding: 0.575rem 0.92rem;  /* Aumentado 15% de 0.5rem y 0.8rem */
+  border-radius: var(--radio-pequeno);
+  box-shadow: 0 2px 6px rgba(255, 107, 53, 0.3);
+  transition: var(--transicion);
+}
+
+#tabla-productos .badge.bg-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+}
+
+/* Badge de Contenido (Azul) */
+#tabla-productos .badge.bg-info {
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%) !important;
+  color: var(--blanco);
+  border: none;
+  font-weight: 700;
+  font-size: 0.9775rem;  /* Aumentado 15% de 0.85rem */
+  padding: 0.575rem 0.92rem;  /* Aumentado 15% de 0.5rem y 0.8rem */
+  border-radius: var(--radio-pequeno);
+  box-shadow: 0 2px 6px rgba(23, 162, 184, 0.3);
+  transition: var(--transicion);
+}
+
+#tabla-productos .badge.bg-info:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+}
+
+/* Badge de Variedad (Verde) */
+#tabla-productos .badge.bg-success {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+  color: var(--blanco);
+  border: none;
+  font-weight: 700;
+  font-size: 0.9775rem;  /* Aumentado 15% de 0.85rem */
+  padding: 0.575rem 0.92rem;  /* Aumentado 15% de 0.5rem y 0.8rem */
+  border-radius: var(--radio-pequeno);
+  box-shadow: 0 2px 6px rgba(40, 167, 69, 0.3);
+  transition: var(--transicion);
+}
+
+#tabla-productos .badge.bg-success:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+}
+
+/* ===============================================
+   FUNCIONALIDAD CLICKEABLE
+   =============================================== */
+.fila-clickeable {
   cursor: pointer;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
+  transition: var(--transicion);
 }
 
-.tabla-productos-mejorada .btn-agregar:hover {
-  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+.fila-clickeable:hover {
+  background-color: rgba(255, 107, 53, 0.05) !important;
 }
 
-.tabla-productos-mejorada .btn-agregar:active {
-  transform: translateY(0);
+/* Fila seleccionada - VERDE para indicar selección */
+.fila-seleccionada {
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.12) 0%, rgba(32, 201, 151, 0.08) 100%) !important;
+  border-left: 4px solid #28a745 !important;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.25);
 }
 
-.tabla-productos-mejorada .btn-agregar:disabled {
-  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+.fila-seleccionada td {
+  background: transparent !important;
 }
 
-/* ============================= */
-/* 📱 RESPONSIVE DESIGN AVANZADO */
-/* ============================= */
-@media (max-width: 992px) {
-  .tabla-productos-mejorada .col-producto,
-  .tabla-productos-mejorada .celda-producto {
-    width: 40%;
-  }
-  
-  .tabla-productos-mejorada .col-marca,
-  .tabla-productos-mejorada .celda-marca {
-    width: 15%;
-  }
-  
-  .tabla-productos-mejorada .col-contenido,
-  .tabla-productos-mejorada .celda-contenido {
-    width: 12%;
-  }
-  
-  .tabla-productos-mejorada .col-variedad,
-  .tabla-productos-mejorada .celda-variedad {
-    width: 15%;
-  }
-  
-  .tabla-productos-mejorada .col-accion,
-  .tabla-productos-mejorada .celda-accion {
-    width: 18%;
-  }
-}
-
-@media (max-width: 768px) {
-  #tabla-productos {
-    margin-top: 1rem;
-    border-radius: var(--tabla-border-radius-sm);
-  }
-  
-  .tabla-header-info {
-    padding: 1rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-  
-  .tabla-productos-mejorada thead th {
-    padding: 0.75rem 0.5rem;
-    font-size: 0.75rem;
-  }
-  
-  .tabla-productos-mejorada tbody td {
-    padding: 0.75rem 0.5rem;
-  }
-  
-  .tabla-productos-mejorada .col-producto,
-  .tabla-productos-mejorada .celda-producto {
-    width: 45%;
-    padding-left: 0.75rem;
-  }
-  
-  .tabla-productos-mejorada .col-marca,
-  .tabla-productos-mejorada .celda-marca,
-  .tabla-productos-mejorada .col-contenido,
-  .tabla-productos-mejorada .celda-contenido,
-  .tabla-productos-mejorada .col-variedad,
-  .tabla-productos-mejorada .celda-variedad {
-    width: 13%;
-  }
-  
-  .tabla-productos-mejorada .col-accion,
-  .tabla-productos-mejorada .celda-accion {
-    width: 16%;
-    padding-right: 0.75rem;
-  }
-  
-  .badge-marca,
-  .badge-contenido,
-  .badge-variedad {
-    font-size: 0.7rem;
-    padding: 0.25rem 0.5rem;
-  }
-  
-  .tabla-productos-mejorada .btn-agregar {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.7rem;
-  }
-  
-  .producto-nombre {
-    font-size: 0.85rem;
-  }
-  
-  .producto-codigo {
-    font-size: 0.7rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .tabla-productos-mejorada .col-producto,
-  .tabla-productos-mejorada .celda-producto {
-    width: 50%;
-  }
-  
-  .tabla-productos-mejorada .col-marca,
-  .tabla-productos-mejorada .celda-marca,
-  .tabla-productos-mejorada .col-contenido,
-  .tabla-productos-mejorada .celda-contenido,
-  .tabla-productos-mejorada .col-variedad,
-  .tabla-productos-mejorada .celda-variedad {
-    width: 12%;
-  }
-  
-  .tabla-productos-mejorada .col-accion,
-  .tabla-productos-mejorada .celda-accion {
-    width: 14%;
-  }
-  
-  .producto-info {
-    gap: 0.25rem;
-  }
-  
-  .tabla-productos-mejorada .btn-agregar {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.65rem;
-  }
-  
-  .tabla-productos-mejorada .btn-agregar::before {
-    font-size: 0.8rem;
-  }
-}
-
-/* ============================= */
-/* 🎭 ANIMACIONES PROFESIONALES */
-/* ============================= */
+/* ===============================================
+   ANIMACIONES
+   =============================================== */
+/* Animación de entrada de la tabla */
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -593,1056 +359,39 @@ tbody td {
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 #tabla-productos {
   animation: slideInUp 0.6s ease-out;
 }
 
-.tabla-productos-mejorada tbody tr {
-  animation: fadeIn 0.4s ease-out;
-}
-
-.tabla-productos-mejorada tbody tr:nth-child(1) { animation-delay: 0.1s; }
-.tabla-productos-mejorada tbody tr:nth-child(2) { animation-delay: 0.15s; }
-.tabla-productos-mejorada tbody tr:nth-child(3) { animation-delay: 0.2s; }
-.tabla-productos-mejorada tbody tr:nth-child(4) { animation-delay: 0.25s; }
-.tabla-productos-mejorada tbody tr:nth-child(5) { animation-delay: 0.3s; }
-
-/* ============================= */
-/* 🔍 ESTADOS ESPECIALES */
-/* ============================= */
-.tabla-productos-mejorada tbody tr.producto-seleccionado {
-  background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(32, 201, 151, 0.05) 100%);
-  border-left: 4px solid #28a745;
-}
-
-.tabla-productos-mejorada tbody tr.producto-agotado {
-  opacity: 0.6;
-  filter: grayscale(30%);
-}
-
-.tabla-productos-mejorada tbody tr.producto-agotado .btn-agregar {
-  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
-  cursor: not-allowed;
-}
-
-/* ============================= */
-/* 🎨 MEJORAS VISUALES ADICIONALES */
-/* ============================= */
-.tabla-productos-mejorada::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #ff6b35 0%, #f7931e 50%, #ff8c42 100%);
-  z-index: 20;
-}
-
-/* Scrollbar personalizado */
-#tabla-productos::-webkit-scrollbar {
-  width: 8px;
-}
-
-#tabla-productos::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-#tabla-productos::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  border-radius: 4px;
-}
-
-#tabla-productos::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
-}
-
-/* ===============================================
-   TABLA PROFESIONAL - ESTILOS FINALES LIMPIOS
-   =============================================== */
-
-/* Wrapper principal de tabla naranja - BORDER-RADIUS COMPLETO */
-.tabla-productos-profesional {
-  background: #ffffff;
-  border-radius: 16px;  /* Border-radius del wrapper completo */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  overflow: hidden;  /* Cambiado de visible a hidden */
-  margin: 1.5rem 0;
-  border: 1px solid #e3e6ea;
-  max-height: none !important;
-}
-
-/* Borde superior elegante en tonos naranjas para tabla-productos */
-.tabla-productos-profesional::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #ff6b35 0%, #f7931e 50%, #ff8c42 100%);
-}
-
-.tabla-productos-profesional .tabla-header-info {
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-  padding: 1.25rem 1.5rem;
-  border-bottom: 2px solid #e3e6ea;
-}
-
-.tabla-productos-profesional .tabla-header-info h5 {
-  font-weight: 600;
-  color: #495057;
-  margin: 0;
-}
-
-.tabla-productos-profesional .tabla-header-info .badge {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  color: white;
-  font-weight: 600;
-  padding: 0.52rem 1.04rem;  /* Aumentado 30% */
-  border-radius: 20px;
-  font-size: 1.105rem;  /* Aumentado 30% */
-  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
-}
-
-.tabla-productos-profesional .tabla-filters {
-  color: #6c757d;
-  font-size: 0.875rem;
-}
-
-.tabla-productos-profesional .tabla-filters i {
-  color: #28a745;
-}
-
-/* Contenedor de scroll tabla naranja - BORDER-RADIUS RESTAURADO */
-.tabla-scroll-container {
-  max-height: 500px;
-  overflow-y: auto;
-  min-height: 200px;
-  border-radius: 12px;  /* Border-radius completo restaurado */
-}
-
-.tabla-productos-profesional .tabla-productos-mejorada {
-  margin: 0;
-  border-collapse: separate;
-  border-spacing: 0;
-  width: 100%;
-}
-
-.tabla-productos-profesional .table-header-modern th {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  color: #495057;
-  font-weight: 600;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 1rem 0.75rem;
-  text-align: center;
-  border-bottom: 2px solid #e3e6ea;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.tabla-productos-profesional .th-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.tabla-productos-profesional .th-icon {
-  font-size: 1rem;
-  opacity: 0.8;
-}
-
-.tabla-productos-profesional .table-body-modern tr {
-  transition: all 0.2s ease;
-}
-
-.tabla-productos-profesional .table-body-modern tr:nth-child(even) {
-  background-color: rgba(248, 249, 250, 0.5);
-}
-
-.tabla-productos-profesional .table-body-modern tr:hover {
-  background: linear-gradient(135deg, rgba(255, 111, 0, 0.03) 0%, rgba(255, 202, 40, 0.02) 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.tabla-productos-profesional .table-body-modern td {
-  padding: 1rem 0.75rem;
-  border-bottom: 1px solid #f1f3f4;
-  vertical-align: middle;
-  font-size: 0.875rem;
-}
-
-.tabla-productos-profesional .producto-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.25rem;
-}
-
-.tabla-productos-profesional .producto-nombre {
-  font-weight: 500;
-  color: #333;
-  font-size: 0.9rem;
-}
-
-.tabla-productos-profesional .producto-codigo {
-  color: #6c757d;
-  font-size: 0.75rem;
-  background: rgba(113, 128, 150, 0.1);
-  padding: 0.2rem 0.5rem;
-  border-radius: 12px;
-}
-
-/* Texto simple sin badges - solo texto limpio */
-.tabla-productos-profesional .marca-texto,
-.tabla-productos-profesional .contenido-texto,
-.tabla-productos-profesional .variedad-texto {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #495057;
-  display: inline-block;
-}
-
-.tabla-productos-profesional .marca-texto {
-  color: #2563eb;
-  font-weight: 600;
-}
-
-.tabla-productos-profesional .contenido-texto {
-  color: #7c3aed;
-  font-weight: 600;
-}
-
-.tabla-productos-profesional .variedad-texto {
-  color: #059669;
-  font-weight: 600;
-}
-
-/* Botones profesionales */
-.tabla-productos-profesional .btn-agregar {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  color: white;
-  border: none;
-  border-radius: 20px;
-  padding: 0.5rem 1rem;  /* Más padding */
-  font-weight: 600;
-  font-size: 0.85rem;  /* Fuente más grande */
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.tabla-productos-profesional .btn-agregar:hover {
-  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
-}
-
-.tabla-productos-profesional .btn-agregar:disabled {
-  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-/* Estilos para el contenido de la celda de producto - ESTILO TABLA-A-COMPARAR */
-.tabla-productos-profesional .producto-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.tabla-productos-profesional .producto-nombre {
-  font-size: 1.2rem;
-  font-weight: 600;  /* Como tabla-a-comparar */
-  color: #1f2937;  /* Como tabla-a-comparar */
-  line-height: 1.3;
-  margin: 0;
-}
-
-.tabla-productos-profesional .producto-codigo {
-  font-size: 0.9rem;
-  color: #6b7280;
-  font-weight: 500;
-  background: rgba(107, 114, 128, 0.1);
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  display: inline-block;
-  max-width: fit-content;
-}
-
-/* Textos de marca, contenido y variedad con fondo naranja */
-.tabla-productos-profesional .marca-texto {
-  color: white;
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 1rem;
-  text-shadow: none;
-  display: inline-block;
-}
-
-.tabla-productos-profesional .contenido-texto {
-  color: white;
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 1rem;
-  text-shadow: none;
-  display: inline-block;
-}
-
-.tabla-productos-profesional .variedad-texto {
-  color: white;
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 1rem;
-  text-shadow: none;
-  display: inline-block;
-}
-
-/* Scrollbar personalizado con tonos naranjas para tabla-productos */
-.tabla-scroll-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.tabla-scroll-container::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 0;  /* Sin border-radius para bordes rectos */
-}
-
-.tabla-scroll-container::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-  border-radius: 0;  /* Sin border-radius para bordes rectos */
-}
-
-.tabla-scroll-container::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #e55a2b 0%, #d6831a 100%);
-}
-
-/* ===============================================
-   ESTILOS ESENCIALES PARA QUE LA TABLA FUNCIONE
-   =============================================== */
-
-/* Forzar visibilidad del tbody */
-.tabla-productos-profesional #tabla-productos-body,
-.tabla-productos-profesional tbody {
-  display: table-row-group !important;
-  height: auto !important;
-}
-
-/* Forzar visibilidad de las filas */
-.tabla-productos-profesional .fila-producto,
-.tabla-productos-profesional tr[data-id],
-.tabla-productos-profesional tbody tr,
-#tabla-productos-body tr {
-  display: table-row !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: static !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  transform: none !important;
-  animation: none !important;
-}
-
-/* Forzar visibilidad de las celdas con height reducido - SIN BORDES VERTICALES */
-.tabla-productos-profesional .table-body-modern td {
-  display: table-cell !important;
-  padding: 1.2rem 1rem !important;  /* Reducido 20% de 1.5rem */
-  border-bottom: 2px solid #e5e7eb;  /* Border más grueso */
-  border-right: none !important;  /* Eliminar borde vertical */
-  vertical-align: middle;
-  font-size: 1.1rem;  /* Fuente aún más grande */
-  background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
-  transition: all 0.3s ease;
-}
-
-/* Forzar padding izquierdo en TODAS las celdas de producto */
-.tabla-productos-profesional .celda-producto,
-.tabla-productos-mejorada .celda-producto,
-.celda-producto,
-td.celda-producto,
-td[class*="celda-producto"],
-.table-body-modern .celda-producto,
-tbody .celda-producto {
-  padding-left: 3rem !important;
-  width: 40% !important;  /* Reducido de 43% a 40% */
-}
-
-/* Para la tabla profesional específicamente */
-.tabla-productos-profesional td:first-child,
-.tabla-productos-profesional .table-body-modern td:first-child {
-  padding-left: 3rem !important;
-}
-
-/* Columna acción con más espacio para botón */
-.tabla-productos-profesional .celda-accion,
-.tabla-productos-mejorada .celda-accion,
-.celda-accion,
-td.celda-accion {
-  width: 15% !important;  /* Aumentado de 12% a 15% */
-  padding-right: 0.5rem !important;
-}
-
-/* Columnas intermedias equilibradas */
-.tabla-productos-profesional .celda-marca,
-.tabla-productos-mejorada .celda-marca,
-.celda-marca,
-td.celda-marca {
-  width: 15% !important;
-}
-
-.tabla-productos-profesional .celda-contenido,
-.tabla-productos-mejorada .celda-contenido,
-.celda-contenido,
-td.celda-contenido {
-  width: 15% !important;
-}
-
-.tabla-productos-profesional .celda-variedad,
-.tabla-productos-mejorada .celda-variedad,
-.celda-variedad,
-td.celda-variedad {
-  width: 15% !important;
-}
-
-.tabla-productos-profesional .producto-nombre {
-  font-weight: 600;  /* Como tabla-a-comparar */
-  color: #495057;  /* Gris suave en lugar de negro */
-  font-size: 1.35rem;  /* Aumentado de 1.2rem a 1.35rem */
-  line-height: 1.3;
-  margin: 0;
-  text-shadow: none;
-  letter-spacing: normal;
-}
-
-.tabla-productos-profesional .producto-codigo {
-  color: #64748b;
-  font-size: 0.8rem;  /* Reducido de 0.95rem a 0.8rem */
-  background: linear-gradient(135deg, rgba(100, 116, 139, 0.12) 0%, rgba(148, 163, 184, 0.08) 100%);
-  padding: 0.35rem 0.7rem;  /* Reducido el padding */
-  border-radius: 12px;  /* Ligeramente más pequeño */
-  font-weight: 500;  /* Reducido de 600 a 500 */
-  border: 1px solid rgba(100, 116, 139, 0.15);
-}
-
-/* Forzar visibilidad de los headers */
-.tabla-productos-profesional .table-header-modern th {
-  display: table-cell !important;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  color: #495057;
-  font-weight: 600;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 1rem 0.75rem;
-  text-align: center;
-  border-bottom: 2px solid #e3e6ea;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-/* 🧱 Contenedor principal (el div con id="tabla-productos") */
-#tabla-productos {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-top: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-}
-
-/* 🏗️ Clase adicional tabla-productos-moderna */
-.tabla-productos-moderna {
-  /* Hereda los estilos del ID #tabla-productos */
-}
-
-/* 📐 La tabla interior con clase tabla-productos-mejorada */
-.tabla-productos-mejorada {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin: 0 !important;
-}
-
-/* 📌 Encabezado fijo al hacer scroll */
-.tabla-productos-mejorada thead.table-header-modern th {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  background-color: #f8f9fa;
-  font-weight: 600;
-  color: #333;
-  border-bottom: 1px solid #ddd;
-  padding: 0.5rem 0.25rem;
-  text-align: center;
-  vertical-align: middle;
-}
-
-/* 🎨 Contenido del header con iconos */
-.tabla-productos-mejorada .th-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.tabla-productos-mejorada .th-icon {
-  font-size: 1.1rem;
-}
-
-/* 🧩 Celdas del cuerpo de la tabla */
-.tabla-productos-mejorada tbody.table-body-modern td {
-  border-bottom: 1px solid #dee2e6;
-  padding: 0.5rem 0.25rem;
-  text-align: center;
-  vertical-align: middle;
-  word-wrap: break-word;
-}
-
-/* 🧊 Filas pares: efecto zebra */
-.tabla-productos-mejorada tbody tr:nth-child(even) {
-  background-color: #fdfdfd;
-}
-
-/* ✨ Efecto hover en las filas */
-.tabla-productos-mejorada tbody tr:hover {
-  background: linear-gradient(135deg, rgba(255, 107, 53, 0.02) 0%, rgba(255, 193, 7, 0.01) 100%);
-}
-
-/* 📐 Anchos específicos de columnas usando las clases de tu estructura */
-.tabla-productos-mejorada .col-producto,
-.tabla-productos-mejorada .celda-producto {
-  width: 40%;
-  text-align: left !important;
-  padding-left: 0.75rem !important;
-}
-
-.tabla-productos-mejorada .col-marca,
-.tabla-productos-mejorada .celda-marca,
-.tabla-productos-mejorada .col-contenido,
-.tabla-productos-mejorada .celda-contenido,
-.tabla-productos-mejorada .col-variedad,
-.tabla-productos-mejorada .celda-variedad {
-  width: 15%;
-}
-
-.tabla-productos-mejorada .col-accion,
-.tabla-productos-mejorada .celda-accion {
-  width: 11%;
-  border-right: none !important;
-  text-align: center !important;
-  padding-right: 0.75rem !important;
-}
-
-/* 🎯 Información del producto */
-.producto-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.25rem;
-}
-
-.producto-nombre {
-  font-weight: 500;
-  color: #333;
-}
-
-.producto-codigo {
-  color: #6c757d;
-  font-size: 0.8rem;
-}
-
-/* 🏷️ Badges modernos */
-.badge-marca,
-.badge-contenido,
-.badge-variedad {
-  background-color: #e9ecef;
-  color: #495057;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.375rem;
-  font-size: 0.85rem;
-  font-weight: 500;
-  border: 1px solid #dee2e6;
-}
-
-.badge-marca {
-  background-color: #e3f2fd;
-  color: #1976d2;
-  border-color: #bbdefb;
-}
-
-.badge-contenido {
-  background-color: #f3e5f5;
-  color: #7b1fa2;
-  border-color: #ce93d8;
-}
-
-.badge-variedad {
-  background-color: #e8f5e8;
-  color: #388e3c;
-  border-color: #a5d6a7;
-}
-
-/* 🔘 Botones dentro de la tabla */
-.tabla-productos-mejorada .btn-agregar {
-  white-space: nowrap;
-  border: none;
-  border-radius: 0.25rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  font-size: 0.75rem;
-  padding: 0.35rem 0.4rem;
-}
-
-.tabla-productos-mejorada .btn-success {
-  background-color: #28a745;
-  color: white;
-}
-
-.tabla-productos-mejorada .btn-success:hover {
-  background-color: #218838;
-  transform: translateY(-1px);
-}
-
-.tabla-productos-mejorada .btn-success:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* 📱 Responsividad para tabla de productos */
-@media (max-width: 768px) {
-  .tabla-productos-mejorada .col-producto,
-  .tabla-productos-mejorada .celda-producto {
-    width: 50%;
+/* Animación de entrada de filas */
+@keyframes fadeInRow {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
   }
-  
-  .tabla-productos-mejorada .col-marca,
-  .tabla-productos-mejorada .celda-marca,
-  .tabla-productos-mejorada .col-contenido,
-  .tabla-productos-mejorada .celda-contenido,
-  .tabla-productos-mejorada .col-variedad,
-  .tabla-productos-mejorada .celda-variedad {
-    width: 12%;
-  }
-  
-  .tabla-productos-mejorada .col-accion,
-  .tabla-productos-mejorada .celda-accion {
-    width: 14%;
-  }
-}
-
-/* ===============================================
-   TABLA DE PRODUCTOS CON ESTILOS DE COMPARACIÓN
-   =============================================== */
-
-/* Aplicar estilos similares a tabla-comparacion al contenedor tabla-productos-profesional */
-.tabla-productos-profesional {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb;
-  overflow: hidden;
-  margin-top: 1.5rem;
-  margin-bottom: 2rem;  /* Agregado margin-bottom para separación */
-  position: relative;
-  backdrop-filter: blur(10px);
-  max-height: none !important;
-  overflow-y: visible !important;
-}
-
-/* Borde superior elegante en tonos naranjas para tabla-productos */
-.tabla-productos-profesional::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #ff6b35 0%, #f7931e 50%, #ff8c42 100%);
-}
-
-/* Header de información con estilo integrado - PADDING AUMENTADO */
-.tabla-productos-profesional .tabla-header-info {
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-  padding: 2.5rem 1.5rem;  /* Aumentado para coincidir */
-  border-bottom: 2px solid #e3e6ea;
-  border-radius: 0;
-  margin: 0;
-}
-
-/* Contenedor de scroll mejorado */
-.tabla-productos-profesional .tabla-scroll-container {
-  max-height: 500px;
-  overflow-y: auto;
-  border: none;
-  border-radius: 0;  /* Sin border-radius para bordes rectos */
-  background: #fafbfc;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.06);
-  min-height: 200px;
-}
-
-/* Headers de tabla con estilo naranja para tabla-productos - ALTURA 50PX */
-.tabla-productos-profesional .table-header-modern th {
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ff8c42 100%);
-  color: white !important;
-  padding: 0.75rem 1.5rem;  /* Ajustado para altura de 50px */
-  font-weight: 700;
-  font-size: 1rem;
-  border: none;
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  font-family: 'Inter', 'Roboto', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-  line-height: 1.2;
-  height: 50px;
-  box-sizing: border-box;
-}
-
-/* Forzar color blanco en todo el contenido del header */
-.tabla-productos-profesional .table-header-modern th *,
-.tabla-productos-profesional .table-header-modern th .th-content,
-.tabla-productos-profesional .table-header-modern th .th-content span {
-  color: white !important;
-}
-
-/* Celdas del cuerpo con mejor spacing pero height reducido - SIN BORDES VERTICALES */
-.tabla-productos-profesional .table-body-modern td {
-  font-size: 1.1rem;
-  font-weight: 500;
-  padding: 1rem 1.2rem;  /* Reducido 20% de 1.25rem */
-  border-bottom: 1px solid #f3f4f6;
-  border-right: none;  /* Eliminar borde vertical */
-  vertical-align: middle;
-  text-align: left;
-  background: white;
-  transition: all 0.2s ease;
-  line-height: 1.4;
-}
-
-/* Hover effect mejorado */
-.tabla-productos-profesional .table-body-modern tr {
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.tabla-productos-profesional .table-body-modern tr:hover {
-  background: linear-gradient(135deg, rgba(255, 107, 53, 0.06) 0%, rgba(247, 147, 30, 0.04) 100%);
-  transform: translateX(8px) translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-}
-
-.tabla-productos-profesional .table-body-modern tr:hover td {
-  background: transparent;
-  border-color: rgba(255, 107, 53, 0.3);
-}
-
-/* Botón agregar rediseñado */
-.tabla-productos-profesional .btn-agregar {
-  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  border: none;
-  color: white;
-  padding: 0.75rem 1.25rem;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  min-width: 120px;
-}
-
-.tabla-productos-profesional .btn-agregar:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(40, 167, 69, 0.4);
-  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
-}
-
-.tabla-productos-profesional .btn-agregar:active {
-  transform: translateY(0);
-}
-
-.tabla-productos-profesional .btn-agregar:disabled {
-  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-/* 🎬 Animaciones de entrada para filas */
-.fila-producto {
-  animation: fadeInUp 0.3s ease forwards;
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-@keyframes fadeInUp {
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 
-/* ===============================================
-   TABLA DE COMPARACIÓN - NUEVA VERSIÓN MODERNA
-   =============================================== */
-
-/* Wrapper principal con diseño minimalista - MARGIN AGREGADO */
-#tabla-comparacion-wrapper {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb;
-  overflow: hidden;
-  margin-top: 2rem;
-  margin-bottom: 2rem;  /* Agregado margin-bottom para separación */
-  position: relative;
-  backdrop-filter: blur(10px);
+#tabla-productos tbody tr {
+  animation: fadeInRow 0.4s ease-out;
 }
 
-/* Borde superior elegante en tonos verdes */
-#tabla-comparacion-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #28a745 0%, #20c997 50%, #16a085 100%);
-}
+/* Animación escalonada de filas */
+#tabla-productos tbody tr:nth-child(1) { animation-delay: 0.1s; }
+#tabla-productos tbody tr:nth-child(2) { animation-delay: 0.15s; }
+#tabla-productos tbody tr:nth-child(3) { animation-delay: 0.2s; }
+#tabla-productos tbody tr:nth-child(4) { animation-delay: 0.25s; }
+#tabla-productos tbody tr:nth-child(5) { animation-delay: 0.3s; }
+#tabla-productos tbody tr:nth-child(6) { animation-delay: 0.35s; }
+#tabla-productos tbody tr:nth-child(7) { animation-delay: 0.4s; }
+#tabla-productos tbody tr:nth-child(8) { animation-delay: 0.45s; }
 
-/* Contenido principal con header integrado - PADDING CORREGIDO */
-.tabla-comparacion {
-  padding: 2.5rem 1.5rem;  /* Aumentado padding vertical para coincidir con tabla naranja */
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-  border-bottom: 2px solid #e3e6ea;
-  margin: 0;
-  border-radius: 0;
-}
-
-/* Header directo sin contenedor adicional */
-.tabla-comparacion .d-flex {
-  background: none;
-  padding: 0;
-  border-radius: 0;
-  border: none;
-  margin-bottom: 1.5rem;
-  box-shadow: none;
-  align-items: center;
-  min-height: auto;
-}
-
-.tabla-comparacion .d-flex h5 {
-  color: #495057;  /* Como tabla-header-info */
-  font-weight: 600;  /* Como tabla-header-info */
-  font-size: 1.25rem;  /* Mismo tamaño que productos disponibles */
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;  /* Reducido de 0.75rem para mejor alineación con botón */
-}
-
-.tabla-comparacion .d-flex h5 .badge {
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);  /* Naranja como antes en productos disponibles */
-  color: white;
-  font-weight: 600;
-  padding: 0.52rem 1.04rem;  /* Aumentado 30% y agregado padding para separación */
-  border-radius: 20px;
-  font-size: 1.105rem;  /* Aumentado 30% de 0.85rem */
-  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
-  min-width: 40px;
-  text-align: center;
-  margin-right: 0.5rem;  /* Reducido de 0.75rem a 0.5rem para mejor alineación */
-}
-
-/* Header directo sin contenedor adicional - LIMPIO */
-.tabla-comparacion .d-flex {
-  background: none;
-  padding: 0;
-  border-radius: 0;
-  border: none;
-  margin-bottom: 1.5rem !important;  /* Restaurado margin para coincidir con tabla naranja */
-  box-shadow: none;
-  align-items: center;
-  vertical-align: middle;  /* Agregado vertical-align middle */
-  min-height: auto;
-}
-
-/* Botón limpiar todos ajustado al header */
-#btn-limpiar-filtros {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  border: none;
-  color: white;
-  padding: 0.65rem 1.25rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  height: fit-content;
-}
-
-#btn-limpiar-filtros:hover {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
-}
-
-#btn-limpiar-filtros:active {
-  transform: translateY(0);
-}
-
-/* Botón comparar inicialmente oculto */
-.comparar-btn {
-  display: none;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
-}
-
-/* Contenedor de scroll con header fijo externo */
-.tabla-a-comparar-scroll {
-  max-height: 500px;
-  overflow-y: auto;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(to bottom, 
-    #1a9f89 0%, 
-    #1a9f89 50px, 
-    #fafbfc 50px, 
-    #fafbfc 100%);
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.06);
-  min-height: 200px;
-  position: relative;
-}
-
-/* Celdas del cuerpo con mejor spacing y textos más grandes pero más angostas */
-.tabla-a-comparar td {
-  font-size: 1.1rem;
-  font-weight: 500;
-  padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid #f3f4f6;
-  border-right: 1px solid #f3f4f6;
-  vertical-align: middle;
-  text-align: left;
-  background: white;
-  transition: all 0.2s ease;
-  line-height: 1.4;
-}
-
-/* Anchos de columnas para tabla de 2 columnas - ALINEACIÓN CORREGIDA */
-.tabla-a-comparar .col-producto,
-.tabla-a-comparar .celda-producto {
-  width: 80%;
-  text-align: left;
-  padding-left: 2.5rem;
-}
-
-.tabla-a-comparar .col-accion,
-.tabla-a-comparar .celda-accion {
-  width: 20%;
-  text-align: center;
-  border-right: none;
-  padding-right: 1rem;
-}
-
-/* Columna de producto con estilo especial */
-.tabla-a-comparar td:first-child {
-  font-weight: 600;
-  color: #1f2937;
-  padding-left: 2.5rem;
-  background: linear-gradient(135deg, #fafbfc 0%, #ffffff 100%);
-  border-left: 4px solid #28a745;
-}
-
-/* Hover effect mejorado */
-.tabla-a-comparar tbody tr {
-  transition: all 0.3s ease;
-}
-
-.tabla-a-comparar tbody tr:hover {
-  background: linear-gradient(135deg, rgba(40, 167, 69, 0.04) 0%, rgba(32, 201, 151, 0.02) 100%);
-  transform: translateX(4px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
-
-.tabla-a-comparar tbody tr:hover td {
-  background: transparent;
-}
-
-/* Botón eliminar rediseñado y más grande */
-.eliminar-btn {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  border: none;
-  color: white;
-  padding: 0.75rem 1.25rem;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  min-width: 120px;
-}
-
-.eliminar-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-}
-
-.eliminar-btn:active {
-  transform: translateY(0);
-}
-
-/* Animación de eliminación mejorada - fade out rápido hacia la izquierda */
-/* IMPORTANTE: Esta animación debe tener alta prioridad */
-.fila-eliminando,
-.tabla-a-comparar .fila-eliminando,
-.tabla-a-comparar tbody .fila-eliminando {
+/* Animación de eliminación (fade out hacia la izquierda) */
+.fila-eliminando {
   animation: fadeOutLeft 0.25s ease-out forwards !important;
-  transform-origin: center !important;
 }
 
 @keyframes fadeOutLeft {
@@ -1656,613 +405,1550 @@ td.celda-variedad {
   }
 }
 
-/* Scrollbar personalizado - SIN MARGIN-TOP */
+/* Pulse para badges al hacer hover */
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+#tabla-productos .badge:hover {
+  animation: badgePulse 0.6s ease-in-out;
+}
+
+/* ===============================================
+   RESPONSIVE DESIGN
+   =============================================== */
+@media (max-width: 768px) {
+  #tabla-productos {
+    margin: 1rem 0;
+    border-radius: var(--radio-pequeno);
+  }
+  
+  #tabla-productos .card-header {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 0.75rem;
+  }
+  
+  #tabla-productos .card-header h5 {
+    font-size: 1.1rem;
+  }
+  
+  #tabla-productos .badge.bg-success {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  #tabla-productos .table-light.sticky-top th {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  #tabla-productos tbody td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  #tabla-productos tbody td.text-start {
+    width: 45%;
+    padding-left: 2rem;  /* Aumentado de 1rem a 2rem */
+  }
+  
+  #tabla-productos tbody td.text-center {
+    width: 18.33%;
+  }
+  
+  #tabla-productos .fw-bold {
+    font-size: 1.15rem;  /* Aumentado 15% de 1rem */
+  }
+  
+  #tabla-productos .text-muted {
+    font-size: 0.6075rem;  /* Reducido otro 10% de 0.675rem */
+    padding: 0.2025rem 0.405rem;  /* Reducido otro 10% de 0.225rem y 0.45rem */
+  }
+  
+  #tabla-productos .badge {
+    font-size: 0.8625rem !important;  /* Aumentado 15% de 0.75rem */
+    padding: 0.46rem 0.69rem !important;  /* Aumentado 15% de 0.4rem y 0.6rem */
+  }
+}
+
+@media (max-width: 480px) {
+  #tabla-productos tbody td.text-start {
+    width: 50%;
+  }
+  
+  #tabla-productos tbody td.text-center {
+    width: 16.67%;
+  }
+  
+  #tabla-productos .badge {
+    font-size: 0.805rem !important;  /* Aumentado 15% de 0.7rem */
+    padding: 0.345rem 0.575rem !important;  /* Aumentado 15% de 0.3rem y 0.5rem */
+  }
+  
+  #tabla-productos .fw-bold {
+    font-size: 1.0925rem;  /* Aumentado 15% de 0.95rem */
+  }
+  
+  #tabla-productos .text-muted {
+    font-size: 0.567rem;  /* Reducido otro 10% de 0.63rem */
+  }
+}
+
+/* ===============================================
+   MEJORAS VISUALES ADICIONALES
+   =============================================== */
+/* Botón comparar productos */
+#comparar-box {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+#comparar-box .comparar-btn {
+  background: linear-gradient(135deg, var(--naranja-principal) 0%, var(--naranja-secundario) 100%);
+  border: none;
+  color: var(--blanco);
+  padding: 1rem 2rem;
+  border-radius: var(--radio-grande);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: var(--transicion);
+  box-shadow: var(--sombra-suave);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+#comparar-box .comparar-btn:hover {
+  background: linear-gradient(135deg, var(--naranja-oscuro) 0%, var(--naranja-principal) 100%);
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-hover);
+}
+
+#comparar-box .comparar-btn:active {
+  transform: translateY(-1px);
+}
+
+#comparar-box .comparar-btn:disabled {
+  background: linear-gradient(135deg, var(--gris-medio) 0%, var(--gris-oscuro) 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Micro-interacciones para mejor UX */
+#tabla-productos tbody tr:active {
+  transform: scale(0.99);
+}
+
+/* Texto informativo DEBAJO de la tabla - NOTA SIMPLE SIN FONDO */
+.tabla-note {
+  margin-top: 0.75rem;
+  text-align: left;
+  padding: 0;
+}
+
+.tabla-note small {
+  color: var(--gris-medio) !important;
+  font-weight: 400;
+  font-size: 0.875rem;
+}
+
+.tabla-note i {
+  color: var(--naranja-principal);
+  margin-right: 0.5rem;
+  opacity: 0.8;
+}
+
+/* Eliminar estilos de .tabla-stats ya que se cambió a .tabla-note */
+
+/* Loading state (opcional) */
+#tabla-productos.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+#tabla-productos.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--naranja-principal);
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===============================================
+   TABLA COMPARACIÓN VERDE - PRODUCTOS SELECCIONADOS PREMIUM
+   =============================================== */
+
+/* Variables CSS mejoradas para el tema verde de comparación */
+:root {
+  --verde-comparacion-principal: #28a745;
+  --verde-comparacion-secundario: #20c997;
+  --verde-comparacion-terciario: #17d87a;
+  --verde-comparacion-claro: #d4edda;
+  --verde-comparacion-oscuro: #1e7e34;
+  --verde-comparacion-success: #198754;
+  --verde-comparacion-neon: #00ff88;
+  --rojo-eliminar: #dc3545;
+  --rojo-eliminar-hover: #c82333;
+  --sombra-verde-comparacion: 0 8px 32px rgba(40, 167, 69, 0.25);
+  --sombra-verde-comparacion-suave: 0 4px 16px rgba(40, 167, 69, 0.15);
+  --sombra-verde-comparacion-intensa: 0 16px 64px rgba(40, 167, 69, 0.3);
+}
+
+/* ===============================================
+   WRAPPER PRINCIPAL DE LA TABLA COMPARACIÓN - DISEÑO SOFISTICADO
+   =============================================== */
+#tabla-comparacion-wrapper {
+  /* Solo margin, sin border ni padding para no afectar el header */
+  margin: 2.5rem 0;
+}
+
+/* Contenedor interno que sí tiene los estilos visuales */
+.tabla-comparacion {
+  background: var(--blanco);
+  border-radius: var(--radio-grande);
+  border: 2px solid rgba(40, 167, 69, 0.15);
+  padding: 1.8rem;
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  
+  /* Gradiente sofisticado de fondo MEJORADO */
+  background: 
+    linear-gradient(135deg, rgba(40, 167, 69, 0.06) 0%, rgba(32, 201, 151, 0.04) 25%, rgba(23, 216, 122, 0.02) 50%, var(--blanco) 75%),
+    radial-gradient(circle at top left, rgba(40, 167, 69, 0.12) 0%, transparent 60%),
+    radial-gradient(circle at bottom right, rgba(32, 201, 151, 0.10) 0%, transparent 55%),
+    radial-gradient(circle at center, rgba(23, 216, 122, 0.03) 0%, transparent 70%),
+    var(--blanco);
+  
+  /* Sombra inicial sofisticada */
+  box-shadow: 
+    0 10px 40px rgba(40, 167, 69, 0.12),
+    0 6px 20px rgba(40, 167, 69, 0.08),
+    0 2px 8px rgba(40, 167, 69, 0.06);
+}
+
+/* Efecto decorativo superior ESPECTACULAR - CONTENIDO DENTRO DE BORDES */
+.tabla-comparacion::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 2px;
+  right: 2px;
+  height: 4px;
+  background: linear-gradient(
+    90deg, 
+    transparent 0%, 
+    var(--verde-comparacion-principal) 15%, 
+    var(--verde-comparacion-secundario) 35%,
+    var(--verde-comparacion-terciario) 50%,
+    var(--verde-comparacion-secundario) 65%, 
+    var(--verde-comparacion-principal) 85%, 
+    transparent 100%
+  );
+  border-radius: calc(var(--radio-grande) - 2px) calc(var(--radio-grande) - 2px) 0 0;
+  z-index: 10;
+  animation: shimmerLineAvanzado 4s ease-in-out infinite;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.4);
+}
+
+@keyframes shimmerLineAvanzado {
+  0%, 100% { 
+    opacity: 0.7; 
+    transform: scaleX(1) scaleY(1);
+    filter: brightness(1);
+  }
+  25% {
+    opacity: 0.9;
+    transform: scaleX(1.01) scaleY(1.2);
+    filter: brightness(1.1);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scaleX(1.03) scaleY(1.5);
+    filter: brightness(1.2) saturate(1.1);
+  }
+  75% {
+    opacity: 0.9;
+    transform: scaleX(1.01) scaleY(1.2);
+    filter: brightness(1.1);
+  }
+}
+
+/* Efecto decorativo lateral izquierdo MEJORADO */
+.tabla-comparacion::after {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 0;
+  width: 5px;
+  height: 70%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(40, 167, 69, 0.3) 10%,
+    var(--verde-comparacion-principal) 25%,
+    var(--verde-comparacion-secundario) 50%,
+    var(--verde-comparacion-terciario) 60%,
+    var(--verde-comparacion-principal) 75%,
+    rgba(40, 167, 69, 0.3) 90%,
+    transparent 100%
+  );
+  border-radius: 0 6px 6px 0;
+  opacity: 0.9;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 2px 0 8px rgba(40, 167, 69, 0.3);
+}
+
+/* Efecto hover del wrapper - SOFISTICADO MEJORADO */
+.tabla-comparacion:hover {
+  transform: translateY(-3px) scale(1.008);
+  border-color: var(--verde-comparacion-secundario);
+  box-shadow: 
+    0 12px 40px rgba(40, 167, 69, 0.3),
+    0 8px 20px rgba(40, 167, 69, 0.2),
+    0 4px 10px rgba(40, 167, 69, 0.1);
+}
+
+.tabla-comparacion:hover::after {
+  opacity: 1;
+  width: 8px;
+  box-shadow: 4px 0 16px rgba(40, 167, 69, 0.5);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(40, 167, 69, 0.4) 10%,
+    var(--verde-comparacion-neon) 25%,
+    var(--verde-comparacion-secundario) 50%,
+    var(--verde-comparacion-terciario) 60%,
+    var(--verde-comparacion-neon) 75%,
+    rgba(40, 167, 69, 0.4) 90%,
+    transparent 100%
+  );
+}
+
+/* ===============================================
+   HEADER DE LA TABLA COMPARACIÓN - MEJORADO
+   =============================================== */
+.tabla-comparacion-header {
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  background: transparent;
+  position: relative;
+  z-index: 5;
+}
+
+/* Header de la tabla comparación con más espaciado */
+.tabla-comparacion .d-flex h5 {
+  color: var(--gris-oscuro);
+  font-weight: 700;
+  font-size: 1.3rem;
+  text-shadow: 0 1px 2px rgba(40, 167, 69, 0.1);
+  margin-left: 0.5rem;
+}
+
+/* Contenido principal con padding aumentado para más espaciado */
+.tabla-comparacion-content {
+  padding: 0 2rem 1.8rem 2rem;
+}
+
+/* Contador de productos NARANJA COHERENTE CON EL SISTEMA */
+.tabla-comparacion .badge.bg-primary {
+  background: linear-gradient(135deg, var(--naranja-principal) 0%, var(--naranja-secundario) 50%, var(--naranja-claro) 100%) !important;
+  color: var(--blanco);
+  font-weight: 700;
+  padding: 0.7rem 1.4rem;
+  border-radius: 25px;
+  font-size: 1.05rem;
+  box-shadow: 
+    0 6px 20px rgba(255, 107, 53, 0.4),
+    0 3px 10px rgba(255, 107, 53, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  animation: pulse-counter-naranja 2.5s infinite;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin-right: 1.5rem;
+}
+
+/* Animación mejorada para el contador naranja */
+@keyframes pulse-counter-naranja {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 
+      0 6px 20px rgba(255, 107, 53, 0.4),
+      0 3px 10px rgba(255, 107, 53, 0.3);
+  }
+  50% { 
+    transform: scale(1.08);
+    box-shadow: 
+      0 8px 30px rgba(255, 107, 53, 0.5),
+      0 4px 15px rgba(255, 107, 53, 0.4);
+  }
+}
+
+/* Efecto shimmer interno para el contador naranja */
+.tabla-comparacion .badge.bg-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: shimmer-contador-naranja 3s ease-in-out infinite;
+}
+
+@keyframes shimmer-contador-naranja {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+@keyframes pulse-counter {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Botón limpiar todos - DISEÑO SOFISTICADO NARANJA */
+#btn-limpiar-filtros,
+.btn-limpiar-personalizado {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(247, 147, 30, 0.05) 100%);
+  border: 1px solid rgba(255, 107, 53, 0.2) !important;
+  color: var(--naranja-principal) !important;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radio-pequeno);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  text-transform: none;
+  letter-spacing: 0.3px;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 
+    0 4px 12px rgba(255, 107, 53, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Efecto de fondo que se expande - SOFISTICADO */
+#btn-limpiar-filtros::before,
+.btn-limpiar-personalizado::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--naranja-principal) 0%, var(--naranja-secundario) 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: -1;
+  border-radius: var(--radio-pequeno);
+}
+
+/* Efecto ripple para el botón limpiar - REFINADO */
+#btn-limpiar-filtros::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 107, 53, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s ease-out;
+  pointer-events: none;
+  z-index: -2;
+}
+
+#btn-limpiar-filtros:hover::after {
+  width: 80px;
+  height: 80px;
+  opacity: 0;
+}
+
+#btn-limpiar-filtros:hover,
+.btn-limpiar-personalizado:hover {
+  color: var(--blanco) !important;
+  border-color: var(--naranja-principal) !important;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 
+    0 8px 25px rgba(255, 107, 53, 0.3),
+    0 4px 12px rgba(255, 107, 53, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+#btn-limpiar-filtros:hover::before,
+.btn-limpiar-personalizado:hover::before {
+  transform: scaleX(1);
+}
+
+#btn-limpiar-filtros:hover::after {
+  width: 60px;
+  height: 60px;
+  opacity: 0;
+}
+
+#btn-limpiar-filtros:active {
+  transform: translateY(-1px) scale(0.98);
+  transition: all 0.1s ease;
+}
+
+/* Efecto de pulso sutil */
+@keyframes pulse-limpiar {
+  0%, 100% { box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2); }
+  50% { box-shadow: 0 6px 16px rgba(255, 107, 53, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+}
+
+#btn-limpiar-filtros {
+  animation: pulse-limpiar 3s ease-in-out infinite;
+}
+
+/* Efecto shimmer interno */
+#btn-limpiar-filtros:hover::before {
+  background: 
+    linear-gradient(135deg, var(--naranja-principal) 0%, var(--naranja-secundario) 50%, var(--naranja-claro) 100%),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+}
+
+/* Texto del botón con z-index */
+#btn-limpiar-filtros span {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===============================================
+   HEADER INDEPENDIENTE - DISEÑO ORIGINAL RESTAURADO
+   =============================================== */
+.tabla-header-independiente {
+  display: block;
+  background: 
+    linear-gradient(135deg, var(--verde-comparacion-principal) 0%, var(--verde-comparacion-secundario) 100%),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  color: var(--blanco);
+  padding: 0.1rem 1.5rem;
+  margin: 0 0 1rem 0;
+  border-radius: var(--radio-pequeno);
+  box-shadow: 
+    0 4px 20px rgba(40, 167, 69, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+  height: 7px;
+}
+
+/* Efecto shimmer en el header */
+.tabla-header-independiente::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  animation: headerShimmer 4s ease-in-out infinite;
+}
+
+@keyframes headerShimmer {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+.tabla-header-independiente .th-content {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 2;
+  justify-content: flex-start;
+}
+
+.tabla-header-independiente .th-icon {
+  font-size: 1.2rem;
+  opacity: 0.95;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.header-producto {
+  text-align: left;
+}
+
+/* Eliminar header de acción */
+.header-accion {
+  display: none;
+}
+
+/* ===============================================
+   CONTENEDOR DE SCROLL - DISEÑO PREMIUM
+   =============================================== */
+.tabla-a-comparar-scroll {
+  max-height: 400px;
+  overflow-y: auto;
+  margin: 0;
+  border-radius: var(--radio-pequeno);
+  background: var(--blanco);
+  box-shadow: 
+    inset 0 1px 3px rgba(40, 167, 69, 0.1),
+    0 1px 3px rgba(40, 167, 69, 0.05);
+  border: 1px solid rgba(40, 167, 69, 0.1);
+  position: relative;
+  backdrop-filter: blur(2px);
+}
+
+/* Scrollbar personalizado verde */
 .tabla-a-comparar-scroll::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 .tabla-a-comparar-scroll::-webkit-scrollbar-track {
-  background: #f3f4f6;
-  border-radius: 3px;
-  /* margin-top eliminado - ya no necesario sin parche */
+  background: var(--gris-claro);
+  border-radius: 4px;
 }
 
 .tabla-a-comparar-scroll::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #20c997 0%, #28a745 100%);  /* Gradiente invertido */
-  border-radius: 3px;
+  background: linear-gradient(135deg, var(--verde-comparacion-principal) 0%, var(--verde-comparacion-secundario) 100%);
+  border-radius: 4px;
 }
 
 .tabla-a-comparar-scroll::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #1a9e85 0%, #218838 100%);  /* Gradiente invertido */
+  background: linear-gradient(135deg, var(--verde-comparacion-oscuro) 0%, var(--verde-comparacion-principal) 100%);
 }
 
-/* Estado vacío */
-.tabla-a-comparar tbody:empty::after {
-  content: '🛒 No hay productos agregados aún';
-  display: table-row;
-  text-align: center;
-  padding: 2rem;
-  color: #6b7280;
-  font-style: italic;
+/* ===============================================
+   TABLA PRINCIPAL DE COMPARACIÓN
+   =============================================== */
+.tabla-a-comparar {
+  width: 100%;
+  margin: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background: var(--blanco);
 }
 
-/* Efecto de carga suave */
+/* ===============================================
+   FILAS DE LA TABLA COMPARACIÓN
+   =============================================== */
 .tabla-a-comparar tbody tr {
-  animation: fadeInUp 0.5s ease forwards;
-  opacity: 0;
-  transform: translateY(20px);
+  transition: all 0.3s ease;
+  border-bottom: 2px solid rgba(40, 167, 69, 0.1);
+  position: relative;
+  /* Sombreado sutil en cada fila */
+  box-shadow: 0 1px 3px rgba(40, 167, 69, 0.08);
+  margin-bottom: 0.25rem;
+  border-radius: var(--radio-pequeno);
 }
 
-@keyframes fadeInUp {
+/* Efecto zebra con verde muy sutil */
+.tabla-a-comparar tbody tr:nth-child(even) {
+  background-color: rgba(40, 167, 69, 0.03);
+}
+
+/* Efecto hover con deslizamiento MEJORADO - ESPECTACULAR */
+.tabla-a-comparar tbody tr:hover {
+  background: 
+    linear-gradient(135deg, rgba(40, 167, 69, 0.12) 0%, rgba(32, 201, 151, 0.08) 50%, rgba(40, 167, 69, 0.05) 100%),
+    radial-gradient(circle at right, rgba(40, 167, 69, 0.1) 0%, transparent 70%);
+  transform: translateX(12px) translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 12px 40px rgba(40, 167, 69, 0.25),
+    0 8px 20px rgba(40, 167, 69, 0.15),
+    0 4px 10px rgba(40, 167, 69, 0.1);
+  border-left: 6px solid var(--verde-comparacion-secundario);
+  border-radius: 0 var(--radio-pequeno) var(--radio-pequeno) 0;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ===============================================
+   CELDAS DE LA TABLA COMPARACIÓN - NUEVA ESTRUCTURA
+   =============================================== */
+.tabla-a-comparar tbody td {
+  padding: 2rem 0;
+  vertical-align: middle;
+  border-right: none;
+  border-bottom: 2px solid rgba(40, 167, 69, 0.08);
+  transition: var(--transicion);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  position: relative;
+}
+
+/* Celda de producto - OCUPA TODA LA FILA */
+.celda-producto {
+  width: 100%;
+  padding-left: 2.5rem !important;
+  padding-right: 2.5rem !important;
+  position: relative;
+  /* Estado inicial: sombreado verde más extenso e intenso */
+  background: linear-gradient(
+    to right, 
+    rgba(40, 167, 69, 0.12) 0%, 
+    rgba(40, 167, 69, 0.08) 30%, 
+    rgba(40, 167, 69, 0.06) 50%, 
+    rgba(40, 167, 69, 0.04) 70%, 
+    rgba(40, 167, 69, 0.02) 85%, 
+    transparent 95%
+  );
+  /* Transición suave para el efecto hover */
+  transition: all 0.3s ease;
+  /* Preparar el overlay para el barrido naranja */
+  overflow: hidden;
+}
+
+/* Overlay naranja para efecto de barrido */
+.celda-producto::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right, 
+    transparent 0%, 
+    transparent 80%, 
+    rgba(255, 107, 53, 0.18) 88%, 
+    rgba(255, 107, 53, 0.32) 95%, 
+    rgba(255, 107, 53, 0.40) 100%
+  );
+  /* Oculto inicialmente con clip-path */
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.5s ease-out;
+  z-index: 1;
+}
+
+/* Overlay adicional para crear efecto difuminado */
+.celda-producto::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 75%,
+    rgba(255, 255, 255, 0.8) 80%,
+    rgba(255, 255, 255, 0.4) 85%,
+    rgba(255, 255, 255, 0.1) 90%,
+    transparent 95%
+  );
+  /* Inicialmente posicionado para crear el borde difuminado */
+  transform: translateX(-100%);
+  transition: transform 0.5s ease-out;
+  z-index: 2;
+}
+
+/* Efecto hover - Revela el gradiente naranja */
+.tabla-a-comparar tbody tr:hover .celda-producto::before {
+  /* Revela el gradiente naranja */
+  clip-path: inset(0 0 0 0);
+}
+
+/* Efecto hover - La cortina difuminada se desliza */
+.tabla-a-comparar tbody tr:hover .celda-producto::after {
+  /* La cortina difuminada se desliza revelando gradualmente */
+  transform: translateX(100%);
+}
+
+/* Eliminar celda de acción - CONFIRMADO */
+.celda-accion {
+  display: none !important;
+}
+
+/* Eliminar header de acción - CONFIRMADO */
+.header-accion {
+  display: none !important;
+}
+
+/* ===============================================
+   INFORMACIÓN DEL PRODUCTO
+   =============================================== */
+.producto-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  position: relative;
+  z-index: 4;
+}
+
+.producto-nombre {
+  font-weight: 600;
+  color: #6c757d;  /* Gris igual que en la tabla naranja */
+  font-size: 1.15rem;
+  line-height: 1.3;
+}
+
+.producto-codigo {
+  color: #6c757d;  /* Gris igual que en la tabla naranja */
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: rgba(108, 117, 125, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radio-pequeno);
+  display: inline-block;
+  max-width: fit-content;
+}
+
+/* ===============================================
+   BOTÓN ELIMINAR INTEGRADO EN EL GRADIENTE
+   =============================================== */
+.eliminar-btn {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--rojo-eliminar);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  z-index: 4;
+  backdrop-filter: blur(1px);
+  /* Asegurar que sea clickeable */
+  pointer-events: auto;
+}
+
+/* Fondo del botón que aparece en hover */
+.eliminar-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--rojo-eliminar) 0%, var(--rojo-eliminar-hover) 100%);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: -1;
+}
+
+/* El botón aparece cuando se hace hover en la fila - CON EFECTO ENTRADA */
+.tabla-a-comparar tbody tr:hover .eliminar-btn {
+  opacity: 0.9;
+  transform: translateY(-50%) scale(1) rotate(0deg);
+  animation: botonEliminarEntrada 0.3s ease-out;
+}
+
+@keyframes botonEliminarEntrada {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.5) rotate(-90deg);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-50%) scale(1.1) rotate(0deg);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translateY(-50%) scale(1) rotate(0deg);
+  }
+}
+
+/* Hover directo del botón - EFECTO INTENSIFICADO */
+.tabla-a-comparar tbody tr .eliminar-btn:hover {
+  opacity: 1 !important;
+  transform: translateY(-50%) scale(1.15) !important;
+  color: var(--blanco);
+  animation: botonEliminarPulso 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes botonEliminarPulso {
+  0% {
+    box-shadow: 0 3px 12px rgba(220, 53, 69, 0.4);
+    filter: brightness(1);
+  }
+  100% {
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.6);
+    filter: brightness(1.1) saturate(1.2);
+  }
+}
+
+.tabla-a-comparar tbody tr .eliminar-btn:hover::before {
+  opacity: 1;
+  transform: scale(1);
+  box-shadow: 0 3px 12px rgba(220, 53, 69, 0.4);
+}
+
+/* Efecto activo */
+.eliminar-btn:active {
+  transform: translateY(-50%) scale(0.95) !important;
+}
+
+/* Icono del botón - EFECTOS AVANZADOS */
+.eliminar-btn i {
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.eliminar-btn:hover i {
+  transform: rotate(180deg) scale(1.1);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Efecto adicional de partículas en hover */
+.eliminar-btn:hover::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(220, 53, 69, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: particulas 0.8s ease-out;
+  z-index: -1;
+}
+
+@keyframes particulas {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2);
+  }
+}
+
+/* ===============================================
+   ANIMACIONES DE LA TABLA COMPARACIÓN
+   =============================================== */
+/* Animación de entrada del wrapper */
+@keyframes slideInUpComparacion {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Escalonamiento de animaciones */
+#tabla-comparacion-wrapper {
+  animation: slideInUpComparacion 0.6s ease-out;
+}
+
+/* Animación de entrada de filas */
+@keyframes fadeInRowComparacion {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px) translateY(10px) scale(0.95);
+    filter: blur(2px);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateX(-5px) translateY(-2px) scale(1.02);
+    filter: blur(0.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.tabla-a-comparar tbody tr {
+  animation: fadeInRowComparacion 0.4s ease-out;
+}
+
+/* Delay escalonado para filas */
 .tabla-a-comparar tbody tr:nth-child(1) { animation-delay: 0.1s; }
 .tabla-a-comparar tbody tr:nth-child(2) { animation-delay: 0.15s; }
 .tabla-a-comparar tbody tr:nth-child(3) { animation-delay: 0.2s; }
 .tabla-a-comparar tbody tr:nth-child(4) { animation-delay: 0.25s; }
 .tabla-a-comparar tbody tr:nth-child(5) { animation-delay: 0.3s; }
 
-/* Estilos para el contenido de la celda de producto */
-.tabla-a-comparar .producto-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+/* Animación de eliminación (fade out hacia la izquierda) */
+.fila-eliminando {
+  animation: fadeOutLeftComparacion 0.25s ease-out forwards !important;
 }
 
-.tabla-a-comparar .producto-nombre {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #1f2937;
-  line-height: 1.3;
-  margin: 0;
-}
-
-.tabla-a-comparar .producto-codigo {
-  font-size: 0.9rem;
-  color: #6b7280;
-  font-weight: 500;
-  background: rgba(107, 114, 128, 0.1);
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  display: inline-block;
-  max-width: fit-content;
-}
-
-/* ===============================================
-   TABLA COMPARADORA PREMIUM (página resultados)
-   =============================================== */
-.comparacion-header-premium {
-  background: linear-gradient(135deg, var(--color-white) 0%, #FAFBFC 100%);
-  border-radius: var(--radius);
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: var(--shadow-md);
-  border-left: 4px solid var(--color-primary);
-}
-
-.header-comparacion-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.comparacion-titulo {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.titulo-icon {
-  font-size: 2.5rem;
-}
-
-.comparacion-subtitulo {
-  color: var(--color-text-secondary);
-  font-size: 1.1rem;
-}
-
-.header-right {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.stat-card {
-  background: var(--color-white);
-  padding: 1rem 1.5rem;
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-  min-width: 100px;
-}
-
-.stat-number {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--color-primary);
-}
-
-.stat-label {
-  font-size: 0.85rem;
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.stat-icon {
-  font-size: 1.5rem;
-}
-
-/* Tabla comparadora wrapper premium */
-.tabla-comparadora-wrapper-premium {
-  background: var(--color-white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
-  margin-bottom: 2rem;
-  position: relative;
-  max-height: 600px;
-  overflow-y: auto;
-}
-
-.tabla-comparadora-wrapper-premium::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
-}
-
-/* Tabla principal */
-.tabla-productos-comparados-premium {
-  width: 100%;
-  margin: 0;
-  border-collapse: separate;
-  border-spacing: 0;
-  position: relative;
-}
-
-/* HACER QUE EL THEAD SEA STICKY */
-.tabla-productos-comparados-premium thead {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-/* Asegurar que las celdas del header también sean sticky */
-.tabla-productos-comparados-premium thead th {
-  position: sticky;
-  top: 0;
-  z-index: 101;
-  padding: 1.25rem 1rem;
-  color: white;
-  font-weight: 600;
-  border: none;
-  vertical-align: middle;
-}
-
-.celda-accion td {
-  align-items: center;
-}
-
-/* Solución para el header negro */
-.tabla-productos-comparados-premium thead th,
-.tabla-productos-comparados-premium .thead-premium th,
-.tabla-productos-comparados-premium .th-producto-premium,
-.tabla-productos-comparados-premium .th-supermercado-premium {
-  color: white !important;
-}
-
-/* Asegurar que los contenidos dentro del th también sean blancos */
-.tabla-productos-comparados-premium th .th-text,
-.tabla-productos-comparados-premium th .th-help,
-.tabla-productos-comparados-premium th .th-icon,
-.tabla-productos-comparados-premium th .th-number {
-  color: white !important;
-}
-
-/* Headers premium */
-.thead-premium {
-  color:white !important;
-}
-
-/* Asegurar que el contenido no se vea por debajo del header */
-.tbody-premium tr:first-child td {
-  padding-top: 1.25rem;
-}
-
-/* Mejorar la visibilidad del border del header sticky */
-.tabla-productos-comparados-premium thead::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
-  z-index: 102;
-}
-
-/* Asegurar que los logos en el header se vean bien */
-.th-content-premium .th-logo-container img {
-  position: relative;
-  z-index: 102;
-}
-
-.tabla-productos-comparados-premium .th-caminando-premium {
-  background: linear-gradient(135deg, #FFD600 0%, #FFA000 100%) !important;
-}
-
-.thead-premium th {
-  padding: 0rem;
-  color: white;
-  font-weight: 600;
-  border: none;
-  vertical-align: middle;
-}
-
-.th-content-premium {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.th-icon, .th-number {
-  font-size: 1.2rem;
-  opacity: 0.9;
-}
-
-.th-text {
-  font-size: 1rem;
-  font-weight: 600;
-  text-align: center;
-}
-
-.th-help {
-  font-size: 0.7rem;
-  opacity: 0.7;
-  font-weight: 400;
-}
-
-/* Columna Caminando destacada */
-.th-caminando-premium {
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-warning) 100%) !important;
-  position: relative;
-}
-
-/* Asegurar que todo el contenido dentro de este elemento sea blanco */
-.th-producto-premium *,
-.th-producto-premium .th-text,
-.th-producto-premium .th-content-premium {
-  color: white !important;
-}
-
-/* Forzar color blanco en todos los encabezados */
-.thead-premium th,
-.th-supermercado-premium,
-.th-caminando-premium {
-  color: white !important;
-}
-
-.th-content-caminando-premium {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-  color: var(--color-text);
-}
-
-.th-star {
-  font-size: 1.5rem;
-  animation: pulse-star 2s infinite;
-}
-
-@keyframes pulse-star {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-}
-
-.th-badge {
-  background: var(--color-danger);
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.65rem;
-  font-weight: 700;
-  margin-top: 0.25rem;
-}
-
-/* Body premium */
-.tbody-premium tr {
-  border-bottom: 1px solid var(--color-border-light);
-  transition: var(--transition);
-}
-
-.tbody-premium tr:hover {
-  background: linear-gradient(135deg, rgba(255, 107, 0, 0.02) 0%, rgba(255, 214, 0, 0.01) 100%);
-  transform: translateX(2px);
-}
-
-.fila-producto-premium {
-  animation: fadeInRow 0.5s ease forwards;
-  opacity: 0;
-}
-
-@keyframes fadeInRow {
-  to {
+@keyframes fadeOutLeftComparacion {
+  0% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) scale(1);
+    max-height: 70px;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50px) scale(0.98);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+    border: none;
   }
 }
 
-/* Celdas premium */
-.td-producto-premium {
-  padding: 1.25rem 0.2rem;
-  border-right: 2px solid var(--color-border-light);
-  vertical-align: middle;
+/* ===============================================
+   RESPONSIVE DESIGN PARA TABLA COMPARACIÓN
+   =============================================== */
+@media (max-width: 768px) {
+  .tabla-comparacion {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .tabla-comparacion .d-flex {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1rem;
+  }
+  
+  .tabla-comparacion h5 {
+    font-size: 1.1rem;
+  }
+  
+  .tabla-header-independiente {
+    padding: 0.75rem 1rem;
+    gap: 0.5rem;
+  }
+  
+  .tabla-header-independiente .th-content {
+    font-size: 0.9rem;
+  }
+  
+  .tabla-a-comparar tbody td {
+    padding: 1rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .celda-producto {
+    padding-left: 1rem !important;
+  }
+  
+  .celda-accion {
+    padding-right: 1rem !important;
+  }
+  
+  .producto-nombre {
+    font-size: 1rem;
+  }
+  
+  .producto-codigo {
+    font-size: 0.75rem;
+  }
+  
+  .eliminar-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
 }
 
-.producto-info-premium {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+@media (max-width: 480px) {
+  .tabla-header-independiente {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .header-accion {
+    display: none;
+  }
+  
+  .celda-producto {
+    width: 65%;
+  }
+  
+  .celda-accion {
+    width: 35%;
+  }
+  
+  .producto-nombre {
+    font-size: 0.95rem;
+  }
+  
+  .eliminar-btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+  }
 }
 
-.producto-numero {
-  background: var(--color-primary);
-  color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.85rem;
-}
-
-.producto-detalles {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.producto-nombre-premium {
-  font-weight: 600;
-  color: var(--color-text);
-  font-size: 1rem;
-}
-
-.producto-codigo {
-  color: var(--color-text-secondary);
-  font-size: 0.75rem;
-  font-family: monospace;
-}
-
-/* Precios premium */
-.td-precio-premium {
-  padding: 1rem;
+/* ===============================================
+   ESTADO VACIÓ Y LOADING
+   =============================================== */
+.tabla-comparacion-vacia {
   text-align: center;
-  vertical-align: middle;
-}
-
-.precio-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.5rem;
-  border-radius: var(--radius-sm);
-  transition: var(--transition);
-}
-
-.precio-box:hover {
-  background: var(--color-bg);
-}
-
-.precio-box.mejor {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
-  border: 2px solid var(--color-success);
-}
-
-.precio-valor {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-.precio-diferencia {
-  color: var(--color-danger);
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.precio-badge-mejor {
-  background: var(--color-success);
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  font-weight: 600;
-}
-
-/* Precio mínimo */
-.precio-minimo-super {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
-  border-left: 3px solid var(--color-success);
-  position: relative;
-}
-
-.precio-minimo-super::after {
-  content: '🏆';
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  font-size: 0.8rem;
-}
-
-/* Celda Caminando premium */
-.td-caminando-premium {
-  background: linear-gradient(135deg, rgba(255, 214, 0, 0.15) 0%, rgba(255, 179, 0, 0.1) 100%);
-  border-left: 3px solid var(--color-accent);
-  padding: 1rem;
-  text-align: center;
-}
-
-.precio-caminando-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
-}
-
-.precio-caminando-valor {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.precio-caminando-ahorro {
-  background: var(--color-success);
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.precio-caminando-super {
-  color: var(--color-text-secondary);
-  font-size: 0.7rem;
+  padding: 2rem;
+  color: var(--gris-medio);
   font-style: italic;
 }
 
+.tabla-comparacion-vacia i {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--verde-comparacion-principal);
+  opacity: 0.5;
+}
+
+/* Loading state para la tabla comparación */
+.tabla-comparacion.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.tabla-comparacion.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 25px;
+  height: 25px;
+  margin: -12.5px 0 0 -12.5px;
+  border: 3px solid var(--verde-comparacion-principal);
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 10;
+}
+
 /* ===============================================
-   SECCIÓN DE TOTALES
+   MICRO-INTERACCIONES ADICIONALES
    =============================================== */
-.seccion-totales-premium {
-  background: var(--color-white);
-  padding: 2rem;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-md);
-  margin-bottom: 2rem;
+/* Efecto click en fila - FEEDBACK MEJORADO */
+.tabla-a-comparar tbody tr:active {
+  transform: translateX(8px) translateY(-1px) scale(0.98);
+  transition: all 0.1s ease-out;
+  box-shadow: 
+    0 6px 20px rgba(40, 167, 69, 0.4),
+    0 2px 8px rgba(40, 167, 69, 0.2);
 }
 
-.totales-titulo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.tabla-totales-premium {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: var(--radius-sm);
+/* Efecto shimmer para productos recién agregados - INTENSIFICADO */
+.producto-recien-agregado {
+  animation: shimmerProductAvanzado 2s ease-out;
+  position: relative;
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
 }
 
-.tabla-totales-premium thead {
-  background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
-  color: white;
+.producto-recien-agregado::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(40, 167, 69, 0.3) 20%,
+    rgba(32, 201, 151, 0.4) 50%,
+    rgba(40, 167, 69, 0.3) 80%,
+    transparent 100%
+  );
+  animation: shimmerBarrido 1.5s ease-out;
+  z-index: 1;
 }
 
-.tabla-totales-premium th {
-  padding: 1rem;
-  font-weight: 600;
+@keyframes shimmerProductAvanzado {
+  0% {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.2) 0%, rgba(32, 201, 151, 0.15) 50%, rgba(23, 216, 122, 0.1) 100%);
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+  }
+  50% {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(32, 201, 151, 0.08) 50%, rgba(23, 216, 122, 0.05) 100%);
+    transform: scale(1.01);
+  }
+  100% {
+    background: transparent;
+    transform: scale(1);
+    box-shadow: none;
+  }
 }
 
-.tabla-totales-premium tbody td {
-  padding: 1.25rem 1rem;
-  text-align: center;
-  background: var(--color-white);
-  border: 1px solid var(--color-border-light);
-  vertical-align: middle;
+@keyframes shimmerBarrido {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
 
-.total-box {
+/* ===============================================
+   POPUP PERSONALIZADO - DISEÑO PREMIUM NARANJA/VERDE
+   =============================================== */
+
+/* Variables para el popup */
+:root {
+  --popup-overlay: rgba(0, 0, 0, 0.6);
+  --popup-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  --popup-shadow-hover: 0 25px 80px rgba(0, 0, 0, 0.4);
+}
+
+/* Overlay del popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--popup-overlay);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  vertical-align: middle;
-  gap: 0.25rem;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
 }
 
-.total-valor {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--color-text);
+.popup-overlay.show {
+  opacity: 1;
 }
 
-.td-total-caminando {
-  background: linear-gradient(135deg, rgba(255, 214, 0, 0.2) 0%, rgba(255, 179, 0, 0.15) 100%) !important;
-  border: 2px solid var(--color-accent) !important;
+/* Contenedor principal del popup */
+.popup-container {
+  background: var(--blanco);
+  border-radius: var(--radio-grande);
+  padding: 0;
+  min-width: 400px;
+  max-width: 500px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--popup-shadow);
+  transform: scale(0.8) translateY(30px);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 2px solid rgba(255, 107, 53, 0.2);
+  
+  /* Gradiente de fondo sofisticado */
+  background: 
+    linear-gradient(135deg, rgba(255, 107, 53, 0.03) 0%, rgba(40, 167, 69, 0.02) 50%, var(--blanco) 100%),
+    radial-gradient(circle at top left, rgba(255, 107, 53, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at bottom right, rgba(40, 167, 69, 0.04) 0%, transparent 50%),
+    var(--blanco);
 }
 
-.total-caminando-box {
+.popup-overlay.show .popup-container {
+  transform: scale(1) translateY(0);
+  box-shadow: var(--popup-shadow-hover);
+}
+
+/* Header del popup con gradiente naranja */
+.popup-header {
+  background: 
+    linear-gradient(135deg, var(--naranja-principal) 0%, var(--naranja-secundario) 50%, var(--naranja-claro) 100%),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+  color: var(--blanco);
+  padding: 1.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radio-grande) var(--radio-grande) 0 0;
+  box-shadow: 
+    0 4px 20px rgba(255, 107, 53, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Efecto shimmer en el header */
+.popup-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  animation: headerShimmerPopup 3s ease-in-out infinite;
+}
+
+@keyframes headerShimmerPopup {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+/* Icono y título del header */
+.popup-header-content {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
 }
 
-.total-caminando-valor {
+.popup-icon {
+  font-size: 2rem;
+  opacity: 0.95;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.popup-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-primary);
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.badge-mejor-precio {
-  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-warning) 100%);
-  color: var(--color-text);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
+  margin: 0;
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.2);
   letter-spacing: 0.5px;
 }
 
-/* ===============================================
-   RESPONSIVIDAD PARA TABLAS
-   =============================================== */
+/* Cuerpo del popup */
+.popup-body {
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.popup-message {
+  font-size: 1.1rem;
+  color: var(--gris-oscuro);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.popup-highlight {
+  color: var(--naranja-principal);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* Contenedor de botones */
+.popup-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/* Botón Cancelar (Gris) */
+.popup-btn-cancel {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  border: none;
+  color: var(--blanco);
+  padding: 0.875rem 2rem;
+  border-radius: var(--radio-pequeno);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+  min-width: 120px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.popup-btn-cancel:hover {
+  background: linear-gradient(135deg, #5a6268 0%, #3d4142 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+}
+
+.popup-btn-cancel:active {
+  transform: translateY(0);
+}
+
+/* Botón Confirmar (Verde) */
+.popup-btn-confirm {
+  background: linear-gradient(135deg, var(--verde-comparacion-principal) 0%, var(--verde-comparacion-secundario) 100%);
+  border: none;
+  color: var(--blanco);
+  padding: 0.875rem 2rem;
+  border-radius: var(--radio-pequeno);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+  min-width: 120px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+/* Efecto de fondo expandible para botón confirmar */
+.popup-btn-confirm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--verde-comparacion-oscuro) 0%, var(--verde-comparacion-principal) 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.popup-btn-confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.popup-btn-confirm:hover::before {
+  transform: scaleX(1);
+}
+
+.popup-btn-confirm:active {
+  transform: translateY(0);
+}
+
+/* Animación de entrada del popup */
+@keyframes popupSlideIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Animación de salida del popup */
+@keyframes popupSlideOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-30px);
+  }
+}
+
+.popup-container.entering {
+  animation: popupSlideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.popup-container.leaving {
+  animation: popupSlideOut 0.3s ease-in;
+}
+
+/* Responsive design para popup */
 @media (max-width: 768px) {
-  .header-comparacion-content {
+  .popup-container {
+    min-width: 300px;
+    max-width: 90vw;
+    margin: 1rem;
+  }
+  
+  .popup-header {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .popup-title {
+    font-size: 1.3rem;
+  }
+  
+  .popup-icon {
+    font-size: 1.75rem;
+  }
+  
+  .popup-body {
+    padding: 1.5rem;
+  }
+  
+  .popup-message {
+    font-size: 1rem;
+  }
+  
+  .popup-buttons {
     flex-direction: column;
-    align-items: flex-start;
+    gap: 0.75rem;
   }
+  
+  .popup-btn-cancel,
+  .popup-btn-confirm {
+    padding: 0.75rem 1.5rem;
+    min-width: 100%;
+  }
+}
 
-  .header-right {
-    width: 100%;
-    justify-content: space-between;
-  }
+/* Efecto de partículas en el fondo del popup */
+.popup-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(40, 167, 69, 0.08) 0%, transparent 30%),
+    radial-gradient(circle at 60% 40%, rgba(255, 107, 53, 0.05) 0%, transparent 25%);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.6;
+}
 
-  .stat-card {
-    min-width: auto;
-    flex: 1;
-  }
+/* Conteo animado para el badge */
+.badge-count {
+  animation: bounceCount 0.6s ease-out;
+}
+
+@keyframes bounceCount {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
 }

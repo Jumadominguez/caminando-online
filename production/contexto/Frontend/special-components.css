@@ -1,0 +1,445 @@
+/* ===============================================
+   COMPONENTES ESPECIALES - SUPERMERCADOS, COMPRA, DONACIÓN
+   =============================================== */
+
+/* ===============================================
+   TÍTULOS DE SECCIONES
+   =============================================== */
+.container-custom-super h3,
+.container-custom-filtro h4 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+  color: #5a6c7d;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0 0 1.5rem 0;
+  position: relative;
+  display: inline-block;
+}
+
+.container-custom-super h3::after,
+.container-custom-filtro h4::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  border-radius: 2px;
+}
+
+/* Responsive para títulos */
+@media (max-width: 768px) {
+  .container-custom-super h3,
+  .container-custom-filtro h4 {
+    font-size: clamp(1.5rem, 3.5vw, 1.8rem);
+    letter-spacing: 0.5px;
+  }
+}
+
+/* ===============================================
+   BOTONES DE SUPERMERCADOS
+   =============================================== */
+#supermercado-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 35px;
+  margin-top: 1rem;
+}
+
+.supermercado-btn {
+  border: none;
+  background: var(--color-white);
+  padding: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 2px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.supermercado-btn img {
+  width: 125px;
+  height: auto;
+  filter: grayscale(100%);
+  transition: var(--transition);
+  position: relative;
+  z-index: 2;
+}
+
+.supermercado-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.supermercado-btn img:hover {
+  filter: none;
+  transform: scale(1.1);
+}
+
+.supermercado-btn.selected {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.supermercado-btn.selected img {
+  filter: none;
+  transform: scale(1.1);
+}
+
+.supermercado-btn.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 28px;
+  height: 28px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: bold;
+  z-index: 3;
+  animation: checkmark 0.3s ease-out;
+}
+
+@keyframes checkmark {
+  0% { transform: scale(0) rotate(180deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* ===============================================
+   RESUMEN DE AHORRO
+   =============================================== */
+.resumen-ahorro-premium {
+  background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-lg);
+  color: white;
+}
+
+.ahorro-content {
+  display: flex;
+  align-items: center;
+  gap: 10rem;
+  text-align: center;
+}
+
+.ahorro-icon {
+  font-size: 3.5rem;
+  color: var(--color-accent);
+  margin-left: 3rem;
+}
+
+.ahorro-titulo {
+  margin-top: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.ahorro-numeros {
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  display: relative;
+}
+
+.ahorro-cantidad,
+.ahorro-porcentaje {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ahorro-label {
+  font-size: 1.2rem;
+}
+
+.ahorro-valor {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.ahorro-descripcion {
+  font-size: 1.2rem !important;
+  opacity: 0.9;
+}
+
+/* ===============================================
+   SECCIÓN DE COMPRA
+   =============================================== */
+.seccion-compra-premium {
+  background: var(--color-white);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+
+.compra-titulo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.botones-compra-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.btn-comprar-super {
+  background: var(--color-white);
+  border: 2px solid var(--color-border);
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: none;
+}
+
+.btn-comprar-super:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+  display: none;
+}
+
+.btn-icon {
+  font-size: 1.5rem;
+}
+
+.btn-text {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+.btn-total {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.btn-comprar-caminando {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-warning) 100%);
+  border: none;
+  padding: 2rem;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-comprar-caminando:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.btn-comprar-caminando:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(50%);
+}
+
+.btn-star {
+  font-size: 2rem;
+}
+
+.btn-text-principal {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.btn-total-caminando {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.btn-ahorro {
+  background: var(--color-success);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.btn-proximamente {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* ===============================================
+   DONACIÓN FLOTANTE
+   =============================================== */
+.donacion-container {
+  position: fixed;
+  bottom: 20px;
+  right: -400px;
+  width: 380px;
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-xl);
+  border: 2px solid var(--color-accent);
+  z-index: 1000;
+  transition: right 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  overflow: hidden;
+}
+
+.donacion-container.mostrar {
+  right: 20px;
+}
+
+.donacion-header {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-warning) 100%);
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-text);
+}
+
+.donacion-header h5 {
+  margin: 0;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-cerrar-donacion {
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  color: var(--color-text);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-cerrar-donacion:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: rotate(90deg);
+}
+
+.donacion-body {
+  padding: 1.5rem;
+}
+
+.donacion-mensaje {
+  color: var(--color-text);
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.donacion-metodos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.btn-donacion {
+  background: var(--color-white);
+  border: 2px solid var(--color-border);
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.btn-donacion:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.donacion-disclaimer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+  text-align: center;
+  justify-content: center;
+}
+
+/* ===============================================
+   RESPONSIVE PARA COMPONENTES ESPECIALES
+   =============================================== */
+@media (max-width: 768px) {
+  .supermercado-btn img {
+    width: 100px;
+  }
+
+  .ahorro-content {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .ahorro-numeros {
+    justify-content: center;
+  }
+
+  .botones-compra-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .donacion-container {
+    width: 90%;
+    right: -100%;
+  }
+
+  .donacion-container.mostrar {
+    right: 5%;
+  }
+}
+
+@media (max-width: 480px) {
+  .ahorro-valor {
+    font-size: 1.5rem;
+  }
+
+  .btn-text-principal {
+    font-size: 1.2rem;
+  }
+}

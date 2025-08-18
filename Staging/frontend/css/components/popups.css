@@ -1,0 +1,443 @@
+/* ===============================================
+   POPUPS - SISTEMA PREMIUM
+   =============================================== */
+
+/* ===============================================
+   OVERLAY Y CONTENEDOR PRINCIPAL
+   =============================================== */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.popup-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup-container {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  transform: scale(0.7) translateY(50px);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* FINO BORDE NARANJA CON GLOW */
+  border: 2px solid rgba(255, 107, 53, 0.4);
+  box-shadow: 
+    0 0 30px rgba(255, 107, 53, 0.15),
+    0 0 60px rgba(255, 107, 53, 0.08);
+}
+
+.popup-container.entering {
+  transform: scale(1) translateY(0);
+  /* Intensificar el glow durante la entrada */
+  box-shadow: 
+    0 0 40px rgba(255, 107, 53, 0.25),
+    0 0 80px rgba(255, 107, 53, 0.12);
+}
+
+.popup-container.leaving {
+  transform: scale(0.7) translateY(50px);
+  opacity: 0;
+}
+
+/* ===============================================
+   HEADER DEL POPUP - TÍTULO CENTRADO
+   =============================================== */
+.popup-header {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  /* AJUSTAR BORDER-RADIUS AL CONTAINER */
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.popup-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* TÍTULO CENTRADO */
+  gap: 1rem;
+  color: white;
+}
+
+.popup-icon {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.popup-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  text-align: center; /* TÍTULO CENTRADO */
+  letter-spacing: 0.5px;
+  width: 100%; /* Asegurar ancho completo */
+}
+
+/* ===============================================
+   CUERPO DEL POPUP
+   =============================================== */
+.popup-body {
+  padding: 2rem;
+  text-align: center;
+  /* SIN SOMBREADOS INTERNOS */
+  background: transparent;
+  box-shadow: none;
+}
+
+.popup-message {
+  color: #6c757d; /* Color gris suave en lugar de negro fuerte */
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.popup-highlight {
+  font-weight: 700;
+  color: var(--color-primary);
+  background: rgba(var(--color-primary-rgb), 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* ===============================================
+   BOTONES DEL POPUP
+   =============================================== */
+.popup-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.popup-btn-cancel,
+.popup-btn-confirm {
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.popup-btn-cancel {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  color: white;
+  border: 2px solid rgba(108, 117, 125, 0.3);
+  box-shadow: 
+    0 4px 15px rgba(108, 117, 125, 0.3),
+    0 0 20px rgba(108, 117, 125, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.popup-btn-cancel:hover {
+  background: linear-gradient(135deg, #5a6268 0%, #3d4142 100%);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 20px rgba(108, 117, 125, 0.4),
+    0 0 30px rgba(108, 117, 125, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(108, 117, 125, 0.5);
+}
+
+.popup-btn-confirm {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: 2px solid rgba(40, 167, 69, 0.3);
+  box-shadow: 
+    0 4px 15px rgba(40, 167, 69, 0.3),
+    0 0 25px rgba(40, 167, 69, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.popup-btn-confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 20px rgba(40, 167, 69, 0.4),
+    0 0 35px rgba(40, 167, 69, 0.25),
+    0 0 50px rgba(40, 167, 69, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(40, 167, 69, 0.5);
+}
+
+.popup-btn-confirm:active,
+.popup-btn-cancel:active {
+  transform: translateY(0);
+}
+
+/* ===============================================
+   ANIMACIONES ESPECÍFICAS
+   =============================================== */
+@keyframes popup-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes popup-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8) translateY(30px);
+  }
+}
+
+/* ===============================================
+   VARIANTES DE POPUP POR TIPO
+   =============================================== */
+
+/* Popup de confirmación de eliminación */
+.popup-container.popup-delete {
+  border: 2px solid #ef4444; /* Borde rojo */
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.25),
+    0 0 20px rgba(239, 68, 68, 0.3), /* Glow rojo sutil */
+    0 0 40px rgba(239, 68, 68, 0.1); /* Glow rojo más amplio */
+}
+
+.popup-container.popup-delete .popup-header {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.popup-container.popup-delete .popup-icon {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.popup-container.popup-delete .popup-btn-confirm {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.popup-container.popup-delete .popup-btn-confirm:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+/* Popup de éxito */
+.popup-container.popup-success {
+  border: 2px solid var(--color-success); /* Borde verde */
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.25),
+    0 0 20px rgba(34, 197, 94, 0.3), /* Glow verde sutil */
+    0 0 40px rgba(34, 197, 94, 0.1); /* Glow verde más amplio */
+}
+
+.popup-container.popup-success .popup-header {
+  background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
+}
+
+.popup-container.popup-success .popup-btn-confirm {
+  background: linear-gradient(135deg, var(--color-success) 0%, #059669 100%);
+}
+
+.popup-container.popup-success .popup-btn-confirm:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+/* Popup de advertencia */
+.popup-container.popup-warning {
+  border: 2px solid var(--color-warning); /* Borde amarillo */
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.25),
+    0 0 20px rgba(245, 158, 11, 0.3), /* Glow amarillo sutil */
+    0 0 40px rgba(245, 158, 11, 0.1); /* Glow amarillo más amplio */
+}
+
+.popup-container.popup-warning .popup-header {
+  background: linear-gradient(135deg, var(--color-warning) 0%, #d97706 100%);
+}
+
+.popup-container.popup-warning .popup-btn-confirm {
+  background: linear-gradient(135deg, var(--color-warning) 0%, #d97706 100%);
+}
+
+.popup-container.popup-warning .popup-btn-confirm:hover {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+}
+
+/* Popup de información */
+.popup-container.popup-info {
+  border: 2px solid #3b82f6; /* Borde azul */
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.25),
+    0 0 20px rgba(59, 130, 246, 0.3), /* Glow azul sutil */
+    0 0 40px rgba(59, 130, 246, 0.1); /* Glow azul más amplio */
+}
+
+.popup-container.popup-info .popup-header {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.popup-container.popup-info .popup-btn-confirm {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.popup-container.popup-info .popup-btn-confirm:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+/* Glow intensificado durante animación de entrada por tipo */
+.popup-container.popup-delete.entering {
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.35),
+    0 0 30px rgba(239, 68, 68, 0.4), /* Glow rojo intenso */
+    0 0 60px rgba(239, 68, 68, 0.15); /* Glow rojo amplio */
+}
+
+.popup-container.popup-success.entering {
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.35),
+    0 0 30px rgba(34, 197, 94, 0.4), /* Glow verde intenso */
+    0 0 60px rgba(34, 197, 94, 0.15); /* Glow verde amplio */
+}
+
+.popup-container.popup-warning.entering {
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.35),
+    0 0 30px rgba(245, 158, 11, 0.4), /* Glow amarillo intenso */
+    0 0 60px rgba(245, 158, 11, 0.15); /* Glow amarillo amplio */
+}
+
+.popup-container.popup-info.entering {
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.35),
+    0 0 30px rgba(59, 130, 246, 0.4), /* Glow azul intenso */
+    0 0 60px rgba(59, 130, 246, 0.15); /* Glow azul amplio */
+}
+
+/* ===============================================
+   BOTÓN ÚNICO (SIN CANCELAR)
+   =============================================== */
+.popup-btn-single {
+  min-width: 150px !important;
+}
+
+/* Cuando solo hay un botón, centrarlo mejor */
+.popup-buttons:has(.popup-btn-single) {
+  justify-content: center;
+}
+
+/* Para navegadores que no soportan :has() */
+.popup-buttons .popup-btn-single:only-child {
+  margin: 0 auto;
+}
+
+/* ===============================================
+   RESPONSIVE DESIGN
+   =============================================== */
+@media (max-width: 768px) {
+  .popup-container {
+    margin: 1rem;
+    width: calc(100% - 2rem);
+    max-width: none;
+  }
+  
+  .popup-header {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .popup-title {
+    font-size: 1.2rem;
+  }
+  
+  .popup-body {
+    padding: 1.5rem;
+  }
+  
+  .popup-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .popup-btn-cancel,
+  .popup-btn-confirm {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .popup-header {
+    padding: 1rem;
+  }
+  
+  .popup-title {
+    font-size: 1.1rem;
+  }
+  
+  .popup-body {
+    padding: 1.25rem;
+  }
+  
+  .popup-message {
+    font-size: 1rem;
+  }
+}
+
+/* ===============================================
+   ACCESIBILIDAD
+   =============================================== */
+@media (prefers-reduced-motion: reduce) {
+  .popup-overlay,
+  .popup-container,
+  .popup-btn-cancel,
+  .popup-btn-confirm {
+    transition: none;
+  }
+  
+  .popup-container.entering,
+  .popup-container.leaving {
+    transform: none;
+  }
+}
+
+/* Focus para navegación con teclado */
+.popup-btn-cancel:focus,
+.popup-btn-confirm:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ===============================================
+   UTILIDADES ADICIONALES
+   =============================================== */
+.popup-no-scroll {
+  overflow: hidden;
+}
+
+/* Prevenir scroll del body cuando popup está abierto */
+body.popup-active {
+  overflow: hidden;
+}

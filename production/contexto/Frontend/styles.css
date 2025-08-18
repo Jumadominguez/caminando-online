@@ -1,0 +1,36 @@
+/* ===============================================
+   ESTILOS BASE - ARCHIVO PRINCIPAL
+   =============================================== */
+
+/* 
+   NOTA IMPORTANTE:
+   Este archivo ahora solo contiene los estilos base fundamentales.
+   Todos los componentes han sido modularizados en archivos específicos:
+   
+   📁 css/utils/
+   ├── variables.css
+   ├── base-utils.css
+   └── responsive.css
+   
+   📁 css/components/
+   ├── header.css
+   ├── forms.css
+   ├── buttons.css
+   ├── tables.css
+   └── special-components.css
+   
+   📁 css/layouts/
+   └── containers.css
+*/
+
+/* ===============================================
+   ESTILOS BASE GLOBALES
+   =============================================== */
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, var(--color-bg) 0%, #F1F5F9 100%);
+  font-family: var(--font-main);
+  color: var(--color-text);
+  line-height: 1.6;
+}

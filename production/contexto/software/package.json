@@ -1,0 +1,26 @@
+{
+  "name": "caminando-online-file-organizer",
+  "version": "1.0.0",
+  "description": "Herramienta para organizar archivos del proyecto Caminando Online",
+  "main": "file-organizer.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "node server.js",
+    "terminal": "node file-organizer.js",
+    "gui": "start http://localhost:3030",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "keywords": [
+    "file-organizer",
+    "caminando-online",
+    "automation"
+  ],
+  "author": "Caminando Online Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comparación de Precios - Caminando Online</title>
+  <link rel="icon" href="/assets/img/caminando-Favicon.png" type="image/png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/utils/variables.css" />
+  <link rel="stylesheet" href="/css/components/header.css" />
+  <link rel="stylesheet" href="/css/components/forms.css" />
+  <link rel="stylesheet" href="/css/components/buttons.css" />
+  <link rel="stylesheet" href="/css/components/tables.css" />
+  <link rel="stylesheet" href="/css/components/popups.css" />
+  <link rel="stylesheet" href="/css/components/footer.css" />
+  <link rel="stylesheet" href="/css/layouts/containers.css" />
+  <link rel="stylesheet" href="/css/components/special-components.css" />
+  <link rel="stylesheet" href="/css/utils/base-utils.css" />
+  <link rel="stylesheet" href="/css/utils/responsive.css" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <!-- Fonts para logo textual -->
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:ital@1&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Header corregido con estructura consistente -->
+  <header class="banner-superior">
+    <div class="header-content">
+      <!-- Logo visual -->
+      <div class="logo-container">
+        <img src="/assets/img/caminando-logo.png" alt="Logo Caminando Online" class="logo-caminando" />
+      </div>
+
+      <!-- Logo textual -->
+      <div class="logo-textual">
+        <div class="logo-caminando-textual-wrapper">
+          <span class="logo-caminando-text">Caminando</span>
+        </div>
+        <div class="logo-online-textual-wrapper">
+          <span class="logo-online-text">.Online</span>
+        </div>
+      </div>
+
+      <!-- Navegación DINÁMICA (se genera automáticamente) -->
+      <nav>
+        <ul>
+          <!-- El AuthManager generará los enlaces aquí automáticamente -->
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenedor principal -->
+  <div class="main-wrapper">
+    <!-- Botón volver mejorado -->
+    <section id="volver-a-filtros" class="mb-4">
+      <div class="container-custom-super">
+        <button class="btn btn-outline-primary btn-lg volver-btn" onclick="window.location.href='/index.html'">
+          <i class="fas fa-arrow-left"></i>
+          <span>Volver a los filtros</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Sección principal donde se cargarán los productos -->
+    <main>
+      <section id="productos" class="mb-0 position-relative">
+        <div class="container-custom-comparados">
+          <!-- Mensaje de carga inicial -->
+          <div id="loading-initial" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-3 text-muted">Preparando tu comparación de precios...</p>
+          </div>
+          
+          <!-- Aquí se insertará dinámicamente el contenido de la comparación -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Donación flotante (solo se muestra si corresponde) -->
+    <div id="donacion-flotante" class="donacion-container">
+      <div class="donacion-header">
+        <h5>
+          <i class="fas fa-star"></i>
+          ¿Te gusta Caminando Online?
+        </h5>
+        <button class="btn-cerrar-donacion" onclick="this.closest('.donacion-container').classList.remove('mostrar')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="donacion-body">
+        <div class="donacion-mensaje">
+          <!-- Se llena dinámicamente desde el JS -->
+        </div>
+        <div class="donacion-metodos">
+          <button class="btn-donacion" onclick="alert('Función en desarrollo')">
+            <i class="fab fa-cc-visa"></i>
+            Donación con tarjeta ($2.500)
+          </button>
+          <button class="btn-donacion" onclick="alert('Función en desarrollo')">
+            <i class="fas fa-mobile-alt"></i>
+            Donación con MODO
+          </button>
+          <button class="btn-donacion" onclick="alert('Función en desarrollo')">
+            <i class="fas fa-money-bill-wave"></i>
+            MercadoPago
+          </button>
+        </div>
+        <div class="donacion-disclaimer">
+          <i class="fas fa-info-circle"></i>
+          <span>Ayudás al desarrollo del proyecto</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- El footer se carga dinámicamente mediante footer-manager.js -->
+
+  <!-- Scripts -->
+  <!-- Footer Manager - DEBE cargarse PRIMERO para insertar el footer dinámicamente -->
+  <script src="/js/components/footer-manager.js"></script>
+  <!-- AuthManager DEBE cargarse PRIMERO -->
+  <script src="/js/components/auth-manager.js"></script>
+  <script src="/js/utils/data-manager.js"></script>
+  <script src="/js/components/cartel-donaciones.js"></script>
+  <script src="/js/components/tabla-generator.js"></script>
+  <script src="/js/tabla-comparadora.js"></script>
+  
+  <!-- Script de debug para verificar datos -->
+  <script>
+    // Debug: Verificar que hay datos en sessionStorage
+    document.addEventListener("DOMContentLoaded", function() {
+      // 🔐 INICIALIZAR AUTHMANAGER PRIMERO
+      if (window.AuthManager) {
+        window.AuthManager.inicializar();
+        console.log("✅ AuthManager inicializado en productos-comparados");
+      }
+      
+      console.log("🔍 DEBUG - Verificando datos:");
+      console.log("Productos:", sessionStorage.getItem("productosComparados"));
+      console.log("Supermercados:", sessionStorage.getItem("supermercadosSeleccionados"));
+      
+      // Si no hay datos, mostrar mensaje de ayuda
+      if (!sessionStorage.getItem("productosComparados") || !sessionStorage.getItem("supermercadosSeleccionados")) {
+        console.warn("⚠️ No se encontraron datos de comparación");
+        setTimeout(() => {
+          if (document.querySelector("#loading-initial")) {
+            document.querySelector("#loading-initial").innerHTML = `
+              <div class="alert alert-warning">
+                <h4><i class="fas fa-exclamation-triangle"></i> No hay productos para comparar</h4>
+                <p>Parece que llegaste aquí directamente. Necesitás seleccionar productos primero.</p>
+                <button class="btn btn-primary" onclick="window.location.href='/index.html'">
+                  <i class="fas fa-arrow-left"></i> Ir a seleccionar productos
+                </button>
+              </div>
+            `;
+          }
+        }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>

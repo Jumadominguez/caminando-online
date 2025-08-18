@@ -1,0 +1,22 @@
+{
+  "name": "conectador-servidor",
+  "version": "1.0.0",
+  "description": "Conectador automático al servidor localhost:3030 con auto-permisos",
+  "main": "servidor-conexion.js",
+  "scripts": {
+    "start": "node servidor-conexion.js",
+    "connect": "node servidor-conexion.js",
+    "test": "node -e \"fetch('http://localhost:3030/test').then(r=>r.json()).then(console.log).catch(e=>console.log('❌ Sin conexión'))\""
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "keywords": [
+    "servidor",
+    "localhost",
+    "conexion",
+    "auto-permisos"
+  ],
+  "author": "Auto-Conectador",
+  "license": "MIT"
+}

@@ -1,0 +1,332 @@
+/* ===============================================
+   HEADER Y NAVEGACIÓN - COMPONENTE MODULAR
+   =============================================== */
+
+/* Banner superior principal */
+header.banner-superior {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  height: 140px;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  padding: 0 2rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* Patrón de fondo sutil */
+header.banner-superior::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFFFFF' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+  z-index: 1;
+}
+
+/* Contenedor principal del header */
+.header-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 3;
+}
+
+/* ===============================================
+   LOGO VISUAL Y TEXTUAL - ALINEADO CON CONTAINERS
+   =============================================== */
+.logo-textual {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 3;
+  position: absolute;
+  left: calc((100vw - 1200px) / 2 + 2rem + 3vw);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.logo-container:hover {
+  transform: scale(1.05);
+}
+
+.logo-caminando {
+  width: clamp(55px, 13.2vw, 77px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+/* Contenedor del texto con layout vertical */
+.logo-textual-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+
+/* Contenedores de texto separados */
+.logo-caminando-textual-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.logo-online-textual-wrapper {
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  margin-top: -0.5rem;
+  position: relative;
+  right: -0.8rem;
+}
+
+.logo-caminando-text {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2.64rem, 6vw, 3.84rem);
+  color: white;
+  letter-spacing: 2px;
+  line-height: 1;
+  margin: 0;
+}
+
+.logo-online-text {
+  font-family: 'Roboto Slab', serif;
+  font-size: clamp(1.44rem, 3.36vw, 2.16rem);
+  font-style: italic;
+  color: white;
+  letter-spacing: 1px;
+  line-height: 1;
+  margin: 0;
+}
+
+/* ===============================================
+   NAVEGACIÓN - ALINEADA CON CONTAINERS PRINCIPALES
+   =============================================== */
+nav {
+  position: absolute;
+  right: calc((100vw - 1200px) / 2 + 2rem);
+  z-index: 3;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+nav a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Estilos específicos para botones de autenticación */
+nav a.nav-auth-login {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-weight: 500;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden !important;
+  clip-path: inset(0);
+}
+
+nav a.nav-auth-login::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  z-index: 2;
+}
+
+/* Estado activo controlado por JavaScript */
+nav a.nav-auth-login.shimmer-active::before {
+  transform: translateX(50%);
+}
+
+/* Fallback hover para caso que JS falle */
+nav a.nav-auth-login:hover::before {
+  transform: translateX(50%);
+}
+
+/* Estado de reset cuando NO hay hover */
+nav a.nav-auth-login:not(:hover):not(.shimmer-active)::before {
+  transform: translateX(-100%);
+}
+
+nav a.nav-auth-login:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+nav a.nav-auth-registro {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: 2px solid transparent;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+nav a.nav-auth-registro::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #20c997 0%, #28a745 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+nav a.nav-auth-registro:hover::before {
+  opacity: 1;
+}
+
+nav a.nav-auth-registro:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+nav a.nav-auth-registro span {
+  position: relative;
+  z-index: 2;
+}
+
+/* Estilos para botones cuando está logueado */
+nav a.nav-logout {
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+nav a.nav-logout:hover {
+  background: rgba(220, 53, 69, 0.2);
+  border-color: rgba(220, 53, 69, 0.5);
+}
+
+/* ===============================================
+   RESPONSIVE PARA HEADER
+   =============================================== */
+
+/* Para pantallas entre 769px y 1200px */
+@media (max-width: 1200px) and (min-width: 769px) {
+  .logo-textual {
+    left: calc(2rem + 3vw);
+  }
+  
+  nav {
+    right: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  header.banner-superior {
+    height: 100px;
+    padding: 0 1rem;
+    justify-content: center;
+    position: relative;
+  }
+
+  .logo-textual {
+    position: relative;
+    left: auto;
+    gap: 0.5rem;
+  }
+
+  .logo-textual-wrapper {
+    align-items: center;
+  }
+
+  .logo-online-textual-wrapper {
+    align-self: center;
+    margin-top: 0;
+    right: 0;
+  }
+
+  .logo-caminando {
+    width: clamp(44px, 11vw, 60.5px);
+  }
+
+  .logo-caminando-text {
+    font-size: clamp(2.16rem, 4.8vw, 2.88rem);
+    letter-spacing: 1px;
+  }
+
+  .logo-online-text {
+    font-size: clamp(1.44rem, 3vw, 1.92rem);
+  }
+
+  nav {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0.3rem;
+    margin: 0;
+  }
+
+  nav a {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  /* Ajustes responsive para botones de auth */
+  nav a.nav-auth-login {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+  }
+
+  nav a.nav-auth-registro {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+  }
+}

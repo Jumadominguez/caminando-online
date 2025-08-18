@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mis Supermercados - Caminando Online</title>
+  <link rel="icon" href="/assets/img/caminando-Favicon.png" type="image/png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/components/footer.css" />
+  <link rel="stylesheet" href="/private/css/dashboard-styles.css" />
+  <!-- Fonts para logo textual -->
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:ital@1&display=swap" rel="stylesheet">
+</head>
+
+<body class="dashboard-body">
+  <!-- Header del dashboard -->
+  <header class="dashboard-header">
+    <div class="header-container">
+      <!-- Logo y navegación principal -->
+      <div class="header-left">
+        <a href="/index.html" class="dashboard-logo-link">
+          <img src="/assets/img/caminando-logo.png" alt="Logo Caminando Online" class="dashboard-logo" />
+          <div class="dashboard-logo-text">
+            <span class="logo-caminando-text">Caminando</span>
+            <span class="logo-online-text">.Online</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Navegación del dashboard -->
+      <nav class="dashboard-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="/private/dashboard/dashboard.html" class="nav-link">
+              <i class="nav-icon">🏠</i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/index.html" class="nav-link">
+              <i class="nav-icon">🔍</i>
+              <span>Comparar</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/private/dashboard/perfil.html" class="nav-link">
+              <i class="nav-icon">👤</i>
+              <span>Perfil</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/private/dashboard/pagos.html" class="nav-link">
+              <i class="nav-icon">💳</i>
+              <span>Pagos</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="/private/dashboard/supermercados.html" class="nav-link">
+              <i class="nav-icon">🛒</i>
+              <span>Supermercados</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Menú de usuario -->
+      <div class="header-right">
+        <div class="user-menu">
+          <button class="user-menu-btn" id="user-menu-btn">
+            <div class="user-avatar">
+              <span id="user-initials">CU</span>
+            </div>
+            <span class="user-name" id="user-name">Cargando...</span>
+            <i class="dropdown-arrow">▼</i>
+          </button>
+          <div class="user-dropdown" id="user-dropdown">
+            <div class="dropdown-header">
+              <div class="user-info">
+                <div class="user-email" id="user-email">usuario@email.com</div>
+                <div class="user-status">Cuenta activa</div>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="/private/dashboard/perfil.html" class="dropdown-item">
+              <i class="item-icon">⚙️</i>
+              Configuración
+            </a>
+            <a href="#" class="dropdown-item" id="logout-btn">
+              <i class="item-icon">🚪</i>
+              Cerrar sesión
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="dashboard-main">
+    <div class="dashboard-container">
+      
+      <!-- Encabezado de la página -->
+      <div class="page-header">
+        <h1 class="page-title">Mis Supermercados</h1>
+        <p class="page-subtitle">Conectá tus cuentas para automatizar las compras y obtener los mejores precios</p>
+      </div>
+
+      <!-- Estado global de conexiones -->
+      <section class="connection-overview">
+        <div class="row">
+          <div class="col-md-4 col-12 mb-3">
+            <div class="stat-card stat-card-success">
+              <div class="stat-icon">✅</div>
+              <div class="stat-content">
+                <div class="stat-value" id="connected-count">0</div>
+                <div class="stat-label">Supermercados conectados</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-12 mb-3">
+            <div class="stat-card stat-card-warning">
+              <div class="stat-icon">⚙️</div>
+              <div class="stat-content">
+                <div class="stat-value" id="auto-buy-enabled">0</div>
+                <div class="stat-label">Compra automática activa</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-12 mb-3">
+            <div class="stat-card stat-card-info">
+              <div class="stat-icon">🔄</div>
+              <div class="stat-content">
+                <div class="stat-value" id="last-sync">Nunca</div>
+                <div class="stat-label">Última sincronización</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="supermarkets-grid-2x2">
+        
+        <!-- Lista de Supermercados -->
+        <section class="dashboard-card supermarkets-list-card">
+          <div class="card-header">
+            <h3 class="card-title">Estado de Conexiones</h3>
+            <button class="btn btn-outline-primary btn-sm" id="sync-all-btn">
+              <i class="btn-icon">🔄</i>
+              Sincronizar todo
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="supermarkets-list" id="supermarkets-list">
+              <!-- Los supermercados se cargan dinámicamente -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Configuraciones Globales -->
+        <section class="dashboard-card global-settings-card">
+          <div class="card-header">
+            <h3 class="card-title">Configuraciones Globales</h3>
+          </div>
+          <div class="card-body">
+            <form id="global-settings-form" class="settings-form">
+              
+              <div class="settings-group">
+                <h5 class="settings-group-title">Compras Automáticas</h5>
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <div class="setting-title">Habilitar compra automática</div>
+                    <div class="setting-subtitle">Permite que Caminando Online realice compras automáticamente</div>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="auto-buy-global" name="autoCompraGlobal">
+                  </div>
+                </div>
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <div class="setting-title">Verificar stock antes de comprar</div>
+                    <div class="setting-subtitle">Confirma disponibilidad antes de procesar pedidos</div>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="verify-stock" name="verificarStock" checked>
+                  </div>
+                </div>
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <div class="setting-title">Límite máximo por compra</div>
+                    <div class="setting-subtitle">Monto máximo para compras automáticas</div>
+                  </div>
+                  <div class="setting-input">
+                    <div class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input type="number" class="form-control" id="max-order-amount" name="montoMaximo" value="50000" min="1000" max="500000">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-group">
+                <h5 class="settings-group-title">Notificaciones</h5>
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <div class="setting-title">Notificar errores de conexión</div>
+                    <div class="setting-subtitle">Recibir alertas cuando hay problemas con las cuentas</div>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="notify-errors" name="notificarErrores" checked>
+                  </div>
+                </div>
+                <div class="setting-item">
+                  <div class="setting-info">
+                    <div class="setting-title">Confirmar antes de comprar</div>
+                    <div class="setting-subtitle">Solicitar confirmación manual para compras importantes</div>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="confirm-before-buy" name="confirmarAntes" checked>
+                  </div>
+                </div>
+              </div>
+
+              <div class="settings-actions">
+                <button type="submit" class="btn btn-primary" id="save-global-settings-btn">
+                  <span class="btn-text">Guardar configuraciones</span>
+                  <span class="btn-loading" style="display: none;">
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Guardando...
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Actividad Reciente -->
+      <section class="dashboard-card activity-log-card">
+        <div class="card-header">
+          <h3 class="card-title">Actividad Reciente</h3>
+          <button class="btn btn-outline-secondary btn-sm" id="clear-log-btn">
+            <i class="btn-icon">🗑️</i>
+            Limpiar log
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="activity-log" id="activity-log">
+            <div class="empty-state">
+              <div class="empty-icon">📋</div>
+              <div class="empty-text">
+                <div class="empty-title">No hay actividad reciente</div>
+                <div class="empty-subtitle">Las conexiones y sincronizaciones aparecerán aquí</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- El footer se carga dinámicamente mediante footer-manager.js -->
+
+  <!-- Modal para conectar supermercado -->
+  <div class="modal fade" id="connectSupermarketModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="connectModalTitle">Conectar Supermercado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          
+          <!-- Información del supermercado -->
+          <div class="supermarket-info" id="supermarket-info">
+            <div class="supermarket-logo-container">
+              <img id="modal-supermarket-logo" src="" alt="" class="supermarket-logo-modal">
+              <div class="supermarket-details">
+                <h6 id="modal-supermarket-name">Supermercado</h6>
+                <p id="modal-supermarket-description">Descripción del supermercado</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Opciones de conexión -->
+          <div class="connection-options mb-4">
+            <div class="connection-option">
+              <input type="radio" class="btn-check" name="connection-type" id="existing-account" value="existing" checked>
+              <label class="btn btn-outline-primary w-100" for="existing-account">
+                <div class="option-content">
+                  <div class="option-icon">👤</div>
+                  <div class="option-text">
+                    <div class="option-title">Ya tengo cuenta</div>
+                    <div class="option-subtitle">Conectar cuenta existente</div>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <div class="connection-option">
+              <input type="radio" class="btn-check" name="connection-type" id="create-account" value="create">
+              <label class="btn btn-outline-secondary w-100" for="create-account">
+                <div class="option-content">
+                  <div class="option-icon">✨</div>
+                  <div class="option-text">
+                    <div class="option-title">Crear cuenta automáticamente</div>
+                    <div class="option-subtitle">Caminando Online creará tu cuenta</div>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Formulario para cuenta existente -->
+          <form id="existing-account-form" class="connection-form">
+            <div class="mb-3">
+              <label for="supermarket-email" class="form-label">Email *</label>
+              <input type="email" class="form-control" id="supermarket-email" name="email" placeholder="tu@email.com">
+              <div class="error-message" id="error-supermarket-email"></div>
+            </div>
+            <div class="mb-3">
+              <label for="supermarket-password" class="form-label">Contraseña *</label>
+              <div class="password-input-container">
+                <input type="password" class="form-control" id="supermarket-password" name="password" placeholder="Tu contraseña">
+                <button type="button" class="password-toggle" id="supermarket-password-toggle">
+                  <i class="eye-icon">👁️</i>
+                </button>
+              </div>
+              <div class="error-message" id="error-supermarket-password"></div>
+            </div>
+          </form>
+
+          <!-- Formulario para crear cuenta -->
+          <form id="create-account-form" class="connection-form" style="display: none;">
+            <div class="alert alert-info">
+              <strong>🤖 Creación automática:</strong> Usaremos tus datos de perfil para crear la cuenta. Podés modificar la información si es necesario.
+            </div>
+            <div class="row">
+              <div class="col-6 mb-3">
+                <label for="new-account-name" class="form-label">Nombre *</label>
+                <input type="text" class="form-control" id="new-account-name" name="nombre">
+              </div>
+              <div class="col-6 mb-3">
+                <label for="new-account-lastname" class="form-label">Apellido *</label>
+                <input type="text" class="form-control" id="new-account-lastname" name="apellido">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="new-account-email" class="form-label">Email *</label>
+              <input type="email" class="form-control" id="new-account-email" name="email">
+              <small class="form-text text-muted">Usaremos este email para crear tu cuenta en el supermercado</small>
+            </div>
+            <div class="mb-3">
+              <label for="new-account-phone" class="form-label">Teléfono *</label>
+              <input type="tel" class="form-control" id="new-account-phone" name="telefono">
+            </div>
+            <div class="mb-3">
+              <label for="new-account-dni" class="form-label">DNI *</label>
+              <input type="text" class="form-control" id="new-account-dni" name="dni">
+            </div>
+          </form>
+
+          <!-- Configuraciones de la conexión -->
+          <div class="connection-settings">
+            <h6>Configuraciones de la conexión</h6>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="enable-auto-buy" name="autoCompra" checked>
+              <label class="form-check-label" for="enable-auto-buy">
+                Habilitar compra automática en este supermercado
+              </label>
+            </div>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="checkbox" id="sync-promotions" name="sincronizarPromociones" checked>
+              <label class="form-check-label" for="sync-promotions">
+                Sincronizar promociones y descuentos
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="notify-connection-issues" name="notificarProblemas" checked>
+              <label class="form-check-label" for="notify-connection-issues">
+                Notificar problemas de conexión
+              </label>
+            </div>
+          </div>
+
+          <!-- Nota de seguridad -->
+          <div class="alert alert-warning mt-3">
+            <strong>🔒 Seguridad:</strong> Tus credenciales se almacenan de forma encriptada y solo se usan para realizar compras en tu nombre. Podés revocar el acceso en cualquier momento.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="connect-supermarket-btn">
+            <span class="btn-text">Conectar supermercado</span>
+            <span class="btn-loading" style="display: none;">
+              <span class="spinner-border spinner-border-sm me-2"></span>
+              Conectando...
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <!-- Footer Manager - DEBE cargarse PRIMERO para insertar el footer dinámicamente -->
+  <script src="/js/components/footer-manager.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/auth/auth-utils.js"></script>
+  <script src="/js/components/auth-manager.js"></script>
+  <script src="/js/dashboard/dashboard-main.js"></script>
+  <script src="/js/dashboard/supermercados-manager.js"></script>
+  
+  <!-- Inicializar AuthManager -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.AuthManager) {
+        window.AuthManager.inicializar();
+        console.log('✅ AuthManager inicializado en supermercados');
+      }
+    });
+  </script>
+</body>
+</html>

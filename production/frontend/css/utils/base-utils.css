@@ -1,0 +1,89 @@
+/* ===============================================
+   UTILS - SCROLLBARS, ANIMACIONES, FOOTER
+   =============================================== */
+
+/* ===============================================
+   SCROLLBARS
+   =============================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-border-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+}
+
+/* ===============================================
+   ANIMACIONES
+   =============================================== */
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* ===============================================
+   FOOTER
+   =============================================== */
+/* Footer simple para compatibilidad - NO FIJO */
+footer:not(.footer-moderno) {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+
+/* Footer moderno - usar clase .footer-moderno */
+/* Los estilos del footer moderno están en components/footer.css */
+
+/* Ajustes para footer moderno estático */
+.footer-moderno {
+  position: relative;
+  margin-top: auto;
+}
+
+/* Ajustes para el layout general */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Asegurar que el main tenga suficiente altura */
+main {
+  flex: 1;
+}
+
+/* Contenedor de la aplicación */
+#app-container {
+  flex: 1;
+  padding-bottom: 2rem;
+}

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗂️ Organizador de Archivos - INTEGRADO v5.0</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 15px; }
+        .container { max-width: 1600px; margin: 0 auto; background: white; border-radius: 10px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); color: white; padding: 18px; display: flex; align-items: center; gap: 20px; }
+        .header-alert { background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 12px; font-size: 0.75em; max-width: 280px; flex-shrink: 0; }
+        .header-title { flex: 1; text-align: center; }
+        .header h1 { font-size: 1.8em; margin-bottom: 4px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .header p { font-size: 0.9em; opacity: 0.9; }
+        .content { padding: 18px; }
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .config-left { display: flex; flex-direction: column; gap: 15px; }
+        .config-center { display: flex; flex-direction: column; gap: 15px; }
+        .config-right { display: flex; flex-direction: column; gap: 15px; }
+        .config-section { background: #f8f9fa; border-radius: 6px; padding: 15px; border-left: 3px solid #3498db; height: fit-content; }
+        .config-title { font-size: 1em; font-weight: bold; color: #2c3e50; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-weight: 600; color: #2c3e50; margin-bottom: 4px; font-size: 0.8em; }
+        .form-group input[type="text"], .form-group textarea { width: 100%; padding: 7px; border: 2px solid #ecf0f1; border-radius: 4px; font-size: 0.75em; transition: border-color 0.3s ease; font-family: 'Courier New', monospace; }
+        .form-group input[type="text"]:focus, .form-group textarea:focus { outline: none; border-color: #3498db; box-shadow: 0 0 0 1px rgba(52, 152, 219, 0.1); }
+        .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 5px; margin-bottom: 8px; }
+        .checkbox-item { display: flex; align-items: center; cursor: pointer; padding: 4px 6px; border-radius: 3px; transition: background-color 0.2s ease; font-weight: normal; font-size: 0.7em; }
+        .checkbox-item:hover { background-color: #f8f9fa; }
+        .checkbox-item input[type="checkbox"] { margin-right: 4px; width: 12px; height: 12px; cursor: pointer; }
+        .custom-extension { display: flex; gap: 5px; align-items: center; margin-top: 5px; }
+        .custom-extension input { flex: 1; }
+        .custom-extension button { background: #3498db; color: white; border: none; padding: 6px 10px; border-radius: 3px; cursor: pointer; transition: background-color 0.3s ease; white-space: nowrap; font-size: 0.7em; }
+        .custom-extension button:hover { background: #2980b9; }
+        .form-group small { color: #7f8c8d; font-size: 0.65em; margin-top: 2px; display: block; }
+        .current-config { background: #e8f5e8; border-radius: 5px; padding: 8px; margin: 8px 0; border-left: 2px solid #27ae60; }
+        .current-config h4 { color: #27ae60; margin-bottom: 5px; font-size: 0.9em; }
+        .config-preview { font-family: 'Courier New', monospace; font-size: 0.65em; color: #2c3e50; white-space: pre-line; }
+        .server-status { background: #e3f2fd; border-left: 2px solid #2196f3; }
+        .server-status.connected { background: #e8f5e8; border-left: 2px solid #27ae60; }
+        .server-status.disconnected { background: #fff3e0; border-left: 2px solid #ff9800; }
+        .execute-button { background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%); color: white; border: none; padding: 8px 24px; font-size: 0.9em; border-radius: 4px; cursor: pointer; transition: all 0.3s ease; width: 100%; box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4); }
+        .execute-button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(52, 152, 219, 0.6); }
+        .execute-button:disabled { background: #95a5a6; cursor: not-allowed; transform: none; box-shadow: none; }
+        .progress-container { display: none; background: #f8f9fa; border-radius: 5px; padding: 12px; margin-bottom: 15px; border-left: 2px solid #f39c12; }
+        .progress-bar { width: 100%; height: 15px; background: #ecf0f1; border-radius: 8px; overflow: hidden; margin: 8px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #3498db, #2ecc71); width: 0%; transition: width 0.3s ease; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.7em; }
+        .log-container { display: none; background: #2c3e50; color: #ecf0f1; border-radius: 5px; padding: 12px; margin-bottom: 15px; max-height: 180px; overflow-y: auto; font-family: 'Courier New', monospace; }
+        .log-entry { margin-bottom: 2px; padding: 1px 0; font-size: 0.7em; }
+        .log-success { color: #2ecc71; } .log-warning { color: #f39c12; } .log-error { color: #e74c3c; } .log-info { color: #3498db; }
+        .stats-container { display: none; background: #f8f9fa; border-radius: 5px; padding: 12px; margin-bottom: 15px; border-left: 2px solid #27ae60; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px; }
+        .stat-item { background: white; padding: 10px; border-radius: 4px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .stat-value { font-size: 1.3em; font-weight: bold; color: #3498db; margin-bottom: 2px; }
+        .stat-label { color: #7f8c8d; font-size: 0.65em; }
+        .validation-message { margin-top: 5px; padding: 5px; border-radius: 3px; font-size: 0.65em; }
+        .validation-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .validation-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .processing { animation: pulse 1.5s infinite; }
+        
+        @media (max-width: 1200px) {
+            .main-grid { grid-template-columns: 1fr 1fr; }
+            .config-right { grid-column: 1 / -1; }
+        }
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .header { flex-direction: column; gap: 10px; }
+            .header-alert { max-width: 100%; }
+            .content { padding: 12px; }
+            .checkbox-grid { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-alert">
+                <strong>📋 CONEXIÓN:</strong><br>
+                Ejecuta <strong>conectar-servidor.bat</strong><br>
+                → Espera "SERVIDOR INICIADO"<br>
+                → Recarga página<br>
+                <small>Sin servidor = SIMULACIÓN</small>
+            </div>
+            <div class="header-title">
+                <h1>🗂️ Organizador de Archivos</h1>
+                <p>Caminando Online - Auto-Integrado v5.0</p>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="main-grid">
+                <!-- Columna Izquierda: Configuración Principal -->
+                <div class="config-left">
+                    <div class="config-section">
+                        <div class="config-title">📁 Configuración Principal</div>
+                        <div class="form-group">
+                            <label for="sourceDir">Origen:</label>
+                            <input type="text" id="sourceDir" value="E:\caminando-online">
+                        </div>
+                        <div class="form-group">
+                            <label for="targetDir">Destino:</label>
+                            <input type="text" id="targetDir" value="E:\caminando-online\contexto">
+                        </div>
+                        <div class="form-group">
+                            <label for="ignoredFolders">🚫 Ignorar:</label>
+                            <textarea id="ignoredFolders" rows="3">env
+node_modules
+data/db
+contexto
+legacy</textarea>
+                            <small>Una carpeta por línea</small>
+                        </div>
+                    </div>
+
+                    <!-- Estado del Servidor -->
+                    <div id="serverStatus" class="current-config server-status">
+                        <h4 id="statusTitle">🔍 Estado del Servidor</h4>
+                        <div id="statusContent" class="config-preview">Verificando...</div>
+                    </div>
+
+                    <!-- Configuración Actual -->
+                    <div class="current-config" id="currentConfig">
+                        <h4>📋 Configuración</h4>
+                        <div class="config-preview" id="configPreview"></div>
+                    </div>
+                </div>
+
+                <!-- Columna Centro: Tipos de Archivo y Opciones -->
+                <div class="config-center">
+                    <div class="config-section">
+                        <div class="config-title">📄 Tipos de Archivo</div>
+                        <div class="form-group">
+                            <div class="checkbox-grid">
+                                <label class="checkbox-item"><input type="checkbox" id="ext-js" checked>.js</label>
+                                <label class="checkbox-item"><input type="checkbox" id="ext-html" checked>.html</label>
+                                <label class="checkbox-item"><input type="checkbox" id="ext-css" checked>.css</label>
+                                <label class="checkbox-item"><input type="checkbox" id="ext-json" checked>.json</label>
+                                <label class="checkbox-item"><input type="checkbox" id="ext-ts">.ts</label>
+                                <label class="checkbox-item"><input type="checkbox" id="ext-jsx">.jsx</label>
+                                <label class="checkbox-item"><input type="checkbox" id="ext-vue">.vue</label>
+                                <label class="checkbox-item"><input type="checkbox" id="ext-php">.php</label>
+                            </div>
+                            <div class="custom-extension">
+                                <input type="text" id="customExt" placeholder="ej: .tsx">
+                                <button type="button" onclick="addCustomExtension()">➕</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <div class="config-title">🔧 Opciones</div>
+                        <div class="form-group">
+                            <div class="checkbox-grid">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="cleanFirst" checked>🧹 Limpiar anteriores
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="showConsole">🔍 Mostrar consola
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="autoStart" checked>🚀 Auto-iniciar
+                                </label>
+                            </div>
+                            <small>Limpiar = elimina organizaciones previas</small>
+                        </div>
+                    </div>
+
+                    <!-- Botón Ejecutar -->
+                    <button class="execute-button" onclick="executeOrganization()">🚀 Ejecutar Organización</button>
+                    <div class="validation-message" id="validationMessage" style="display: none;"></div>
+                </div>
+
+                <!-- Columna Derecha: Progreso, Log y Estadísticas -->
+                <div class="config-right">
+                    <div class="progress-container" id="progressContainer">
+                        <div class="config-title">⚡ Procesando Archivos</div>
+                        <div class="progress-bar"><div class="progress-fill" id="progressFill">0%</div></div>
+                        <div id="progressText" style="font-size: 0.7em;">Iniciando...</div>
+                    </div>
+
+                    <div class="log-container" id="logContainer">
+                        <div class="config-title">📋 Log de Operaciones</div>
+                        <div id="logContent"></div>
+                    </div>
+
+                    <div class="stats-container" id="statsContainer">
+                        <div class="config-title">📊 Estadísticas Finales</div>
+                        <div class="stats-grid">
+                            <div class="stat-item"><div class="stat-value" id="totalFiles">0</div><div class="stat-label">📄 Total</div></div>
+                            <div class="stat-item"><div class="stat-value" id="backendFiles">0</div><div class="stat-label">⚙️ Backend</div></div>
+                            <div class="stat-item"><div class="stat-value" id="frontendFiles">0</div><div class="stat-label">🎨 Frontend</div></div>
+                            <div class="stat-item"><div class="stat-value" id="configFiles">0</div><div class="stat-label">🔧 Config</div></div>
+                            <div class="stat-item"><div class="stat-value" id="duplicateFiles">0</div><div class="stat-label">📋 Duplicados</div></div>
+                            <div class="stat-item"><div class="stat-value" id="errorFiles">0</div><div class="stat-label">❌ Errores</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isProcessing = false, customExtensions = [], serverMode = 'unknown';
+
+        async function testServerConnection(showLogs = true) {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 2000);
+                
+                const response = await fetch('http://localhost:3030/test', { 
+                    method: 'GET',
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                const data = await response.json();
+                return data.success === true;
+            } catch (error) {
+                if (showLogs) console.log('Test conexión:', error.message);
+                return false;
+            }
+        }
+
+        function updateServerStatus() {
+            const statusDiv = document.getElementById('serverStatus');
+            const titleEl = document.getElementById('statusTitle');
+            const contentEl = document.getElementById('statusContent');
+            
+            if (serverMode === 'connected') {
+                statusDiv.className = 'current-config server-status connected';
+                titleEl.textContent = '✅ Servidor Conectado';
+                contentEl.textContent = 'Modo: REAL\nPuerto: 3030\nEstado: LISTO';
+            } else if (serverMode === 'disconnected') {
+                statusDiv.className = 'current-config server-status disconnected';
+                titleEl.textContent = '⚠️ Servidor Desconectado';
+                contentEl.textContent = 'Modo: SIMULACIÓN\nPara REAL: conectar-servidor.bat';
+            } else {
+                statusDiv.className = 'current-config server-status';
+                titleEl.textContent = '🔍 Verificando...';
+                contentEl.textContent = 'Detectando estado...';
+            }
+        }
+
+        function updateConfigPreview() {
+            const sourceDir = document.getElementById('sourceDir').value || 'No especificado';
+            const targetDir = document.getElementById('targetDir').value || 'No especificado';
+            const extensions = getSelectedExtensions();
+            const ignoredFolders = document.getElementById('ignoredFolders').value.split('\n').filter(f => f.trim()).map(f => f.trim());
+            const cleanFirst = document.getElementById('cleanFirst')?.checked ? 'Sí' : 'No';
+            
+            document.getElementById('configPreview').textContent = `📁 Origen: ${sourceDir}\n📁 Destino: ${targetDir}\n📄 Ext: ${extensions.join(', ')}\n🚫 Ignorar: ${ignoredFolders.slice(0,3).join(', ')}\n🧹 Limpiar: ${cleanFirst}`;
+        }
+
+        function getSelectedExtensions() {
+            const extensions = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                if (cb.id.startsWith('ext-')) extensions.push('.' + cb.id.replace('ext-', ''));
+            });
+            return [...extensions, ...customExtensions];
+        }
+
+        function addCustomExtension() {
+            const input = document.getElementById('customExt');
+            let ext = input.value.trim();
+            if (!ext) return;
+            if (!ext.startsWith('.')) ext = '.' + ext;
+            if (customExtensions.includes(ext)) return showValidation('Extensión ya existe', 'error');
+            customExtensions.push(ext);
+            input.value = '';
+            const grid = document.querySelector('.checkbox-grid');
+            const label = document.createElement('label');
+            label.className = 'checkbox-item';
+            label.innerHTML = `<input type="checkbox" checked data-custom="${ext}">${ext} <button onclick="removeCustomExtension('${ext}')" style="margin-left:3px;background:#e74c3c;color:white;border:none;border-radius:2px;padding:0px 3px;cursor:pointer;font-size:0.6em;">✕</button>`;
+            grid.appendChild(label);
+            updateConfigPreview();
+            showValidation(`Extensión ${ext} agregada`, 'success');
+        }
+
+        function removeCustomExtension(ext) {
+            customExtensions = customExtensions.filter(e => e !== ext);
+            document.querySelector(`input[data-custom="${ext}"]`).closest('.checkbox-item').remove();
+            updateConfigPreview();
+        }
+
+        function validateConfiguration() {
+            const config = getCurrentConfiguration();
+            if (!config.sourceDir) return showValidation('❌ Carpeta origen requerida', 'error'), false;
+            if (!config.targetDir) return showValidation('❌ Carpeta destino requerida', 'error'), false;
+            if (config.extensions.length === 0) return showValidation('❌ Selecciona al menos un tipo de archivo', 'error'), false;
+            if (config.sourceDir === config.targetDir) return showValidation('❌ Carpetas no pueden ser iguales', 'error'), false;
+            showValidation('✅ Configuración válida', 'success');
+            return true;
+        }
+
+        function showValidation(message, type) {
+            const div = document.getElementById('validationMessage');
+            div.textContent = message;
+            div.className = `validation-message validation-${type}`;
+            div.style.display = 'block';
+            setTimeout(() => div.style.display = 'none', 4000);
+        }
+
+        function addLog(message, type = 'info') {
+            const logContent = document.getElementById('logContent');
+            if (!logContent) return;
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logContent.appendChild(entry);
+            logContent.scrollTop = logContent.scrollHeight;
+        }
+
+        function updateProgress(percent, text) {
+            const fill = document.getElementById('progressFill');
+            const textEl = document.getElementById('progressText');
+            fill.style.width = percent + '%';
+            fill.textContent = percent + '%';
+            textEl.textContent = text;
+        }
+
+        function updateStats(stats) {
+            document.getElementById('totalFiles').textContent = stats.totalProcessed || 0;
+            document.getElementById('backendFiles').textContent = stats.backend || 0;
+            document.getElementById('frontendFiles').textContent = stats.frontend || 0;
+            document.getElementById('configFiles').textContent = stats.configuration || 0;
+            document.getElementById('duplicateFiles').textContent = stats.duplicates || 0;
+            document.getElementById('errorFiles').textContent = stats.errors || 0;
+        }
+
+        function showAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.style.cssText = `padding: 8px; border-radius: 4px; margin: 8px 0; border-left: 2px solid; font-size: 0.75em; background: ${type === 'success' ? '#d4edda' : type === 'error' ? '#f8d7da' : '#fff3cd'}; color: ${type === 'success' ? '#155724' : type === 'error' ? '#721c24' : '#856404'}; border-color: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#f39c12'};`;
+            alert.innerHTML = message;
+            document.querySelector('.content').insertBefore(alert, document.querySelector('.content').firstElementChild);
+            setTimeout(() => alert.remove(), 6000);
+        }
+
+        function getCurrentConfiguration() {
+            return {
+                sourceDir: document.getElementById('sourceDir').value.trim(),
+                targetDir: document.getElementById('targetDir').value.trim(),
+                extensions: getSelectedExtensions(),
+                ignoredFolders: document.getElementById('ignoredFolders').value.split('\n').filter(f => f.trim()).map(f => f.trim()),
+                cleanFirst: document.getElementById('cleanFirst').checked,
+                showConsole: document.getElementById('showConsole').checked,
+                autoStart: document.getElementById('autoStart').checked
+            };
+        }
+
+        async function executeOrganization() {
+            if (isProcessing || !validateConfiguration()) return;
+            
+            const config = getCurrentConfiguration();
+            
+            isProcessing = true;
+            const button = document.querySelector('.execute-button');
+            button.disabled = true;
+            button.textContent = '⏳ Procesando...';
+            button.classList.add('processing');
+
+            document.getElementById('progressContainer').style.display = 'block';
+            document.getElementById('logContainer').style.display = 'block';
+            document.getElementById('statsContainer').style.display = 'none';
+
+            try {
+                addLog('🚀 Iniciando organización...', 'info');
+                
+                if (config.cleanFirst) {
+                    addLog('🧹 Limpieza activada', 'warning');
+                }
+                
+                if (serverMode === 'connected') {
+                    await executeRealOrganization(config);
+                } else {
+                    addLog('⚠️ Modo simulación', 'warning');
+                    await simulateOrganization(config);
+                }
+                
+            } catch (error) {
+                addLog(`❌ Error: ${error.message}`, 'error');
+                showAlert(`<strong>❌ Error:</strong> ${error.message}`, 'error');
+            } finally {
+                isProcessing = false;
+                button.disabled = false;
+                button.textContent = '🚀 Ejecutar Organización';
+                button.classList.remove('processing');
+            }
+        }
+
+        async function executeRealOrganization(config) {
+            try {
+                addLog('🔍 Validando directorios...', 'info');
+                const validationRes = await fetch('http://localhost:3030/validate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sourceDir: config.sourceDir, targetDir: config.targetDir })
+                });
+
+                if (!validationRes.ok) throw new Error(`Validación falló: ${validationRes.status}`);
+                const validation = await validationRes.json();
+
+                if (!validation.sourceExists) throw new Error('Carpeta origen no existe');
+                if (!validation.sourceReadable) throw new Error('No se puede leer carpeta origen');
+                if (!validation.targetWritable) throw new Error('No se puede escribir en destino');
+
+                addLog('✅ Directorios validados', 'success');
+                updateProgress(10, 'Directorios validados...');
+
+                addLog('⚡ Ejecutando organización REAL...', 'info');
+                const orgRes = await fetch('http://localhost:3030/organize', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
+
+                if (!orgRes.ok) {
+                    const errorData = await orgRes.json();
+                    throw new Error(errorData.error || `Error ${orgRes.status}`);
+                }
+
+                const result = await orgRes.json();
+
+                if (result.success) {
+                    const steps = [
+                        { p: 30, t: 'Archivos encontrados...', l: '📁 Directorio escaneado' },
+                        { p: 50, t: 'Clasificando...', l: '🔍 Archivos clasificados' },
+                        { p: 70, t: 'Copiando...', l: '📄 Archivos copiados' },
+                        { p: 90, t: 'Duplicados...', l: '📋 Duplicados procesados' },
+                        { p: 100, t: 'Completado', l: '✅ ¡Organización REAL completada!' }
+                    ];
+
+                    for (const step of steps) {
+                        await new Promise(r => setTimeout(r, 500));
+                        updateProgress(step.p, step.t);
+                        addLog(step.l, step.p === 100 ? 'success' : 'info');
+                    }
+
+                    updateStats(result.stats);
+                    document.getElementById('statsContainer').style.display = 'block';
+                    
+                    addLog('📊 ESTADÍSTICAS REALES:', 'success');
+                    addLog(`📄 Total: ${result.stats.totalProcessed}`, 'success');
+                    addLog(`⚙️ Backend: ${result.stats.backend}`, 'success');
+                    addLog(`🎨 Frontend: ${result.stats.frontend}`, 'success');
+                    addLog(`🔧 Config: ${result.stats.configuration}`, 'success');
+                    addLog(`📋 Duplicados: ${result.stats.duplicates}`, 'warning');
+                    if (result.stats.errors > 0) addLog(`❌ Errores: ${result.stats.errors}`, 'error');
+
+                    showAlert('<strong>✅ ¡ÉXITO REAL!</strong> Archivos copiados físicamente.', 'success');
+                } else {
+                    throw new Error(result.error || 'Error desconocido');
+                }
+
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        async function simulateOrganization(config) {
+            const steps = [
+                { p: 20, t: 'Simulando escaneo...', l: '🔄 [SIM] Escaneando' },
+                { p: 40, t: 'Simulando clasificación...', l: '🔄 [SIM] Clasificando' },
+                { p: 60, t: 'Simulando copia...', l: '🔄 [SIM] Copiando' },
+                { p: 80, t: 'Simulando duplicados...', l: '🔄 [SIM] Duplicados' },
+                { p: 100, t: 'Simulación completada', l: '⚠️ [SIM] Completado (no real)' }
+            ];
+
+            const stats = { totalProcessed: 142, backend: 45, frontend: 78, configuration: 15, duplicates: 4, errors: 0 };
+
+            for (const step of steps) {
+                await new Promise(r => setTimeout(r, 800));
+                updateProgress(step.p, step.t);
+                addLog(step.l, step.p === 100 ? 'warning' : 'info');
+            }
+
+            updateStats(stats);
+            document.getElementById('statsContainer').style.display = 'block';
+            addLog('⚠️ SIMULACIÓN - NO REAL', 'warning');
+            showAlert('<strong>⚠️ Simulación:</strong> Para real ejecuta conectar-servidor.bat', 'warning');
+        }
+
+        function initializeInterface() {
+            updateConfigPreview();
+            updateServerStatus();
+            
+            ['sourceDir', 'targetDir', 'ignoredFolders'].forEach(id => {
+                document.getElementById(id).addEventListener('input', updateConfigPreview);
+            });
+            
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', updateConfigPreview);
+            });
+            
+            document.getElementById('customExt').addEventListener('keypress', e => {
+                if (e.key === 'Enter') addCustomExtension();
+            });
+        }
+
+        async function checkServerPeriodically() {
+            const connected = await testServerConnection(false);
+            const previousMode = serverMode;
+            
+            if (connected) {
+                serverMode = 'connected';
+            } else {
+                serverMode = 'disconnected';
+            }
+            
+            if (previousMode !== serverMode) {
+                updateServerStatus();
+                addLog(`🔄 Estado: ${serverMode}`, 'info');
+            }
+            
+            setTimeout(checkServerPeriodically, 5000);
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            addLog('🎯 Organizador cargado', 'info');
+            
+            const connected = await testServerConnection(false);
+            if (connected) {
+                serverMode = 'connected';
+                addLog('🌐 MODO REAL: Conectado', 'success');
+            } else {
+                serverMode = 'disconnected';
+                addLog('⚠️ MODO SIMULACIÓN', 'warning');
+            }
+            
+            initializeInterface();
+            checkServerPeriodically();
+            addLog('📋 Listo para usar', 'info');
+        });
+    </script>
+</body>
+</html>

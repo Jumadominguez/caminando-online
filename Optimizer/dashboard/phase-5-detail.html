@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fase 5: Optimización - Optimizer Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="phase-detail.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="phase-detail-container">
+        <!-- Navigation Header -->
+        <header class="phase-header">
+            <div class="header-content">
+                <div class="breadcrumb">
+                    <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="current-page">Fase 5: Optimización</span>
+                </div>
+                <div class="phase-title">
+                    <h1><i class="fas fa-rocket"></i> Fase 5: Optimización y Mejora</h1>
+                    <div class="phase-meta">
+                        <span class="phase-status pendiente">🟡 PENDIENTE</span>
+                        <span class="phase-progress">0% Completado</span>
+                        <span class="phase-eta">ETA: 1 semana</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Phase Overview -->
+        <section class="phase-overview">
+            <div class="overview-grid">
+                <div class="overview-card primary">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Progreso</h3>
+                        <div class="progress-bar large">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="card-value">0%</span>
+                        <span class="card-label">0 de 2 tareas</span>
+                    </div>
+                </div>
+
+                <div class="overview-card success">
+                    <div class="card-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Bloques</h3>
+                        <span class="card-value">1</span>
+                        <span class="card-label">Performance</span>
+                    </div>
+                </div>
+
+                <div class="overview-card warning">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Tiempo</h3>
+                        <span class="card-value">15-20h</span>
+                        <span class="card-label">estimadas</span>
+                    </div>
+                </div>
+
+                <div class="overview-card info">
+                    <div class="card-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Dependencias</h3>
+                        <span class="card-value">Fase 4</span>
+                        <span class="card-label">Prototipo funcional</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase Description -->
+        <section class="phase-description">
+            <h2><i class="fas fa-info-circle"></i> Descripción de la Fase</h2>
+            <div class="description-content">
+                <p>Esta fase final se enfoca en pulir y optimizar el Optimizer basándose en el feedback del prototipo funcional. Incluye mejoras de performance, optimización de UX, implementación de mejoras sugeridas y preparación para el lanzamiento. Es el momento de hacer que el producto sea profesional y esté listo para usuarios reales.</p>
+                
+                <div class="phase-objectives">
+                    <h3>🎯 Objetivos Principales</h3>
+                    <ul>
+                        <li>Optimizar performance y tiempos de respuesta</li>
+                        <li>Mejorar experiencia de usuario basada en feedback</li>
+                        <li>Implementar mejoras y nuevas funcionalidades</li>
+                        <li>Realizar testing exhaustivo de usabilidad</li>
+                        <li>Preparar producto para lanzamiento público</li>
+                    </ul>
+                </div>
+
+                <div class="critical-decisions">
+                    <h3>⚡ Decisiones Críticas Pendientes</h3>
+                    <div class="decision-cards">
+                        <div class="decision-card">
+                            <h4>Performance Budget</h4>
+                            <p>Definir métricas de performance aceptables</p>
+                            <span class="decision-urgency high">⭐ ALTA</span>
+                        </div>
+                        <div class="decision-card">
+                            <h4>Roadmap v2</h4>
+                            <p>Planificar próximas iteraciones y features</p>
+                            <span class="decision-urgency medium">💡 MEDIA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blocks Overview -->
+        <section class="blocks-section">
+            <h2><i class="fas fa-th-large"></i> Bloques de Trabajo</h2>
+            <div class="blocks-grid">
+                <!-- Bloque 5.1 -->
+                <div class="block-card">
+                    <div class="block-header">
+                        <h3>⚡ BLOQUE 5.1: Performance</h3>
+                        <div class="block-progress">
+                            <div class="block-progress-bar">
+                                <div class="block-progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span>0%</span>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <p>Optimización de rendimiento y mejoras de experiencia de usuario</p>
+                        <div class="block-stats">
+                            <span><i class="fas fa-tasks"></i> 2 tareas</span>
+                            <span><i class="fas fa-clock"></i> 15-20h</span>
+                            <span><i class="fas fa-pause-circle"></i> 0 iniciadas</span>
+                        </div>
+                        <button class="block-expand-btn" onclick="toggleBlock('block-5-1')">
+                            <i class="fas fa-chevron-down"></i> Ver Tareas
+                        </button>
+                    </div>
+                    <div class="block-tasks" id="block-5-1" style="display: none;">
+                        <!-- Tareas del bloque 5.1 serán pobladas por JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Tasks -->
+        <section class="tasks-detail-section">
+            <h2><i class="fas fa-list-check"></i> Tareas Detalladas</h2>
+            
+            <!-- Next Task Highlight -->
+            <div class="current-task-highlight">
+                <div class="highlight-header">
+                    <span class="highlight-badge">🎯 PRÓXIMA TAREA</span>
+                    <span class="priority-badge critical">🔥 CRÍTICA</span>
+                </div>
+                <h3>5.1.1 Revisión de Rendimiento</h3>
+                <p>Análisis exhaustivo de performance, identificación de cuellos de botella y optimización del sistema</p>
+                
+                <div class="task-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>8-12 horas estimadas</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-link"></i>
+                        <span>Requiere: Fase 4 completada</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Optimiza: Performance general</span>
+                    </div>
+                </div>
+
+                <div class="subtasks">
+                    <h4>📋 Subtareas</h4>
+                    <div class="subtask-list">
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-5-1" />
+                            <label for="subtask-5-1">Análisis de rendimiento con Lighthouse</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-5-2" />
+                            <label for="subtask-5-2">Optimización de componentes pesados</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-5-3" />
+                            <label for="subtask-5-3">Implementar code splitting</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-5-4" />
+                            <label for="subtask-5-4">Optimizar bundle size</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-5-5" />
+                            <label for="subtask-5-5">Configurar caching estratégico</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task-actions">
+                    <button class="action-btn primary" onclick="window.open('https://pagespeed.web.dev/', '_blank')">
+                        <i class="fas fa-tachometer-alt"></i> PageSpeed Insights
+                    </button>
+                    <button class="action-btn success" onclick="markPhaseTaskComplete()">
+                        <i class="fas fa-check"></i> Marcar Completada
+                    </button>
+                    <button class="action-btn warning" onclick="addTaskNote()">
+                        <i class="fas fa-comment"></i> Añadir Nota
+                    </button>
+                </div>
+            </div>
+
+            <!-- All Tasks List -->
+            <div class="all-tasks-container">
+                <div class="tasks-header">
+                    <h3>📋 Todas las Tareas de la Fase</h3>
+                    <div class="task-filters">
+                        <button class="filter-btn active" data-filter="all">Todas</button>
+                        <button class="filter-btn" data-filter="completed">Completadas</button>
+                        <button class="filter-btn" data-filter="progress">En Progreso</button>
+                        <button class="filter-btn" data-filter="pending">Pendientes</button>
+                        <button class="filter-btn" data-filter="blocked">Bloqueadas</button>
+                    </div>
+                </div>
+
+                <!-- Task Items -->
+                <div class="task-list">
+                    <!-- Revisión de Rendimiento -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>5.1.1 Revisión de Rendimiento</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge critical">🔥 CRÍTICA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Análisis exhaustivo y optimización de performance</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 8-12h</span>
+                                <span><i class="fas fa-tachometer-alt"></i> Performance</span>
+                                <span><i class="fas fa-link"></i> Requiere: Fase 4</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm info">Iniciar</button>
+                        </div>
+                    </div>
+
+                    <!-- Optimización de Componentes -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>5.1.2 Implementar Mejoras de UX</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge high">⭐ ALTA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Implementar mejoras de UX basadas en feedback y testing</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 6-8h</span>
+                                <span><i class="fas fa-user"></i> UX Mejoras</span>
+                                <span><i class="fas fa-lock"></i> Esperando: 5.1.1</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm secondary" disabled>Bloqueada</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dependencies Tree -->
+        <section class="dependencies-section">
+            <h2><i class="fas fa-project-diagram"></i> Árbol de Dependencias</h2>
+            <div class="dependency-tree">
+                <div class="dependency-node root">
+                    <div class="node-content">
+                        <h4>Fase 5: Optimización</h4>
+                        <span class="node-status pending">PENDIENTE</span>
+                    </div>
+                    <div class="node-children">
+                        <div class="dependency-node">
+                            <div class="node-content">
+                                <h5>5.1.1 Performance</h5>
+                                <span class="node-status pending">PENDIENTE</span>
+                            </div>
+                            <div class="node-children">
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>5.1.2 UX Mejoras</h6>
+                                        <span class="node-status pending">BLOQUEADA</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notes Section -->
+        <section class="notes-section">
+            <h2><i class="fas fa-sticky-note"></i> Notas de Desarrollo</h2>
+            <div class="notes-grid">
+                <div class="note-card important">
+                    <div class="note-header">
+                        <h4>🔥 Consideraciones Críticas</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Performance es clave para análisis de código pesado</li>
+                            <li>Implementar progressive loading para archivos grandes</li>
+                            <li>Optimizar memory usage en operaciones intensivas</li>
+                            <li>Asegurar accesibilidad completa (WCAG 2.1)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card technical">
+                    <div class="note-header">
+                        <h4>⚙️ Decisiones Técnicas</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li><strong>Performance:</strong> Target: Lighthouse score >90</li>
+                            <li><strong>Bundle:</strong> Code splitting por rutas principales</li>
+                            <li><strong>Caching:</strong> Service worker para assets estáticos</li>
+                            <li><strong>Monitoring:</strong> Core Web Vitals tracking</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card workflow">
+                    <div class="note-header">
+                        <h4>🔄 Flujo de Trabajo</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Performance testing en cada deploy</li>
+                            <li>A/B testing para cambios de UX significativos</li>
+                            <li>Continuous profiling en producción</li>
+                            <li>User feedback integration para mejoras futuras</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card reminder">
+                    <div class="note-header">
+                        <h4>📝 Recordatorios</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Documentar todas las optimizaciones implementadas</li>
+                            <li>Crear guía de performance para futuras mejoras</li>
+                            <li>Establecer baseline metrics para comparaciones</li>
+                            <li>Preparar post-mortem del proyecto completo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Completion Status -->
+        <section class="completion-section">
+            <h2><i class="fas fa-flag-checkered"></i> Estado de Finalización del Proyecto</h2>
+            <div class="completion-content">
+                <div class="completion-overview">
+                    <div class="completion-card">
+                        <div class="completion-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="completion-info">
+                            <h3>Proyecto Optimizer</h3>
+                            <p>Sistema de Análisis y Optimización de Código</p>
+                            <div class="completion-progress">
+                                <div class="progress-bar large">
+                                    <div class="progress-fill" style="width: 4%"></div>
+                                </div>
+                                <span class="completion-percentage">4% Completado</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="completion-milestones">
+                    <h3>🏁 Hitos de Finalización</h3>
+                    <div class="milestone-list">
+                        <div class="milestone-item pending">
+                            <i class="fas fa-circle"></i>
+                            <span>Todas las fases completadas al 100%</span>
+                        </div>
+                        <div class="milestone-item pending">
+                            <i class="fas fa-circle"></i>
+                            <span>Performance optimizada (Lighthouse >90)</span>
+                        </div>
+                        <div class="milestone-item pending">
+                            <i class="fas fa-circle"></i>
+                            <span>Testing coverage >85%</span>
+                        </div>
+                        <div class="milestone-item pending">
+                            <i class="fas fa-circle"></i>
+                            <span>Documentación completa</span>
+                        </div>
+                        <div class="milestone-item pending">
+                            <i class="fas fa-circle"></i>
+                            <span>Deploy en producción</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="next-iteration">
+                    <h3>🚀 Próxima Iteración (v2.0)</h3>
+                    <div class="next-features">
+                        <div class="feature-card">
+                            <h4>🤖 IA Avanzada</h4>
+                            <p>Integración con GPT-4 para análisis más profundo</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>📱 App Móvil</h4>
+                            <p>Versión nativa para iOS y Android</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>☁️ Cloud Processing</h4>
+                            <p>Análisis en la nube para proyectos grandes</p>
+                        </div>
+                        <div class="feature-card">
+                            <h4>👥 Colaboración</h4>
+                            <p>Equipos multi-usuario y reviews colaborativas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions-section">
+            <h2><i class="fas fa-bolt"></i> Acciones Rápidas</h2>
+            <div class="actions-grid">
+                <button class="action-btn primary large" onclick="window.open('https://pagespeed.web.dev/', '_blank')">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>PageSpeed Insights</span>
+                </button>
+                <button class="action-btn success large" onclick="markPhaseTaskComplete()">
+                    <i class="fas fa-check"></i>
+                    <span>Completar Tarea</span>
+                </button>
+                <button class="action-btn info large" onclick="addTaskNote()">
+                    <i class="fas fa-comment"></i>
+                    <span>Añadir Nota</span>
+                </button>
+                <button class="action-btn warning large" onclick="updateTaskProgress()">
+                    <i class="fas fa-sync"></i>
+                    <span>Actualizar Progreso</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Back to Dashboard -->
+        <div class="back-to-dashboard">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Volver al Dashboard Principal
+            </a>
+        </div>
+    </div>
+
+    <script src="phase-detail.js"></script>
+</body>
+</html>

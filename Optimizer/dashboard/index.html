@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Optimizer Dashboard - Project Status</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="project-title">
+                    <h1><i class="fas fa-rocket"></i> Optimizer Dashboard</h1>
+                    <span class="project-subtitle">Sistema de Análisis y Optimización de Código</span>
+                </div>
+                <div class="header-stats">
+                    <div class="last-update">
+                        <i class="fas fa-clock"></i>
+                        <span id="lastUpdate">19 de agosto, 2025</span>
+                    </div>
+                    <div class="global-status">
+                        <span class="status-badge" id="globalStatus">🟡 EN PREPARACIÓN</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Stats Grid -->
+        <section class="stats-grid">
+            <div class="stat-card primary">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Progreso Total</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="totalProgress" style="width: 4%"></div>
+                    </div>
+                    <span class="stat-value" id="totalPercentage">4%</span>
+                </div>
+            </div>
+
+            <div class="stat-card success">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Tareas Completadas</h3>
+                    <span class="stat-value" id="completedTasks">2</span>
+                    <span class="stat-label">de 45 tareas</span>
+                </div>
+            </div>
+
+            <div class="stat-card warning">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Tiempo Estimado</h3>
+                    <span class="stat-value" id="estimatedTime">80-100h</span>
+                    <span class="stat-label">restantes</span>
+                </div>
+            </div>
+
+            <div class="stat-card info">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Sprint Actual</h3>
+                    <span class="stat-value">Semana 1</span>
+                    <span class="stat-label">Fase 1 - Frontend</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phases Overview -->
+        <section class="phases-section">
+            <h2><i class="fas fa-layer-group"></i> Estado de Fases</h2>
+            <div class="phases-grid" id="phasesGrid">
+                <!-- Phases will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Current Focus -->
+        <section class="current-focus">
+            <h2><i class="fas fa-crosshairs"></i> Foco Actual</h2>
+            <div class="focus-card">
+                <div class="focus-header">
+                    <span class="focus-badge">🎯 TAREA ACTUAL</span>
+                    <span class="priority-badge critical">🔥 CRÍTICA</span>
+                </div>
+                <h3 id="currentTask">Crear Repositorio en GitHub (1.1.1)</h3>
+                <p id="currentTaskDesc">Acción: Ir a GitHub y crear el repo</p>
+                <div class="focus-details">
+                    <div class="focus-detail">
+                        <i class="fas fa-clock"></i>
+                        <span>Tiempo estimado: 30 minutos</span>
+                    </div>
+                    <div class="focus-detail">
+                        <i class="fas fa-arrow-right"></i>
+                        <span>Siguiente: Configurar branch protection</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Task Management -->
+        <section class="task-management">
+            <div class="tasks-header">
+                <h2><i class="fas fa-tasks"></i> Gestión de Tareas</h2>
+                <div class="task-filters">
+                    <button class="filter-btn active" data-filter="all">Todas</button>
+                    <button class="filter-btn" data-filter="completed">Completadas</button>
+                    <button class="filter-btn" data-filter="progress">En Progreso</button>
+                    <button class="filter-btn" data-filter="pending">Pendientes</button>
+                    <button class="filter-btn" data-filter="blocked">Bloqueadas</button>
+                </div>
+            </div>
+            <div class="tasks-container" id="tasksContainer">
+                <!-- Tasks will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Metrics Dashboard -->
+        <section class="metrics-section">
+            <h2><i class="fas fa-chart-bar"></i> Métricas del Proyecto</h2>
+            <div class="metrics-grid">
+                <!-- GRÁFICO DE DONA CSS PURO -->
+                <div class="metric-card">
+                    <div class="css-donut-chart" id="tasksDonutChart">
+                        <div class="donut-segment completed" data-percentage="4.4"></div>
+                        <div class="donut-segment progress" data-percentage="2.2"></div>
+                        <div class="donut-segment pending" data-percentage="93.3"></div>
+                        <div class="donut-center">
+                            <div class="donut-total">45</div>
+                            <div class="donut-label">Tareas</div>
+                        </div>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-color completed"></span>
+                            <span>Completadas: 2</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color progress"></span>
+                            <span>En Progreso: 1</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color pending"></span>
+                            <span>Pendientes: 42</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color blocked"></span>
+                            <span>Bloqueadas: 0</span>
+                        </div>
+                    </div>
+                    <h4>Distribución de Tareas</h4>
+                </div>
+                
+                <!-- VELOCIDAD DEL SPRINT -->
+                <div class="metric-card">
+                    <div class="velocity-metric">
+                        <h4>Velocidad del Sprint</h4>
+                        <div class="velocity-value">1 tarea/día</div>
+                        <div class="velocity-progress">
+                            <div class="velocity-bar" style="width: 15%"></div>
+                        </div>
+                        <span>15% del sprint completado</span>
+                        
+                        <!-- MINI PROGRESS BARS -->
+                        <div class="mini-metrics">
+                            <div class="mini-metric">
+                                <span>Eficiencia</span>
+                                <div class="mini-bar">
+                                    <div class="mini-fill" style="width: 85%; background: #10b981;"></div>
+                                </div>
+                                <span>85%</span>
+                            </div>
+                            <div class="mini-metric">
+                                <span>Calidad</span>
+                                <div class="mini-bar">
+                                    <div class="mini-fill" style="width: 92%; background: #6366f1;"></div>
+                                </div>
+                                <span>92%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- TIMELINE VISUAL MEJORADO -->
+                <div class="metric-card timeline-card">
+                    <h4>Timeline del Proyecto</h4>
+                    <div class="visual-timeline">
+                        <div class="timeline-track">
+                            <div class="timeline-progress" style="width: 15%"></div>
+                        </div>
+                        <div class="timeline-phases">
+                            <div class="timeline-phase completed" data-phase="0">
+                                <div class="phase-dot"></div>
+                                <div class="phase-info">
+                                    <div class="phase-name">Preparación</div>
+                                    <div class="phase-percent">100%</div>
+                                </div>
+                            </div>
+                            <div class="timeline-phase active" data-phase="1">
+                                <div class="phase-dot"></div>
+                                <div class="phase-info">
+                                    <div class="phase-name">Frontend</div>
+                                    <div class="phase-percent">15%</div>
+                                </div>
+                            </div>
+                            <div class="timeline-phase" data-phase="2">
+                                <div class="phase-dot"></div>
+                                <div class="phase-info">
+                                    <div class="phase-name">Diseño</div>
+                                    <div class="phase-percent">0%</div>
+                                </div>
+                            </div>
+                            <div class="timeline-phase" data-phase="3">
+                                <div class="phase-dot"></div>
+                                <div class="phase-info">
+                                    <div class="phase-name">Implementación</div>
+                                    <div class="phase-percent">0%</div>
+                                </div>
+                            </div>
+                            <div class="timeline-phase" data-phase="4">
+                                <div class="phase-dot"></div>
+                                <div class="phase-info">
+                                    <div class="phase-name">Prototipo</div>
+                                    <div class="phase-percent">0%</div>
+                                </div>
+                            </div>
+                            <div class="timeline-phase" data-phase="5">
+                                <div class="phase-dot"></div>
+                                <div class="phase-info">
+                                    <div class="phase-name">Optimización</div>
+                                    <div class="phase-percent">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ESTADÍSTICAS ADICIONALES -->
+                    <div class="timeline-stats">
+                        <div class="stat-mini">
+                            <span class="stat-mini-value">6</span>
+                            <span class="stat-mini-label">Fases Total</span>
+                        </div>
+                        <div class="stat-mini">
+                            <span class="stat-mini-value">3-5</span>
+                            <span class="stat-mini-label">Días ETA</span>
+                        </div>
+                        <div class="stat-mini">
+                            <span class="stat-mini-value">80h</span>
+                            <span class="stat-mini-label">Restantes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <h2><i class="fas fa-bolt"></i> Acciones Rápidas</h2>
+            <div class="actions-grid">
+                <button class="action-btn primary" onclick="openGitHub()">
+                    <i class="fab fa-github"></i>
+                    <span>Crear Repositorio</span>
+                </button>
+                <button class="action-btn success" onclick="markTaskComplete()">
+                    <i class="fas fa-check"></i>
+                    <span>Marcar Completada</span>
+                </button>
+                <button class="action-btn warning" onclick="updateProgress()">
+                    <i class="fas fa-sync"></i>
+                    <span>Actualizar Progreso</span>
+                </button>
+                <button class="action-btn info" onclick="exportReport()">
+                    <i class="fas fa-download"></i>
+                    <span>Exportar Reporte</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <div class="footer-content">
+                <p>🚦 Estado actual: <strong>Trabajando en setup de GitHub</strong></p>
+                <p>💡 Siguiente paso: <strong>Crear repositorio y configurar branch protection</strong></p>
+                <p>📅 Última actualización: <span id="footerLastUpdate">19 de agosto, 2025</span></p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <!-- DASHBOARD COMPLETO EXCEPTO MÉTRICAS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

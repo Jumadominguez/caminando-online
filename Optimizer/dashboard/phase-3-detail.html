@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fase 3: Implementación Frontend - Optimizer Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="phase-detail.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="phase-detail-container">
+        <!-- Navigation Header -->
+        <header class="phase-header">
+            <div class="header-content">
+                <div class="breadcrumb">
+                    <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="current-page">Fase 3: Implementación Frontend</span>
+                </div>
+                <div class="phase-title">
+                    <h1><i class="fas fa-code"></i> Fase 3: Implementación Frontend</h1>
+                    <div class="phase-meta">
+                        <span class="phase-status pendiente">🟡 PENDIENTE</span>
+                        <span class="phase-progress">0% Completado</span>
+                        <span class="phase-eta">ETA: 2 semanas</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Phase Overview -->
+        <section class="phase-overview">
+            <div class="overview-grid">
+                <div class="overview-card primary">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Progreso</h3>
+                        <div class="progress-bar large">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="card-value">0%</span>
+                        <span class="card-label">0 de 15 tareas</span>
+                    </div>
+                </div>
+
+                <div class="overview-card success">
+                    <div class="card-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Bloques</h3>
+                        <span class="card-value">2</span>
+                        <span class="card-label">Arquitectura + Componentes</span>
+                    </div>
+                </div>
+
+                <div class="overview-card warning">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Tiempo</h3>
+                        <span class="card-value">60-80h</span>
+                        <span class="card-label">estimadas</span>
+                    </div>
+                </div>
+
+                <div class="overview-card info">
+                    <div class="card-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Dependencias</h3>
+                        <span class="card-value">Fases 1+2</span>
+                        <span class="card-label">Framework + Diseños</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase Description -->
+        <section class="phase-description">
+            <h2><i class="fas fa-info-circle"></i> Descripción de la Fase</h2>
+            <div class="description-content">
+                <p>Esta es la fase de desarrollo principal donde se implementan todos los componentes del Optimizer. Incluye la configuración de la arquitectura base, desarrollo de componentes React, implementación de la lógica de negocio y configuración del entorno de testing. Es la fase más técnica y extensa del proyecto.</p>
+                
+                <div class="phase-objectives">
+                    <h3>🎯 Objetivos Principales</h3>
+                    <ul>
+                        <li>Configurar arquitectura completa del frontend</li>
+                        <li>Implementar todos los componentes core del Optimizer</li>
+                        <li>Desarrollar lógica de análisis y optimización de código</li>
+                        <li>Configurar sistema de testing robusto</li>
+                        <li>Preparar ambiente de desarrollo colaborativo</li>
+                    </ul>
+                </div>
+
+                <div class="critical-decisions">
+                    <h3>⚡ Decisiones Críticas Pendientes</h3>
+                    <div class="decision-cards">
+                        <div class="decision-card">
+                            <h4>Gestión de Estado</h4>
+                            <p>Context API vs Redux vs Zustand para estado global</p>
+                            <span class="decision-urgency critical">🔥 CRÍTICA</span>
+                        </div>
+                        <div class="decision-card">
+                            <h4>Testing Strategy</h4>
+                            <p>Jest + Testing Library + E2E con Playwright</p>
+                            <span class="decision-urgency high">⭐ ALTA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blocks Overview -->
+        <section class="blocks-section">
+            <h2><i class="fas fa-th-large"></i> Bloques de Trabajo</h2>
+            <div class="blocks-grid">
+                <!-- Bloque 3.1 -->
+                <div class="block-card">
+                    <div class="block-header">
+                        <h3>🔧 BLOQUE 3.1: Arquitectura Base</h3>
+                        <div class="block-progress">
+                            <div class="block-progress-bar">
+                                <div class="block-progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span>0%</span>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <p>Configuración técnica completa y fundamentos de la aplicación</p>
+                        <div class="block-stats">
+                            <span><i class="fas fa-tasks"></i> 7 tareas</span>
+                            <span><i class="fas fa-clock"></i> 20-25h</span>
+                            <span><i class="fas fa-pause-circle"></i> 0 iniciadas</span>
+                        </div>
+                        <button class="block-expand-btn" onclick="toggleBlock('block-3-1')">
+                            <i class="fas fa-chevron-down"></i> Ver Tareas
+                        </button>
+                    </div>
+                    <div class="block-tasks" id="block-3-1" style="display: none;">
+                        <!-- Tareas del bloque 3.1 serán pobladas por JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Bloque 3.2 -->
+                <div class="block-card">
+                    <div class="block-header">
+                        <h3>🧩 BLOQUE 3.2: Desarrollo de Componentes</h3>
+                        <div class="block-progress">
+                            <div class="block-progress-bar">
+                                <div class="block-progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span>0%</span>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <p>Implementación de módulos core del Optimizer</p>
+                        <div class="block-stats">
+                            <span><i class="fas fa-tasks"></i> 8 tareas</span>
+                            <span><i class="fas fa-clock"></i> 40-55h</span>
+                            <span><i class="fas fa-pause-circle"></i> 0 iniciadas</span>
+                        </div>
+                        <button class="block-expand-btn" onclick="toggleBlock('block-3-2')">
+                            <i class="fas fa-chevron-down"></i> Ver Tareas
+                        </button>
+                    </div>
+                    <div class="block-tasks" id="block-3-2" style="display: none;">
+                        <!-- Tareas del bloque 3.2 serán pobladas por JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Tasks -->
+        <section class="tasks-detail-section">
+            <h2><i class="fas fa-list-check"></i> Tareas Detalladas</h2>
+            
+            <!-- Next Task Highlight -->
+            <div class="current-task-highlight">
+                <div class="highlight-header">
+                    <span class="highlight-badge">🎯 PRÓXIMA TAREA</span>
+                    <span class="priority-badge critical">🔥 CRÍTICA</span>
+                </div>
+                <h3>3.1.1 Setup Técnico Completo</h3>
+                <p>Configurar arquitectura base del proyecto con componentes React, routing y gestión de estado</p>
+                
+                <div class="task-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>6-8 horas estimadas</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-link"></i>
+                        <span>Requiere: Fases 1 y 2 completadas</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-code"></i>
+                        <span>Bloquea: Desarrollo de componentes</span>
+                    </div>
+                </div>
+
+                <div class="subtasks">
+                    <h4>📋 Subtareas</h4>
+                    <div class="subtask-list">
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-3-1" />
+                            <label for="subtask-3-1">Estructura de componentes React</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-3-2" />
+                            <label for="subtask-3-2">Configurar enrutamiento</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-3-3" />
+                            <label for="subtask-3-3">Gestión de estado (Context/Redux)</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-3-4" />
+                            <label for="subtask-3-4">Setup de testing</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-3-5" />
+                            <label for="subtask-3-5">Configuración de desarrollo</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task-actions">
+                    <button class="action-btn primary" onclick="window.open('https://react.dev', '_blank')">
+                        <i class="fab fa-react"></i> Docs React
+                    </button>
+                    <button class="action-btn success" onclick="markPhaseTaskComplete()">
+                        <i class="fas fa-check"></i> Marcar Completada
+                    </button>
+                    <button class="action-btn warning" onclick="addTaskNote()">
+                        <i class="fas fa-comment"></i> Añadir Nota
+                    </button>
+                </div>
+            </div>
+
+            <!-- All Tasks List -->
+            <div class="all-tasks-container">
+                <div class="tasks-header">
+                    <h3>📋 Todas las Tareas de la Fase</h3>
+                    <div class="task-filters">
+                        <button class="filter-btn active" data-filter="all">Todas</button>
+                        <button class="filter-btn" data-filter="completed">Completadas</button>
+                        <button class="filter-btn" data-filter="progress">En Progreso</button>
+                        <button class="filter-btn" data-filter="pending">Pendientes</button>
+                        <button class="filter-btn" data-filter="blocked">Bloqueadas</button>
+                    </div>
+                </div>
+
+                <!-- Task Items -->
+                <div class="task-list">
+                    <!-- Setup Técnico -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>3.1.1 Setup Técnico Completo</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge critical">🔥 CRÍTICA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Configurar arquitectura base con React, routing y estado</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 6-8h</span>
+                                <span><i class="fas fa-code"></i> Arquitectura</span>
+                                <span><i class="fas fa-link"></i> Bloquea: Componentes</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm info">Iniciar</button>
+                        </div>
+                    </div>
+
+                    <!-- CodeAnalyzer Implementation -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>3.2.1 Implementar CodeAnalyzer</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge critical">🔥 CRÍTICA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Componente principal para análisis de código con IA</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 12-15h</span>
+                                <span><i class="fas fa-search"></i> Análisis Core</span>
+                                <span><i class="fas fa-lock"></i> Esperando: 3.1.1</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm secondary" disabled>Bloqueada</button>
+                        </div>
+                    </div>
+
+                    <!-- RedundancyDetector Implementation -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>3.2.2 Implementar RedundancyDetector</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge critical">🔥 CRÍTICA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Lógica de detección y unificación de duplicados</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 10-12h</span>
+                                <span><i class="fas fa-copy"></i> Detección</span>
+                                <span><i class="fas fa-lock"></i> Esperando: 3.1.1</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm secondary" disabled>Bloqueada</button>
+                        </div>
+                    </div>
+
+                    <!-- LoggingPanel Implementation -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>3.2.3 Implementar LoggingPanel</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge high">⭐ ALTA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Sistema de logging y registro de cambios detallado</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 6-8h</span>
+                                <span><i class="fas fa-list"></i> Logging</span>
+                                <span><i class="fas fa-lock"></i> Esperando: 3.1.1</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm secondary" disabled>Bloqueada</button>
+                        </div>
+                    </div>
+
+                    <!-- ConfigurationManager Implementation -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>3.2.4 Implementar ConfigurationManager</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge high">⭐ ALTA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Gestor de configuraciones y preferencias del sistema</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 8-10h</span>
+                                <span><i class="fas fa-cog"></i> Config</span>
+                                <span><i class="fas fa-lock"></i> Esperando: 3.1.1</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm secondary" disabled>Bloqueada</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dependencies Tree -->
+        <section class="dependencies-section">
+            <h2><i class="fas fa-project-diagram"></i> Árbol de Dependencias</h2>
+            <div class="dependency-tree">
+                <div class="dependency-node root">
+                    <div class="node-content">
+                        <h4>Fase 3: Implementación</h4>
+                        <span class="node-status pending">PENDIENTE</span>
+                    </div>
+                    <div class="node-children">
+                        <div class="dependency-node">
+                            <div class="node-content">
+                                <h5>3.1.1 Setup Técnico</h5>
+                                <span class="node-status pending">PENDIENTE</span>
+                            </div>
+                            <div class="node-children">
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>3.2.1 CodeAnalyzer</h6>
+                                        <span class="node-status pending">BLOQUEADA</span>
+                                    </div>
+                                </div>
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>3.2.2 RedundancyDetector</h6>
+                                        <span class="node-status pending">BLOQUEADA</span>
+                                    </div>
+                                </div>
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>3.2.3 LoggingPanel</h6>
+                                        <span class="node-status pending">BLOQUEADA</span>
+                                    </div>
+                                </div>
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>3.2.4 ConfigManager</h6>
+                                        <span class="node-status pending">BLOQUEADA</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notes Section -->
+        <section class="notes-section">
+            <h2><i class="fas fa-sticky-note"></i> Notas de Desarrollo</h2>
+            <div class="notes-grid">
+                <div class="note-card important">
+                    <div class="note-header">
+                        <h4>🔥 Consideraciones Críticas</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Arquitectura debe soportar análisis de código pesado</li>
+                            <li>Implementar Web Workers para operaciones intensivas</li>
+                            <li>Considerar lazy loading para componentes grandes</li>
+                            <li>Error boundaries obligatorios en componentes core</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card technical">
+                    <div class="note-header">
+                        <h4>⚙️ Decisiones Técnicas</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li><strong>Estado:</strong> Context API + useReducer para simplicidad</li>
+                            <li><strong>Testing:</strong> Jest + React Testing Library + Playwright</li>
+                            <li><strong>Performance:</strong> React.memo + useMemo para optimización</li>
+                            <li><strong>API:</strong> Fetch nativo con custom hooks</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card workflow">
+                    <div class="note-header">
+                        <h4>🔄 Flujo de Trabajo</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>TDD: Test primero, implementación después</li>
+                            <li>Code review obligatorio para componentes core</li>
+                            <li>Integración continua con GitHub Actions</li>
+                            <li>Performance budgets y lighthouse CI</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card reminder">
+                    <div class="note-header">
+                        <h4>📝 Recordatorios</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Documentar APIs internas con JSDoc</li>
+                            <li>Configurar Storybook para componentes</li>
+                            <li>Implementar logging estructurado desde el inicio</li>
+                            <li>Preparar build optimizado para producción</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions-section">
+            <h2><i class="fas fa-bolt"></i> Acciones Rápidas</h2>
+            <div class="actions-grid">
+                <button class="action-btn primary large" onclick="window.open('https://react.dev', '_blank')">
+                    <i class="fab fa-react"></i>
+                    <span>Docs React</span>
+                </button>
+                <button class="action-btn success large" onclick="markPhaseTaskComplete()">
+                    <i class="fas fa-check"></i>
+                    <span>Completar Tarea</span>
+                </button>
+                <button class="action-btn info large" onclick="addTaskNote()">
+                    <i class="fas fa-comment"></i>
+                    <span>Añadir Nota</span>
+                </button>
+                <button class="action-btn warning large" onclick="updateTaskProgress()">
+                    <i class="fas fa-sync"></i>
+                    <span>Actualizar Progreso</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Back to Dashboard -->
+        <div class="back-to-dashboard">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Volver al Dashboard Principal
+            </a>
+        </div>
+    </div>
+
+    <script src="phase-detail.js"></script>
+</body>
+</html>

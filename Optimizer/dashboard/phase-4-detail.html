@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fase 4: Prototipo Funcional - Optimizer Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="phase-detail.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="phase-detail-container">
+        <!-- Navigation Header -->
+        <header class="phase-header">
+            <div class="header-content">
+                <div class="breadcrumb">
+                    <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="current-page">Fase 4: Prototipo Funcional</span>
+                </div>
+                <div class="phase-title">
+                    <h1><i class="fas fa-flask"></i> Fase 4: Prototipo Funcional</h1>
+                    <div class="phase-meta">
+                        <span class="phase-status pendiente">🟡 PENDIENTE</span>
+                        <span class="phase-progress">0% Completado</span>
+                        <span class="phase-eta">ETA: 1 semana</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Phase Overview -->
+        <section class="phase-overview">
+            <div class="overview-grid">
+                <div class="overview-card primary">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Progreso</h3>
+                        <div class="progress-bar large">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="card-value">0%</span>
+                        <span class="card-label">0 de 4 tareas</span>
+                    </div>
+                </div>
+
+                <div class="overview-card success">
+                    <div class="card-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Bloques</h3>
+                        <span class="card-value">1</span>
+                        <span class="card-label">Integración Completa</span>
+                    </div>
+                </div>
+
+                <div class="overview-card warning">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Tiempo</h3>
+                        <span class="card-value">25-35h</span>
+                        <span class="card-label">estimadas</span>
+                    </div>
+                </div>
+
+                <div class="overview-card info">
+                    <div class="card-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Dependencias</h3>
+                        <span class="card-value">Fase 3</span>
+                        <span class="card-label">Todos los componentes</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase Description -->
+        <section class="phase-description">
+            <h2><i class="fas fa-info-circle"></i> Descripción de la Fase</h2>
+            <div class="description-content">
+                <p>Esta fase integra todos los componentes desarrollados en las fases anteriores para crear un prototipo funcional completo del Optimizer. Se enfoca en la integración, validación de flujos de usuario, pruebas exhaustivas y documentación de casos de uso. Es el momento de verificar que todo funciona como un sistema cohesivo.</p>
+                
+                <div class="phase-objectives">
+                    <h3>🎯 Objetivos Principales</h3>
+                    <ul>
+                        <li>Integrar todos los componentes en un sistema funcional</li>
+                        <li>Validar flujos completos de análisis y optimización</li>
+                        <li>Realizar pruebas exhaustivas de interfaz y funcionalidad</li>
+                        <li>Documentar casos de uso y scenarios principales</li>
+                        <li>Preparar demo funcional para validación con usuarios</li>
+                    </ul>
+                </div>
+
+                <div class="critical-decisions">
+                    <h3>⚡ Decisiones Críticas Pendientes</h3>
+                    <div class="decision-cards">
+                        <div class="decision-card">
+                            <h4>Deployment Strategy</h4>
+                            <p>Vercel vs Netlify vs GitHub Pages para demo</p>
+                            <span class="decision-urgency high">⭐ ALTA</span>
+                        </div>
+                        <div class="decision-card">
+                            <h4>Testing Coverage</h4>
+                            <p>Definir umbral mínimo de cobertura de tests</p>
+                            <span class="decision-urgency medium">💡 MEDIA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blocks Overview -->
+        <section class="blocks-section">
+            <h2><i class="fas fa-th-large"></i> Bloques de Trabajo</h2>
+            <div class="blocks-grid">
+                <!-- Bloque 4.1 -->
+                <div class="block-card">
+                    <div class="block-header">
+                        <h3>🔗 BLOQUE 4.1: Integración</h3>
+                        <div class="block-progress">
+                            <div class="block-progress-bar">
+                                <div class="block-progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span>0%</span>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <p>Integración completa de componentes y validación del sistema</p>
+                        <div class="block-stats">
+                            <span><i class="fas fa-tasks"></i> 4 tareas</span>
+                            <span><i class="fas fa-clock"></i> 25-35h</span>
+                            <span><i class="fas fa-pause-circle"></i> 0 iniciadas</span>
+                        </div>
+                        <button class="block-expand-btn" onclick="toggleBlock('block-4-1')">
+                            <i class="fas fa-chevron-down"></i> Ver Tareas
+                        </button>
+                    </div>
+                    <div class="block-tasks" id="block-4-1" style="display: none;">
+                        <!-- Tareas del bloque 4.1 serán pobladas por JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Tasks -->
+        <section class="tasks-detail-section">
+            <h2><i class="fas fa-list-check"></i> Tareas Detalladas</h2>
+            
+            <!-- Next Task Highlight -->
+            <div class="current-task-highlight">
+                <div class="highlight-header">
+                    <span class="highlight-badge">🎯 PRÓXIMA TAREA</span>
+                    <span class="priority-badge critical">🔥 CRÍTICA</span>
+                </div>
+                <h3>4.1.1 Integración de Componentes</h3>
+                <p>Conectar todos los módulos desarrollados en un sistema funcional completo</p>
+                
+                <div class="task-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>8-12 horas estimadas</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-link"></i>
+                        <span>Requiere: Fase 3 completada</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <span>Integra: Todos los componentes</span>
+                    </div>
+                </div>
+
+                <div class="subtasks">
+                    <h4>📋 Subtareas</h4>
+                    <div class="subtask-list">
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-4-1" />
+                            <label for="subtask-4-1">Conectar CodeAnalyzer con RedundancyDetector</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-4-2" />
+                            <label for="subtask-4-2">Integrar LoggingPanel con todos los módulos</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-4-3" />
+                            <label for="subtask-4-3">Configurar flujo de datos completo</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-4-4" />
+                            <label for="subtask-4-4">Validar comunicación entre componentes</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-4-5" />
+                            <label for="subtask-4-5">Resolver conflictos de integración</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task-actions">
+                    <button class="action-btn primary" onclick="window.open('https://localhost:3000', '_blank')">
+                        <i class="fas fa-external-link-alt"></i> Ver Prototipo
+                    </button>
+                    <button class="action-btn success" onclick="markPhaseTaskComplete()">
+                        <i class="fas fa-check"></i> Marcar Completada
+                    </button>
+                    <button class="action-btn warning" onclick="addTaskNote()">
+                        <i class="fas fa-comment"></i> Añadir Nota
+                    </button>
+                </div>
+            </div>
+
+            <!-- All Tasks List -->
+            <div class="all-tasks-container">
+                <div class="tasks-header">
+                    <h3>📋 Todas las Tareas de la Fase</h3>
+                    <div class="task-filters">
+                        <button class="filter-btn active" data-filter="all">Todas</button>
+                        <button class="filter-btn" data-filter="completed">Completadas</button>
+                        <button class="filter-btn" data-filter="progress">En Progreso</button>
+                        <button class="filter-btn" data-filter="pending">Pendientes</button>
+                        <button class="filter-btn" data-filter="blocked">Bloqueadas</button>
+                    </div>
+                </div>
+
+                <!-- Task Items -->
+                <div class="task-list">
+                    <!-- Integración de Componentes -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>4.1.1 Integración de Componentes</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge critical">🔥 CRÍTICA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Conectar todos los módulos en un sistema funcional</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 8-12h</span>
+                                <span><i class="fas fa-puzzle-piece"></i> Integración</span>
+                                <span><i class="fas fa-link"></i> Requiere: Fase 3</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm info">Iniciar</button>
+                        </div>
+                    </div>
+
+                    <!-- Pruebas de Interfaz -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>4.1.2 Pruebas de Interfaz</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge high">⭐ ALTA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Testing exhaustivo de la interfaz y experiencia de usuario</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 6-8h</span>
+                                <span><i class="fas fa-vial"></i> Testing UI</span>
+                                <span><i class="fas fa-lock"></i> Esperando: 4.1.1</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm secondary" disabled>Bloqueada</button>
+                        </div>
+                    </div>
+
+                    <!-- Validación de Flujos -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>4.1.3 Validación de Flujos de Usuario</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge high">⭐ ALTA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Verificar que todos los flujos principales funcionen correctamente</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 6-8h</span>
+                                <span><i class="fas fa-route"></i> User Flows</span>
+                                <span><i class="fas fa-lock"></i> Esperando: 4.1.1</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm secondary" disabled>Bloqueada</button>
+                        </div>
+                    </div>
+
+                    <!-- Documentación de Casos de Uso -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>4.1.4 Documentación de Casos de Uso</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge medium">💡 MEDIA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Crear documentación completa de casos de uso y scenarios</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 4-6h</span>
+                                <span><i class="fas fa-book"></i> Documentación</span>
+                                <span><i class="fas fa-lock"></i> Esperando: 4.1.2, 4.1.3</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm secondary" disabled>Bloqueada</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dependencies Tree -->
+        <section class="dependencies-section">
+            <h2><i class="fas fa-project-diagram"></i> Árbol de Dependencias</h2>
+            <div class="dependency-tree">
+                <div class="dependency-node root">
+                    <div class="node-content">
+                        <h4>Fase 4: Prototipo Funcional</h4>
+                        <span class="node-status pending">PENDIENTE</span>
+                    </div>
+                    <div class="node-children">
+                        <div class="dependency-node">
+                            <div class="node-content">
+                                <h5>4.1.1 Integración</h5>
+                                <span class="node-status pending">PENDIENTE</span>
+                            </div>
+                            <div class="node-children">
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>4.1.2 Pruebas UI</h6>
+                                        <span class="node-status pending">BLOQUEADA</span>
+                                    </div>
+                                </div>
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>4.1.3 Validación Flujos</h6>
+                                        <span class="node-status pending">BLOQUEADA</span>
+                                    </div>
+                                </div>
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>4.1.4 Documentación</h6>
+                                        <span class="node-status pending">BLOQUEADA</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notes Section -->
+        <section class="notes-section">
+            <h2><i class="fas fa-sticky-note"></i> Notas de Desarrollo</h2>
+            <div class="notes-grid">
+                <div class="note-card important">
+                    <div class="note-header">
+                        <h4>🔥 Consideraciones Críticas</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Prototipo debe demostrar valor real del Optimizer</li>
+                            <li>Incluir casos de uso representativos y realistas</li>
+                            <li>Performance crítica - operaciones de análisis pesadas</li>
+                            <li>Error handling robusto para inputs diversos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card technical">
+                    <div class="note-header">
+                        <h4>⚙️ Decisiones Técnicas</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li><strong>Deployment:</strong> Vercel para deploy automático desde GitHub</li>
+                            <li><strong>Testing:</strong> E2E con Playwright para flujos completos</li>
+                            <li><strong>Monitoring:</strong> Sentry para error tracking en producción</li>
+                            <li><strong>Analytics:</strong> Google Analytics para métricas de uso</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card workflow">
+                    <div class="note-header">
+                        <h4>🔄 Flujo de Trabajo</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Testing exhaustivo antes de cada deploy</li>
+                            <li>User acceptance testing con usuarios reales</li>
+                            <li>Documentación actualizada en tiempo real</li>
+                            <li>Feedback loop continuo para mejoras</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card reminder">
+                    <div class="note-header">
+                        <h4>📝 Recordatorios</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Preparar demo script para presentaciones</li>
+                            <li>Crear datasets de prueba representativos</li>
+                            <li>Documentar limitaciones conocidas</li>
+                            <li>Planificar siguiente iteración basada en feedback</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions-section">
+            <h2><i class="fas fa-bolt"></i> Acciones Rápidas</h2>
+            <div class="actions-grid">
+                <button class="action-btn primary large" onclick="window.open('https://localhost:3000', '_blank')">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>Ver Prototipo</span>
+                </button>
+                <button class="action-btn success large" onclick="markPhaseTaskComplete()">
+                    <i class="fas fa-check"></i>
+                    <span>Completar Tarea</span>
+                </button>
+                <button class="action-btn info large" onclick="addTaskNote()">
+                    <i class="fas fa-comment"></i>
+                    <span>Añadir Nota</span>
+                </button>
+                <button class="action-btn warning large" onclick="updateTaskProgress()">
+                    <i class="fas fa-sync"></i>
+                    <span>Actualizar Progreso</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Back to Dashboard -->
+        <div class="back-to-dashboard">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Volver al Dashboard Principal
+            </a>
+        </div>
+    </div>
+
+    <script src="phase-detail.js"></script>
+</body>
+</html>
+                                    <span class="priority-badge critical">🔥 CRÍTICA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Conectar todos los módulos en un sistema funcional</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 8-12h</span>
+                                <span><i class="fas fa-puzzle-piece"></i> Integración</span>
+                                <span><i class="fas fa-link"></i> Requiere: Fase 3</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm info">Iniciar</button>
+                        </div>
+                    </div>
+
+                    <!-- Pruebas de Interfaz -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>4.1.2 Pruebas de Interfaz</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge high">⭐ ALTA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Testing exhaustivo de la interfaz de usuario y UX</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 6-8h</span>
+                                <span><i class="fas fa-vial"></i> Testing UI</span>
+                                <span><i class="fas fa-lock"></i> Esperando: 4.1.1</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm secondary" disabled>Bloqueada</button>
+                        </div>
+                    </div>
+
+                    <!-- Validación de Flujos -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>4.1.3 Validación de Flujos de Usuario</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge high">⭐ ALTA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Verificar que todos los flujos de usuario funcionan correctamente</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 4-6h</span>
+                                <span><i class="fas fa-route"></i> User Flows</span>
+                                <span><i class="fas fa-lock"></i> Esperando: 4.1.1</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm secondary" disabled>Bloqueada</button>
+                        </div>
+                    </div>
+
+                    <!-- Documentación de Casos de Uso -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>4.1.4 Documentación de Casos de Uso</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge medium">💡 MEDIA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                </div>
+                            </div>
+                            <p>Crear documentación completa de casos de uso y scenarios</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 6-8h</span>
+                                <span><i class="fas fa-book"></i> Documentación</span>
+                                <span><i class="fas fa-lock"></i> Esperando: 4.1.3</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm secondary" disabled>Bloqueada</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dependencies Tree -->
+        <section class="dependencies-section">
+            <h2><i class="fas fa-project-diagram"></i> Árbol de Dependencias</h2>
+            <div class="dependency-tree">
+                <div class="dependency-node root">
+                    <div class="node-content">
+                        <h4>Fase 4: Prototipo Funcional</h4>
+                        <span class="node-status pending">PENDIENTE</span>
+                    </div>
+                    <div class="node-children">
+                        <div class="dependency-node">
+                            <div class="node-content">
+                                <h5>4.1.1 Integración</h5>
+                                <span class="node-status pending">PENDIENTE</span>
+                            </div>
+                            <div class="node-children">
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>4.1.2 Pruebas UI</h6>
+                                        <span class="node-status pending">BLOQUEADA</span>
+                                    </div>
+                                </div>
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>4.1.3 Validación Flujos</h6>
+                                        <span class="node-status pending">BLOQUEADA</span>
+                                    </div>
+                                    <div class="node-children">
+                                        <div class="dependency-node">
+                                            <div class="node-content">
+                                                <h6>4.1.4 Documentación</h6>
+                                                <span class="node-status pending">BLOQUEADA</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notes Section -->
+        <section class="notes-section">
+            <h2><i class="fas fa-sticky-note"></i> Notas de Desarrollo</h2>
+            <div class="notes-grid">
+                <div class="note-card important">
+                    <div class="note-header">
+                        <h4>🔥 Consideraciones Críticas</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Verificar rendimiento con archivos de código grandes</li>
+                            <li>Probar compatibilidad con diferentes tipos de proyecto</li>
+                            <li>Validar manejo de errores en todos los flujos</li>
+                            <li>Confirmar que la detección de redundancias es precisa</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card technical">
+                    <div class="note-header">
+                        <h4>⚙️ Decisiones Técnicas</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li><strong>Demo Deployment:</strong> Vercel para facilidad y velocidad</li>
+                            <li><strong>Testing:</strong> Coverage mínimo del 80% para componentes core</li>
+                            <li><strong>Performance:</strong> Lighthouse score > 90 en todas las métricas</li>
+                            <li><strong>Compatibilidad:</strong> Soporte para Chrome, Firefox, Safari</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card workflow">
+                    <div class="note-header">
+                        <h4>🔄 Flujo de Trabajo</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Integración incremental: un componente a la vez</li>
+                            <li>Testing continuo después de cada integración</li>
+                            <li>Demo deployments para validación temprana</li>
+                            <li>Feedback loop corto con validación de usuarios</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card reminder">
+                    <div class="note-header">
+                        <h4>📝 Recordatorios</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Preparar casos de prueba representativos</li>
+                            <li>Documentar limitaciones conocidas del prototipo</li>
+                            <li>Crear video demo de 2-3 minutos</li>
+                            <li>Definir criterios de éxito para la validación</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions-section">
+            <h2><i class="fas fa-bolt"></i> Acciones Rápidas</h2>
+            <div class="actions-grid">
+                <button class="action-btn primary large" onclick="window.open('https://localhost:3000', '_blank')">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>Ver Prototipo</span>
+                </button>
+                <button class="action-btn success large" onclick="markPhaseTaskComplete()">
+                    <i class="fas fa-check"></i>
+                    <span>Completar Tarea</span>
+                </button>
+                <button class="action-btn info large" onclick="addTaskNote()">
+                    <i class="fas fa-comment"></i>
+                    <span>Añadir Nota</span>
+                </button>
+                <button class="action-btn warning large" onclick="updateTaskProgress()">
+                    <i class="fas fa-sync"></i>
+                    <span>Actualizar Progreso</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Back to Dashboard -->
+        <div class="back-to-dashboard">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Volver al Dashboard Principal
+            </a>
+        </div>
+    </div>
+
+    <script src="phase-detail.js"></script>
+</body>
+</html>

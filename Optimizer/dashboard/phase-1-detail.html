@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fase 1: Frontend Base - Optimizer Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="phase-detail.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="phase-detail-container">
+        <!-- Navigation Header -->
+        <header class="phase-header">
+            <div class="header-content">
+                <div class="breadcrumb">
+                    <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="current-page">Fase 1: Frontend Base</span>
+                </div>
+                <div class="phase-title">
+                    <h1><i class="fas fa-code"></i> Fase 1: Configuración y Diseño Frontend</h1>
+                    <div class="phase-meta">
+                        <span class="phase-status en-progreso">🔄 EN PROGRESO</span>
+                        <span class="phase-progress">15% Completado</span>
+                        <span class="phase-eta">ETA: 3-5 días</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Phase Overview -->
+        <section class="phase-overview">
+            <div class="overview-grid">
+                <div class="overview-card primary">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Progreso</h3>
+                        <div class="progress-bar large">
+                            <div class="progress-fill" style="width: 15%"></div>
+                        </div>
+                        <span class="card-value">15%</span>
+                        <span class="card-label">2 de 13 tareas</span>
+                    </div>
+                </div>
+
+                <div class="overview-card success">
+                    <div class="card-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Bloques</h3>
+                        <span class="card-value">2</span>
+                        <span class="card-label">Estructura + Herramientas</span>
+                    </div>
+                </div>
+
+                <div class="overview-card warning">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Tiempo</h3>
+                        <span class="card-value">15-20h</span>
+                        <span class="card-label">estimadas</span>
+                    </div>
+                </div>
+
+                <div class="overview-card info">
+                    <div class="card-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Bloqueadas</h3>
+                        <span class="card-value">1</span>
+                        <span class="card-label">README esperando GitHub</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase Description -->
+        <section class="phase-description">
+            <h2><i class="fas fa-info-circle"></i> Descripción de la Fase</h2>
+            <div class="description-content">
+                <p>Esta fase establece los cimientos técnicos del proyecto Optimizer. Incluye la configuración del repositorio, selección de herramientas de desarrollo, y preparación del entorno de trabajo. Es crítica porque todas las fases posteriores dependen de estas decisiones arquitectónicas.</p>
+                
+                <div class="phase-objectives">
+                    <h3>🎯 Objetivos Principales</h3>
+                    <ul>
+                        <li>Establecer repositorio GitHub con políticas de calidad</li>
+                        <li>Configurar entorno de desarrollo optimizado</li>
+                        <li>Seleccionar y configurar framework frontend</li>
+                        <li>Implementar herramientas de calidad de código</li>
+                        <li>Preparar base para desarrollo colaborativo</li>
+                    </ul>
+                </div>
+
+                <div class="critical-decisions">
+                    <h3>⚡ Decisiones Críticas Pendientes</h3>
+                    <div class="decision-cards">
+                        <div class="decision-card">
+                            <h4>Framework Frontend</h4>
+                            <p>React vs Vue vs Next.js - Impacta toda la arquitectura</p>
+                            <span class="decision-urgency critical">🔥 CRÍTICA</span>
+                        </div>
+                        <div class="decision-card">
+                            <h4>Estrategia de Ramas</h4>
+                            <p>GitFlow vs GitHub Flow para el workflow</p>
+                            <span class="decision-urgency high">⭐ ALTA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blocks Overview -->
+        <section class="blocks-section">
+            <h2><i class="fas fa-th-large"></i> Bloques de Trabajo</h2>
+            <div class="blocks-grid">
+                <!-- Bloque 1.1 -->
+                <div class="block-card">
+                    <div class="block-header">
+                        <h3>🏗️ BLOQUE 1.1: Estructura del Proyecto</h3>
+                        <div class="block-progress">
+                            <div class="block-progress-bar">
+                                <div class="block-progress-fill" style="width: 20%"></div>
+                            </div>
+                            <span>20%</span>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <p>Setup básico del repositorio y configuración inicial del proyecto</p>
+                        <div class="block-stats">
+                            <span><i class="fas fa-tasks"></i> 4 tareas</span>
+                            <span><i class="fas fa-clock"></i> 6-8h</span>
+                            <span><i class="fas fa-check-circle"></i> 1 completada</span>
+                        </div>
+                        <button class="block-expand-btn" onclick="toggleBlock('block-1-1')">
+                            <i class="fas fa-chevron-down"></i> Ver Tareas
+                        </button>
+                    </div>
+                    <div class="block-tasks" id="block-1-1" style="display: none;">
+                        <!-- Tareas del bloque 1.1 serán pobladas por JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Bloque 1.2 -->
+                <div class="block-card">
+                    <div class="block-header">
+                        <h3>⚙️ BLOQUE 1.2: Herramientas y Configuración</h3>
+                        <div class="block-progress">
+                            <div class="block-progress-bar">
+                                <div class="block-progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span>0%</span>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <p>Configuración de herramientas de desarrollo, framework y calidad de código</p>
+                        <div class="block-stats">
+                            <span><i class="fas fa-tasks"></i> 3 tareas</span>
+                            <span><i class="fas fa-clock"></i> 6-7h</span>
+                            <span><i class="fas fa-pause-circle"></i> 0 iniciadas</span>
+                        </div>
+                        <button class="block-expand-btn" onclick="toggleBlock('block-1-2')">
+                            <i class="fas fa-chevron-down"></i> Ver Tareas
+                        </button>
+                    </div>
+                    <div class="block-tasks" id="block-1-2" style="display: none;">
+                        <!-- Tareas del bloque 1.2 serán pobladas por JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Tasks -->
+        <section class="tasks-detail-section">
+            <h2><i class="fas fa-list-check"></i> Tareas Detalladas</h2>
+            
+            <!-- Current Task Highlight -->
+            <div class="current-task-highlight">
+                <div class="highlight-header">
+                    <span class="highlight-badge">🎯 TAREA ACTUAL</span>
+                    <span class="priority-badge critical">🔥 CRÍTICA</span>
+                </div>
+                <h3>1.1.1 Crear Repositorio en GitHub</h3>
+                <p>Establecer el repositorio principal del proyecto con configuraciones de seguridad y colaboración</p>
+                
+                <div class="task-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>2-3 horas estimadas</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-user"></i>
+                        <span>Asignado en Asana</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-link"></i>
+                        <span>Bloquea: 1.1.2, 1.1.3</span>
+                    </div>
+                </div>
+
+                <div class="subtasks">
+                    <h4>📋 Subtareas</h4>
+                    <div class="subtask-list">
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-1-1" />
+                            <label for="subtask-1-1">Crear repo en GitHub</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-1-2" />
+                            <label for="subtask-1-2">Configurar branch protection</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-1-3" />
+                            <label for="subtask-1-3">Setup GitHub Actions</label>
+                        </div>
+                        <div class="subtask-item">
+                            <input type="checkbox" id="subtask-1-4" />
+                            <label for="subtask-1-4">Configurar templates de issues/PR</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task-actions">
+                    <button class="action-btn primary" onclick="window.open('https://github.com/new', '_blank')">
+                        <i class="fab fa-github"></i> Ir a GitHub
+                    </button>
+                    <button class="action-btn success" onclick="markPhaseTaskComplete()">
+                        <i class="fas fa-check"></i> Marcar Completada
+                    </button>
+                    <button class="action-btn warning" onclick="addTaskNote()">
+                        <i class="fas fa-comment"></i> Añadir Nota
+                    </button>
+                </div>
+            </div>
+
+            <!-- All Tasks List -->
+            <div class="all-tasks-container">
+                <div class="tasks-header">
+                    <h3>📋 Todas las Tareas de la Fase</h3>
+                    <div class="task-filters">
+                        <button class="filter-btn active" data-filter="all">Todas</button>
+                        <button class="filter-btn" data-filter="completed">Completadas</button>
+                        <button class="filter-btn" data-filter="progress">En Progreso</button>
+                        <button class="filter-btn" data-filter="pending">Pendientes</button>
+                        <button class="filter-btn" data-filter="blocked">Bloqueadas</button>
+                    </div>
+                </div>
+
+                <!-- Task Items -->
+                <div class="task-list">
+                    <!-- Task 1.1.1 - Current -->
+                    <div class="task-item current" data-status="progress">
+                        <div class="task-status">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>1.1.1 Crear Repositorio en GitHub</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge critical">🔥 CRÍTICA</span>
+                                    <span class="status-badge progress">🔄 EN PROGRESO</span>
+                                </div>
+                            </div>
+                            <p>Establecer el repositorio principal con configuraciones de seguridad</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 2-3h</span>
+                                <span><i class="fas fa-link"></i> Bloquea: 1.1.2, 1.1.3</span>
+                                <span><i class="fas fa-user"></i> Asignado</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm primary">Detalles</button>
+                            <button class="btn-sm success">Completar</button>
+                        </div>
+                    </div>
+
+                    <!-- Task 1.1.2 - Blocked -->
+                    <div class="task-item blocked" data-status="blocked">
+                        <div class="task-status">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>1.1.2 Inicializar README Principal</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge high">⭐ ALTA</span>
+                                    <span class="status-badge blocked">🔴 BLOQUEADA</span>
+                                </div>
+                            </div>
+                            <p>Crear documentación principal del proyecto con estructura completa</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 1-2h</span>
+                                <span><i class="fas fa-lock"></i> Esperando: 1.1.1</span>
+                                <span><i class="fas fa-file-text"></i> Documentación</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm secondary" disabled>Bloqueada</button>
+                        </div>
+                    </div>
+
+                    <!-- Task 1.1.3 - Pending -->
+                    <div class="task-item pending" data-status="pending">
+                        <div class="task-status">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-header">
+                                <h4>1.1.3 Configurar .gitignore</h4>
+                                <div class="task-badges">
+                                    <span class="priority-badge medium">💡 MEDIA</span>
+                                    <span class="status-badge pending">🟡 PENDIENTE</span>
+                                    <span class="quick-win">⚡ QUICK WIN</span>
+                                </div>
+                            </div>
+                            <p>Configurar archivos y carpetas a ignorar en el control de versiones</p>
+                            <div class="task-meta-row">
+                                <span><i class="fas fa-clock"></i> 30min</span>
+                                <span><i class="fas fa-bolt"></i> Tarea rápida</span>
+                                <span><i class="fas fa-code"></i> Configuración</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-sm info">Iniciar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dependencies Tree -->
+        <section class="dependencies-section">
+            <h2><i class="fas fa-project-diagram"></i> Árbol de Dependencias</h2>
+            <div class="dependency-tree">
+                <div class="dependency-node root">
+                    <div class="node-content">
+                        <h4>Fase 1: Frontend Base</h4>
+                        <span class="node-status progress">EN PROGRESO</span>
+                    </div>
+                    <div class="node-children">
+                        <div class="dependency-node">
+                            <div class="node-content">
+                                <h5>1.1.1 GitHub Repo</h5>
+                                <span class="node-status progress">ACTUAL</span>
+                            </div>
+                            <div class="node-children">
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>1.1.2 README</h6>
+                                        <span class="node-status blocked">BLOQUEADA</span>
+                                    </div>
+                                </div>
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>1.1.4 Branch Policy</h6>
+                                        <span class="node-status pending">PENDIENTE</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dependency-node">
+                            <div class="node-content">
+                                <h5>1.2.1 Framework</h5>
+                                <span class="node-status pending">PENDIENTE</span>
+                            </div>
+                            <div class="node-children">
+                                <div class="dependency-node">
+                                    <div class="node-content">
+                                        <h6>1.2.2 Package Manager</h6>
+                                        <span class="node-status pending">PENDIENTE</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notes Section -->
+        <section class="notes-section">
+            <h2><i class="fas fa-sticky-note"></i> Notas de Desarrollo</h2>
+            <div class="notes-grid">
+                <div class="note-card important">
+                    <div class="note-header">
+                        <h4>🔥 Consideraciones Críticas</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>El repositorio debe configurarse desde el inicio como privado</li>
+                            <li>Branch protection es obligatoria antes de cualquier colaboración</li>
+                            <li>GitHub Actions será fundamental para CI/CD posterior</li>
+                            <li>Templates de issues ayudarán con la gestión de bugs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card technical">
+                    <div class="note-header">
+                        <h4>⚙️ Decisiones Técnicas</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li><strong>Framework:</strong> Pendiente análisis React vs Vue</li>
+                            <li><strong>Hosting:</strong> Considerar Vercel/Netlify para frontend</li>
+                            <li><strong>Testing:</strong> Jest + Testing Library como estándar</li>
+                            <li><strong>Linting:</strong> ESLint + Prettier obligatorios</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card workflow">
+                    <div class="note-header">
+                        <h4>🔄 Flujo de Trabajo</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Usar GitHub Flow (más simple que GitFlow)</li>
+                            <li>Pull Requests obligatorias para main</li>
+                            <li>Minimum 1 reviewer para PRs</li>
+                            <li>Squash and merge como estrategia preferida</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-card reminder">
+                    <div class="note-header">
+                        <h4>📝 Recordatorios</h4>
+                        <span class="note-date">19/08/2025</span>
+                    </div>
+                    <div class="note-content">
+                        <ul>
+                            <li>Actualizar Asana tras completar cada tarea</li>
+                            <li>Documentar todas las decisiones arquitectónicas</li>
+                            <li>Mantener README actualizado con instalación</li>
+                            <li>Configurar notificaciones de GitHub correctamente</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions-section">
+            <h2><i class="fas fa-bolt"></i> Acciones Rápidas</h2>
+            <div class="actions-grid">
+                <button class="action-btn primary large" onclick="window.open('https://github.com/new', '_blank')">
+                    <i class="fab fa-github"></i>
+                    <span>Crear Repositorio</span>
+                </button>
+                <button class="action-btn success large" onclick="markPhaseTaskComplete()">
+                    <i class="fas fa-check"></i>
+                    <span>Completar Tarea Actual</span>
+                </button>
+                <button class="action-btn info large" onclick="addTaskNote()">
+                    <i class="fas fa-comment"></i>
+                    <span>Añadir Nota</span>
+                </button>
+                <button class="action-btn warning large" onclick="updateTaskProgress()">
+                    <i class="fas fa-sync"></i>
+                    <span>Actualizar Progreso</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Back to Dashboard -->
+        <div class="back-to-dashboard">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Volver al Dashboard Principal
+            </a>
+        </div>
+    </div>
+
+    <script src="phase-detail.js"></script>
+</body>
+</html>

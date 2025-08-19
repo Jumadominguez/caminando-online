@@ -1,0 +1,95 @@
+{
+  "dashboard": {
+    "title": "Optimizer Dashboard",
+    "subtitle": "Sistema de Análisis y Optimización de Código",
+    "version": "1.0.0",
+    "theme": {
+      "primaryColor": "#6366f1",
+      "secondaryColor": "#818cf8",
+      "successColor": "#10b981",
+      "warningColor": "#f59e0b",
+      "dangerColor": "#ef4444",
+      "infoColor": "#06b6d4"
+    },
+    "features": {
+      "autoSync": true,
+      "syncInterval": 5,
+      "notifications": true,
+      "keyboardShortcuts": true,
+      "exportEnabled": true,
+      "githubIntegration": true
+    },
+    "layout": {
+      "compactMode": false,
+      "showPhasesInSidebar": false,
+      "defaultTaskFilter": "all",
+      "tasksPerPage": 20
+    }
+  },
+  "project": {
+    "name": "Optimizer",
+    "description": "Sistema de filtrado y debugging que analiza, optimiza y valida código generado por IA",
+    "startDate": "2025-08-19",
+    "estimatedEndDate": "2025-12-31",
+    "repository": {
+      "provider": "github",
+      "url": "",
+      "branch": "main"
+    },
+    "team": {
+      "lead": "CadenaMKT",
+      "members": ["Claude AI Assistant"],
+      "stakeholders": []
+    }
+  },
+  "sync": {
+    "checklistPath": "../PROJECT_CHECKLIST.md",
+    "autoUpdateInterval": 300000,
+    "backupEnabled": true,
+    "conflictResolution": "manual"
+  },
+  "integrations": {
+    "asana": {
+      "enabled": false,
+      "apiKey": "",
+      "projectId": ""
+    },
+    "github": {
+      "enabled": true,
+      "apiToken": "",
+      "organization": "",
+      "repository": ""
+    },
+    "slack": {
+      "enabled": false,
+      "webhookUrl": "",
+      "channel": "#optimizer-updates"
+    }
+  },
+  "notifications": {
+    "taskCompleted": true,
+    "phaseChanged": true,
+    "deadlineApproaching": true,
+    "syncStatus": true,
+    "errors": true
+  },
+  "export": {
+    "formats": ["json", "csv", "pdf"],
+    "includeCharts": true,
+    "includeTimeline": true,
+    "autoBackup": true,
+    "backupInterval": "daily"
+  },
+  "performance": {
+    "animationsEnabled": true,
+    "lazyLoading": true,
+    "cacheEnabled": true,
+    "compressionEnabled": false
+  },
+  "accessibility": {
+    "highContrast": false,
+    "fontSize": "normal",
+    "reduceMotion": false,
+    "screenReaderOptimized": true
+  }
+}

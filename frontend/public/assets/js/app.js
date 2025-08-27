@@ -1,81 +1,97 @@
 /**
- * CAMINANDO ONLINE V2 - APP.JS
- * JavaScript principal de la aplicación
- * Fecha: 27 Agosto 2025
- */
+ * CAMINANDO ONLINE V2 - APP PRINCIPAL
+ * ===============================================
+ * Archivo principal de la aplicación
+ * Inicializa todos los managers y controladores
+ * Autor: Juan + Claude
+ * Fecha: 27/08/2025
+ * =============================================== */
 
-// Inicialización de la aplicación
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Caminando Online v2 iniciado');
-    
-    // Ocultar loading screen
-    setTimeout(() => {
-        const loadingScreen = document.getElementById('loading-screen');
-        if (loadingScreen) {
-            loadingScreen.classList.add('hidden');
-        }
-    }, 1000);
+// Configuración de la aplicación
+const app = {
+  version: '2.0.0',
+  debug: true,
+  
+  // Estado global
+  state: {
+    supermercados: [],
+    productos: [],
+    usuario: null
+  },
+
+  // Inicializar aplicación
+  init() {
+    console.log('🚀 Caminando Online v' + this.version + ' - Iniciando...');
     
     // Inicializar componentes
-    initializeHeader();
-    // initializeNavigation(); // Removida
-    initializeMobileMenu();
+    this.setupEventListeners();
     
-    console.log('✅ Aplicación lista');
+    console.log('✅ Aplicación inicializada correctamente');
+  },
+
+  // Configurar event listeners
+  setupEventListeners() {
+    // Manejar clicks en navegación
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a[href^="#"]');
+      if (link) {
+        this.handleNavigation(e, link);
+      }
+    });
+  },
+
+  // Manejar navegación
+  handleNavigation(event, link) {
+    const href = link.getAttribute('href');
+    
+    if (href === '#perfil' || href === '#registro') {
+      event.preventDefault();
+      this.showNotification(href === '#perfil' ? 'Login próximamente' : 'Registro próximamente', 'info');
+    }
+  },
+
+  // Mostrar notificación
+  showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = 'app-notification';
+    notification.textContent = message;
+    
+    const colors = {
+      info: '#ff6b35',
+      success: '#28a745',
+      error: '#dc3545',
+      warning: '#ffc107'
+    };
+    
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${colors[type]};
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 10000;
+      font-size: 14px;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+    `;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => notification.style.transform = 'translateX(0)', 100);
+    setTimeout(() => {
+      notification.style.transform = 'translateX(400px)';
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
+  }
+};
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+  app.init();
 });
 
-// Inicializar header
-function initializeHeader() {
-    const header = document.getElementById('header');
-    if (!header) return;
-    
-    // Scroll effect para el header
-    let lastScroll = 0;
-    
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        
-        if (currentScroll > 100) {
-            header.style.background = 'rgba(255, 107, 53, 0.95)';
-            header.style.backdropFilter = 'blur(10px)';
-        } else {
-            header.style.background = 'var(--color-primary)';
-            header.style.backdropFilter = 'none';
-        }
-        
-        lastScroll = currentScroll;
-    });
-}
-
-// Navegación removida - ya no es necesaria
-// function initializeNavigation() { ... }
-
-// Inicializar menú móvil
-function initializeMobileMenu() {
-    const toggle = document.getElementById('mobile-menu-toggle');
-    const menu = document.getElementById('mobile-menu');
-    
-    if (!toggle || !menu) return;
-    
-    toggle.addEventListener('click', () => {
-        toggle.classList.toggle('active');
-        menu.classList.toggle('active');
-    });
-    
-    // Cerrar menú al hacer click en un botón (ya no hay links)
-    // const mobileLinks = document.querySelectorAll('.mobile-menu__link');
-    // mobileLinks.forEach(link => {
-    //     link.addEventListener('click', () => {
-    //         toggle.classList.remove('active');
-    //         menu.classList.remove('active');
-    //     });
-    // });
-    
-    // Cerrar menú al hacer click fuera
-    document.addEventListener('click', (e) => {
-        if (!toggle.contains(e.target) && !menu.contains(e.target)) {
-            toggle.classList.remove('active');
-            menu.classList.remove('active');
-        }
-    });
-}
+// Exportar para uso global
+window.CaminandoApp = app;

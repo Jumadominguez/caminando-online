@@ -1,12 +1,12 @@
 // ===============================================
-// FILTROS MANAGER V2 - SISTEMA DEPURADO COMPLETO
+// FILTROS MANAGER V2 - CON DROPDOWNS PERSONALIZADOS
 // ===============================================
 
 /**
  * Sistema unificado de filtros para Caminando Online V2
- * - Elimina duplicados y conflictos del sistema anterior
- * - Implementa arquitectura limpia y modular  
- * - Datos mock optimizados y organizados
+ * - Dropdowns completamente personalizados (no nativos)
+ * - Diseño controlado por CSS sin elementos del browser
+ * - Navegación por teclado y accesibilidad
  * - Eventos personalizados para comunicación entre módulos
  */
 
@@ -243,12 +243,394 @@ const estado = new EstadoFiltros();
 let elementos = {};
 
 // ===============================================
-// CLASE PRINCIPAL - FILTROS MANAGER V2
+// CLASE PARA DROPDOWN PERSONALIZADO
+// ===============================================
+
+class CustomDropdown {
+  constructor(wrapperId, hiddenInputId, placeholder = "Seleccionar...") {
+    this.wrapperId = wrapperId;
+    this.hiddenInputId = hiddenInputId;
+    this.placeholder = placeholder;
+    this.isOpen = false;
+    this.selectedValue = null;
+    this.selectedText = null;
+    this.options = [];
+    this.focusedIndex = -1;
+    
+    this.initializeElements();
+    this.setupEventListeners();
+  }
+
+  initializeElements() {
+    this.wrapper = document.getElementById(this.wrapperId);
+    this.hiddenInput = document.getElementById(this.hiddenInputId);
+    
+    if (!this.wrapper || !this.hiddenInput) {
+      console.error(`CustomDropdown: Elementos no encontrados - ${this.wrapperId}, ${this.hiddenInputId}`);
+      return;
+    }
+
+    this.trigger = this.wrapper.querySelector('.custom-select-trigger');
+    this.textElement = this.wrapper.querySelector('.custom-select-text');
+    this.arrow = this.wrapper.querySelector('.custom-select-arrow');
+    this.optionsContainer = this.wrapper.querySelector('.custom-select-options');
+
+    if (!this.trigger || !this.textElement || !this.arrow || !this.optionsContainer) {
+      console.error(`CustomDropdown: Elementos internos no encontrados en ${this.wrapperId}`);
+      return;
+    }
+
+    // Establecer placeholder inicial
+    this.setPlaceholder();
+  }
+
+  setupEventListeners() {
+    if (!this.trigger) return;
+
+    // Click en el trigger
+    this.trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      this.toggle();
+    });
+
+    // Navegación por teclado
+    this.trigger.addEventListener('keydown', (e) => {
+      this.handleKeyNavigation(e);
+    });
+
+    // Click fuera para cerrar
+    document.addEventListener('click', (e) => {
+      if (!this.wrapper.contains(e.target)) {
+        this.close();
+      }
+    });
+
+    // Focus/blur
+    this.trigger.addEventListener('focus', () => {
+      this.wrapper.classList.add('focused');
+    });
+
+    this.trigger.addEventListener('blur', () => {
+      this.wrapper.classList.remove('focused');
+    });
+  }
+
+  // Cargar opciones
+  loadOptions(options, selectedValue = null) {
+    this.options = options;
+    this.renderOptions();
+    
+    if (selectedValue) {
+      this.selectOption(selectedValue, options.find(opt => opt.value === selectedValue)?.text || selectedValue);
+    }
+  }
+
+  renderOptions() {
+    if (!this.optionsContainer) return;
+
+    this.optionsContainer.innerHTML = '';
+
+    if (this.options.length === 0) {
+      const noOptionsElement = document.createElement('div');
+      noOptionsElement.className = 'custom-select-no-options';
+      noOptionsElement.textContent = 'No hay opciones disponibles';
+      this.optionsContainer.appendChild(noOptionsElement);
+      return;
+    }
+
+    this.options.forEach((option, index) => {
+      const optionElement = document.createElement('div');
+      optionElement.className = 'custom-select-option';
+      optionElement.textContent = option.text || option;
+      optionElement.setAttribute('data-value', option.value || option);
+      optionElement.setAttribute('data-index', index);
+
+      if (option.disabled) {
+        optionElement.classList.add('disabled');
+      }
+
+      if (this.selectedValue === (option.value || option)) {
+        optionElement.classList.add('selected');
+      }
+
+      // Event listener para selección
+      optionElement.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!option.disabled) {
+          this.selectOption(option.value || option, option.text || option);
+          this.close();
+        }
+      });
+
+      // Hover states
+      optionElement.addEventListener('mouseenter', () => {
+        if (!option.disabled) {
+          this.focusedIndex = index;
+          this.updateFocusedOption();
+        }
+      });
+
+      this.optionsContainer.appendChild(optionElement);
+    });
+  }
+
+  selectOption(value, text) {
+    this.selectedValue = value;
+    this.selectedText = text;
+
+    // Actualizar input oculto
+    if (this.hiddenInput) {
+      this.hiddenInput.value = value;
+      this.hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    // Actualizar texto visible
+    this.updateDisplayText();
+
+    // Actualizar clases selected en opciones
+    this.updateSelectedOption();
+
+    if (CONFIG.debug) {
+      console.log(`🎯 Dropdown ${this.wrapperId}: seleccionado ${value}`);
+    }
+  }
+
+  updateDisplayText() {
+    if (!this.textElement) return;
+
+    if (this.selectedValue) {
+      this.textElement.textContent = this.selectedText || this.selectedValue;
+      this.textElement.classList.remove('placeholder');
+    } else {
+      this.setPlaceholder();
+    }
+  }
+
+  setPlaceholder() {
+    if (this.textElement) {
+      this.textElement.textContent = this.placeholder;
+      this.textElement.classList.add('placeholder');
+    }
+  }
+
+  updateSelectedOption() {
+    if (!this.optionsContainer) return;
+
+    const options = this.optionsContainer.querySelectorAll('.custom-select-option');
+    options.forEach(opt => {
+      opt.classList.remove('selected');
+      if (opt.getAttribute('data-value') === this.selectedValue) {
+        opt.classList.add('selected');
+      }
+    });
+  }
+
+  updateFocusedOption() {
+    if (!this.optionsContainer) return;
+
+    const options = this.optionsContainer.querySelectorAll('.custom-select-option');
+    options.forEach((opt, index) => {
+      opt.classList.remove('focused');
+      if (index === this.focusedIndex) {
+        opt.classList.add('focused');
+      }
+    });
+  }
+
+  toggle() {
+    if (this.isDisabled()) return;
+    
+    if (this.isOpen) {
+      this.close();
+    } else {
+      this.open();
+    }
+  }
+
+  open() {
+    if (this.isDisabled() || this.options.length === 0) return;
+
+    // Cerrar otros dropdowns
+    CustomDropdown.closeAllExcept(this);
+
+    this.isOpen = true;
+    this.wrapper.classList.add('active');
+    this.focusedIndex = Math.max(0, this.options.findIndex(opt => (opt.value || opt) === this.selectedValue));
+    this.updateFocusedOption();
+
+    // Focus en el trigger para navegación por teclado
+    this.trigger.focus();
+
+    if (CONFIG.debug) {
+      console.log(`📖 Dropdown ${this.wrapperId} abierto`);
+    }
+  }
+
+  close() {
+    if (!this.isOpen) return;
+
+    this.isOpen = false;
+    this.wrapper.classList.remove('active');
+    this.focusedIndex = -1;
+    this.updateFocusedOption();
+
+    if (CONFIG.debug) {
+      console.log(`📘 Dropdown ${this.wrapperId} cerrado`);
+    }
+  }
+
+  handleKeyNavigation(e) {
+    if (!this.isOpen) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        this.open();
+      }
+      return;
+    }
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        this.focusNext();
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        this.focusPrevious();
+        break;
+      case 'Enter':
+      case ' ':
+        e.preventDefault();
+        this.selectFocusedOption();
+        break;
+      case 'Escape':
+        e.preventDefault();
+        this.close();
+        break;
+      case 'Home':
+        e.preventDefault();
+        this.focusFirst();
+        break;
+      case 'End':
+        e.preventDefault();
+        this.focusLast();
+        break;
+    }
+  }
+
+  focusNext() {
+    if (this.options.length === 0) return;
+    
+    do {
+      this.focusedIndex = (this.focusedIndex + 1) % this.options.length;
+    } while (this.options[this.focusedIndex]?.disabled);
+    
+    this.updateFocusedOption();
+  }
+
+  focusPrevious() {
+    if (this.options.length === 0) return;
+    
+    do {
+      this.focusedIndex = this.focusedIndex <= 0 ? this.options.length - 1 : this.focusedIndex - 1;
+    } while (this.options[this.focusedIndex]?.disabled);
+    
+    this.updateFocusedOption();
+  }
+
+  selectFocusedOption() {
+    if (this.focusedIndex >= 0 && this.focusedIndex < this.options.length) {
+      const option = this.options[this.focusedIndex];
+      if (!option.disabled) {
+        this.selectOption(option.value || option, option.text || option);
+        this.close();
+      }
+    }
+  }
+
+  focusFirst() {
+    this.focusedIndex = 0;
+    while (this.options[this.focusedIndex]?.disabled && this.focusedIndex < this.options.length - 1) {
+      this.focusedIndex++;
+    }
+    this.updateFocusedOption();
+  }
+
+  focusLast() {
+    this.focusedIndex = this.options.length - 1;
+    while (this.options[this.focusedIndex]?.disabled && this.focusedIndex > 0) {
+      this.focusedIndex--;
+    }
+    this.updateFocusedOption();
+  }
+
+  // Estados
+  enable() {
+    this.wrapper.classList.remove('disabled');
+    this.trigger.setAttribute('tabindex', '0');
+  }
+
+  disable() {
+    this.wrapper.classList.add('disabled');
+    this.trigger.setAttribute('tabindex', '-1');
+    this.close();
+  }
+
+  isDisabled() {
+    return this.wrapper.classList.contains('disabled');
+  }
+
+  setLoading(loading = true) {
+    if (loading) {
+      this.wrapper.classList.add('loading');
+    } else {
+      this.wrapper.classList.remove('loading');
+    }
+  }
+
+  reset() {
+    this.selectedValue = null;
+    this.selectedText = null;
+    if (this.hiddenInput) this.hiddenInput.value = '';
+    this.updateDisplayText();
+    this.updateSelectedOption();
+    this.close();
+  }
+
+  getValue() {
+    return this.selectedValue;
+  }
+
+  setText(text) {
+    this.selectedText = text;
+    this.updateDisplayText();
+  }
+
+  // Método estático para cerrar todos los dropdowns excepto uno específico
+  static closeAllExcept(exception = null) {
+    if (window.customDropdowns) {
+      window.customDropdowns.forEach(dropdown => {
+        if (dropdown !== exception && dropdown.isOpen) {
+          dropdown.close();
+        }
+      });
+    }
+  }
+
+  // Método estático para cerrar todos los dropdowns
+  static closeAll() {
+    CustomDropdown.closeAllExcept();
+  }
+}
+
+// ===============================================
+// CLASE PRINCIPAL - FILTROS MANAGER V2 ACTUALIZADA
 // ===============================================
 
 class FiltrosManagerV2 {
   constructor() {
     this.inicializado = false;
+    this.dropdowns = {};
   }
 
   // Inicialización principal
@@ -258,7 +640,7 @@ class FiltrosManagerV2 {
       return;
     }
 
-    console.log("🎯 Inicializando FiltrosManagerV2...");
+    console.log("🎯 Inicializando FiltrosManagerV2 con dropdowns personalizados...");
     
     if (!this.obtenerElementosDOM()) {
       console.error("❌ No se pudieron obtener elementos DOM críticos");
@@ -278,24 +660,25 @@ class FiltrosManagerV2 {
       // Elementos principales
       productoInput: document.getElementById("producto"),
       categoryMenu: document.getElementById("categoryMenu"),
-      tipoProductoSelect: document.getElementById("tipo-de-producto"),
       
-      // Filtros secundarios
-      marcaSelect: document.getElementById("marca"),
-      contenidoSelect: document.getElementById("contenido"),
-      variedadSelect: document.getElementById("variedad"),
-      
-      // Wrappers de filtros secundarios
+      // Wrappers de dropdowns personalizados
+      tipoProductoWrapper: document.getElementById("tipo-de-producto-wrapper"),
       marcaWrapper: document.getElementById("marca-wrapper"),
       contenidoWrapper: document.getElementById("contenido-wrapper"),
       variedadWrapper: document.getElementById("variedad-wrapper"),
+      
+      // Inputs ocultos
+      tipoProductoInput: document.getElementById("tipo-de-producto"),
+      marcaInput: document.getElementById("marca"),
+      contenidoInput: document.getElementById("contenido"),
+      variedadInput: document.getElementById("variedad"),
       
       // Tabla de productos
       productosLista: document.getElementById("productos-lista")
     };
 
     // Validar elementos críticos
-    const elementosCriticos = ['productoInput', 'categoryMenu', 'tipoProductoSelect'];
+    const elementosCriticos = ['productoInput', 'categoryMenu', 'tipoProductoWrapper'];
     const faltantes = elementosCriticos.filter(id => !elementos[id]);
     
     if (faltantes.length > 0) {
@@ -313,9 +696,58 @@ class FiltrosManagerV2 {
   // Inicializar componentes individuales
   inicializarComponentes() {
     this.inicializarFiltroCategorias();
-    this.inicializarFiltroTipoProducto(); 
-    this.inicializarFiltrosSecundarios();
+    this.inicializarDropdownsPersonalizados();
     this.ocultarFiltrosSecundarios(); // Estado inicial
+  }
+
+  // ===============================================
+  // INICIALIZACIÓN DE DROPDOWNS PERSONALIZADOS
+  // ===============================================
+
+  inicializarDropdownsPersonalizados() {
+    console.log("🎛️ Inicializando dropdowns personalizados...");
+
+    // Registrar array global de dropdowns
+    if (!window.customDropdowns) {
+      window.customDropdowns = [];
+    }
+
+    // Inicializar dropdown de tipo de producto
+    if (elementos.tipoProductoWrapper && elementos.tipoProductoInput) {
+      this.dropdowns.tipoProducto = new CustomDropdown(
+        'tipo-de-producto-wrapper',
+        'tipo-de-producto',
+        'Elegí una opción...'
+      );
+      this.dropdowns.tipoProducto.disable(); // Inicialmente deshabilitado
+      window.customDropdowns.push(this.dropdowns.tipoProducto);
+    }
+
+    // Inicializar dropdowns secundarios
+    const dropdownsSecundarios = [
+      { key: 'marca', wrapper: 'marca-select-wrapper', input: 'marca', placeholder: 'Elegí la marca' },
+      { key: 'contenido', wrapper: 'contenido-select-wrapper', input: 'contenido', placeholder: 'Elegí el contenido' },
+      { key: 'variedad', wrapper: 'variedad-select-wrapper', input: 'variedad', placeholder: 'Elegí la variedad' }
+    ];
+
+    dropdownsSecundarios.forEach(({ key, wrapper, input, placeholder }) => {
+      const wrapperElement = document.getElementById(wrapper);
+      const inputElement = document.getElementById(input);
+      
+      if (wrapperElement && inputElement) {
+        this.dropdowns[key] = new CustomDropdown(wrapper, input, placeholder);
+        window.customDropdowns.push(this.dropdowns[key]);
+      } else {
+        console.warn(`⚠️ No se pudo inicializar dropdown ${key}: elementos no encontrados`);
+      }
+    });
+
+    // Cargar opciones iniciales
+    this.cargarTiposProducto();
+
+    if (CONFIG.debug) {
+      console.log("✅ Dropdowns personalizados inicializados:", Object.keys(this.dropdowns));
+    }
   }
 
   // ===============================================
@@ -415,11 +847,8 @@ class FiltrosManagerV2 {
     estado.actualizar('categoria', categoria.id);
     estado.actualizar('subcategoria', subcategoria);
     
-    // Actualizar el select de tipo de producto para mostrar solo opciones relevantes
+    // Actualizar el dropdown de tipo de producto para mostrar solo opciones relevantes
     this.filtrarTiposPorCategoria(categoria.id);
-    
-    // NO mostrar filtros secundarios aún - solo se muestran cuando se elige tipo de producto
-    // this.mostrarFiltrosSecundarios(); // <- REMOVIDO
   }
 
   filtrarMenuCategorias() {
@@ -463,182 +892,83 @@ class FiltrosManagerV2 {
   }
 
   // ===============================================
-  // FILTRO TIPO DE PRODUCTO
+  // GESTIÓN DE DROPDOWNS DE TIPO DE PRODUCTO
   // ===============================================
 
-  inicializarFiltroTipoProducto() {
-    console.log("📦 Inicializando filtro tipo de producto...");
-    
-    if (!elementos.tipoProductoSelect) {
-      console.warn("⚠️ Select tipo de producto no encontrado");
-      return;
-    }
-    
-    this.cargarTiposProducto();
-    
-    // Deshabilitar inicialmente - se habilita cuando se selecciona una categoría
-    elementos.tipoProductoSelect.disabled = true;
-    
-    elementos.tipoProductoSelect.addEventListener('change', (e) => {
-      this.manejarCambioTipoProducto(e.target.value);
-    });
-  }
-
   cargarTiposProducto() {
-    if (!elementos.tipoProductoSelect) return;
+    if (!this.dropdowns.tipoProducto) return;
     
-    // Limpiar select
-    elementos.tipoProductoSelect.innerHTML = '';
+    console.log("📦 Cargando tipos de producto...");
     
-    // Opción por defecto
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
-    defaultOption.textContent = CONFIG.textos.placeholder_tipo;
-    elementos.tipoProductoSelect.appendChild(defaultOption);
-    
-    // Cargar tipos ordenados
-    DATOS_DEPURADOS.tiposProducto
+    // Cargar todos los tipos ordenados
+    const opciones = DATOS_DEPURADOS.tiposProducto
       .filter(tipo => tipo.activo)
       .sort((a, b) => a.orden - b.orden)
-      .forEach(tipo => {
-        const option = document.createElement('option');
-        option.value = tipo.id;
-        option.textContent = tipo.nombre;
-        option.setAttribute('data-categoria', tipo.categoria);
-        elementos.tipoProductoSelect.appendChild(option);
-      });
+      .map(tipo => ({
+        value: tipo.id,
+        text: tipo.nombre,
+        categoria: tipo.categoria
+      }));
+    
+    this.dropdowns.tipoProducto.loadOptions(opciones);
     
     if (CONFIG.debug) {
-      console.log(`📦 ${DATOS_DEPURADOS.tiposProducto.length} tipos de producto cargados`);
+      console.log(`📦 ${opciones.length} tipos de producto cargados`);
     }
   }
 
   filtrarTiposPorCategoria(categoriaId) {
-    if (!elementos.tipoProductoSelect) return;
+    if (!this.dropdowns.tipoProducto) return;
     
     console.log(`🔍 Filtrando tipos de producto por categoría: ${categoriaId}`);
     
-    // Limpiar select
-    elementos.tipoProductoSelect.innerHTML = '';
-    
-    // Opción por defecto habilitada
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
-    defaultOption.textContent = "Elegí el tipo de producto";
-    elementos.tipoProductoSelect.appendChild(defaultOption);
-    
-    // Cargar solo tipos de la categoría seleccionada
-    const tiposFiltrados = DATOS_DEPURADOS.tiposProducto
+    // Filtrar y cargar solo tipos de la categoría seleccionada
+    const opcionesFiltradas = DATOS_DEPURADOS.tiposProducto
       .filter(tipo => tipo.activo && tipo.categoria === categoriaId)
-      .sort((a, b) => a.orden - b.orden);
+      .sort((a, b) => a.orden - b.orden)
+      .map(tipo => ({
+        value: tipo.id,
+        text: tipo.nombre,
+        categoria: tipo.categoria
+      }));
     
-    tiposFiltrados.forEach(tipo => {
-      const option = document.createElement('option');
-      option.value = tipo.id;
-      option.textContent = tipo.nombre;
-      option.setAttribute('data-categoria', tipo.categoria);
-      elementos.tipoProductoSelect.appendChild(option);
-    });
+    this.dropdowns.tipoProducto.loadOptions(opcionesFiltradas);
     
-    // Habilitar el select
-    elementos.tipoProductoSelect.disabled = false;
+    // Habilitar el dropdown
+    this.dropdowns.tipoProducto.enable();
+    this.dropdowns.tipoProducto.setPlaceholder();
     
     if (CONFIG.debug) {
-      console.log(`✅ ${tiposFiltrados.length} tipos de producto filtrados para categoría ${categoriaId}`);
+      console.log(`✅ ${opcionesFiltradas.length} tipos de producto filtrados para categoría ${categoriaId}`);
     }
   }
 
-  manejarCambioTipoProducto(tipoSeleccionado) {
-    console.log(`🎯 Tipo de producto seleccionado: ${tipoSeleccionado}`);
-    
-    estado.actualizar('tipoProducto', tipoSeleccionado);
-    
-    if (!tipoSeleccionado) {
-      this.ocultarFiltrosSecundarios();
-      return;
-    }
-    
-    // Cargar opciones específicas para este tipo
-    this.cargarOpcionesPorTipo(tipoSeleccionado);
-    
-    // Mostrar filtros secundarios
-    this.mostrarFiltrosSecundarios();
-  }
-
   // ===============================================
-  // FILTROS SECUNDARIOS
+  // GESTIÓN DE DROPDOWNS SECUNDARIOS
   // ===============================================
-
-  inicializarFiltrosSecundarios() {
-    console.log("🔧 Inicializando filtros secundarios...");
-    
-    // Event listeners para cada filtro secundario
-    const filtrosSecundarios = [
-      { elemento: elementos.marcaSelect, campo: 'marca' },
-      { elemento: elementos.contenidoSelect, campo: 'contenido' },
-      { elemento: elementos.variedadSelect, campo: 'variedad' }
-    ];
-    
-    filtrosSecundarios.forEach(({elemento, campo}) => {
-      if (elemento) {
-        elemento.addEventListener('change', (e) => {
-          estado.actualizar(campo, e.target.value);
-        });
-      }
-    });
-  }
 
   cargarOpcionesPorTipo(tipoProducto) {
     console.log(`📋 Cargando opciones para tipo: ${tipoProducto}`);
     
-    // Cargar cada filtro secundario
-    this.cargarOpcionesSelect(
-      elementos.marcaSelect, 
-      DATOS_DEPURADOS.marcas[tipoProducto] || [], 
-      CONFIG.textos.placeholder_marca
-    );
-    
-    this.cargarOpcionesSelect(
-      elementos.contenidoSelect, 
-      DATOS_DEPURADOS.contenidos[tipoProducto] || [], 
-      CONFIG.textos.placeholder_contenido
-    );
-    
-    this.cargarOpcionesSelect(
-      elementos.variedadSelect, 
-      DATOS_DEPURADOS.variedades[tipoProducto] || [], 
-      CONFIG.textos.placeholder_variedad
-    );
+    // Cargar cada dropdown secundario
+    this.cargarOpcionesDropdown('marca', DATOS_DEPURADOS.marcas[tipoProducto] || []);
+    this.cargarOpcionesDropdown('contenido', DATOS_DEPURADOS.contenidos[tipoProducto] || []);
+    this.cargarOpcionesDropdown('variedad', DATOS_DEPURADOS.variedades[tipoProducto] || []);
   }
 
-  cargarOpcionesSelect(selectElement, opciones, placeholder) {
-    if (!selectElement) return;
+  cargarOpcionesDropdown(dropdownKey, opciones) {
+    const dropdown = this.dropdowns[dropdownKey];
+    if (!dropdown) return;
     
-    // Limpiar select
-    selectElement.innerHTML = '';
+    const opcionesFormateadas = opciones.map(opcion => ({
+      value: opcion,
+      text: opcion
+    }));
     
-    // Opción por defecto
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
-    defaultOption.textContent = placeholder;
-    selectElement.appendChild(defaultOption);
-    
-    // Agregar opciones
-    opciones.forEach(opcion => {
-      const option = document.createElement('option');
-      option.value = opcion;
-      option.textContent = opcion;
-      selectElement.appendChild(option);
-    });
+    dropdown.loadOptions(opcionesFormateadas);
     
     if (CONFIG.debug) {
-      console.log(`✅ ${opciones.length} opciones cargadas en ${selectElement.id}`);
+      console.log(`✅ ${opciones.length} opciones cargadas en dropdown ${dropdownKey}`);
     }
   }
 
@@ -681,11 +1011,7 @@ class FiltrosManagerV2 {
       elementos.variedadWrapper
     ];
     
-    const selects = [
-      elementos.marcaSelect,
-      elementos.contenidoSelect, 
-      elementos.variedadSelect
-    ];
+    const dropdownKeys = ['marca', 'contenido', 'variedad'];
     
     wrappers.forEach((wrapper, index) => {
       if (!wrapper) return;
@@ -699,11 +1025,10 @@ class FiltrosManagerV2 {
       setTimeout(() => {
         wrapper.classList.add('d-none');
         
-        // Limpiar select correspondiente
-        const select = selects[index];
-        if (select) {
-          select.innerHTML = '';
-          select.selectedIndex = 0;
+        // Resetear dropdown correspondiente
+        const dropdownKey = dropdownKeys[index];
+        if (this.dropdowns[dropdownKey]) {
+          this.dropdowns[dropdownKey].reset();
         }
       }, CONFIG.animaciones.duracion);
     });
@@ -734,10 +1059,50 @@ class FiltrosManagerV2 {
     document.addEventListener('resetearFiltros', () => {
       this.resetearTodo();
     });
+
+    // Event listeners específicos para dropdowns personalizados
+    this.configurarEventListenersDropdowns();
     
     if (CONFIG.debug) {
       console.log("🔗 Event listeners globales configurados");
     }
+  }
+
+  configurarEventListenersDropdowns() {
+    // Listener para tipo de producto
+    if (elementos.tipoProductoInput) {
+      elementos.tipoProductoInput.addEventListener('change', (e) => {
+        const valor = e.target.value;
+        console.log(`🎯 Tipo de producto seleccionado: ${valor}`);
+        
+        estado.actualizar('tipoProducto', valor);
+        
+        if (valor) {
+          // Cargar opciones específicas para este tipo
+          this.cargarOpcionesPorTipo(valor);
+          
+          // Mostrar filtros secundarios
+          this.mostrarFiltrosSecundarios();
+        } else {
+          this.ocultarFiltrosSecundarios();
+        }
+      });
+    }
+
+    // Listeners para filtros secundarios
+    const filtrosSecundarios = [
+      { input: elementos.marcaInput, campo: 'marca' },
+      { input: elementos.contenidoInput, campo: 'contenido' },
+      { input: elementos.variedadInput, campo: 'variedad' }
+    ];
+    
+    filtrosSecundarios.forEach(({input, campo}) => {
+      if (input) {
+        input.addEventListener('change', (e) => {
+          estado.actualizar(campo, e.target.value);
+        });
+      }
+    });
   }
 
   manejarCambioFiltro(detalle) {
@@ -955,14 +1320,17 @@ class FiltrosManagerV2 {
     // Ocultar menú
     this.ocultarMenuCategorias();
     
-    // Resetear y deshabilitar tipo de producto
-    if (elementos.tipoProductoSelect) {
-      elementos.tipoProductoSelect.selectedIndex = 0;
-      elementos.tipoProductoSelect.disabled = true;
+    // Resetear y deshabilitar dropdown de tipo de producto
+    if (this.dropdowns.tipoProducto) {
+      this.dropdowns.tipoProducto.reset();
+      this.dropdowns.tipoProducto.disable();
     }
     
     // Ocultar filtros secundarios
     this.ocultarFiltrosSecundarios();
+    
+    // Cerrar todos los dropdowns
+    CustomDropdown.closeAll();
     
     // Resetear estado
     estado.resetear();
@@ -983,6 +1351,7 @@ class FiltrosManagerV2 {
     return {
       estado: estado.obtener(),
       elementos: Object.keys(elementos),
+      dropdowns: Object.keys(this.dropdowns),
       inicializado: this.inicializado,
       datos: {
         categorias: DATOS_DEPURADOS.categorias.length,
@@ -1074,9 +1443,9 @@ window.FiltrosManager = {
 // Alias para compatibilidad
 window.FormManagerDinamico = window.FiltrosManager;
 
-console.log("📦 FiltrosManagerV2 cargado - Sistema depurado listo");
+console.log("📦 FiltrosManagerV2 con dropdowns personalizados cargado - Sistema listo");
 
 // Exportar para uso en módulos ES6
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { FiltrosManagerV2, filtrosManager };
+  module.exports = { FiltrosManagerV2, filtrosManager, CustomDropdown };
 }

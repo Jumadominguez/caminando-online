@@ -149,7 +149,7 @@
           </div>
         </div>
 
-        <!-- Contenedor de Filtros -->
+        <!-- Contenedor de Filtros con Dropdowns Personalizados -->
         <div class="filtros-container">
           <div class="filtros-row">
             
@@ -178,16 +178,26 @@
               </div>
             </div>
 
-            <!-- Filtro Tipo de Producto -->
+            <!-- Filtro Tipo de Producto - PERSONALIZADO -->
             <div class="filtro-tipo">
               <label for="tipo-de-producto" class="form-label">
                 <i class="fas fa-tags"></i>
                 Tipo de producto
               </label>
-              <select class="form-select form-select-custom" id="tipo-de-producto">
-                <option value="" selected disabled>Elegí una opción...</option>
-                <!-- Se llenan dinámicamente por FiltrosManagerV2 -->
-              </select>
+              
+              <!-- Dropdown Personalizado para Tipo -->
+              <div class="custom-select-wrapper" id="tipo-de-producto-wrapper">
+                <div class="custom-select-trigger" id="tipo-de-producto-trigger">
+                  <span class="custom-select-text">Elegí una opción...</span>
+                  <i class="fas fa-chevron-down custom-select-arrow"></i>
+                </div>
+                <div class="custom-select-options" id="tipo-de-producto-options">
+                  <!-- Se llenan dinámicamente -->
+                </div>
+              </div>
+              
+              <!-- Input oculto para mantener el valor -->
+              <input type="hidden" id="tipo-de-producto" name="tipo-de-producto">
             </div>
 
           </div>
@@ -195,40 +205,64 @@
           <!-- Filtros Secundarios -->
           <div class="filtros-secundarios">
             
-            <!-- Marca -->
+            <!-- Marca - PERSONALIZADO -->
             <div class="filtro-secundario d-none" id="marca-wrapper">
               <label for="marca" class="form-label">
                 <i class="fas fa-star"></i>
                 Marca
               </label>
-              <select class="form-select form-select-custom" id="marca">
-                <option value="" selected disabled>Elegí la marca</option>
-                <!-- Se llenan dinámicamente -->
-              </select>
+              
+              <div class="custom-select-wrapper" id="marca-select-wrapper">
+                <div class="custom-select-trigger" id="marca-trigger">
+                  <span class="custom-select-text">Elegí la marca</span>
+                  <i class="fas fa-chevron-down custom-select-arrow"></i>
+                </div>
+                <div class="custom-select-options" id="marca-options">
+                  <!-- Se llenan dinámicamente -->
+                </div>
+              </div>
+              
+              <input type="hidden" id="marca" name="marca">
             </div>
 
-            <!-- Contenido -->
+            <!-- Contenido - PERSONALIZADO -->
             <div class="filtro-secundario d-none" id="contenido-wrapper">
               <label for="contenido" class="form-label">
                 <i class="fas fa-balance-scale"></i>
                 Contenido
               </label>
-              <select class="form-select form-select-custom" id="contenido">
-                <option value="" selected disabled>Elegí el contenido</option>
-                <!-- Se llenan dinámicamente -->
-              </select>
+              
+              <div class="custom-select-wrapper" id="contenido-select-wrapper">
+                <div class="custom-select-trigger" id="contenido-trigger">
+                  <span class="custom-select-text">Elegí el contenido</span>
+                  <i class="fas fa-chevron-down custom-select-arrow"></i>
+                </div>
+                <div class="custom-select-options" id="contenido-options">
+                  <!-- Se llenan dinámicamente -->
+                </div>
+              </div>
+              
+              <input type="hidden" id="contenido" name="contenido">
             </div>
 
-            <!-- Variedad -->
+            <!-- Variedad - PERSONALIZADO -->
             <div class="filtro-secundario d-none" id="variedad-wrapper">
               <label for="variedad" class="form-label">
                 <i class="fas fa-layer-group"></i>
                 Variedad
               </label>
-              <select class="form-select form-select-custom" id="variedad">
-                <option value="" selected disabled>Elegí la variedad</option>
-                <!-- Se llenan dinámicamente -->
-              </select>
+              
+              <div class="custom-select-wrapper" id="variedad-select-wrapper">
+                <div class="custom-select-trigger" id="variedad-trigger">
+                  <span class="custom-select-text">Elegí la variedad</span>
+                  <i class="fas fa-chevron-down custom-select-arrow"></i>
+                </div>
+                <div class="custom-select-options" id="variedad-options">
+                  <!-- Se llenan dinámicamente -->
+                </div>
+              </div>
+              
+              <input type="hidden" id="variedad" name="variedad">
             </div>
 
           </div>

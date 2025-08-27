@@ -36,6 +36,19 @@
   --color-border-dark: #4a5568;
   
   /* Variables adicionales para compatibilidad */
+  --primary-color: var(--color-primary);
+  --primary-dark: var(--color-primary-dark);
+  --primary-light: var(--color-primary-light);
+  --secondary-color: var(--color-secondary);
+  --accent-color: var(--color-accent);
+  --success-color: var(--color-success);
+  --warning-color: var(--color-warning);
+  --danger-color: var(--color-danger);
+  --text-dark: var(--color-text);
+  --text-light: var(--color-text-muted);
+  --bg-light: var(--color-bg-light);
+  --border-light: var(--color-border-light);
+  
   --blanco: #ffffff;
   --negro: #000000;
   --gris-oscuro: #2D3748;
@@ -149,6 +162,7 @@
   --gradient-success: linear-gradient(135deg, var(--color-success) 0%, var(--color-success-dark) 100%);
   --gradient-header: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   --gradient-footer: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  --gradient-warning: linear-gradient(135deg, var(--color-warning) 0%, #f6ad55 100%);
   
   /* Variables específicas del header */
   --header-height: 140px;

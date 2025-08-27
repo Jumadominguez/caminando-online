@@ -9,9 +9,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/variables.css" />
   <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/sections/supermercados.css" />
   <!-- Fonts para logo textual -->
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:ital@1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Header recreado desde backup -->
@@ -39,36 +41,207 @@
   </header>
 
   <main id="app-container">
-    <!-- Toda la aplicación se genera dinámicamente aquí -->
-
-    <!-- Aquí van las secciones principales -->
-    <section id="seccion-supermercados" class="main-section">
+    <!-- Sección 1: Selección de Supermercados -->
+    <section id="seccion-supermercados" class="main-section supermercados-section">
       <div class="container">
-        <h2>1. Seleccioná tus Supermercados</h2>
-        <p>Elegí los supermercados donde querés comparar precios.</p>
+        <div class="section-header">
+          <div class="step-indicator">
+            <span class="step-number">1</span>
+          </div>
+          <div class="section-content">
+            <h2 class="section-title">Elegí tus Supermercados</h2>
+            <p class="section-subtitle">Seleccioná donde querés comparar precios. Podés elegir uno o varios supermercados.</p>
+          </div>
+        </div>
+
+        <!-- Contador de seleccionados -->
+        <div class="seleccion-info">
+          <div class="seleccion-contador">
+            <span class="contador-numero" id="contador-seleccionados">0</span>
+            <span class="contador-texto">supermercados seleccionados</span>
+          </div>
+          <div class="seleccion-validacion" id="mensaje-validacion">
+            <i class="fas fa-info-circle"></i>
+            <span>Seleccioná al menos un supermercado para continuar</span>
+          </div>
+        </div>
+
+        <!-- Grid de Supermercados -->
+        <div class="supermercados-grid" id="supermercados-grid">
+          
+          <!-- Carrefour -->
+          <div class="supermercado-card" data-supermercado="carrefour">
+            <div class="supermercado-overlay"></div>
+            <div class="supermercado-logo-container">
+              <img src="assets/images/logos/carrefour_logo.png" alt="Carrefour" class="supermercado-logo" />
+            </div>
+            <div class="supermercado-info">
+              <h3 class="supermercado-nombre">Carrefour</h3>
+              <p class="supermercado-descripcion">Hipermercados y supermercados</p>
+            </div>
+            <div class="supermercado-estado">
+              <div class="estado-icono">
+                <i class="fas fa-check"></i>
+              </div>
+              <span class="estado-texto">Seleccionado</span>
+            </div>
+            <div class="supermercado-ripple"></div>
+          </div>
+
+          <!-- Disco -->
+          <div class="supermercado-card" data-supermercado="disco">
+            <div class="supermercado-overlay"></div>
+            <div class="supermercado-logo-container">
+              <img src="assets/images/logos/disco_logo.png" alt="Disco" class="supermercado-logo" />
+            </div>
+            <div class="supermercado-info">
+              <h3 class="supermercado-nombre">Disco</h3>
+              <p class="supermercado-descripcion">Supermercados premium</p>
+            </div>
+            <div class="supermercado-estado">
+              <div class="estado-icono">
+                <i class="fas fa-check"></i>
+              </div>
+              <span class="estado-texto">Seleccionado</span>
+            </div>
+            <div class="supermercado-ripple"></div>
+          </div>
+
+          <!-- Jumbo -->
+          <div class="supermercado-card" data-supermercado="jumbo">
+            <div class="supermercado-overlay"></div>
+            <div class="supermercado-logo-container">
+              <img src="assets/images/logos/jumbo_logo.png" alt="Jumbo" class="supermercado-logo" />
+            </div>
+            <div class="supermercado-info">
+              <h3 class="supermercado-nombre">Jumbo</h3>
+              <p class="supermercado-descripcion">Hipermercados</p>
+            </div>
+            <div class="supermercado-estado">
+              <div class="estado-icono">
+                <i class="fas fa-check"></i>
+              </div>
+              <span class="estado-texto">Seleccionado</span>
+            </div>
+            <div class="supermercado-ripple"></div>
+          </div>
+
+          <!-- Vea -->
+          <div class="supermercado-card" data-supermercado="vea">
+            <div class="supermercado-overlay"></div>
+            <div class="supermercado-logo-container">
+              <img src="assets/images/logos/vea_logo.png" alt="Vea" class="supermercado-logo" />
+            </div>
+            <div class="supermercado-info">
+              <h3 class="supermercado-nombre">Vea</h3>
+              <p class="supermercado-descripcion">Supermercados de cercanía</p>
+            </div>
+            <div class="supermercado-estado">
+              <div class="estado-icono">
+                <i class="fas fa-check"></i>
+              </div>
+              <span class="estado-texto">Seleccionado</span>
+            </div>
+            <div class="supermercado-ripple"></div>
+          </div>
+
+          <!-- Día -->
+          <div class="supermercado-card" data-supermercado="dia">
+            <div class="supermercado-overlay"></div>
+            <div class="supermercado-logo-container">
+              <img src="assets/images/logos/día_logo.png" alt="Día" class="supermercado-logo" />
+            </div>
+            <div class="supermercado-info">
+              <h3 class="supermercado-nombre">Día</h3>
+              <p class="supermercado-descripcion">Supermercados económicos</p>
+            </div>
+            <div class="supermercado-estado">
+              <div class="estado-icono">
+                <i class="fas fa-check"></i>
+              </div>
+              <span class="estado-texto">Seleccionado</span>
+            </div>
+            <div class="supermercado-ripple"></div>
+          </div>
+
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="section-actions">
+          <button type="button" class="btn btn-outline-secondary btn-lg" id="btn-limpiar-seleccion">
+            <i class="fas fa-refresh"></i>
+            Limpiar selección
+          </button>
+          <button type="button" class="btn btn-primary btn-lg" id="btn-continuar-productos" disabled>
+            <i class="fas fa-arrow-right"></i>
+            Continuar a productos
+          </button>
+        </div>
+
       </div>
     </section>
 
+    <!-- Sección 2: Productos (placeholder) -->
     <section id="seccion-productos" class="main-section">
       <div class="container">
-        <h2>2. Elegí tus Productos</h2>
-        <p>Buscá y agregá los productos que necesitás.</p>
+        <div class="section-header">
+          <div class="step-indicator">
+            <span class="step-number">2</span>
+          </div>
+          <div class="section-content">
+            <h2 class="section-title">Elegí tus Productos</h2>
+            <p class="section-subtitle">Buscá y agregá los productos que necesitás.</p>
+          </div>
+        </div>
+        <!-- Contenido pendiente de implementación -->
+        <div class="coming-soon">
+          <i class="fas fa-clock"></i>
+          <p>Próximamente...</p>
+        </div>
       </div>
     </section>
 
+    <!-- Sección 3: Comparación (placeholder) -->
     <section id="seccion-comparacion" class="main-section">
       <div class="container">
-        <h2>3. Comparación de Precios</h2>
-        <p>Revisá tu lista y decidí dónde comprar.</p>
+        <div class="section-header">
+          <div class="step-indicator">
+            <span class="step-number">3</span>
+          </div>
+          <div class="section-content">
+            <h2 class="section-title">Comparación de Precios</h2>
+            <p class="section-subtitle">Revisá tu lista y decidí dónde comprar.</p>
+          </div>
+        </div>
+        <!-- Contenido pendiente de implementación -->
+        <div class="coming-soon">
+          <i class="fas fa-clock"></i>
+          <p>Próximamente...</p>
+        </div>
       </div>
     </section>
   </main>
 
+  <!-- Toast para notificaciones -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div class="toast" id="notification-toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">Caminando Online</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" id="toast-message">
+        Mensaje de notificación
+      </div>
+    </div>
+  </div>
+
   <!-- El footer se carga dinámicamente mediante footer-manager.js -->
 
   <!-- Scripts Modularizados -->
-  <!-- Footer Manager - DEBE cargarse PRIMERO para insertar el footer dinámicamente -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/components/footer-manager.js"></script>
+  <script src="assets/js/components/supermercado-selector.js"></script>
+  <script src="assets/js/sections/supermercados.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>

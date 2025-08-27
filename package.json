@@ -2,22 +2,27 @@
   "name": "caminando-online-v2",
   "version": "2.0.0",
   "description": "Comparador de Precios de Supermercados Argentinos - Carrefour, Disco, Jumbo, Día, Vea",
-  "main": "index.html",
+  "main": "frontend/index.html",
   "type": "module",
   "scripts": {
-    "dev": "python -m http.server 3000",
-    "serve": "python -m http.server 8080",
-    "build": "node build.js",
-    "test": "echo \"Testing: Open index.html in browser\"",
+    "dev": "cd frontend && python -m http.server 3000",
+    "dev:backend": "cd backend && python -m uvicorn main:app --reload --port 8000",
+    "frontend": "cd frontend && python -m http.server 3000",
+    "backend": "cd backend && python -m uvicorn main:app --reload --port 8000",
+    "serve": "cd frontend && python -m http.server 8080",
+    "start": "npm run frontend",
+    "build": "echo \"Building project...\" && node scripts/build.js",
+    "test": "echo \"Testing: Frontend available at http://localhost:3000\"",
     "lint": "echo \"ESLint check: Ready for implementation\"",
-    "minify": "echo \"CSS/JS minification: Ready for production\""
+    "clean": "echo \"Cleaning build files...\"",
+    "deploy": "echo \"Deploy to production server\""
   },
   "keywords": [
     "comparador-precios",
     "supermercados",
     "argentina",
     "carrefour",
-    "disco",
+    "disco", 
     "jumbo",
     "dia",
     "vea",
@@ -26,19 +31,30 @@
   ],
   "author": "Juan - Caminando Online",
   "license": "MIT",
-  "devDependencies": {
-    "python": ">=3.8.0",
-    "mongodb": ">=5.0.0"
+  "engines": {
+    "node": ">=16.0.0",
+    "python": ">=3.8.0"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead",
-    "not ie 11"
-  ],
+  "dependencies": {
+    "fastapi": "^0.104.0",
+    "uvicorn": "^0.24.0",
+    "pymongo": "^4.6.0",
+    "requests": "^2.31.0",
+    "beautifulsoup4": "^4.12.0",
+    "selenium": "^4.15.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  },
   "config": {
-    "staging_port": 3000,
+    "frontend_port": 3000,
+    "backend_port": 8000,
     "production_port": 8080,
     "mongodb_uri": "mongodb://localhost:27017/caminando-online-v2"
+  },
+  "directories": {
+    "frontend": "./frontend",
+    "backend": "./backend", 
+    "shared": "./shared"
   }
 }

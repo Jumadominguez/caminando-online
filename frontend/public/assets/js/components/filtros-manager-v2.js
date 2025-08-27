@@ -157,7 +157,7 @@ const CONFIG = {
   // Textos de interfaz
   textos: {
     placeholder_producto: "Escribí el nombre del producto (ej: leche, pan, detergente...)",
-    placeholder_tipo: "Elegí una opción...",
+    placeholder_tipo: "Primero elegí un producto arriba",
     placeholder_marca: "Elegí la marca",
     placeholder_contenido: "Elegí el contenido", 
     placeholder_variedad: "Elegí la variedad"
@@ -415,8 +415,11 @@ class FiltrosManagerV2 {
     estado.actualizar('categoria', categoria.id);
     estado.actualizar('subcategoria', subcategoria);
     
-    // Mostrar filtros adicionales
-    this.mostrarFiltrosSecundarios();
+    // Actualizar el select de tipo de producto para mostrar solo opciones relevantes
+    this.filtrarTiposPorCategoria(categoria.id);
+    
+    // NO mostrar filtros secundarios aún - solo se muestran cuando se elige tipo de producto
+    // this.mostrarFiltrosSecundarios(); // <- REMOVIDO
   }
 
   filtrarMenuCategorias() {
@@ -473,6 +476,9 @@ class FiltrosManagerV2 {
     
     this.cargarTiposProducto();
     
+    // Deshabilitar inicialmente - se habilita cuando se selecciona una categoría
+    elementos.tipoProductoSelect.disabled = true;
+    
     elementos.tipoProductoSelect.addEventListener('change', (e) => {
       this.manejarCambioTipoProducto(e.target.value);
     });
@@ -506,6 +512,43 @@ class FiltrosManagerV2 {
     
     if (CONFIG.debug) {
       console.log(`📦 ${DATOS_DEPURADOS.tiposProducto.length} tipos de producto cargados`);
+    }
+  }
+
+  filtrarTiposPorCategoria(categoriaId) {
+    if (!elementos.tipoProductoSelect) return;
+    
+    console.log(`🔍 Filtrando tipos de producto por categoría: ${categoriaId}`);
+    
+    // Limpiar select
+    elementos.tipoProductoSelect.innerHTML = '';
+    
+    // Opción por defecto habilitada
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    defaultOption.textContent = "Elegí el tipo de producto";
+    elementos.tipoProductoSelect.appendChild(defaultOption);
+    
+    // Cargar solo tipos de la categoría seleccionada
+    const tiposFiltrados = DATOS_DEPURADOS.tiposProducto
+      .filter(tipo => tipo.activo && tipo.categoria === categoriaId)
+      .sort((a, b) => a.orden - b.orden);
+    
+    tiposFiltrados.forEach(tipo => {
+      const option = document.createElement('option');
+      option.value = tipo.id;
+      option.textContent = tipo.nombre;
+      option.setAttribute('data-categoria', tipo.categoria);
+      elementos.tipoProductoSelect.appendChild(option);
+    });
+    
+    // Habilitar el select
+    elementos.tipoProductoSelect.disabled = false;
+    
+    if (CONFIG.debug) {
+      console.log(`✅ ${tiposFiltrados.length} tipos de producto filtrados para categoría ${categoriaId}`);
     }
   }
 
@@ -704,9 +747,12 @@ class FiltrosManagerV2 {
       console.log(`🔄 Filtro cambiado externamente: ${campo} = ${valor}`);
     }
     
-    // Generar productos cuando hay filtros suficientes
-    if (estadoCompleto.categoria || estadoCompleto.tipoProducto) {
+    // Generar productos solo cuando se haya seleccionado un tipo de producto
+    if (estadoCompleto.tipoProducto) {
       this.generarProductosMock();
+    } else {
+      // Si no hay tipo de producto seleccionado, mostrar estado vacío
+      this.mostrarEstadoVacio();
     }
   }
 
@@ -722,8 +768,8 @@ class FiltrosManagerV2 {
 
     const estadoActual = estado.obtener();
     
-    // Si no hay suficientes filtros, no generar productos
-    if (!estadoActual.categoria && !estadoActual.tipoProducto) {
+    // Solo generar productos si hay un tipo de producto seleccionado
+    if (!estadoActual.tipoProducto) {
       this.mostrarEstadoVacio();
       return;
     }
@@ -909,9 +955,10 @@ class FiltrosManagerV2 {
     // Ocultar menú
     this.ocultarMenuCategorias();
     
-    // Resetear tipo de producto
+    // Resetear y deshabilitar tipo de producto
     if (elementos.tipoProductoSelect) {
       elementos.tipoProductoSelect.selectedIndex = 0;
+      elementos.tipoProductoSelect.disabled = true;
     }
     
     // Ocultar filtros secundarios

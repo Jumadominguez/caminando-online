@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Perfil de Usuario - Caminando Online v2">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../public/assets/images/favicon.ico">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../public/assets/css/variables.css">
+    <link rel="stylesheet" href="../public/assets/css/base.css">
+    <link rel="stylesheet" href="../public/assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/profile.css">
+
+    <title>Mi Perfil - Caminando Online v2</title>
+</head>
+<body class="profile-body">
+    <!-- Profile Header -->
+    <header class="profile-header" id="profile-header" role="banner">
+        <div class="container">
+            <div class="profile-header__content">
+                <a href="../public/index.html" class="back-link">
+                    ← Volver al Inicio
+                </a>
+                <h1 class="profile-title">Mi Perfil</h1>
+                <a href="dashboard/index.html" class="dashboard-link">
+                    Dashboard →
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Main -->
+    <main class="profile-main" id="profile-main" role="main">
+        <div class="container">
+            <div class="profile-container">
+                <!-- Profile Sidebar -->
+                <aside class="profile-sidebar">
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <img src="../public/assets/images/user-avatar.png" alt="Avatar" id="profile-avatar">
+                            <button class="avatar-edit-btn" id="btn-edit-avatar">📷</button>
+                        </div>
+                        <div class="profile-info">
+                            <h2 class="profile-name" id="profile-name">Usuario</h2>
+                            <p class="profile-email" id="profile-email">usuario@email.com</p>
+                            <p class="profile-member-since">Miembro desde: Agosto 2025</p>
+                        </div>
+                    </div>
+
+                    <!-- Profile Stats -->
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="listas-count">0</span>
+                            <span class="stat-label">Listas Creadas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="compras-count">0</span>
+                            <span class="stat-label">Compras Realizadas</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="ahorro-total">$0</span>
+                            <span class="stat-label">Ahorro Total</span>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Profile Content -->
+                <div class="profile-content">
+                    <!-- Tabs Navigation -->
+                    <nav class="profile-tabs" role="tablist">
+                        <button class="tab-btn active" role="tab" data-tab="informacion" id="tab-informacion">
+                            Información Personal
+                        </button>
+                        <button class="tab-btn" role="tab" data-tab="preferencias" id="tab-preferencias">
+                            Preferencias
+                        </button>
+                        <button class="tab-btn" role="tab" data-tab="seguridad" id="tab-seguridad">
+                            Seguridad
+                        </button>
+                        <button class="tab-btn" role="tab" data-tab="notificaciones" id="tab-notificaciones">
+                            Notificaciones
+                        </button>
+                    </nav>
+
+                    <!-- Tab Contents -->
+                    <div class="tab-content active" id="content-informacion" role="tabpanel">
+                        <h3 class="tab-title">Información Personal</h3>
+                        <form class="profile-form" id="form-informacion">
+                            <div class="form-group">
+                                <label for="nombre" class="form-label">Nombre Completo</label>
+                                <input type="text" id="nombre" class="form-input" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" class="form-input" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="tel" id="telefono" class="form-input" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="direccion" class="form-label">Dirección</label>
+                                <textarea id="direccion" class="form-textarea" rows="3"></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn--primary">Guardar Cambios</button>
+                                <button type="button" class="btn btn--outline">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-content" id="content-preferencias" role="tabpanel">
+                        <h3 class="tab-title">Preferencias de Compra</h3>
+                        <form class="profile-form" id="form-preferencias">
+                            <div class="form-group">
+                                <label class="form-label">Supermercados Preferidos</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" value="carrefour"> Carrefour
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" value="disco"> Disco
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" value="jumbo"> Jumbo
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" value="dia"> Día
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" value="vea"> Vea
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="presupuesto-mensual" class="form-label">Presupuesto Mensual</label>
+                                <input type="number" id="presupuesto-mensual" class="form-input" placeholder="$0">
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn--primary">Guardar Preferencias</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-content" id="content-seguridad" role="tabpanel">
+                        <h3 class="tab-title">Seguridad de la Cuenta</h3>
+                        <form class="profile-form" id="form-seguridad">
+                            <div class="form-group">
+                                <label for="password-actual" class="form-label">Contraseña Actual</label>
+                                <input type="password" id="password-actual" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="password-nueva" class="form-label">Nueva Contraseña</label>
+                                <input type="password" id="password-nueva" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="password-confirmar" class="form-label">Confirmar Nueva Contraseña</label>
+                                <input type="password" id="password-confirmar" class="form-input">
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn--primary">Cambiar Contraseña</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-content" id="content-notificaciones" role="tabpanel">
+                        <h3 class="tab-title">Configuración de Notificaciones</h3>
+                        <form class="profile-form" id="form-notificaciones">
+                            <div class="form-group">
+                                <label class="toggle-label">
+                                    <input type="checkbox" class="toggle-input" id="notify-price-alerts">
+                                    <span class="toggle-slider"></span>
+                                    Alertas de cambios de precio
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="toggle-label">
+                                    <input type="checkbox" class="toggle-input" id="notify-new-products">
+                                    <span class="toggle-slider"></span>
+                                    Nuevos productos disponibles
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="toggle-label">
+                                    <input type="checkbox" class="toggle-input" id="notify-promotions">
+                                    <span class="toggle-slider"></span>
+                                    Promociones y descuentos
+                                </label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn--primary">Guardar Notificaciones</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script type="module" src="assets/js/profile.js"></script>
+    <script type="module" src="../public/assets/js/utils/auth.js"></script>
+</body>
+</html>

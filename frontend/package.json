@@ -1,0 +1,32 @@
+{
+  "name": "caminando-online-v2-frontend",
+  "version": "2.0.0",
+  "description": "Frontend - Comparador de Precios de Supermercados Argentinos",
+  "main": "public/index.html",
+  "scripts": {
+    "dev": "python -m http.server 3000 --directory public",
+    "dev:admin": "python -m http.server 3001 --directory private/admin",
+    "dev:dashboard": "python -m http.server 3002 --directory private/dashboard", 
+    "dev:profile": "python -m http.server 3003 --directory private/profile",
+    "serve": "python -m http.server 8080 --directory public",
+    "build": "echo 'Building frontend assets...'",
+    "test": "echo 'Frontend testing: Open respective index.html files'"
+  },
+  "keywords": [
+    "frontend",
+    "web-app",
+    "comparador-precios",
+    "html5",
+    "css3",
+    "javascript"
+  ],
+  "author": "Juan - Caminando Online",
+  "license": "MIT",
+  "directories": {
+    "public": "public",
+    "private": "private",
+    "admin": "private/admin",
+    "dashboard": "private/dashboard",
+    "profile": "private/profile"
+  }
+}

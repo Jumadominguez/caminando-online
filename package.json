@@ -1,0 +1,44 @@
+{
+  "name": "caminando-online-v2",
+  "version": "2.0.0",
+  "description": "Comparador de Precios de Supermercados Argentinos - Carrefour, Disco, Jumbo, Día, Vea",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "serve": "python -m http.server 8080",
+    "build": "node build.js",
+    "test": "echo \"Testing: Open index.html in browser\"",
+    "lint": "echo \"ESLint check: Ready for implementation\"",
+    "minify": "echo \"CSS/JS minification: Ready for production\""
+  },
+  "keywords": [
+    "comparador-precios",
+    "supermercados",
+    "argentina",
+    "carrefour",
+    "disco",
+    "jumbo",
+    "dia",
+    "vea",
+    "e-commerce",
+    "web-scraping"
+  ],
+  "author": "Juan - Caminando Online",
+  "license": "MIT",
+  "devDependencies": {
+    "python": ">=3.8.0",
+    "mongodb": ">=5.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "config": {
+    "staging_port": 3000,
+    "production_port": 8080,
+    "mongodb_uri": "mongodb://localhost:27017/caminando-online-v2"
+  }
+}

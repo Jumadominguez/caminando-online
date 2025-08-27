@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard Personal - Caminando Online v2">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../public/assets/images/favicon.ico">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../public/assets/css/variables.css">
+    <link rel="stylesheet" href="../public/assets/css/base.css">
+    <link rel="stylesheet" href="../public/assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+
+    <title>Mi Dashboard - Caminando Online v2</title>
+</head>
+<body class="dashboard-body">
+    <!-- Protected Header -->
+    <header class="dashboard-header" id="dashboard-header" role="banner">
+        <div class="container">
+            <div class="dashboard-header__content">
+                <!-- Logo -->
+                <div class="dashboard-header__logo">
+                    <a href="../public/index.html">
+                        <img src="../public/assets/images/logo.svg" alt="Caminando Online" class="logo__image">
+                    </a>
+                </div>
+
+                <!-- User Info -->
+                <div class="dashboard-user">
+                    <div class="user-avatar">
+                        <img src="../public/assets/images/user-avatar.png" alt="Usuario" id="user-avatar">
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name" id="user-name">Usuario</span>
+                        <span class="user-email" id="user-email">usuario@email.com</span>
+                    </div>
+                    <button class="btn btn--secondary btn--sm" id="btn-logout-dashboard">
+                        Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard-main" id="dashboard-main" role="main">
+        <div class="container">
+            <!-- Dashboard Navigation -->
+            <nav class="dashboard-nav" role="navigation">
+                <ul class="dashboard-nav__list">
+                    <li class="dashboard-nav__item">
+                        <a href="#mis-listas" class="dashboard-nav__link active" data-section="listas">
+                            📝 Mis Listas
+                        </a>
+                    </li>
+                    <li class="dashboard-nav__item">
+                        <a href="#historial" class="dashboard-nav__link" data-section="historial">
+                            📊 Historial de Compras
+                        </a>
+                    </li>
+                    <li class="dashboard-nav__item">
+                        <a href="#favoritos" class="dashboard-nav__link" data-section="favoritos">
+                            ⭐ Productos Favoritos
+                        </a>
+                    </li>
+                    <li class="dashboard-nav__item">
+                        <a href="#alertas" class="dashboard-nav__link" data-section="alertas">
+                            🔔 Alertas de Precio
+                        </a>
+                    </li>
+                    <li class="dashboard-nav__item">
+                        <a href="#configuracion" class="dashboard-nav__link" data-section="configuracion">
+                            ⚙️ Configuración
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Mis Listas Section -->
+                <section class="dashboard-section active" id="section-listas">
+                    <header class="section-header">
+                        <h2 class="section-title">Mis Listas de Compras</h2>
+                        <button class="btn btn--primary" id="btn-nueva-lista">
+                            <span class="btn__icon">➕</span>
+                            Nueva Lista
+                        </button>
+                    </header>
+
+                    <div class="listas-grid" id="listas-grid">
+                        <!-- Las listas se cargan dinámicamente -->
+                        <div class="lista-card">
+                            <div class="lista-card__header">
+                                <h3 class="lista-title">Lista de ejemplo</h3>
+                                <div class="lista-actions">
+                                    <button class="btn-icon" aria-label="Editar">✏️</button>
+                                    <button class="btn-icon" aria-label="Eliminar">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="lista-card__content">
+                                <p class="lista-info">5 productos - Total: $2,450</p>
+                                <p class="lista-date">Creada: 25 Agosto 2025</p>
+                            </div>
+                            <div class="lista-card__footer">
+                                <button class="btn btn--outline btn--sm">Ver Lista</button>
+                                <button class="btn btn--primary btn--sm">Comparar</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Otras secciones se cargan dinámicamente -->
+                <section class="dashboard-section" id="section-historial">
+                    <h2 class="section-title">Historial de Compras</h2>
+                    <div class="historial-container" id="historial-container">
+                        <!-- Historial se carga dinámicamente -->
+                    </div>
+                </section>
+
+                <section class="dashboard-section" id="section-favoritos">
+                    <h2 class="section-title">Productos Favoritos</h2>
+                    <div class="favoritos-container" id="favoritos-container">
+                        <!-- Favoritos se cargan dinámicamente -->
+                    </div>
+                </section>
+
+                <section class="dashboard-section" id="section-alertas">
+                    <h2 class="section-title">Alertas de Precio</h2>
+                    <div class="alertas-container" id="alertas-container">
+                        <!-- Alertas se cargan dinámicamente -->
+                    </div>
+                </section>
+
+                <section class="dashboard-section" id="section-configuracion">
+                    <h2 class="section-title">Configuración</h2>
+                    <div class="config-container" id="config-container">
+                        <!-- Configuración se carga dinámicamente -->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script type="module" src="assets/js/dashboard.js"></script>
+    <script type="module" src="../public/assets/js/utils/auth.js"></script>
+    <script type="module" src="../public/assets/js/utils/api.js"></script>
+</body>
+</html>

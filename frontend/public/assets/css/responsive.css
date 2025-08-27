@@ -1,0 +1,362 @@
+/**
+ * CAMINANDO ONLINE V2 - RESPONSIVE CSS
+ * Media queries y estilos responsivos
+ * Fecha: 27 Agosto 2025
+ */
+
+/* ===== BREAKPOINTS PRINCIPALES ===== */
+
+/* Mobile Small: 320px+ */
+@media (min-width: 320px) {
+  .container {
+    padding-left: var(--spacing-3);
+    padding-right: var(--spacing-3);
+  }
+}
+
+/* Mobile: 375px+ */
+@media (min-width: 375px) {
+  .container {
+    padding-left: var(--spacing-4);
+    padding-right: var(--spacing-4);
+  }
+  
+  .hero__stats {
+    gap: var(--spacing-6);
+  }
+  
+  .footer__links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tablet: 768px+ */
+@media (min-width: 768px) {
+  .container {
+    padding-left: var(--spacing-6);
+    padding-right: var(--spacing-6);
+  }
+  
+  /* Header responsive */
+  .header {
+    height: var(--header-height);
+  }
+  
+  .header__nav {
+    display: block;
+  }
+  
+  .mobile-menu-toggle {
+    display: none;
+  }
+  
+  .logo__text {
+    display: block;
+  }
+  
+  /* Hero responsive */
+  .hero__content {
+    grid-template-columns: 1fr 1fr;
+    text-align: left;
+  }
+  
+  .hero__text {
+    text-align: left;
+  }
+  
+  /* Footer responsive */
+  .footer__main {
+    grid-template-columns: 1fr 2fr;
+  }
+  
+  .footer__links {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .footer__bottom {
+    grid-template-columns: 1fr 1fr;
+    text-align: left;
+  }
+  
+  .footer__social {
+    justify-content: flex-start;
+  }
+  
+  .footer__copyright {
+    text-align: right;
+  }
+}
+
+/* Desktop: 1024px+ */
+@media (min-width: 1024px) {
+  .container {
+    max-width: var(--container-lg);
+  }
+  
+  /* Typography scale up */
+  .hero__title {
+    font-size: var(--font-size-6xl);
+  }
+  
+  h1 {
+    font-size: var(--font-size-6xl);
+  }
+  
+  h2 {
+    font-size: var(--font-size-5xl);
+  }
+  
+  /* Grid improvements */
+  .supermercados-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-8);
+  }
+  
+  /* Sections spacing */
+  .section {
+    padding: var(--spacing-24) 0;
+  }
+  
+  .section--sm {
+    padding: var(--spacing-20) 0;
+  }
+  
+  .section--lg {
+    padding: var(--spacing-32) 0;
+  }
+}
+
+/* Desktop Large: 1280px+ */
+@media (min-width: 1280px) {
+  .container {
+    max-width: var(--container-xl);
+  }
+  
+  /* Enhanced spacing */
+  .hero {
+    padding: var(--spacing-32) 0;
+  }
+  
+  .section__header {
+    margin-bottom: var(--spacing-16);
+  }
+}
+
+/* Desktop XL: 1440px+ */
+@media (min-width: 1440px) {
+  .container {
+    max-width: var(--container-2xl);
+  }
+  
+  /* Maximum comfortable reading width */
+  .hero__description {
+    max-width: 600px;
+  }
+  
+  .section__description {
+    max-width: 700px;
+  }
+}
+
+/* ===== UTILITIES RESPONSIVAS ===== */
+
+/* Visibility utilities */
+@media (max-width: 767px) {
+  .hidden-mobile { display: none !important; }
+  .show-mobile { display: block !important; }
+  
+  /* Mobile-specific adjustments */
+  .btn-group-mobile {
+    flex-direction: column;
+  }
+  
+  .btn-group-mobile .btn {
+    width: 100%;
+  }
+  
+  .table-mobile-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (min-width: 768px) {
+  .hidden-desktop { display: none !important; }
+  .show-desktop { display: block !important; }
+  
+  /* Desktop-specific adjustments */
+  .btn-group-desktop {
+    flex-direction: row;
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  .header,
+  .footer,
+  .mobile-menu,
+  .toast-container,
+  .modal-backdrop,
+  .modal {
+    display: none !important;
+  }
+  
+  .container {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  
+  .section {
+    padding: var(--spacing-4) 0 !important;
+    break-inside: avoid;
+  }
+  
+  .card {
+    border: 1px solid #ddd !important;
+    break-inside: avoid;
+  }
+  
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+  }
+  
+  a[href^="#"]:after,
+  a[href^="javascript:"]:after {
+    content: "";
+  }
+}
+
+/* ===== HIGH DPI / RETINA ===== */
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Optimize for retina displays */
+  .logo__image {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Thinner borders on high DPI */
+  .border-thin {
+    border-width: 0.5px;
+  }
+}
+
+/* ===== DARK MODE RESPONSIVE ===== */
+
+@media (prefers-color-scheme: dark) {
+  /* Adjust for better contrast in dark mode */
+  .hero {
+    background: linear-gradient(135deg, 
+      var(--color-primary-dark), 
+      var(--color-secondary-dark));
+  }
+  
+  .card:hover {
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Enhance visibility of interactive elements */
+  .btn:hover {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .hero::before {
+    background: none;
+  }
+  
+  .loading-spinner .spinner {
+    animation: none;
+    border: 4px solid var(--color-primary);
+  }
+}
+
+/* ===== CONTRAST PREFERENCES ===== */
+
+@media (prefers-contrast: high) {
+  /* Increase contrast for better accessibility */
+  .btn {
+    border-width: 2px;
+  }
+  
+  .card {
+    border-width: 2px;
+  }
+  
+  .form-input:focus,
+  .form-textarea:focus,
+  .form-select:focus {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+/* ===== ORIENTATION RESPONSIVE ===== */
+
+@media (orientation: landscape) and (max-height: 600px) {
+  /* Optimize for landscape mobile */
+  .hero {
+    padding: var(--spacing-8) 0;
+  }
+  
+  .section {
+    padding: var(--spacing-8) 0;
+  }
+  
+  .modal {
+    max-height: 95vh;
+  }
+}
+
+/* ===== HOVER CAPABILITY ===== */
+
+@media (hover: hover) {
+  /* Enhanced hover effects for devices that support hover */
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+  }
+  
+  .social-link:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (hover: none) {
+  /* Remove hover effects on touch devices */
+  .btn:hover,
+  .card:hover,
+  .social-link:hover {
+    transform: none;
+  }
+  
+  /* Larger touch targets */
+  .btn {
+    min-height: 44px;
+  }
+  
+  .mobile-menu__link {
+    padding: var(--spacing-4);
+  }
+}

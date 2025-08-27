@@ -1,0 +1,193 @@
+/* ===============================================
+   VARIABLES CSS Y CONFIGURACIÓN BASE - CAMINANDO ONLINE V2
+   =============================================== */
+:root {
+  /* Colores principales - Paleta Caminando */
+  --color-primary: #ff6b35;
+  --color-primary-dark: #E55A2E;
+  --color-primary-light: #ffab7a;
+  
+  /* Colores secundarios */
+  --color-secondary: #2C5F41;
+  --color-accent: #4ECDC4;
+  --color-accent-blue: #45B7D1;
+  --color-success: #28a745;
+  --color-success-dark: #20c997;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  
+  /* Colores de fondo */
+  --color-bg: #F8FAFC;
+  --color-bg-white: #ffffff;
+  --color-bg-light: #F1F5F9;
+  --color-bg-dark: #1a202c;
+  --color-bg-darker: #2d3748;
+  
+  /* Colores de texto */
+  --color-text: #222222;
+  --color-text-secondary: #4A5568;
+  --color-text-muted: #718096;
+  --color-text-light: #a0aec0;
+  --color-text-white: #ffffff;
+  
+  /* Colores de bordes */
+  --color-border: #E2E8F0;
+  --color-border-light: #F1F5F9;
+  --color-border-dark: #4a5568;
+  
+  /* Variables adicionales para compatibilidad */
+  --blanco: #ffffff;
+  --negro: #000000;
+  --gris-oscuro: #2D3748;
+  --gris-medio: #718096;
+  --gris-claro: #E2E8F0;
+  
+  /* Variables naranja */
+  --naranja-principal: #ff6b35;
+  --naranja-secundario: #f7931e;
+  --naranja-claro: #ffab7a;
+  
+  /* Variables verde */
+  --verde-principal: #28a745;
+  --verde-secundario: #20c997;
+  --verde-claro: #d4edda;
+
+  /* Tipografía */
+  --font-main: 'Segoe UI', 'Roboto', sans-serif;
+  --font-title: 'Poppins', sans-serif;
+  --font-logo-main: 'Anton', sans-serif;
+  --font-logo-sub: 'Roboto Slab', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Tamaños de fuente */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-5xl: 3rem;      /* 48px */
+  
+  /* Peso de fuente */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  
+  /* Espaciado base (sistema 8px) */
+  --spacing-xs: 0.25rem;   /* 4px */
+  --spacing-sm: 0.5rem;    /* 8px */
+  --spacing-md: 1rem;      /* 16px */
+  --spacing-lg: 1.5rem;    /* 24px */
+  --spacing-xl: 2rem;      /* 32px */
+  --spacing-2xl: 3rem;     /* 48px */
+  --spacing-3xl: 4rem;     /* 64px */
+  
+  /* Contenedores */
+  --container-max-width: 1200px;
+  --container-padding: 1rem;
+  --container-margin: 0 auto;
+  
+  /* Sombras */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  /* Border radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+  
+  /* Aliases para compatibilidad */
+  --radius: 12px;
+  --radio-grande: 12px;
+  --radio-pequeno: 8px;
+  
+  /* Transiciones */
+  --transition-fast: all 0.15s ease;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Alias para compatibilidad */
+  --transicion: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Z-index */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+  
+  /* Breakpoints (para uso en JavaScript) */
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1400px;
+  
+  /* Opacidades comunes */
+  --opacity-disabled: 0.6;
+  --opacity-hover: 0.8;
+  --opacity-focus: 0.9;
+  
+  /* Gradientes */
+  --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  --gradient-success: linear-gradient(135deg, var(--color-success) 0%, var(--color-success-dark) 100%);
+  --gradient-header: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  --gradient-footer: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  
+  /* Variables específicas del header */
+  --header-height: 140px;
+  --header-height-mobile: 100px;
+  --logo-size-desktop: clamp(55px, 13.2vw, 77px);
+  --logo-size-mobile: clamp(44px, 11vw, 60.5px);
+  
+  /* Variables específicas del footer */
+  --footer-padding: 1.25rem 0 0.75rem 0;
+  --footer-margin-top: 4rem;
+}
+
+/* Variables específicas para modo oscuro (si se implementa) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1a202c;
+    --color-bg-white: #2d3748;
+    --color-text: #f7fafc;
+    --color-text-secondary: #e2e8f0;
+    --color-border: #4a5568;
+  }
+}
+
+/* Media queries para variables responsivas */
+@media (max-width: 768px) {
+  :root {
+    --header-height: var(--header-height-mobile);
+    --container-padding: 1rem;
+    --spacing-xl: 1.5rem;
+    --spacing-2xl: 2rem;
+    --spacing-3xl: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --container-padding: 0.75rem;
+    --font-size-lg: 1rem;
+    --font-size-xl: 1.125rem;
+    --font-size-2xl: 1.25rem;
+  }
+}

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="assets/css/variables.css" />
   <link rel="stylesheet" href="assets/css/components.css" />
   <link rel="stylesheet" href="assets/css/sections/supermercados.css" />
+  <link rel="stylesheet" href="assets/css/sections/productos.css" />
   <!-- Fonts para logo textual -->
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:ital@1&display=swap" rel="stylesheet">
@@ -144,23 +145,148 @@
       </div>
     </section>
 
-    <!-- Sección 2: Productos (placeholder) -->
-    <section id="seccion-productos" class="main-section">
+    <!-- Sección 2: Productos V2 - Sistema de Filtros Integrado -->
+    <section id="seccion-productos" class="main-section productos-section">
       <div class="container">
+        <!-- Header de Sección -->
         <div class="section-header">
           <div class="step-indicator">
             <span class="step-number">2</span>
           </div>
           <div class="section-content">
             <h2 class="section-title">Elegí tus Productos</h2>
-            <p class="section-subtitle">Buscá y agregá los productos que necesitás.</p>
+            <p class="section-subtitle">Buscá y agregá los productos que necesitás a tu lista de comparación.</p>
           </div>
         </div>
-        <!-- Contenido pendiente de implementación -->
-        <div class="coming-soon">
-          <i class="fas fa-clock"></i>
-          <p>Próximamente...</p>
+
+        <!-- Contenedor de Filtros -->
+        <div class="filtros-container">
+          <div class="filtros-row">
+            
+            <!-- Filtro Principal - Búsqueda de Productos -->
+            <div class="filtro-principal">
+              <label for="producto" class="form-label">
+                <i class="fas fa-search"></i>
+                ¿Qué producto buscás?
+              </label>
+              <div class="category-dropdown">
+                <div class="position-relative">
+                  <i class="fas fa-search category-input-icon"></i>
+                  <input 
+                    type="text" 
+                    class="form-control category-input" 
+                    id="producto" 
+                    placeholder="Escribí el nombre del producto (ej: leche, pan, detergente...)"
+                    autocomplete="off"
+                  >
+                </div>
+                
+                <!-- Menú de Categorías Desplegable -->
+                <div class="category-menu" id="categoryMenu">
+                  <!-- Se llena dinámicamente por FiltrosManagerV2 -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Filtro Tipo de Producto -->
+            <div class="filtro-tipo">
+              <label for="tipo-de-producto" class="form-label">
+                <i class="fas fa-tags"></i>
+                Tipo de producto
+              </label>
+              <select class="form-select form-select-custom" id="tipo-de-producto">
+                <option value="" selected disabled>Elegí una opción...</option>
+                <!-- Se llenan dinámicamente por FiltrosManagerV2 -->
+              </select>
+            </div>
+
+          </div>
+
+          <!-- Filtros Secundarios -->
+          <div class="filtros-secundarios">
+            
+            <!-- Marca -->
+            <div class="filtro-secundario d-none" id="marca-wrapper">
+              <label for="marca" class="form-label">
+                <i class="fas fa-star"></i>
+                Marca
+              </label>
+              <select class="form-select form-select-custom" id="marca">
+                <option value="" selected disabled>Elegí la marca</option>
+                <!-- Se llenan dinámicamente -->
+              </select>
+            </div>
+
+            <!-- Contenido -->
+            <div class="filtro-secundario d-none" id="contenido-wrapper">
+              <label for="contenido" class="form-label">
+                <i class="fas fa-balance-scale"></i>
+                Contenido
+              </label>
+              <select class="form-select form-select-custom" id="contenido">
+                <option value="" selected disabled>Elegí el contenido</option>
+                <!-- Se llenan dinámicamente -->
+              </select>
+            </div>
+
+            <!-- Variedad -->
+            <div class="filtro-secundario d-none" id="variedad-wrapper">
+              <label for="variedad" class="form-label">
+                <i class="fas fa-layer-group"></i>
+                Variedad
+              </label>
+              <select class="form-select form-select-custom" id="variedad">
+                <option value="" selected disabled>Elegí la variedad</option>
+                <!-- Se llenan dinámicamente -->
+              </select>
+            </div>
+
+          </div>
         </div>
+
+        <!-- Tabla de Productos -->
+        <div class="productos-tabla">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th><i class="fas fa-box"></i> Producto</th>
+                  <th><i class="fas fa-star"></i> Marca</th>
+                  <th><i class="fas fa-balance-scale"></i> Contenido</th>
+                  <th><i class="fas fa-layer-group"></i> Variedad</th>
+                  <th><i class="fas fa-store"></i> Disponibilidad</th>
+                  <th><i class="fas fa-cart-plus"></i> Acción</th>
+                </tr>
+              </thead>
+              <tbody id="productos-lista">
+                <!-- Estado vacío inicial -->
+                <tr>
+                  <td colspan="6" class="text-center py-5">
+                    <div class="estado-vacio">
+                      <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                      <h5 class="text-muted mb-2">Buscá productos para comenzar</h5>
+                      <p class="text-muted mb-0">Utilizá los filtros de arriba para encontrar los productos que necesitás</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Botones de Acción de la Sección -->
+        <div class="section-actions">
+          <button type="button" class="btn btn-outline-secondary btn-lg" id="btn-limpiar-filtros">
+            <i class="fas fa-refresh"></i>
+            Limpiar filtros
+          </button>
+          <button type="button" class="btn btn-primary btn-lg" id="btn-continuar-comparacion" disabled>
+            <i class="fas fa-arrow-right"></i>
+            Continuar a comparación
+            <span class="badge bg-light text-dark ms-2" id="contador-productos">0</span>
+          </button>
+        </div>
+
       </div>
     </section>
 
@@ -204,7 +330,9 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/components/footer-manager.js"></script>
   <script src="assets/js/components/supermercado-selector.js"></script>
+  <script src="assets/js/components/filtros-manager-v2.js"></script>
   <script src="assets/js/sections/supermercados.js"></script>
+  <script src="assets/js/sections/productos.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>

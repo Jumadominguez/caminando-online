@@ -70,67 +70,17 @@
 }
 
 /* ===============================================
-   INFORMACIÓN DE SELECCIÓN
-   =============================================== */
-
-.seleccion-info {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: white;
-  border-radius: var(--border-radius-lg);
-  padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--color-border);
-}
-
-.seleccion-contador {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.contador-numero {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  font-family: 'Poppins', sans-serif;
-}
-
-.contador-texto {
-  font-size: 1rem;
-  color: var(--color-text-medium);
-  font-weight: 500;
-}
-
-.seleccion-validacion {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  color: var(--color-text-light);
-  font-size: 0.95rem;
-  opacity: 1;
-  transition: var(--transition-base);
-}
-
-.seleccion-validacion.success {
-  color: var(--color-success);
-}
-
-.seleccion-validacion.error {
-  color: var(--color-danger);
-}
-
-/* ===============================================
    GRID DE SUPERMERCADOS
    =============================================== */
 
 .supermercados-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--spacing-lg);
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--spacing-md);
   margin-bottom: var(--spacing-xl);
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ===============================================
@@ -141,7 +91,7 @@
   position: relative;
   background: white;
   border-radius: var(--supermercado-card-border-radius);
-  padding: var(--spacing-xl);
+  padding: var(--spacing-md);
   text-align: center;
   cursor: pointer;
   overflow: hidden;
@@ -149,10 +99,12 @@
   box-shadow: var(--supermercado-card-shadow);
   transition: var(--supermercado-transition);
   user-select: none;
-  min-height: 240px;
+  min-height: 160px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1;
 }
 
 .supermercado-card:hover {
@@ -200,16 +152,17 @@
 .supermercado-logo-container {
   position: relative;
   z-index: 2;
-  margin-bottom: var(--spacing-lg);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80px;
+  height: 100%;
+  width: 100%;
+  padding: var(--spacing-sm);
 }
 
 .supermercado-logo {
-  max-width: 120px;
-  max-height: 70px;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   transition: var(--supermercado-transition);
   filter: grayscale(0);
@@ -220,38 +173,7 @@
 }
 
 .supermercado-card:hover .supermercado-logo {
-  filter: grayscale(0) scale(1.1);
-}
-
-.supermercado-info {
-  position: relative;
-  z-index: 2;
-  margin-bottom: var(--spacing-md);
-}
-
-.supermercado-nombre {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-dark);
-  margin-bottom: var(--spacing-xs);
-  font-family: 'Poppins', sans-serif;
-  transition: var(--supermercado-transition);
-}
-
-.supermercado-descripcion {
-  font-size: 0.95rem;
-  color: var(--color-text-medium);
-  margin: 0;
-  opacity: 0.8;
-  transition: var(--supermercado-transition);
-}
-
-.supermercado-card.seleccionado .supermercado-nombre {
-  color: var(--color-primary);
-}
-
-.supermercado-card.seleccionado .supermercado-descripcion {
-  opacity: 1;
+  filter: grayscale(0) scale(1.15);
 }
 
 /* ===============================================
@@ -259,38 +181,35 @@
    =============================================== */
 
 .supermercado-estado {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-xs);
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  z-index: 3;
   opacity: 0;
-  transform: translateY(10px);
+  transform: scale(0);
   transition: var(--supermercado-transition);
 }
 
 .supermercado-card.seleccionado .supermercado-estado {
   opacity: 1;
-  transform: translateY(0);
+  transform: scale(1);
 }
 
 .estado-icono {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   background: var(--color-success);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .estado-texto {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--color-success);
+  display: none;
 }
 
 /* ===============================================
@@ -398,15 +317,21 @@
     font-size: 1.1rem;
   }
   
-  .seleccion-info {
-    flex-direction: column;
-    gap: var(--spacing-md);
-    text-align: center;
+  .supermercados-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-sm);
+    max-width: 100%;
   }
   
-  .supermercados-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--spacing-md);
+  .supermercado-card {
+    padding: var(--spacing-md);
+    min-height: 140px;
+  }
+  
+  .estado-icono {
+    width: 26px;
+    height: 26px;
+    font-size: 0.8rem;
   }
   
   .section-actions {
@@ -444,30 +369,23 @@
   }
   
   .supermercados-grid {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-md);
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-xs);
   }
   
   .supermercado-card {
-    padding: var(--spacing-lg);
-    min-height: 200px;
+    padding: var(--spacing-sm);
+    min-height: 120px;
   }
   
   .supermercado-card:hover {
     transform: none;
   }
   
-  .supermercado-logo-container {
-    height: 60px;
-  }
-  
-  .supermercado-logo {
-    max-width: 100px;
-    max-height: 50px;
-  }
-  
-  .supermercado-nombre {
-    font-size: 1.25rem;
+  .estado-icono {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
   }
 }
 
@@ -522,35 +440,6 @@
 /* Clases para animaciones de selección */
 .supermercado-card.selecting {
   transform: scale(0.95);
-}
-
-.supermercado-card.selected-animation {
-  animation: selectCard 0.4s ease-out;
-}
-
-@keyframes selectCard {
-  0% {
-    transform: scale(1);
-    border-color: var(--color-border);
-  }
-  50% {
-    transform: scale(1.05);
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.2);
-  }
-  100% {
-    transform: scale(1);
-    border-color: var(--color-primary);
-  }
-}
-
-/* Clases para estados de validación */
-.validacion-success {
-  color: var(--color-success) !important;
-}
-
-.validacion-error {
-  color: var(--color-danger) !important;
 }
 
 /* Focus states para accesibilidad */

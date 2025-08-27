@@ -299,10 +299,11 @@ class SupermercadoSelector {
     card.classList.add('selecting');
     setTimeout(() => card.classList.remove('selecting'), 200);
     
-    if (seleccionando) {
-      card.classList.add('selected-animation');
-      setTimeout(() => card.classList.remove('selected-animation'), 400);
-    }
+    // Removida la animación selected-animation que causaba el fade up
+    // if (seleccionando) {
+    //   card.classList.add('selected-animation');
+    //   setTimeout(() => card.classList.remove('selected-animation'), 400);
+    // }
   }
 
   /**

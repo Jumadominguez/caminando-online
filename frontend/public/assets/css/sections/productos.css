@@ -1191,16 +1191,7 @@
   padding: 1rem 1.25rem;
   min-height: 54px;
   
-  /* Fondo con gradiente sutil y glassmorphism */
-  background: 
-    linear-gradient(135deg, 
-      var(--dropdown-bg) 0%,
-      rgba(255, 251, 249, 0.96) 50%,
-      rgba(255, 248, 246, 0.98) 100%
-    );
-  
-  backdrop-filter: var(--dropdown-blur);
-  -webkit-backdrop-filter: var(--dropdown-blur);
+  background: #ffffff;
   
   border: 2px solid var(--dropdown-border);
   border-radius: var(--radius-lg);
@@ -1210,43 +1201,34 @@
     all var(--dropdown-duration) var(--dropdown-timing),
     transform var(--dropdown-duration-fast) var(--dropdown-timing);
   
-  font-size: var(--font-size-sm);
+  font-size: calc(var(--font-size-sm) * 1.1);
   font-family: var(--font-main);
   font-weight: var(--font-weight-medium);
   color: var(--color-text);
   
   box-shadow: 
     var(--dropdown-shadow-base),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+    0 1px 3px rgba(0, 0, 0, 0.08);
   
   user-select: none;
   position: relative;
   overflow: hidden;
   
-  /* ELIMINAR CUALQUIER OUTLINE O BORDE DE FOCUS DEL NAVEGADOR */
   outline: none !important;
   -webkit-tap-highlight-color: transparent;
-  
-  /* Efecto de textura sutil */
-  background-image: 
-    radial-gradient(circle at 25% 25%, rgba(255, 107, 53, 0.015) 1px, transparent 1px),
-    radial-gradient(circle at 75% 75%, rgba(255, 140, 102, 0.01) 1px, transparent 1px);
-  background-size: 30px 30px, 45px 45px;
 }
 
-/* Eliminar outline de todos los elementos del trigger */
+/* Estados del trigger simplificados */
 .custom-select-trigger:focus,
 .custom-select-trigger:active,
 .custom-select-trigger:focus-visible {
   outline: none !important;
   box-shadow: 
     var(--dropdown-shadow-base),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+    0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-/* Remover cualquier pseudo-elemento que pueda causar barras grises */
+/* Remover elementos de fondo */
 .custom-select-trigger *::before,
 .custom-select-trigger *::after {
   background: transparent !important;
@@ -1276,17 +1258,11 @@
 /* Estado Hover */
 .custom-select-trigger:hover {
   border-color: var(--dropdown-border-hover);
-  background: 
-    linear-gradient(135deg, 
-      var(--dropdown-bg-hover) 0%,
-      rgba(255, 248, 246, 1) 50%,
-      rgba(255, 245, 240, 1) 100%
-    );
+  background: #ffffff;
   
   box-shadow: 
     var(--dropdown-shadow-hover),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -1px 0 rgba(255, 107, 53, 0.05);
+    0 2px 6px rgba(0, 0, 0, 0.12);
   
   transform: translateY(-1px) scale(1.001);
 }
@@ -1303,27 +1279,18 @@
 /* Estado Activo/Abierto */
 .custom-select-wrapper.active .custom-select-trigger {
   border-color: var(--dropdown-border-focus);
-  border-bottom-color: rgba(255, 107, 53, 0.08); /* Borde inferior más sutil cuando está abierto */
-  background: 
-    linear-gradient(135deg, 
-      var(--dropdown-bg-focus) 0%,
-      rgba(255, 242, 237, 1) 50%,
-      rgba(255, 235, 225, 1) 100%
-    );
+  border-bottom-color: rgba(255, 107, 53, 0.08);
+  background: #ffffff;
   
-  /* ELIMINAR COMPLETAMENTE EL BORDE EXTERIOR/OUTLINE */
   box-shadow: 
     var(--dropdown-shadow-focus),
-    inset 0 1px 0 rgba(255, 255, 255, 1),
-    inset 0 -2px 0 rgba(255, 107, 53, 0.08);
+    0 2px 8px rgba(0, 0, 0, 0.1);
   
-  /* Remover outline y focus ring completamente */
   outline: none !important;
   
   transform: translateY(-2px) scale(1.002);
   z-index: 999999;
   
-  /* Bordes inferiores menos redondeados cuando el menú está abierto */
   border-bottom-left-radius: var(--radius-sm);
   border-bottom-right-radius: var(--radius-sm);
 }
@@ -1434,56 +1401,40 @@
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-/* Menú de opciones - diseño premium */
+/* Menú de opciones */
 .custom-select-options {
   position: absolute;
-  top: calc(100% + 2px); /* Reducido de 6px a 2px para evitar doble borde */
+  top: calc(100% + 2px);
   left: 0;
   right: 0;
   min-width: 100%;
   max-height: 320px;
   
-  /* Fondo premium con glassmorphism */
-  background: var(--dropdown-backdrop);
-  backdrop-filter: var(--dropdown-blur);
-  -webkit-backdrop-filter: var(--dropdown-blur);
+  background: #ffffff;
   
-  /* Borde más sutil para evitar doble borde con el trigger */
-  border: 1px solid rgba(255, 107, 53, 0.15); /* Cambiado de 2px a 1px y opacidad reducida */
-  border-top: 1px solid rgba(255, 107, 53, 0.08); /* Borde superior aún más sutil */
+  border: 1px solid rgba(255, 107, 53, 0.15);
+  border-top: 1px solid rgba(255, 107, 53, 0.08);
   border-radius: var(--radius-xl);
-  border-top-left-radius: var(--radius-sm); /* Bordes superiores menos redondeados */
+  border-top-left-radius: var(--radius-sm);
   border-top-right-radius: var(--radius-sm);
   
   overflow: hidden;
   z-index: 999999;
   
-  /* Sombras premium multicapa */
   box-shadow: 
     var(--dropdown-shadow-menu),
     0 4px 12px rgba(0, 0, 0, 0.06),
-    0 2px 6px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+    0 2px 6px rgba(0, 0, 0, 0.04);
   
-  /* Estado inicial - oculto con animación */
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-8px) scale(0.98); /* Reducido de -12px a -8px */
+  transform: translateY(-8px) scale(0.98);
   transform-origin: top center;
   
   transition: 
     opacity var(--dropdown-duration) var(--dropdown-timing),
     visibility var(--dropdown-duration) var(--dropdown-timing),
     transform var(--dropdown-duration) var(--dropdown-timing);
-  
-  /* Patrón de textura muy sutil */
-  background-image: 
-    radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.02) 1px, transparent 1px),
-    radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.015) 1px, transparent 1px),
-    radial-gradient(circle at 40% 40%, rgba(255, 140, 102, 0.01) 1px, transparent 1px);
-  background-size: 50px 50px, 30px 30px, 70px 70px;
-  background-attachment: local;
 }
 
 /* Brillo sutil en el borde superior - más discreto */
@@ -1589,7 +1540,7 @@
   padding: 1rem 1.25rem;
   cursor: pointer;
   color: var(--color-text);
-  font-size: var(--font-size-sm);
+  font-size: calc(var(--font-size-sm) * 1.1);
   font-weight: var(--font-weight-medium);
   
   transition: 
@@ -1617,7 +1568,7 @@
 }
 
 .custom-select-option:first-child {
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
 }
 
 /* Efecto de onda sutil */
@@ -1639,21 +1590,20 @@
 /* Estado Hover */
 .custom-select-option:hover {
   background: linear-gradient(135deg, 
-    rgba(255, 107, 53, 0.95) 0%,
-    rgba(255, 120, 70, 0.98) 50%,
-    rgba(255, 107, 53, 0.95) 100%
+    rgba(255, 107, 53, 0.1) 0%,
+    rgba(255, 120, 70, 0.08) 50%,
+    rgba(255, 107, 53, 0.1) 100%
   );
   
-  color: white;
-  border-left-color: rgba(255, 255, 255, 0.8);
-  border-bottom-color: rgba(255, 255, 255, 0.15);
+  color: var(--color-text);
+  border-left-color: var(--color-primary);
+  border-bottom-color: rgba(255, 107, 53, 0.15);
   
   transform: translateX(6px) scale(1.01);
   
   box-shadow: 
     6px 0 24px rgba(255, 107, 53, 0.15),
-    0 2px 8px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .custom-select-option:hover::before {
@@ -1941,7 +1891,7 @@
 .filtros-secundarios .custom-select-trigger {
   min-height: 48px;
   padding: 0.875rem 1rem;
-  font-size: var(--font-size-xs);
+  font-size: calc(var(--font-size-xs) * 1.1);
 }
 
 .filtros-secundarios .custom-select-options {
@@ -1950,7 +1900,7 @@
 
 .filtros-secundarios .custom-select-option {
   padding: 0.75rem 1rem;
-  font-size: var(--font-size-xs);
+  font-size: calc(var(--font-size-xs) * 1.1);
 }
 
 /* ===== CORRECCIÓN DEL BUG DE BARRA GRIS ===== */

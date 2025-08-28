@@ -900,20 +900,23 @@ class FiltrosManagerV2 {
     
     console.log("📦 Cargando tipos de producto...");
     
-    // Cargar todos los tipos ordenados
-    const opciones = DATOS_DEPURADOS.tiposProducto
-      .filter(tipo => tipo.activo)
-      .sort((a, b) => a.orden - b.orden)
-      .map(tipo => ({
-        value: tipo.id,
-        text: tipo.nombre,
-        categoria: tipo.categoria
-      }));
+    // Cargar todos los tipos ordenados, comenzando con "Todos"
+    const opciones = [
+      { value: 'todos', text: 'Todos' },
+      ...DATOS_DEPURADOS.tiposProducto
+        .filter(tipo => tipo.activo)
+        .sort((a, b) => a.orden - b.orden)
+        .map(tipo => ({
+          value: tipo.id,
+          text: tipo.nombre,
+          categoria: tipo.categoria
+        }))
+    ];
     
     this.dropdowns.tipoProducto.loadOptions(opciones);
     
     if (CONFIG.debug) {
-      console.log(`📦 ${opciones.length} tipos de producto cargados`);
+      console.log(`📦 ${opciones.length} tipos de producto cargados (incluyendo "Todos")`);
     }
   }
 
@@ -922,15 +925,18 @@ class FiltrosManagerV2 {
     
     console.log(`🔍 Filtrando tipos de producto por categoría: ${categoriaId}`);
     
-    // Filtrar y cargar solo tipos de la categoría seleccionada
-    const opcionesFiltradas = DATOS_DEPURADOS.tiposProducto
-      .filter(tipo => tipo.activo && tipo.categoria === categoriaId)
-      .sort((a, b) => a.orden - b.orden)
-      .map(tipo => ({
-        value: tipo.id,
-        text: tipo.nombre,
-        categoria: tipo.categoria
-      }));
+    // Filtrar y cargar solo tipos de la categoría seleccionada, comenzando con "Todos"
+    const opcionesFiltradas = [
+      { value: 'todos', text: 'Todos' },
+      ...DATOS_DEPURADOS.tiposProducto
+        .filter(tipo => tipo.activo && tipo.categoria === categoriaId)
+        .sort((a, b) => a.orden - b.orden)
+        .map(tipo => ({
+          value: tipo.id,
+          text: tipo.nombre,
+          categoria: tipo.categoria
+        }))
+    ];
     
     this.dropdowns.tipoProducto.loadOptions(opcionesFiltradas);
     
@@ -939,7 +945,7 @@ class FiltrosManagerV2 {
     this.dropdowns.tipoProducto.setPlaceholder();
     
     if (CONFIG.debug) {
-      console.log(`✅ ${opcionesFiltradas.length} tipos de producto filtrados para categoría ${categoriaId}`);
+      console.log(`✅ ${opcionesFiltradas.length} tipos de producto filtrados para categoría ${categoriaId} (incluyendo "Todos")`);
     }
   }
 
@@ -960,15 +966,19 @@ class FiltrosManagerV2 {
     const dropdown = this.dropdowns[dropdownKey];
     if (!dropdown) return;
     
-    const opcionesFormateadas = opciones.map(opcion => ({
-      value: opcion,
-      text: opcion
-    }));
+    // Siempre agregar "Todos" al principio
+    const opcionesFormateadas = [
+      { value: 'todos', text: 'Todos' },
+      ...opciones.map(opcion => ({
+        value: opcion,
+        text: opcion
+      }))
+    ];
     
     dropdown.loadOptions(opcionesFormateadas);
     
     if (CONFIG.debug) {
-      console.log(`✅ ${opciones.length} opciones cargadas en dropdown ${dropdownKey}`);
+      console.log(`✅ ${opciones.length + 1} opciones cargadas en dropdown ${dropdownKey} (incluyendo "Todos")`);
     }
   }
 
@@ -1075,6 +1085,13 @@ class FiltrosManagerV2 {
         const valor = e.target.value;
         console.log(`🎯 Tipo de producto seleccionado: ${valor}`);
         
+        // Si selecciona "Todos", resetear filtros secundarios
+        if (valor === 'todos') {
+          estado.actualizar('tipoProducto', null);
+          this.ocultarFiltrosSecundarios();
+          return;
+        }
+        
         estado.actualizar('tipoProducto', valor);
         
         if (valor) {
@@ -1099,7 +1116,14 @@ class FiltrosManagerV2 {
     filtrosSecundarios.forEach(({input, campo}) => {
       if (input) {
         input.addEventListener('change', (e) => {
-          estado.actualizar(campo, e.target.value);
+          const valor = e.target.value;
+          
+          // Si selecciona "Todos", pasar null al estado para resetear el filtro
+          if (valor === 'todos') {
+            estado.actualizar(campo, null);
+          } else {
+            estado.actualizar(campo, valor);
+          }
         });
       }
     });

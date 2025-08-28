@@ -364,7 +364,7 @@
 }
 
 /* =============================================== */
-/* FILTRO TIPO DE PRODUCTO - COMPACTO */
+/* FILTRO TIPO DE PRODUCTO - COMPACTO (REDUCIDO 10%) */
 /* =============================================== */
 
 .filtro-tipo {
@@ -386,6 +386,19 @@
 .filtro-tipo .form-label i {
   color: var(--color-primary);
   font-size: 1rem;
+}
+
+/* Reducir el dropdown del filtro-tipo en 10% */
+.filtro-tipo .custom-select-wrapper {
+  transform: scale(0.9);
+  transform-origin: left top;
+  margin-bottom: -0.1rem; /* Ajustar espacio inferior */
+}
+
+.filtro-tipo .custom-select-trigger {
+  min-height: 48.6px; /* 54px * 0.9 = 48.6px */
+  padding: 0.9rem 1.125rem; /* 1rem * 0.9 = 0.9rem, 1.25rem * 0.9 = 1.125rem */
+  font-size: calc(var(--font-size-sm) * 0.99); /* Ligeramente más pequeño */
 }
 
 /* Filtros secundarios COMPACTOS */

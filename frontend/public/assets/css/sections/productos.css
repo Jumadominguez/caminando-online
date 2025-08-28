@@ -1141,104 +1141,250 @@
 }
 
 /* =============================================== */
-/* DROPDOWNS PERSONALIZADOS - SISTEMA COMPLETO */
+/* DROPDOWNS PERSONALIZADOS V3 - DISEÑO PREMIUM */
 /* =============================================== */
 
-/* Wrapper del select personalizado */
+/* Variables específicas para dropdowns */
+:root {
+  --dropdown-bg: rgba(255, 255, 255, 0.98);
+  --dropdown-bg-hover: rgba(255, 248, 246, 1);
+  --dropdown-bg-focus: rgba(255, 245, 240, 1);
+  --dropdown-bg-active: rgba(255, 242, 237, 1);
+  
+  --dropdown-border: rgba(255, 107, 53, 0.15);
+  --dropdown-border-hover: rgba(255, 107, 53, 0.3);
+  --dropdown-border-focus: var(--color-primary);
+  
+  --dropdown-shadow-base: 0 4px 16px rgba(255, 107, 53, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --dropdown-shadow-hover: 0 6px 24px rgba(255, 107, 53, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --dropdown-shadow-focus: 0 8px 32px rgba(255, 107, 53, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --dropdown-shadow-menu: 0 16px 48px rgba(255, 107, 53, 0.15), 0 8px 24px rgba(0, 0, 0, 0.08);
+  
+  --dropdown-blur: blur(12px);
+  --dropdown-backdrop: rgba(255, 255, 255, 0.85);
+  
+  --dropdown-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  --dropdown-duration: 250ms;
+  --dropdown-duration-fast: 150ms;
+}
+
+/* Wrapper principal del dropdown */
 .custom-select-wrapper {
   position: relative;
   width: 100%;
   z-index: 100;
+  isolation: isolate;
 }
 
 .custom-select-wrapper.disabled {
   opacity: 0.6;
   pointer-events: none;
   cursor: not-allowed;
+  filter: grayscale(0.3);
 }
 
-/* Trigger del select personalizado */
+/* Trigger - elemento principal clickeable */
 .custom-select-trigger {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.875rem 1rem;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 251, 249, 0.98) 100%
-  );
-  border: 2px solid rgba(255, 107, 53, 0.15);
+  padding: 1rem 1.25rem;
+  min-height: 54px;
+  
+  /* Fondo con gradiente sutil y glassmorphism */
+  background: 
+    linear-gradient(135deg, 
+      var(--dropdown-bg) 0%,
+      rgba(255, 251, 249, 0.96) 50%,
+      rgba(255, 248, 246, 0.98) 100%
+    );
+  
+  backdrop-filter: var(--dropdown-blur);
+  -webkit-backdrop-filter: var(--dropdown-blur);
+  
+  border: 2px solid var(--dropdown-border);
   border-radius: var(--radius-lg);
+  
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: 
+    all var(--dropdown-duration) var(--dropdown-timing),
+    transform var(--dropdown-duration-fast) var(--dropdown-timing);
+  
   font-size: var(--font-size-sm);
   font-family: var(--font-main);
   font-weight: var(--font-weight-medium);
   color: var(--color-text);
+  
   box-shadow: 
-    0 4px 16px rgba(255, 107, 53, 0.08),
-    0 2px 6px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    var(--dropdown-shadow-base),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+  
   user-select: none;
   position: relative;
   overflow: hidden;
+  
+  /* ELIMINAR CUALQUIER OUTLINE O BORDE DE FOCUS DEL NAVEGADOR */
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+  
+  /* Efecto de textura sutil */
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 107, 53, 0.015) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(255, 140, 102, 0.01) 1px, transparent 1px);
+  background-size: 30px 30px, 45px 45px;
 }
 
-/* Estados del trigger */
-.custom-select-trigger:hover {
-  border-color: rgba(255, 107, 53, 0.3);
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 248, 246, 1) 100%
-  );
+/* Eliminar outline de todos los elementos del trigger */
+.custom-select-trigger:focus,
+.custom-select-trigger:active,
+.custom-select-trigger:focus-visible {
+  outline: none !important;
   box-shadow: 
-    0 6px 24px rgba(255, 107, 53, 0.12),
-    0 2px 8px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  transform: translateY(-1px);
+    var(--dropdown-shadow-base),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+}
+
+/* Remover cualquier pseudo-elemento que pueda causar barras grises */
+.custom-select-trigger *::before,
+.custom-select-trigger *::after {
+  background: transparent !important;
+}
+
+/* Efecto shimmer sutil */
+.custom-select-trigger::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.2) 25%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 100%
+  );
+  transition: left 0.8s var(--dropdown-timing);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Estado Hover */
+.custom-select-trigger:hover {
+  border-color: var(--dropdown-border-hover);
+  background: 
+    linear-gradient(135deg, 
+      var(--dropdown-bg-hover) 0%,
+      rgba(255, 248, 246, 1) 50%,
+      rgba(255, 245, 240, 1) 100%
+    );
+  
+  box-shadow: 
+    var(--dropdown-shadow-hover),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(255, 107, 53, 0.05);
+  
+  transform: translateY(-1px) scale(1.001);
+}
+
+.custom-select-trigger:hover::before {
+  left: 100%;
 }
 
 .custom-select-trigger:hover .custom-select-arrow {
   color: var(--color-primary);
-  transform: translateY(-50%) scale(1.1);
+  transform: translateY(-50%) scale(1.1) rotate(5deg);
 }
 
-/* Estado activo/abierto */
+/* Estado Activo/Abierto */
 .custom-select-wrapper.active .custom-select-trigger {
-  border-color: var(--color-primary);
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 245, 240, 1) 100%
-  );
+  border-color: var(--dropdown-border-focus);
+  border-bottom-color: rgba(255, 107, 53, 0.08); /* Borde inferior más sutil cuando está abierto */
+  background: 
+    linear-gradient(135deg, 
+      var(--dropdown-bg-focus) 0%,
+      rgba(255, 242, 237, 1) 50%,
+      rgba(255, 235, 225, 1) 100%
+    );
+  
+  /* ELIMINAR COMPLETAMENTE EL BORDE EXTERIOR/OUTLINE */
   box-shadow: 
-    0 0 0 4px rgba(255, 107, 53, 0.12),
-    0 8px 32px rgba(255, 107, 53, 0.15),
-    0 4px 12px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 1);
-  transform: translateY(-2px);
+    var(--dropdown-shadow-focus),
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    inset 0 -2px 0 rgba(255, 107, 53, 0.08);
+  
+  /* Remover outline y focus ring completamente */
+  outline: none !important;
+  
+  transform: translateY(-2px) scale(1.002);
+  z-index: 999999;
+  
+  /* Bordes inferiores menos redondeados cuando el menú está abierto */
+  border-bottom-left-radius: var(--radius-sm);
+  border-bottom-right-radius: var(--radius-sm);
 }
 
-.custom-select-wrapper.active .custom-select-arrow {
+.custom-select-wrapper.active .custom-select-trigger .custom-select-arrow {
   color: var(--color-primary-dark);
-  transform: translateY(-50%) rotate(180deg);
+  transform: translateY(-50%) rotate(180deg) scale(1.15);
+  filter: drop-shadow(0 2px 4px rgba(255, 107, 53, 0.2));
 }
 
-/* Estado disabled */
+/* Estado Focus (navegación por teclado) - ELIMINADO OUTLINE */
+.custom-select-wrapper.focused .custom-select-trigger {
+  /* Outline completamente eliminado */
+  outline: none !important;
+  box-shadow: var(--dropdown-shadow-base);
+}
+
+/* Estado Disabled */
 .custom-select-wrapper.disabled .custom-select-trigger {
-  background: var(--color-bg-light);
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
   color: var(--color-text-muted);
   border-color: var(--color-border-light);
   cursor: not-allowed;
   transform: none;
-  box-shadow: none;
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .custom-select-wrapper.disabled .custom-select-trigger:hover {
   transform: none;
-  box-shadow: none;
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-/* Texto del select */
+/* Estado Loading */
+.custom-select-wrapper.loading .custom-select-trigger {
+  position: relative;
+  pointer-events: none;
+}
+
+.custom-select-wrapper.loading .custom-select-trigger::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 3rem;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 107, 53, 0.3);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: dropdown-spin 1s linear infinite;
+  z-index: 2;
+}
+
+@keyframes dropdown-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Texto y placeholder del dropdown */
 .custom-select-text {
   flex: 1;
   white-space: nowrap;
@@ -1246,14 +1392,33 @@
   text-overflow: ellipsis;
   color: var(--color-text);
   font-weight: var(--font-weight-medium);
+  position: relative;
+  z-index: 2;
+  padding-right: 0.5rem;
+  background: transparent;
+  
+  transition: all var(--dropdown-duration-fast) ease;
 }
 
 .custom-select-text.placeholder {
   color: var(--color-text-muted);
   font-style: italic;
+  font-weight: var(--font-weight-normal);
+  opacity: 0.8;
+  background: transparent;
 }
 
-/* Flecha del select */
+/* Animación de "typing" cuando se actualiza */
+.custom-select-text.updating {
+  animation: text-pulse 0.4s ease-in-out;
+}
+
+@keyframes text-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; transform: scale(0.98); }
+}
+
+/* Flecha indicadora */
 .custom-select-arrow {
   position: absolute;
   right: 1rem;
@@ -1261,101 +1426,271 @@
   transform: translateY(-50%);
   color: rgba(113, 128, 150, 0.6);
   font-size: 0.875rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: 
+    all var(--dropdown-duration) var(--dropdown-timing),
+    transform var(--dropdown-duration-fast) var(--dropdown-timing);
   pointer-events: none;
+  z-index: 2;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
-/* Opciones del select - Z-INDEX MÁXIMO */
+/* Menú de opciones - diseño premium */
 .custom-select-options {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 2px); /* Reducido de 6px a 2px para evitar doble borde */
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.98);
-  border: 2px solid var(--color-primary);
-  border-radius: var(--radius-lg);
-  max-height: 280px;
-  overflow-y: auto;
-  z-index: 9999999;
-  box-shadow: 
-    0 16px 48px rgba(255, 107, 53, 0.15),
-    0 8px 24px rgba(0, 0, 0, 0.08),
-    0 4px 12px rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  min-width: 100%;
+  max-height: 320px;
   
-  /* Estado inicial - oculto */
+  /* Fondo premium con glassmorphism */
+  background: var(--dropdown-backdrop);
+  backdrop-filter: var(--dropdown-blur);
+  -webkit-backdrop-filter: var(--dropdown-blur);
+  
+  /* Borde más sutil para evitar doble borde con el trigger */
+  border: 1px solid rgba(255, 107, 53, 0.15); /* Cambiado de 2px a 1px y opacidad reducida */
+  border-top: 1px solid rgba(255, 107, 53, 0.08); /* Borde superior aún más sutil */
+  border-radius: var(--radius-xl);
+  border-top-left-radius: var(--radius-sm); /* Bordes superiores menos redondeados */
+  border-top-right-radius: var(--radius-sm);
+  
+  overflow: hidden;
+  z-index: 999999;
+  
+  /* Sombras premium multicapa */
+  box-shadow: 
+    var(--dropdown-shadow-menu),
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    0 2px 6px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+  
+  /* Estado inicial - oculto con animación */
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-8px) scale(0.98);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(-8px) scale(0.98); /* Reducido de -12px a -8px */
+  transform-origin: top center;
+  
+  transition: 
+    opacity var(--dropdown-duration) var(--dropdown-timing),
+    visibility var(--dropdown-duration) var(--dropdown-timing),
+    transform var(--dropdown-duration) var(--dropdown-timing);
+  
+  /* Patrón de textura muy sutil */
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.02) 1px, transparent 1px),
+    radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.015) 1px, transparent 1px),
+    radial-gradient(circle at 40% 40%, rgba(255, 140, 102, 0.01) 1px, transparent 1px);
+  background-size: 50px 50px, 30px 30px, 70px 70px;
+  background-attachment: local;
 }
 
-/* Estado activo de las opciones */
+/* Brillo sutil en el borde superior - más discreto */
+.custom-select-options::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px; /* Reducido de 2px a 1px */
+  background: linear-gradient(90deg, 
+    transparent 0%,
+    rgba(255, 107, 53, 0.15) 20%, /* Opacidad reducida */
+    rgba(255, 107, 53, 0.3) 50%, /* Opacidad reducida */
+    rgba(255, 107, 53, 0.15) 80%, /* Opacidad reducida */
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+/* Estado activo/visible */
 .custom-select-wrapper.active .custom-select-options {
   opacity: 1;
   visibility: visible;
   transform: translateY(0) scale(1);
 }
 
-/* Scrollbar personalizado para opciones */
+/* Animación de entrada escalonada */
+.custom-select-wrapper.active .custom-select-options .custom-select-option {
+  animation: option-slide-in var(--dropdown-duration) var(--dropdown-timing) both;
+}
+
+.custom-select-wrapper.active .custom-select-options .custom-select-option:nth-child(1) { animation-delay: 0ms; }
+.custom-select-wrapper.active .custom-select-options .custom-select-option:nth-child(2) { animation-delay: 30ms; }
+.custom-select-wrapper.active .custom-select-options .custom-select-option:nth-child(3) { animation-delay: 60ms; }
+.custom-select-wrapper.active .custom-select-options .custom-select-option:nth-child(4) { animation-delay: 90ms; }
+.custom-select-wrapper.active .custom-select-options .custom-select-option:nth-child(5) { animation-delay: 120ms; }
+.custom-select-wrapper.active .custom-select-options .custom-select-option:nth-child(n+6) { animation-delay: 150ms; }
+
+@keyframes option-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scrollbar personalizado premium */
+.custom-select-options {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 107, 53, 0.6) transparent;
+}
+
 .custom-select-options::-webkit-scrollbar {
   width: 8px;
+  background: transparent;
 }
 
 .custom-select-options::-webkit-scrollbar-track {
-  background: rgba(248, 249, 250, 0.8);
-  border-radius: var(--radius-sm);
-  margin: 4px 0;
+  background: rgba(248, 249, 250, 0.5);
+  border-radius: 8px;
+  margin: 8px 0;
+  backdrop-filter: blur(4px);
 }
 
 .custom-select-options::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: linear-gradient(180deg, 
+    rgba(255, 107, 53, 0.8) 0%,
+    rgba(255, 107, 53, 0.9) 50%,
+    rgba(255, 107, 53, 0.8) 100%
+  );
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.2);
+  
+  transition: all 0.2s ease;
 }
 
 .custom-select-options::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary-dark);
+  background: linear-gradient(180deg, 
+    var(--color-primary-dark) 0%,
+    var(--color-primary) 50%,
+    var(--color-primary-dark) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 2px 6px rgba(255, 107, 53, 0.3);
 }
 
-/* Opción individual */
+.custom-select-options::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Opciones individuales - diseño premium */
 .custom-select-option {
-  padding: 0.875rem 1.25rem;
+  padding: 1rem 1.25rem;
   cursor: pointer;
   color: var(--color-text);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  transition: all 0.2s ease;
-  border-bottom: 1px solid rgba(255, 107, 53, 0.08);
+  
+  transition: 
+    all var(--dropdown-duration-fast) var(--dropdown-timing),
+    transform 120ms ease;
+  
+  border-bottom: 1px solid rgba(255, 107, 53, 0.06);
   background: transparent;
   position: relative;
+  
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  
   user-select: none;
+  font-family: var(--font-main);
+  
+  /* Indicador lateral oculto inicialmente */
+  border-left: 3px solid transparent;
 }
 
 .custom-select-option:last-child {
   border-bottom: none;
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
 }
 
 .custom-select-option:first-child {
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
-/* Estados de hover y selección */
+/* Efecto de onda sutil */
+.custom-select-option::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.1) 0%,
+    rgba(255, 140, 102, 0.08) 100%
+  );
+  transition: width 0.3s var(--dropdown-timing);
+  z-index: -1;
+}
+
+/* Estado Hover */
 .custom-select-option:hover {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.95) 0%,
+    rgba(255, 120, 70, 0.98) 50%,
+    rgba(255, 107, 53, 0.95) 100%
+  );
+  
   color: white;
-  transform: translateX(4px);
+  border-left-color: rgba(255, 255, 255, 0.8);
+  border-bottom-color: rgba(255, 255, 255, 0.15);
+  
+  transform: translateX(6px) scale(1.01);
+  
+  box-shadow: 
+    6px 0 24px rgba(255, 107, 53, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
+.custom-select-option:hover::before {
+  width: 100%;
+}
+
+/* Estado Focused (navegación por teclado) */
+.custom-select-option.focused {
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.12) 0%,
+    rgba(255, 140, 102, 0.08) 100%
+  );
+  
+  border-left-color: var(--color-primary);
+  outline: 2px solid rgba(255, 107, 53, 0.3);
+  outline-offset: -2px;
+  
+  transform: translateX(3px);
+}
+
+/* Estado Selected */
 .custom-select-option.selected {
-  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+  background: linear-gradient(135deg, 
+    rgba(255, 107, 53, 0.9) 0%,
+    rgba(255, 120, 70, 0.95) 50%,
+    rgba(255, 107, 53, 0.9) 100%
+  );
+  
   color: white;
   font-weight: var(--font-weight-semibold);
+  border-left-color: rgba(255, 255, 255, 0.9);
+  
+  box-shadow: 
+    4px 0 16px rgba(255, 107, 53, 0.2),
+    0 2px 6px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .custom-select-option.selected::after {
@@ -1363,93 +1698,305 @@
   font-family: 'Font Awesome 6 Free';
   font-weight: 900;
   margin-left: auto;
-  color: white;
+  color: rgba(255, 255, 255, 0.95);
   font-size: 0.875rem;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+  animation: check-bounce 0.4s ease-out;
 }
 
+@keyframes check-bounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-45deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Estado Active (siendo clickeado) */
 .custom-select-option:active {
-  transform: translateX(2px) scale(0.98);
+  transform: translateX(4px) scale(0.98);
+  transition-duration: 50ms;
 }
 
-/* Opción deshabilitada */
+/* Estado Disabled */
 .custom-select-option.disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   background: transparent !important;
   color: var(--color-text-muted) !important;
   transform: none !important;
+  border-left-color: transparent !important;
+  pointer-events: none;
+  filter: grayscale(0.5);
 }
 
-/* Texto de "Sin opciones" */
+/* Mensaje de "sin opciones" */
 .custom-select-no-options {
-  padding: 2rem 1.25rem;
+  padding: 3rem 1.5rem;
   text-align: center;
   color: var(--color-text-muted);
   font-style: italic;
+  font-size: var(--font-size-sm);
+  
   background: linear-gradient(135deg, 
     rgba(248, 249, 250, 0.8) 0%, 
     rgba(241, 243, 244, 0.9) 100%
   );
+  
   border-bottom: none !important;
+  position: relative;
 }
 
-/* Indicador de dropdown abierto */
-.custom-select-wrapper.active::before {
+.custom-select-no-options::before {
+  content: '🔍';
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Overlay de backdrop (click fuera para cerrar) */
+.custom-select-wrapper.active::after {
   content: '';
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: transparent;
-  z-index: 9999998;
+  background: rgba(0, 0, 0, 0.02);
+  backdrop-filter: blur(1px);
+  z-index: 999998;
   pointer-events: auto;
+  opacity: 0;
+  animation: backdrop-fade-in var(--dropdown-duration) ease-out;
 }
 
-/* =============================================== */
-/* RESPONSIVE PARA DROPDOWNS PERSONALIZADOS */
-/* =============================================== */
+@keyframes backdrop-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
-/* Pantallas móviles */
-@media (max-width: 767px) {
+/* Pantallas pequeñas (hasta 575px) */
+@media (max-width: 575px) {
   .custom-select-trigger {
-    padding: 1rem 1.25rem;
-    font-size: var(--font-size-sm);
+    padding: 1rem 1rem 1rem 1.25rem;
+    min-height: 50px;
+    font-size: var(--font-size-xs);
   }
   
   .custom-select-arrow {
-    right: 1.25rem;
+    right: 1rem;
+    font-size: 0.8rem;
   }
   
   .custom-select-options {
-    max-height: 240px;
+    max-height: 280px;
+    left: -4px;
+    right: -4px;
+    border-radius: var(--radius-lg);
   }
   
   .custom-select-option {
-    padding: 1rem 1.25rem;
-    font-size: var(--font-size-sm);
+    padding: 0.875rem 1rem;
+    font-size: var(--font-size-xs);
+  }
+  
+  .custom-select-option:hover {
+    transform: translateX(4px) scale(1.005);
   }
 }
 
-/* Pantallas muy pequeñas */
-@media (max-width: 575px) {
+/* Pantallas medianas (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .custom-select-trigger {
+    padding: 1rem 1.125rem;
+    min-height: 52px;
+  }
+  
   .custom-select-options {
-    max-height: 200px;
-    left: -8px;
-    right: -8px;
+    max-height: 300px;
   }
 }
 
-/* Estados de los wrappers de filtros secundarios */
+/* Pantallas grandes (768px+) */
+@media (min-width: 768px) {
+  .custom-select-options {
+    max-height: 320px;
+  }
+  
+  /* Efectos hover más pronunciados en pantallas grandes */
+  .custom-select-trigger:hover {
+    transform: translateY(-2px) scale(1.002);
+  }
+  
+  .custom-select-option:hover {
+    transform: translateX(8px) scale(1.015);
+  }
+}
+
+/* Pantallas con alta densidad */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .custom-select-trigger {
+    border-width: 1.5px;
+  }
+  
+  .custom-select-options {
+    border-width: 1.5px;
+  }
+}
+
+/* Modo alto contraste */
+@media (prefers-contrast: high) {
+  .custom-select-trigger {
+    border-width: 3px;
+    border-color: var(--color-primary);
+    background: white;
+  }
+  
+  .custom-select-options {
+    border-width: 3px;
+    background: white;
+    backdrop-filter: none;
+  }
+  
+  .custom-select-option:hover {
+    background: var(--color-primary) !important;
+    color: white !important;
+    border-color: white !important;
+  }
+  
+  .custom-select-option.selected {
+    background: var(--color-primary-dark) !important;
+    color: white !important;
+  }
+}
+
+/* Movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .custom-select-trigger,
+  .custom-select-options,
+  .custom-select-option,
+  .custom-select-arrow {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  
+  .custom-select-trigger:hover,
+  .custom-select-option:hover {
+    transform: none !important;
+  }
+  
+  .custom-select-wrapper.active .custom-select-trigger {
+    transform: none !important;
+  }
+}
+
+/* Modo oscuro (si se implementa) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dropdown-bg: rgba(45, 55, 72, 0.95);
+    --dropdown-bg-hover: rgba(54, 65, 84, 1);
+    --dropdown-bg-focus: rgba(63, 75, 97, 1);
+    --dropdown-backdrop: rgba(45, 55, 72, 0.9);
+  }
+  
+  .custom-select-trigger {
+    color: #e2e8f0;
+    border-color: rgba(255, 107, 53, 0.3);
+  }
+  
+  .custom-select-text.placeholder {
+    color: #a0aec0;
+  }
+  
+  .custom-select-options {
+    color: #e2e8f0;
+    border-color: rgba(255, 107, 53, 0.4);
+  }
+  
+  .custom-select-option {
+    color: #e2e8f0;
+    border-bottom-color: rgba(255, 107, 53, 0.1);
+  }
+}
+
+/* Estilos específicos para filtros secundarios */
+.filtros-secundarios .custom-select-wrapper {
+  margin-top: 0.5rem;
+}
+
+.filtros-secundarios .custom-select-trigger {
+  min-height: 48px;
+  padding: 0.875rem 1rem;
+  font-size: var(--font-size-xs);
+}
+
+.filtros-secundarios .custom-select-options {
+  max-height: 240px;
+}
+
+.filtros-secundarios .custom-select-option {
+  padding: 0.75rem 1rem;
+  font-size: var(--font-size-xs);
+}
+
+/* ===== CORRECCIÓN DEL BUG DE BARRA GRIS ===== */
+/* Asegurar que no haya elementos de fondo interfiriendo en placeholder */
+.custom-select-trigger .custom-select-text.placeholder {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+.custom-select-trigger .custom-select-text {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Eliminar cualquier herencia de estilos de Bootstrap que pueda interferir */
+.custom-select-trigger .custom-select-text::before,
+.custom-select-trigger .custom-select-text::after {
+  display: none !important;
+  content: none !important;
+  background: transparent !important;
+}
+
+/* Resetear cualquier estilo de form-control heredado */
+.custom-select-trigger .form-control,
+.custom-select-trigger .form-select {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+/* ===== FIN CORRECCIÓN BUG BARRA GRIS ===== */
+
+/* Estados de transición entre filtros */
 .filtro-secundario.d-none .custom-select-wrapper {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-10px) scale(0.98);
+  pointer-events: none;
 }
 
 .filtro-secundario:not(.d-none) .custom-select-wrapper {
   opacity: 1;
-  transform: translateY(0);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0) scale(1);
+  transition: 
+    opacity 0.4s var(--dropdown-timing),
+    transform 0.4s var(--dropdown-timing);
 }
 
 /* Animación escalonada para filtros secundarios */
@@ -1465,7 +2012,65 @@
   transition-delay: 200ms;
 }
 
-/* Ajustes específicos para filtros secundarios */
-.filtros-secundarios .custom-select-wrapper {
-  margin-top: 0.25rem;
+/* Indicadores de estado adicionales */
+/* Indicador de validación exitosa */
+.custom-select-wrapper.valid .custom-select-trigger {
+  border-color: var(--color-success);
+  box-shadow: 
+    0 0 0 3px rgba(40, 167, 69, 0.1),
+    var(--dropdown-shadow-base);
+}
+
+.custom-select-wrapper.valid .custom-select-trigger::after {
+  content: '\f00c';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  right: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-success);
+  font-size: 0.875rem;
+}
+
+/* Indicador de error */
+.custom-select-wrapper.error .custom-select-trigger {
+  border-color: var(--color-danger);
+  box-shadow: 
+    0 0 0 3px rgba(220, 53, 69, 0.1),
+    var(--dropdown-shadow-base);
+}
+
+.custom-select-wrapper.error .custom-select-trigger::after {
+  content: '\f00d';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  right: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-danger);
+  font-size: 0.875rem;
+}
+
+/* Estilos de impresión */
+@media print {
+  .custom-select-wrapper {
+    break-inside: avoid;
+  }
+  
+  .custom-select-trigger {
+    background: white !important;
+    border: 2px solid #333 !important;
+    box-shadow: none !important;
+    color: #333 !important;
+  }
+  
+  .custom-select-options {
+    display: none !important;
+  }
+  
+  .custom-select-text.placeholder {
+    color: #666 !important;
+  }
 }

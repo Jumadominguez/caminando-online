@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="assets/css/components.css" />
   <link rel="stylesheet" href="assets/css/sections/supermercados.css" />
   <link rel="stylesheet" href="assets/css/sections/productos.css" />
+  <link rel="stylesheet" href="assets/css/sections/tabla-productos.css" />
   <!-- Fonts para logo textual -->
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:ital@1&display=swap" rel="stylesheet">
@@ -268,9 +269,18 @@
           </div>
         </div>
 
-        <!-- Área de productos (vacía) -->
-        <div class="productos-area-vacia">
-          <p class="text-muted">Configura los filtros para encontrar productos.</p>
+        <!-- Área de productos con tabla integrada -->
+        <div id="contenedor-tabla-productos" class="productos-area" style="display: none;">
+          <!-- La tabla se genera dinámicamente aquí -->
+        </div>
+        
+        <!-- Estado inicial - sin productos -->
+        <div id="productos-area-vacia" class="productos-area-vacia">
+          <div class="empty-state">
+            <i class="fas fa-shopping-cart empty-state-icon"></i>
+            <h4 class="empty-state-title">Selecciona un tipo de producto</h4>
+            <p class="empty-state-text">Configura los filtros arriba para encontrar y comparar productos entre supermercados.</p>
+          </div>
         </div>
 
         <!-- Botones de Acción de la Sección -->
@@ -331,6 +341,7 @@
   <script src="assets/js/components/supermercado-selector.js"></script>
   <script src="assets/js/components/filtros-manager-v2.js"></script>
   <script src="assets/js/sections/supermercados.js"></script>
+  <script src="assets/js/sections/tabla-productos.js"></script>
   <script src="assets/js/sections/productos.js"></script>
   <script src="assets/js/app.js"></script>
 </body>

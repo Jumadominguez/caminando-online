@@ -843,6 +843,8 @@ class FiltrosManagerV2 {
     estado.actualizar('categoria', categoria.id);
     estado.actualizar('subcategoria', subcategoria);
     
+    // NO aplicar búsqueda automáticamente, dejar que el usuario filtre manualmente
+    
     // Actualizar el dropdown de tipo de producto para mostrar solo opciones relevantes
     this.filtrarTiposPorCategoria(categoria.id);
   }
@@ -878,6 +880,9 @@ class FiltrosManagerV2 {
     if (elementos.categoryMenu.style.display === 'none') {
       elementos.categoryMenu.style.display = 'block';
     }
+    
+    // La búsqueda en tiempo real está desactivada para evitar filtrado excesivo
+    // El filtrado se aplicará cuando el usuario seleccione una subcategoría del menú
   }
 
   manejarTeclasMenu(event) {
@@ -1085,6 +1090,7 @@ class FiltrosManagerV2 {
         if (valor === 'todos') {
           estado.actualizar('tipoProducto', null);
           this.ocultarFiltrosSecundarios();
+          this.ocultarTablaProductos();
           return;
         }
         
@@ -1096,8 +1102,15 @@ class FiltrosManagerV2 {
           
           // Mostrar filtros secundarios
           this.mostrarFiltrosSecundarios();
+          
+          // Mostrar tabla de productos
+          this.mostrarTablaProductos();
+          
+          // NO aplicar filtros inicialmente, mostrar todos los productos
+          // Los filtros se aplicarán cuando el usuario seleccione marca/contenido/variedad
         } else {
           this.ocultarFiltrosSecundarios();
+          this.ocultarTablaProductos();
         }
       });
     }
@@ -1120,17 +1133,135 @@ class FiltrosManagerV2 {
           } else {
             estado.actualizar(campo, valor);
           }
+          
+          // Aplicar filtros a la tabla si está visible
+          this.aplicarFiltrosATabla();
         });
       }
     });
   }
 
   // ===============================================
-  // GESTIÓN DE PRODUCTOS (ELIMINADO)
+  // APLICACIÓN DE FILTROS A LA TABLA
   // ===============================================
 
-  // NOTA: Toda la funcionalidad de productos mock fue eliminada
-  // ya que no hay tabla de productos donde renderizar
+  aplicarFiltrosATabla() {
+    // Solo aplicar filtros si la tabla está visible e inicializada
+    if (typeof tablaProductosInstance === 'undefined' || !tablaProductosInstance) {
+      console.log('⚠️ Tabla no disponible para filtros');
+      return;
+    }
+
+    const estadoActual = estado.obtener();
+    
+    if (CONFIG.debug) {
+      console.log('🔍 Aplicando filtros a tabla:', estadoActual);
+    }
+
+    // Solo aplicar filtros si hay filtros activos (no null y no 'todos')
+    const filtrosActivos = {
+      marca: (estadoActual.marca && estadoActual.marca !== 'todos') ? estadoActual.marca : null,
+      contenido: (estadoActual.contenido && estadoActual.contenido !== 'todos') ? estadoActual.contenido : null,
+      variedad: (estadoActual.variedad && estadoActual.variedad !== 'todos') ? estadoActual.variedad : null,
+      subcategoria: estadoActual.subcategoria || null
+    };
+
+    // Si no hay filtros activos, mostrar todos los productos
+    const tieneAlgunFiltro = Object.values(filtrosActivos).some(filtro => filtro !== null);
+    
+    if (!tieneAlgunFiltro) {
+      if (CONFIG.debug) {
+        console.log('🔄 No hay filtros activos, mostrando todos los productos');
+      }
+      tablaProductosInstance.productosFiltrados = [...tablaProductosInstance.productos];
+      tablaProductosInstance.productosVisibles = 6;
+      tablaProductosInstance.mostrarProductos();
+    } else {
+      // Aplicar filtros a la tabla
+      tablaProductosInstance.aplicarFiltros(filtrosActivos);
+    }
+  }
+
+  aplicarBusquedaATabla(textoBusqueda) {
+    // Solo aplicar búsqueda si la tabla está visible e inicializada
+    if (typeof tablaProductosInstance === 'undefined' || !tablaProductosInstance) {
+      return;
+    }
+
+    if (CONFIG.debug) {
+      console.log('🔍 Aplicando búsqueda a tabla:', textoBusqueda);
+    }
+
+    tablaProductosInstance.buscarProductos(textoBusqueda);
+  }
+
+  // ===============================================
+  // GESTIÓN DE TABLA DE PRODUCTOS
+  // ===============================================
+
+  mostrarTablaProductos() {
+    // Ocultar el estado vacío
+    const estadoVacio = document.getElementById('productos-area-vacia');
+    if (estadoVacio) {
+      estadoVacio.style.display = 'none';
+    }
+    
+    // Mostrar contenedor de tabla
+    const contenedorTabla = document.getElementById('contenedor-tabla-productos');
+    if (contenedorTabla) {
+      contenedorTabla.style.display = 'block';
+      
+      // Inicializar tabla si existe la función global
+      if (typeof inicializarTablaProductos === 'function') {
+        try {
+          inicializarTablaProductos();
+          
+          // Mostrar todos los productos inicialmente (sin filtros)
+          setTimeout(() => {
+            if (tablaProductosInstance) {
+              tablaProductosInstance.productosFiltrados = [...tablaProductosInstance.productos];
+              tablaProductosInstance.productosVisibles = 6;
+              tablaProductosInstance.mostrarProductos();
+            }
+          }, 100);
+          
+          if (CONFIG.debug) {
+            console.log('✅ Tabla de productos inicializada - Mostrando todos los productos');
+          }
+        } catch (error) {
+          console.error('❌ Error al inicializar tabla de productos:', error);
+        }
+      } else {
+        console.warn('⚠️ Función inicializarTablaProductos no disponible');
+      }
+    }
+  }
+  
+  ocultarTablaProductos() {
+    // Mostrar el estado vacío
+    const estadoVacio = document.getElementById('productos-area-vacia');
+    if (estadoVacio) {
+      estadoVacio.style.display = 'flex';
+    }
+    
+    // Ocultar contenedor de tabla
+    const contenedorTabla = document.getElementById('contenedor-tabla-productos');
+    if (contenedorTabla) {
+      contenedorTabla.style.display = 'none';
+      
+      // Destruir tabla si existe la instancia global
+      if (typeof tablaProductosInstance !== 'undefined' && tablaProductosInstance) {
+        try {
+          tablaProductosInstance.destruir();
+          if (CONFIG.debug) {
+            console.log('✅ Tabla de productos destruida');
+          }
+        } catch (error) {
+          console.error('❌ Error al destruir tabla de productos:', error);
+        }
+      }
+    }
+  }
 
   manejarCambioFiltro(detalle) {
     const { campo, valor, estadoCompleto } = detalle;
@@ -1183,6 +1314,9 @@ class FiltrosManagerV2 {
     
     // Ocultar filtros secundarios
     this.ocultarFiltrosSecundarios();
+    
+    // Ocultar tabla de productos
+    this.ocultarTablaProductos();
     
     // Cerrar todos los dropdowns
     CustomDropdown.closeAll();
@@ -1257,6 +1391,12 @@ window.FiltrosManager = {
   // Gestión de filtros secundarios
   mostrarFiltrosSecundarios: () => filtrosManager.mostrarFiltrosSecundarios(),
   ocultarFiltrosSecundarios: () => filtrosManager.ocultarFiltrosSecundarios(),
+  
+  // Gestión de tabla de productos
+  mostrarTablaProductos: () => filtrosManager.mostrarTablaProductos(),
+  ocultarTablaProductos: () => filtrosManager.ocultarTablaProductos(),
+  aplicarFiltrosATabla: () => filtrosManager.aplicarFiltrosATabla(),
+  aplicarBusquedaATabla: (texto) => filtrosManager.aplicarBusquedaATabla(texto),
   
   // Utilidades
   debug: () => filtrosManager.debug(),

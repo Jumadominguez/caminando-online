@@ -1,11 +1,12 @@
 // ===============================================
-// FILTROS MANAGER V2 - LIMPIEZA POST ELIMINACIÓN TABLA
+// FILTROS MANAGER V2 - CON DROPDOWNS PERSONALIZADOS
 // ===============================================
 
 /**
- * Sistema simplificado de filtros para Caminando Online V2
+ * Sistema unificado de filtros para Caminando Online V2
  * - Dropdowns completamente personalizados (no nativos)
- * - Sin generación de tablas de productos
+ * - Diseño controlado por CSS sin elementos del browser
+ * - Navegación por teclado y accesibilidad
  * - Eventos personalizados para comunicación entre módulos
  */
 
@@ -670,7 +671,10 @@ class FiltrosManagerV2 {
       tipoProductoInput: document.getElementById("tipo-de-producto"),
       marcaInput: document.getElementById("marca"),
       contenidoInput: document.getElementById("contenido"),
-      variedadInput: document.getElementById("variedad")
+      variedadInput: document.getElementById("variedad"),
+      
+      // Tabla de productos
+      productosLista: document.getElementById("productos-lista")
     };
 
     // Validar elementos críticos
@@ -1125,23 +1129,188 @@ class FiltrosManagerV2 {
     });
   }
 
-  // ===============================================
-  // GESTIÓN DE PRODUCTOS (ELIMINADO)
-  // ===============================================
-
-  // NOTA: Toda la funcionalidad de productos mock fue eliminada
-  // ya que no hay tabla de productos donde renderizar
-
   manejarCambioFiltro(detalle) {
     const { campo, valor, estadoCompleto } = detalle;
     
     if (CONFIG.debug) {
       console.log(`🔄 Filtro cambiado externamente: ${campo} = ${valor}`);
-      console.log('📊 Estado completo de filtros:', estadoCompleto);
     }
     
-    // Los filtros están funcionando, pero ya no generamos productos
-    // Esta funcionalidad se implementará en el futuro
+    // Generar productos solo cuando se haya seleccionado un tipo de producto
+    if (estadoCompleto.tipoProducto) {
+      this.generarProductosMock();
+    } else {
+      // Si no hay tipo de producto seleccionado, mostrar estado vacío
+      this.mostrarEstadoVacio();
+    }
+  }
+
+  // ===============================================
+  // GESTIÓN DE PRODUCTOS MOCK
+  // ===============================================
+
+  generarProductosMock() {
+    if (!elementos.productosLista) {
+      console.warn("⚠️ Tabla de productos no encontrada");
+      return;
+    }
+
+    const estadoActual = estado.obtener();
+    
+    // Solo generar productos si hay un tipo de producto seleccionado
+    if (!estadoActual.tipoProducto) {
+      this.mostrarEstadoVacio();
+      return;
+    }
+
+    console.log("🔄 Generando productos mock...", estadoActual);
+    
+    const productos = this.crearProductosMock(estadoActual);
+    this.renderizarProductos(productos);
+  }
+
+  crearProductosMock(filtros) {
+    const productos = [];
+    
+    // Obtener nombres base según filtros
+    const nombresBase = this.obtenerNombresBase(filtros);
+    const marcas = this.obtenerMarcasDisponibles(filtros);
+    const contenidos = this.obtenerContenidosDisponibles(filtros);
+    const variedades = this.obtenerVariedadesDisponibles(filtros);
+    
+    // Generar combinaciones (máximo 12 productos)
+    let contador = 0;
+    const maxProductos = 12;
+    
+    for (let nombre of nombresBase.slice(0, 4)) {
+      for (let marca of marcas.slice(0, 3)) {
+        for (let contenido of contenidos.slice(0, 2)) {
+          for (let variedad of variedades.slice(0, 1)) {
+            if (contador >= maxProductos) break;
+            
+            productos.push({
+              id: `prod_${contador}`,
+              nombre: nombre,
+              marca: marca,
+              contenido: contenido,
+              variedad: variedad,
+              supermercados: Math.floor(Math.random() * 4) + 2, // 2-5 supermercados
+              precio_desde: (Math.random() * 1000 + 100).toFixed(2)
+            });
+            
+            contador++;
+          }
+          if (contador >= maxProductos) break;
+        }
+        if (contador >= maxProductos) break;
+      }
+      if (contador >= maxProductos) break;
+    }
+    
+    return productos;
+  }
+
+  obtenerNombresBase(filtros) {
+    if (filtros.subcategoria) {
+      return [filtros.subcategoria];
+    }
+    
+    if (filtros.categoria) {
+      const categoria = DATOS_DEPURADOS.categorias.find(c => c.id === filtros.categoria);
+      return categoria ? categoria.subcategorias.slice(0, 6) : ['Producto'];
+    }
+    
+    return ['Producto genérico'];
+  }
+
+  obtenerMarcasDisponibles(filtros) {
+    if (filtros.marca) {
+      return [filtros.marca];
+    }
+    
+    if (filtros.tipoProducto && DATOS_DEPURADOS.marcas[filtros.tipoProducto]) {
+      return DATOS_DEPURADOS.marcas[filtros.tipoProducto];
+    }
+    
+    return ['Marca genérica', 'Marca premium'];
+  }
+
+  obtenerContenidosDisponibles(filtros) {
+    if (filtros.contenido) {
+      return [filtros.contenido];
+    }
+    
+    if (filtros.tipoProducto && DATOS_DEPURADOS.contenidos[filtros.tipoProducto]) {
+      return DATOS_DEPURADOS.contenidos[filtros.tipoProducto];
+    }
+    
+    return ['1u', '500g'];
+  }
+
+  obtenerVariedadesDisponibles(filtros) {
+    if (filtros.variedad) {
+      return [filtros.variedad];
+    }
+    
+    if (filtros.tipoProducto && DATOS_DEPURADOS.variedades[filtros.tipoProducto]) {
+      return DATOS_DEPURADOS.variedades[filtros.tipoProducto];
+    }
+    
+    return ['Clásico'];
+  }
+
+  renderizarProductos(productos) {
+    if (productos.length === 0) {
+      this.mostrarEstadoVacio();
+      return;
+    }
+    
+    elementos.productosLista.innerHTML = '';
+    
+    productos.forEach((producto, index) => {
+      const fila = this.crearFilaProducto(producto, index);
+      elementos.productosLista.appendChild(fila);
+    });
+    
+    if (CONFIG.debug) {
+      console.log(`✅ ${productos.length} productos renderizados`);
+    }
+  }
+
+  crearFilaProducto(producto, index) {
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+      <td><strong>${producto.nombre}</strong></td>
+      <td>${producto.marca}</td>
+      <td><span class="badge bg-secondary">${producto.contenido}</span></td>
+      <td>${producto.variedad}</td>
+      <td>
+        <span class="badge bg-primary">
+          <i class="fas fa-store"></i> 
+          ${producto.supermercados} disponibles
+        </span>
+      </td>
+      <td>
+        <button class="btn btn-success btn-sm btn-agregar" onclick="agregarProducto(${index}, '${producto.id}')">
+          <i class="fas fa-plus"></i> Agregar
+        </button>
+      </td>
+    `;
+    return fila;
+  }
+
+  mostrarEstadoVacio() {
+    elementos.productosLista.innerHTML = `
+      <tr>
+        <td colspan="6" class="text-center py-5">
+          <div class="estado-vacio">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted mb-2">Buscá productos para comenzar</h5>
+            <p class="text-muted mb-0">Utilizá los filtros de arriba para encontrar los productos que necesitás</p>
+          </div>
+        </td>
+      </tr>
+    `;
   }
 
   // ===============================================
@@ -1190,6 +1359,9 @@ class FiltrosManagerV2 {
     // Resetear estado
     estado.resetear();
     
+    // Mostrar estado vacío
+    this.mostrarEstadoVacio();
+    
     console.log("✅ Todos los filtros reseteados");
   }
 
@@ -1215,13 +1387,35 @@ class FiltrosManagerV2 {
 }
 
 // ===============================================
-// FUNCIONES GLOBALES SIMPLIFICADAS
+// FUNCIONES GLOBALES DE APOYO
 // ===============================================
 
-// NOTA: La función agregarProducto fue eliminada junto con la tabla
-// de productos. Esta funcionalidad se implementará en el futuro.
-
-console.log("📦 FiltrosManagerV2 simplificado cargado - Sistema listo");
+// Función global para agregar productos (llamada desde el HTML generado)
+function agregarProducto(index, productoId) {
+  console.log(`➕ Agregando producto ${productoId} (índice: ${index})`);
+  
+  // Efecto visual en el botón
+  const boton = event.target.closest('button');
+  const iconoOriginal = boton.innerHTML;
+  
+  boton.innerHTML = '<i class="fas fa-check"></i> ¡Agregado!';
+  boton.classList.remove('btn-success');
+  boton.classList.add('btn-secondary');
+  boton.disabled = true;
+  
+  // Restaurar botón después de 2 segundos
+  setTimeout(() => {
+    boton.innerHTML = iconoOriginal;
+    boton.classList.remove('btn-secondary');
+    boton.classList.add('btn-success');
+    boton.disabled = false;
+  }, 2000);
+  
+  // Disparar evento personalizado
+  document.dispatchEvent(new CustomEvent('productoAgregado', {
+    detail: { index, productoId }
+  }));
+}
 
 // ===============================================
 // INICIALIZACIÓN AUTOMÁTICA Y API PÚBLICA
@@ -1263,8 +1457,19 @@ window.FiltrosManager = {
   configurarCallbacks: (callbacks) => filtrosManager.configurarCallbacks(callbacks),
   
   // Datos
-  obtenerDatos: () => DATOS_DEPURADOS
+  obtenerDatos: () => DATOS_DEPURADOS,
+  
+  // Compatibilidad con versiones anteriores
+  inicializarFormularios: () => filtrosManager.inicializar(),
+  resetearFiltros: () => filtrosManager.resetearTodo()
 };
 
 // Alias para compatibilidad
 window.FormManagerDinamico = window.FiltrosManager;
+
+console.log("📦 FiltrosManagerV2 con dropdowns personalizados cargado - Sistema listo");
+
+// Exportar para uso en módulos ES6
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { FiltrosManagerV2, filtrosManager, CustomDropdown };
+}

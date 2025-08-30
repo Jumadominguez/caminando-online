@@ -17,7 +17,7 @@ class TablaProductos {
     }
 
     /**
-     * Genera exactamente 40 productos con nombres realistas
+     * Genera exactamente 40 productos con nombres realistas y SKUs
      */
     generarProductos() {
         const nombres = [
@@ -67,7 +67,8 @@ class TablaProductos {
         for (let i = 0; i < 40; i++) {
             this.productos.push({
                 id: i + 1,
-                nombre: nombres[i]
+                nombre: nombres[i],
+                sku: this.generarSKU()
             });
         }
 
@@ -135,17 +136,31 @@ class TablaProductos {
     }
 
     /**
-     * Genera las filas de la tabla
+     * Genera las filas de la tabla con SKUs
      */
     generarFilas() {
         return this.productos.map((producto, index) => `
             <tr class="tabla-nueva__fila" style="animation-delay: ${(index % 10) * 0.05}s">
                 <td class="tabla-nueva__celda">
                     <span class="producto-numero">#${producto.id}</span>
-                    <span class="producto-nombre">${producto.nombre}</span>
+                    <div class="producto-info">
+                        <span class="producto-nombre">${producto.nombre}</span>
+                        <span class="producto-sku">SKU: ${producto.sku}</span>
+                    </div>
                 </td>
             </tr>
         `).join('');
+    }
+
+    /**
+     * Genera un SKU aleatorio realista
+     */
+    generarSKU() {
+        const prefijos = ['CAM', 'PRD', 'ALM', 'MKT', 'SUP'];
+        const prefijo = prefijos[Math.floor(Math.random() * prefijos.length)];
+        const numero = Math.floor(Math.random() * 9000) + 1000; // 1000-9999
+        const sufijo = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // A-Z
+        return `${prefijo}${numero}${sufijo}`;
     }
 
     /**

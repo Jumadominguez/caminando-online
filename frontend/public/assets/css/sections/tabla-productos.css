@@ -1,410 +1,388 @@
-/* ===== TABLA PRODUCTOS - ESTILOS INDEPENDIENTES ===== */
-
-/* Reset específico para la tabla */
-.tabla-productos * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ============================================================================
+   TABLA DE PRODUCTOS - SOLO EFECTOS QUE NO ROMPAN LA ESTRUCTURA
+   ============================================================================
+   Base que funciona + efectos seguros
+   ============================================================================ */
 
 /* Contenedor principal */
-.tabla-productos {
+.contenedor-tabla-productos {
     width: 100%;
-    max-width: 1200px;
-    margin: 2rem auto;
+    max-width: 900px;
+    margin: 1.5rem auto;
     padding: 0 1rem;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* Header de la sección */
-.tabla-productos__header {
-    background: linear-gradient(135deg, #FF6B35, #FF8C42);
-    color: white;
-    padding: 1.5rem 2rem;
-    border-radius: 12px 12px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(255, 107, 53, 0.2);
-}
-
-.tabla-productos__titulo {
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-}
-
-.tabla-productos__contador {
-    font-size: 0.9rem;
-    opacity: 0.9;
-    font-weight: 500;
-}
-
-/* Contenedor de scroll */
-.tabla-productos__container {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+/* Wrapper de la tabla - EFECTOS SEGUROS */
+.tabla-nueva {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.05),
+        0 8px 25px rgba(255, 107, 53, 0.08),
+        0 12px 35px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(233, 236, 239, 0.8);
     overflow: hidden;
-    border: 1px solid #E9ECEF;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    transition: box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: entrarTabla 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.tabla-productos__scroll {
-    max-height: 480px; /* Altura para ~6 filas */
-    overflow-y: auto;
-    overflow-x: auto;
+.tabla-nueva:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+        0 8px 12px rgba(0, 0, 0, 0.08),
+        0 16px 40px rgba(255, 107, 53, 0.12),
+        0 24px 60px rgba(0, 0, 0, 0.05);
 }
 
-/* Estilos del scrollbar */
-.tabla-productos__scroll::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-.tabla-productos__scroll::-webkit-scrollbar-track {
-    background: #F8F9FA;
-}
-
-.tabla-productos__scroll::-webkit-scrollbar-thumb {
-    background: #DEE2E6;
-    border-radius: 4px;
-}
-
-.tabla-productos__scroll::-webkit-scrollbar-thumb:hover {
-    background: #CED4DA;
-}
-
-/* Tabla principal */
-.tabla-productos__table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-    min-width: 800px;
-}
-
-/* Header sticky */
-.tabla-productos__thead {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: #F8F9FA;
-}
-
-.tabla-productos__th {
-    padding: 1rem 0.75rem;
-    text-align: left;
-    font-weight: 600;
-    font-size: 0.85rem;
-    color: #495057;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 2px solid #DEE2E6;
-    user-select: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
+/* Header con contador a la izquierda - EFECTOS SEGUROS */
+.tabla-nueva__header {
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8A65 40%, #FFAB91 100%);
+    color: #ffffff;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     position: relative;
+    overflow: hidden;
 }
 
-.tabla-productos__th:hover {
-    background-color: #E9ECEF;
-    color: #FF6B35;
-}
-
-.tabla-productos__th--sortable::after {
-    content: '↕';
+.tabla-nueva__header::before {
+    content: '';
     position: absolute;
-    right: 0.5rem;
-    opacity: 0.5;
-    font-size: 0.8rem;
-    transition: all 0.2s ease;
-}
-
-.tabla-productos__th--sortable:hover::after {
-    opacity: 1;
-    color: #FF6B35;
-}
-
-.tabla-productos__th--asc::after {
-    content: '↑';
-    color: #FF6B35;
-    opacity: 1;
-}
-
-.tabla-productos__th--desc::after {
-    content: '↓';
-    color: #FF6B35;
-    opacity: 1;
-}
-
-/* Distribución de columnas */
-.tabla-productos__th:nth-child(1) { width: 30%; } /* Nombre */
-.tabla-productos__th:nth-child(2) { width: 15%; } /* Marca */
-.tabla-productos__th:nth-child(3) { width: 12%; } /* Contenido */
-.tabla-productos__th:nth-child(4) { width: 15%; } /* Variedad */
-.tabla-productos__th:nth-child(5) { width: 13%; } /* Disponibilidad */
-.tabla-productos__th:nth-child(6) { width: 15%; } /* Acción */
-
-/* Filas del cuerpo */
-.tabla-productos__tbody {
-    background: white;
-}
-
-.tabla-productos__tr {
-    transition: all 0.2s ease;
-    border-bottom: 1px solid #F1F3F4;
-}
-
-.tabla-productos__tr:hover {
-    background-color: #F8F9FA;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-.tabla-productos__td {
-    padding: 1rem 0.75rem;
-    font-size: 0.9rem;
-    color: #495057;
-    vertical-align: middle;
-    border-bottom: 1px solid #F1F3F4;
-}
-
-/* Estilos específicos por columna */
-.tabla-productos__nombre {
-    font-weight: 500;
-    color: #212529;
-    line-height: 1.4;
-}
-
-.tabla-productos__marca {
-    font-weight: 600;
-    color: #6C757D;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 0.5px;
-}
-
-.tabla-productos__contenido {
-    font-weight: 500;
-    color: #495057;
-}
-
-.tabla-productos__variedad {
-    color: #6C757D;
-    font-style: italic;
-}
-
-.tabla-productos__disponibilidad {
-    text-align: center;
-}
-
-/* Estados de disponibilidad */
-.disponibilidad-badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.disponibilidad-badge--disponible {
-    background: #D4EDDA;
-    color: #155724;
-    border: 1px solid #C3E6CB;
-}
-
-.disponibilidad-badge--agotado {
-    background: #F8D7DA;
-    color: #721C24;
-    border: 1px solid #F5C6CB;
-}
-
-.disponibilidad-badge--limitado {
-    background: #FFF3CD;
-    color: #856404;
-    border: 1px solid #FFEAA7;
-}
-
-/* Botón agregar */
-.tabla-productos__btn-agregar {
-    background: linear-gradient(135deg, #4ECDC4, #45B7D1);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 4px rgba(78, 205, 196, 0.2);
-}
-
-.tabla-productos__btn-agregar:hover {
-    background: linear-gradient(135deg, #45B7D1, #4ECDC4);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
-}
-
-.tabla-productos__btn-agregar:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(78, 205, 196, 0.2);
-}
-
-.tabla-productos__btn-agregar:disabled {
-    background: #CED4DA;
-    color: #6C757D;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-/* Estado vacío */
-.tabla-productos__empty {
-    text-align: center;
-    padding: 3rem 2rem;
-    color: #6C757D;
-}
-
-.tabla-productos__empty-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.5;
-}
-
-.tabla-productos__empty-text {
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-}
-
-.tabla-productos__empty-subtitle {
-    font-size: 0.9rem;
-    opacity: 0.7;
-}
-
-/* Estados de carga */
-.tabla-productos--loading {
-    position: relative;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
     pointer-events: none;
 }
 
-.tabla-productos__loader {
+.tabla-nueva__header:hover::before {
+    opacity: 1;
+}
+
+/* EFECTO 3: LÍNEA DECORATIVA EN HEADER */
+.tabla-nueva__header::after {
+    content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 20;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        #10B981 0%, 
+        #059669 25%, 
+        #0D9488 50%, 
+        #059669 75%, 
+        #10B981 100%);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+    animation: lineaDecorativa 3s ease-in-out infinite alternate;
 }
 
-.loader-spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid #F1F3F4;
-    border-top: 3px solid #FF6B35;
+@keyframes lineaDecorativa {
+    0% {
+        transform: scaleX(0.8);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+.tabla-nueva__contador {
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 1rem;
+    box-shadow: 
+        0 2px 8px rgba(16, 185, 129, 0.3),
+        0 4px 16px rgba(16, 185, 129, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.tabla-nueva__contador:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 4px 12px rgba(16, 185, 129, 0.4),
+        0 8px 24px rgba(16, 185, 129, 0.2);
 }
 
-.loader-text {
-    text-align: center;
-    color: #495057;
+.tabla-nueva__titulo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenido de la tabla - SIMPLE */
+.tabla-nueva__contenido {
+    max-height: 480px;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
+    position: relative;
+}
+
+/* EFECTO 5: BACKGROUND GRADIENTE CON OVERLAY DECORATIVO */
+.tabla-nueva__contenido::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(180deg, 
+        rgba(255, 107, 53, 0.08) 0%, 
+        rgba(255, 107, 53, 0.04) 50%, 
+        transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.tabla-nueva__contenido::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 15px;
+    background: linear-gradient(0deg, 
+        rgba(248, 251, 252, 0.9) 0%, 
+        rgba(248, 251, 252, 0.5) 50%, 
+        transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Scrollbar simple */
+.tabla-nueva__contenido::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tabla-nueva__contenido::-webkit-scrollbar-track {
+    background: #f8f9fa;
+}
+
+.tabla-nueva__contenido::-webkit-scrollbar-thumb {
+    background: #FF6B35;
+    border-radius: 3px;
+}
+
+/* TABLA - ESTRUCTURA QUE FUNCIONA - NO TOCAR */
+.tabla-nueva__table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* Header de la tabla - PADDING EXACTO */
+.tabla-nueva__thead {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: #f8f9fa;
+}
+
+.tabla-nueva__th {
+    padding: 1rem 2rem; /* NO CAMBIAR NUNCA */
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border-bottom: 1px solid #e9ecef;
+    box-sizing: border-box;
+    width: 100%;
+    backdrop-filter: blur(10px);
+}
+
+/* Filas - IMPLEMENTACIÓN SEGURA DEL EFECTO 4 */
+.tabla-nueva__fila {
+    transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-left-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: 1px solid rgba(241, 243, 244, 0.6);
+    border-left: 4px solid transparent;
+    opacity: 0;
+    animation: aparecer 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    background: #ffffff;
+}
+
+/* EFECTO 4: BARRA LATERAL SIN ROMPER LAYOUT - VERSIÓN SIMPLE */
+.tabla-nueva__fila:hover {
+    background: rgba(255, 107, 53, 0.02);
+    transform: translateX(4px);
+    border-left: 6px solid #FF6B35;
+    box-shadow: -2px 0 8px rgba(255, 107, 53, 0.15);
+}
+
+.tabla-nueva__fila:nth-child(even) {
+    background: rgba(248, 250, 252, 0.4);
+}
+
+.tabla-nueva__fila:nth-child(even):hover {
+    background: rgba(255, 107, 53, 0.03);
+}
+
+/* Celdas - MISMO PADDING EXACTO */
+.tabla-nueva__celda {
+    padding: 1rem 2rem; /* EXACTO - NO CAMBIAR NUNCA */
+    vertical-align: middle;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Contenido de las celdas - ESTRUCTURA SIMPLE */
+.producto-numero {
+    display: inline-block;
+    background: #e9ecef;
+    color: #6c757d;
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 1rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.producto-numero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.6), 
+        transparent);
+    transition: left 0.6s ease;
+}
+
+.producto-nombre {
+    display: inline;
+    color: #2c3e50;
     font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), font-weight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .tabla-productos {
-        padding: 0 0.5rem;
+/* Estados hover - EFECTOS SEGUROS */
+.tabla-nueva__fila:hover .producto-nombre {
+    color: #FF6B35;
+    font-weight: 600;
+}
+
+.tabla-nueva__fila:hover .producto-numero {
+    background: linear-gradient(135deg, #FF6B35, #10B981);
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+.tabla-nueva__fila:hover .producto-numero::before {
+    left: 100%;
+}
+
+/* Animación simple */
+@keyframes aparecer {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
     }
-    
-    .tabla-productos__header {
-        padding: 1rem 1.5rem;
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-    
-    .tabla-productos__titulo {
-        font-size: 1.25rem;
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
+/* Animación de entrada de tabla */
+@keyframes entrarTabla {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+        filter: blur(2px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* Responsive - MANTENER PADDINGS EXACTOS */
 @media (max-width: 768px) {
-    .tabla-productos__table {
-        min-width: 600px;
+    .tabla-nueva__header {
+        padding: 1.25rem 1.5rem;
     }
     
-    .tabla-productos__th,
-    .tabla-productos__td {
-        padding: 0.75rem 0.5rem;
+    .tabla-nueva__contador {
+        width: 45px;
+        height: 45px;
         font-size: 0.8rem;
     }
     
-    .tabla-productos__btn-agregar {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.75rem;
+    .tabla-nueva__titulo {
+        font-size: 1.2rem;
     }
     
-    .tabla-productos__scroll {
-        max-height: 400px;
+    .tabla-nueva__th,
+    .tabla-nueva__celda {
+        padding: 0.75rem 1rem;
+    }
+    
+    .producto-numero {
+        margin-right: 0.75rem;
+        font-size: 0.7rem;
+    }
+    
+    .producto-nombre {
+        font-size: 0.875rem;
     }
 }
 
 @media (max-width: 480px) {
-    .tabla-productos {
-        margin: 1rem auto;
-    }
-    
-    .tabla-productos__header {
+    .tabla-nueva__header {
         padding: 1rem;
     }
     
-    .tabla-productos__titulo {
+    .tabla-nueva__contador {
+        width: 40px;
+        height: 40px;
+        font-size: 0.75rem;
+    }
+    
+    .tabla-nueva__titulo {
         font-size: 1.1rem;
     }
     
-    .tabla-productos__contador {
-        font-size: 0.8rem;
+    .tabla-nueva__th,
+    .tabla-nueva__celda {
+        padding: 0.75rem;
     }
     
-    .tabla-productos__scroll {
-        max-height: 350px;
+    .producto-numero {
+        margin-bottom: 0.5rem;
+        display: block;
+        text-align: center;
+        width: fit-content;
     }
-}
-
-/* Animaciones de entrada */
-.tabla-productos__tr {
-    opacity: 0;
-    animation: fadeInUp 0.5s ease forwards;
-}
-
-.tabla-productos__tr:nth-child(1) { animation-delay: 0.1s; }
-.tabla-productos__tr:nth-child(2) { animation-delay: 0.15s; }
-.tabla-productos__tr:nth-child(3) { animation-delay: 0.2s; }
-.tabla-productos__tr:nth-child(4) { animation-delay: 0.25s; }
-.tabla-productos__tr:nth-child(5) { animation-delay: 0.3s; }
-.tabla-productos__tr:nth-child(6) { animation-delay: 0.35s; }
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    
+    .producto-nombre {
+        display: block;
+        font-size: 0.8rem;
     }
 }

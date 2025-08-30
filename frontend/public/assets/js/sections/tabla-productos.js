@@ -17,62 +17,66 @@ class TablaProductos {
     }
 
     /**
-     * Genera exactamente 40 productos con nombres realistas y SKUs
+     * Genera exactamente 40 productos con nombres simplificados y filtros
      */
     generarProductos() {
-        const nombres = [
-            'Leche Entera La Serenísima 1L',
-            'Yogur Natural Ilolay 180g',
-            'Queso Cremoso Sancor 200g',
-            'Manteca Tregar 200g',
-            'Dulce de Leche Colonial 400g',
-            'Gaseosa Coca-Cola 2L',
-            'Agua Mineral Villavicencio 1.5L',
-            'Jugo Naranja Cepita 1L',
-            'Cerveza Quilmes 473ml',
-            'Vino Tinto Alamos 750ml',
-            'Pollo Entero Granja del Sol x Kg',
-            'Carne Molida Swift x Kg',
-            'Milanesas de Pollo x Kg',
-            'Jamón Cocido Feteado 200g',
-            'Salchichas Frankfurt x6',
-            'Pan Lactal Bimbo 500g',
-            'Galletitas Oreo 300g',
-            'Bizcochos de Grasa x12',
-            'Facturas Surtidas x6',
-            'Tostadas Criollitas 200g',
-            'Tomate Redondo x Kg',
-            'Lechuga Criolla x Unidad',
-            'Papa Blanca x Kg',
-            'Cebolla Amarilla x Kg',
-            'Manzana Roja x Kg',
-            'Detergente Magistral 750ml',
-            'Lavandina Ayudín 1L',
-            'Jabón Polvo Skip 800g',
-            'Suavizante Comfort 900ml',
-            'Limpiador CIF 500ml',
-            'Shampoo Pantene 400ml',
-            'Jabón Líquido Dove 250ml',
-            'Pasta Dental Colgate 90g',
-            'Desodorante Rexona 150ml',
-            'Crema Nivea 200ml',
-            'Pizza Muzzarella McCain 350g',
-            'Helado Frigor 1L',
-            'Papas Fritas McCain 1Kg',
-            'Empanadas de Carne x12',
-            'Tarta de Verdura 500g'
+        const productosBase = [
+            { nombre: 'Leche Entera', marca: 'La Serenísima', contenido: '1L', variedad: 'Entera' },
+            { nombre: 'Yogur Natural', marca: 'Ilolay', contenido: '180g', variedad: 'Natural' },
+            { nombre: 'Queso Cremoso', marca: 'Sancor', contenido: '200g', variedad: 'Cremoso' },
+            { nombre: 'Manteca', marca: 'Tregar', contenido: '200g', variedad: 'Con Sal' },
+            { nombre: 'Dulce de Leche', marca: 'Colonial', contenido: '400g', variedad: 'Tradicional' },
+            { nombre: 'Gaseosa', marca: 'Coca-Cola', contenido: '2L', variedad: 'Original' },
+            { nombre: 'Agua Mineral', marca: 'Villavicencio', contenido: '1.5L', variedad: 'Sin Gas' },
+            { nombre: 'Jugo de Naranja', marca: 'Cepita', contenido: '1L', variedad: 'Natural' },
+            { nombre: 'Cerveza', marca: 'Quilmes', contenido: '473ml', variedad: 'Clásica' },
+            { nombre: 'Vino Tinto', marca: 'Alamos', contenido: '750ml', variedad: 'Malbec' },
+            { nombre: 'Pollo Entero', marca: 'Granja del Sol', contenido: '1kg', variedad: 'Fresco' },
+            { nombre: 'Carne Molida', marca: 'Swift', contenido: '1kg', variedad: 'Común' },
+            { nombre: 'Milanesas', marca: 'Suprema', contenido: '500g', variedad: 'Pollo' },
+            { nombre: 'Jamón Cocido', marca: 'Feteado', contenido: '200g', variedad: 'Natural' },
+            { nombre: 'Salchichas', marca: 'Frankfurt', contenido: '6u', variedad: 'Tradicional' },
+            { nombre: 'Pan Lactal', marca: 'Bimbo', contenido: '500g', variedad: 'Blanco' },
+            { nombre: 'Galletitas', marca: 'Oreo', contenido: '300g', variedad: 'Original' },
+            { nombre: 'Bizcochos', marca: 'La Granja', contenido: '12u', variedad: 'Grasa' },
+            { nombre: 'Facturas', marca: 'Panadería', contenido: '6u', variedad: 'Surtidas' },
+            { nombre: 'Tostadas', marca: 'Criollitas', contenido: '200g', variedad: 'Clásicas' },
+            { nombre: 'Tomate', marca: 'Huerta', contenido: '1kg', variedad: 'Redondo' },
+            { nombre: 'Lechuga', marca: 'Verde', contenido: '1u', variedad: 'Criolla' },
+            { nombre: 'Papa', marca: 'Campo', contenido: '1kg', variedad: 'Blanca' },
+            { nombre: 'Cebolla', marca: 'Huerta', contenido: '1kg', variedad: 'Amarilla' },
+            { nombre: 'Manzana', marca: 'Fruta Fresca', contenido: '1kg', variedad: 'Roja' },
+            { nombre: 'Detergente', marca: 'Magistral', contenido: '750ml', variedad: 'Líquido' },
+            { nombre: 'Lavandina', marca: 'Ayudín', contenido: '1L', variedad: 'Original' },
+            { nombre: 'Jabón en Polvo', marca: 'Skip', contenido: '800g', variedad: 'Completo' },
+            { nombre: 'Suavizante', marca: 'Comfort', contenido: '900ml', variedad: 'Concentrado' },
+            { nombre: 'Limpiador', marca: 'CIF', contenido: '500ml', variedad: 'Cremoso' },
+            { nombre: 'Shampoo', marca: 'Pantene', contenido: '400ml', variedad: 'Nutrición' },
+            { nombre: 'Jabón Líquido', marca: 'Dove', contenido: '250ml', variedad: 'Humectante' },
+            { nombre: 'Pasta Dental', marca: 'Colgate', contenido: '90g', variedad: 'Total' },
+            { nombre: 'Desodorante', marca: 'Rexona', contenido: '150ml', variedad: 'Antibacterial' },
+            { nombre: 'Crema', marca: 'Nivea', contenido: '200ml', variedad: 'Hidratante' },
+            { nombre: 'Pizza', marca: 'McCain', contenido: '350g', variedad: 'Muzzarella' },
+            { nombre: 'Helado', marca: 'Frigor', contenido: '1L', variedad: 'Vainilla' },
+            { nombre: 'Papas Fritas', marca: 'McCain', contenido: '1kg', variedad: 'Congeladas' },
+            { nombre: 'Empanadas', marca: 'Artesanales', contenido: '12u', variedad: 'Carne' },
+            { nombre: 'Tarta', marca: 'Casera', contenido: '500g', variedad: 'Verdura' }
         ];
 
         this.productos = [];
         for (let i = 0; i < 40; i++) {
+            const producto = productosBase[i];
             this.productos.push({
                 id: i + 1,
-                nombre: nombres[i],
+                nombre: producto.nombre,
+                marca: producto.marca,
+                contenido: producto.contenido,
+                variedad: producto.variedad,
                 sku: this.generarSKU()
             });
         }
 
-        console.log(`📦 Generados ${this.productos.length} productos para la tabla`);
+        console.log(`📦 Generados ${this.productos.length} productos con filtros para la tabla`);
     }
 
     /**
@@ -107,7 +111,7 @@ class TablaProductos {
     }
 
     /**
-     * Crea la estructura HTML de la tabla
+     * Crea la estructura HTML de la tabla con 5 columnas
      */
     crearTabla() {
         const html = `
@@ -120,7 +124,11 @@ class TablaProductos {
                     <table class="tabla-nueva__table">
                         <thead class="tabla-nueva__thead">
                             <tr>
-                                <th class="tabla-nueva__th">Nombre del Producto</th>
+                                <th class="tabla-nueva__th tabla-nueva__th--producto">Producto</th>
+                                <th class="tabla-nueva__th tabla-nueva__th--marca">Marca</th>
+                                <th class="tabla-nueva__th tabla-nueva__th--contenido">Contenido</th>
+                                <th class="tabla-nueva__th tabla-nueva__th--variedad">Variedad</th>
+                                <th class="tabla-nueva__th tabla-nueva__th--accion">Acción</th>
                             </tr>
                         </thead>
                         <tbody class="tabla-nueva__tbody">
@@ -132,21 +140,36 @@ class TablaProductos {
         `;
 
         this.contenedor.innerHTML = html;
-        console.log('🎨 Tabla HTML renderizada');
+        console.log('🎨 Tabla HTML renderizada con 5 columnas');
     }
 
     /**
-     * Genera las filas de la tabla con SKUs
+     * Genera las filas de la tabla con 5 columnas
      */
     generarFilas() {
         return this.productos.map((producto, index) => `
             <tr class="tabla-nueva__fila" style="animation-delay: ${(index % 10) * 0.05}s">
-                <td class="tabla-nueva__celda">
+                <td class="tabla-nueva__celda tabla-nueva__celda--producto">
                     <span class="producto-numero">#${producto.id}</span>
                     <div class="producto-info">
                         <span class="producto-nombre">${producto.nombre}</span>
                         <span class="producto-sku">SKU: ${producto.sku}</span>
                     </div>
+                </td>
+                <td class="tabla-nueva__celda tabla-nueva__celda--marca">
+                    <span class="filtro-valor filtro-valor--marca">${producto.marca}</span>
+                </td>
+                <td class="tabla-nueva__celda tabla-nueva__celda--contenido">
+                    <span class="filtro-valor filtro-valor--contenido">${producto.contenido}</span>
+                </td>
+                <td class="tabla-nueva__celda tabla-nueva__celda--variedad">
+                    <span class="filtro-valor filtro-valor--variedad">${producto.variedad}</span>
+                </td>
+                <td class="tabla-nueva__celda tabla-nueva__celda--accion">
+                    <button class="boton-agregar" onclick="agregarProducto(${producto.id}, '${producto.nombre}', '${producto.sku}')">
+                        <span class="boton-agregar__icono">+</span>
+                        <span class="boton-agregar__texto">Agregar</span>
+                    </button>
                 </td>
             </tr>
         `).join('');
@@ -227,6 +250,31 @@ class TablaProductos {
 let tablaProductosInstance = null;
 
 /**
+ * Función para agregar producto (llamada por los botones)
+ */
+function agregarProducto(id, nombre, sku) {
+    console.log(`🛒 Agregando producto: ${nombre} (ID: ${id}, SKU: ${sku})`);
+    
+    // Aquí se puede integrar con el sistema de carrito/comparación
+    // Por ahora solo mostramos un feedback visual
+    const button = event.target.closest('.boton-agregar');
+    if (button) {
+        // Feedback visual temporal
+        const originalText = button.querySelector('.boton-agregar__texto').textContent;
+        button.classList.add('boton-agregar--agregado');
+        button.querySelector('.boton-agregar__texto').textContent = 'Agregado';
+        button.querySelector('.boton-agregar__icono').textContent = '✓';
+        
+        // Restaurar después de 2 segundos
+        setTimeout(() => {
+            button.classList.remove('boton-agregar--agregado');
+            button.querySelector('.boton-agregar__texto').textContent = originalText;
+            button.querySelector('.boton-agregar__icono').textContent = '+';
+        }, 2000);
+    }
+}
+
+/**
  * Función principal para mostrar tabla cuando se selecciona tipo de producto
  */
 function mostrarTablaProductos() {
@@ -300,5 +348,6 @@ window.TablaProductos = TablaProductos;
 window.mostrarTablaProductos = mostrarTablaProductos;
 window.ocultarTablaProductos = ocultarTablaProductos;
 window.inicializarTablaProductos = inicializarTablaProductos;
+window.agregarProducto = agregarProducto;
 
 console.log('📜 Sistema de tabla dinámica cargado - Esperando selección de tipo de producto');

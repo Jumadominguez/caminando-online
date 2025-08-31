@@ -1,19 +1,15 @@
 /**
  * ============================================================================
- * TABLA PRODUCTOS A COMPARAR - FUNCIONALIDAD COMPLETA
+ * TABLA PRODUCTOS A COMPARAR - FUNCIONALIDAD COMPLETA  
  * ============================================================================
- * Nueva tabla que se muestra debajo de "productos disponibles"
- * - Se genera dinámicamente cuando el usuario agrega productos
- * - Muestra nombre + variables de filtros en formato string
- * - Selector de cantidad por producto
- * - Botón eliminar individual
- * - Sincronización completa con sistema principal
+ * 🔧 FIX: Estructura de tabla reparada - todas las columnas visibles
  * ============================================================================ */
 
 class TablaComparar {
     constructor() {
         this.productosComparar = [];
         this.contenedor = null;
+        this.tablaYaCreada = false; // ✅ Control de estado de tabla
         this.configurarEventListeners();
         
         console.log('🛒 TablaComparar inicializada');
@@ -81,7 +77,7 @@ class TablaComparar {
     }
 
     /**
-     * Agrega un producto a la tabla de comparación
+     * ✅ Agrega un producto con animaciones correctas
      */
     agregarProducto(id, nombre, sku) {
         console.log(`➕ Agregando producto a comparar: ${nombre} (ID: ${id}, SKU: ${sku})`);
@@ -108,11 +104,84 @@ class TablaComparar {
 
         this.productosComparar.push(nuevoProducto);
         
-        // Regenerar tabla
-        this.generarTabla();
-        this.mostrarTabla();
+        // ✅ LÓGICA DE ANIMACIONES CORREGIDA
+        if (!this.tablaYaCreada || this.productosComparar.length === 1) {
+            // PRIMERA VEZ: Crear tabla completa con animación completa
+            console.log('🎬 Primera vez: Generando tabla completa con animación');
+            this.generarTablaCompleta();
+            this.mostrarTabla();
+            this.tablaYaCreada = true;
+        } else {
+            // SIGUIENTES VECES: Solo agregar la nueva fila con animación de fila
+            console.log('➕ Agregando solo la nueva fila con animación individual');
+            this.agregarSoloNuevaFila(nuevoProducto);
+        }
         
         console.log(`✅ Producto agregado a comparar. Total: ${this.productosComparar.length}`);
+    }
+
+    /**
+     * ✅ Agregar solo una nueva fila sin regenerar toda la tabla
+     */
+    agregarSoloNuevaFila(nuevoProducto) {
+        const tbody = this.contenedor.querySelector('.tabla-comparar__tbody');
+        if (!tbody) {
+            console.warn('⚠️ Tbody no encontrado, regenerando tabla completa');
+            this.generarTablaCompleta();
+            return;
+        }
+
+        // Crear nueva fila HTML con estructura completa
+        const nuevaFilaHTML = this.generarFilaProducto(nuevoProducto, this.productosComparar.length - 1);
+        
+        // Insertar nueva fila usando insertAdjacentHTML (más seguro)
+        tbody.insertAdjacentHTML('beforeend', nuevaFilaHTML);
+        
+        // Obtener la fila recién insertada
+        const nuevaFila = tbody.lastElementChild;
+        
+        // ✅ ANIMACIÓN ESPECIAL PARA NUEVA FILA
+        nuevaFila.style.opacity = '0';
+        nuevaFila.style.transform = 'translateX(-20px) scale(0.95)';
+        nuevaFila.style.transition = 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        
+        // Actualizar contador
+        this.actualizarContador();
+        
+        // Trigger animación de entrada para la nueva fila
+        setTimeout(() => {
+            nuevaFila.style.opacity = '1';
+            nuevaFila.style.transform = 'translateX(0) scale(1)';
+            
+            // Efecto de brillo/highlight temporal
+            nuevaFila.style.background = 'rgba(40, 167, 69, 0.1)';
+            nuevaFila.style.borderLeft = '4px solid #28a745';
+            
+            // Remover el highlight después de 2 segundos
+            setTimeout(() => {
+                nuevaFila.style.background = '';
+                nuevaFila.style.borderLeft = '';
+                nuevaFila.style.transition = '';
+            }, 2000);
+        }, 50);
+        
+        console.log('✨ Nueva fila agregada con animación individual');
+    }
+
+    /**
+     * ✅ Actualizar solo el contador sin regenerar tabla
+     */
+    actualizarContador() {
+        const contador = this.contenedor.querySelector('.tabla-comparar__contador');
+        if (contador) {
+            // Animación del contador
+            contador.style.transform = 'scale(1.3)';
+            contador.textContent = this.productosComparar.length;
+            
+            setTimeout(() => {
+                contador.style.transform = '';
+            }, 200);
+        }
     }
 
     /**
@@ -154,7 +223,7 @@ class TablaComparar {
     }
 
     /**
-     * Quita un producto de la tabla por ID
+     * ✅ Quita un producto con control de animaciones
      */
     quitarProductoPorId(id) {
         const indice = this.productosComparar.findIndex(p => p.id === id);
@@ -162,15 +231,45 @@ class TablaComparar {
             const producto = this.productosComparar[indice];
             console.log(`🗑️ Quitando producto de comparar: ${producto.nombre}`);
             
-            this.productosComparar.splice(indice, 1);
-            
-            if (this.productosComparar.length === 0) {
-                this.ocultarTabla();
-            } else {
-                this.generarTabla();
+            // ✅ ANIMACIÓN DE SALIDA PARA FILA ESPECÍFICA
+            const filaProducto = this.contenedor.querySelector(`[onclick*="eliminarDeComparar(${id},"]`);
+            if (filaProducto) {
+                const fila = filaProducto.closest('.tabla-comparar__fila');
+                if (fila) {
+                    // Animación de salida
+                    fila.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                    fila.style.opacity = '0';
+                    fila.style.transform = 'translateX(100px) scale(0.9)';
+                    fila.style.background = 'rgba(220, 53, 69, 0.05)';
+                    
+                    setTimeout(() => {
+                        // Quitar del array
+                        this.productosComparar.splice(indice, 1);
+                        
+                        if (this.productosComparar.length === 0) {
+                            // Si no quedan productos, resetear estado y ocultar tabla
+                            this.tablaYaCreada = false;
+                            this.ocultarTabla();
+                        } else {
+                            // Remover la fila del DOM y actualizar contador
+                            fila.remove();
+                            this.actualizarContador();
+                        }
+                    }, 400);
+                    
+                    console.log(`✅ Producto quitado con animación. Restantes: ${this.productosComparar.length}`);
+                    return;
+                }
             }
             
-            console.log(`✅ Producto quitado. Restantes: ${this.productosComparar.length}`);
+            // Fallback: método anterior si no se encuentra la fila
+            this.productosComparar.splice(indice, 1);
+            if (this.productosComparar.length === 0) {
+                this.tablaYaCreada = false;
+                this.ocultarTabla();
+            } else {
+                this.generarTablaCompleta();
+            }
         }
     }
 
@@ -244,9 +343,9 @@ class TablaComparar {
     }
 
     /**
-     * Genera la estructura HTML de la tabla
+     * ✅ Genera la estructura HTML completa (primera vez o regeneración completa)
      */
-    generarTabla() {
+    generarTablaCompleta() {
         if (!this.contenedor) {
             this.buscarOCrearContenedor();
         }
@@ -256,8 +355,11 @@ class TablaComparar {
             return;
         }
 
+        // ✅ ANIMACIÓN CONTROLADA: Solo aplicar si es primera vez
+        const claseAnimacion = !this.tablaYaCreada ? 'tabla-comparar tabla-comparar--primera-vez' : 'tabla-comparar';
+
         const html = `
-            <div class="tabla-comparar">
+            <div class="${claseAnimacion}">
                 <div class="tabla-comparar__header">
                     <div class="tabla-comparar__contador">${this.productosComparar.length}</div>
                     <h3 class="tabla-comparar__titulo">Productos a Comparar</h3>
@@ -272,7 +374,7 @@ class TablaComparar {
                             <tr>
                                 <th class="tabla-comparar__th tabla-comparar__th--producto">Producto</th>
                                 <th class="tabla-comparar__th tabla-comparar__th--cantidad">Cantidad</th>
-                                <th class="tabla-comparar__th tabla-comparar__th--accion"></th>
+                                <th class="tabla-comparar__th tabla-comparar__th--accion">Acción</th>
                             </tr>
                         </thead>
                         <tbody class="tabla-comparar__tbody">
@@ -288,33 +390,39 @@ class TablaComparar {
         // Configurar event listeners para los controles
         this.configurarEventListenersTabla();
         
-        console.log(`🎨 Tabla comparar regenerada con ${this.productosComparar.length} productos`);
+        console.log(`🎨 Tabla comparar generada completa con ${this.productosComparar.length} productos`);
     }
 
     /**
-     * Genera las filas de productos en la tabla
+     * ✅ REPARADO: Genera HTML para una sola fila de producto - ESTRUCTURA COMPLETA
      */
-    generarFilasComparar() {
-        return this.productosComparar.map((producto, index) => `
-            <tr class="tabla-comparar__fila" style="animation-delay: ${index * 0.1}s">
+    generarFilaProducto(producto, index) {
+        // 🔧 Parsear filtros correctamente
+        const partesFiltros = producto.filtrosString.split(' • ');
+        const marca = partesFiltros[0] || '';
+        const contenido = partesFiltros[1] || '';
+        const variedad = partesFiltros[2] || '';
+        
+        return `
+            <tr class="tabla-comparar__fila tabla-comparar__fila--nueva" style="animation-delay: ${index * 0.1}s">
                 <td class="tabla-comparar__celda tabla-comparar__celda--producto">
                     <div class="producto-comparar-info">
                         <div class="producto-comparar-id">#${producto.id}</div>
                         <div class="producto-comparar-content">
                             <span class="producto-comparar-nombre">${producto.nombre}</span>
                             <div class="producto-comparar-filtros" title="${producto.filtrosString}">
-                                <span>${producto.filtrosString.split(' • ')[0] || ''}</span>
-                                <span>•</span>
-                                <span>${producto.filtrosString.split(' • ')[1] || ''}</span>
-                                <span>•</span>
-                                <span>${producto.filtrosString.split(' • ')[2] || ''}</span>
+                                ${marca ? `<span>${marca}</span>` : ''}
+                                ${marca && (contenido || variedad) ? '<span>•</span>' : ''}
+                                ${contenido ? `<span>${contenido}</span>` : ''}
+                                ${contenido && variedad ? '<span>•</span>' : ''}
+                                ${variedad ? `<span>${variedad}</span>` : ''}
                             </div>
                         </div>
                     </div>
                 </td>
                 <td class="tabla-comparar__celda tabla-comparar__celda--cantidad">
                     <div class="cantidad-selector">
-                        <button class="cantidad-btn" onclick="cambiarCantidad(${producto.id}, -1)" 
+                        <button class="cantidad-btn cantidad-btn-menos" onclick="cambiarCantidad(${producto.id}, -1)" 
                                 ${producto.cantidad <= 1 ? 'disabled' : ''}>
                             −
                         </button>
@@ -325,7 +433,7 @@ class TablaComparar {
                                min="1" 
                                max="99"
                                onchange="setCantidad(${producto.id}, this.value)">
-                        <button class="cantidad-btn" onclick="cambiarCantidad(${producto.id}, 1)" 
+                        <button class="cantidad-btn cantidad-btn-mas" onclick="cambiarCantidad(${producto.id}, 1)" 
                                 ${producto.cantidad >= 99 ? 'disabled' : ''}>
                             +
                         </button>
@@ -339,7 +447,16 @@ class TablaComparar {
                     </button>
                 </td>
             </tr>
-        `).join('');
+        `;
+    }
+
+    /**
+     * Genera las filas de productos en la tabla
+     */
+    generarFilasComparar() {
+        return this.productosComparar.map((producto, index) => 
+            this.generarFilaProducto(producto, index)
+        ).join('');
     }
 
     /**
@@ -349,6 +466,7 @@ class TablaComparar {
         return `
             <div class="tabla-comparar">
                 <div class="tabla-comparar__vacia">
+                    <div class="tabla-comparar__vacia-icono">🛒</div>
                     <h4>Tu lista está vacía</h4>
                     <p>Agregá productos desde la tabla superior para comenzar a comparar precios</p>
                 </div>
@@ -399,7 +517,7 @@ class TablaComparar {
     }
 
     /**
-     * Limpia todos los productos de la tabla
+     * ✅ Limpia todos los productos con reseteo de estado
      */
     limpiarTodosLosProductos() {
         console.log('🧹 Limpiando todos los productos de tabla comparar...');
@@ -417,10 +535,13 @@ class TablaComparar {
         // Limpiar array local
         this.productosComparar = [];
         
+        // ✅ RESETEAR ESTADO DE TABLA
+        this.tablaYaCreada = false;
+        
         // Ocultar tabla
         this.ocultarTabla();
         
-        console.log('✅ Todos los productos limpiados de tabla comparar');
+        console.log('✅ Todos los productos limpiados y estado reseteado');
     }
 
     /**
@@ -582,4 +703,4 @@ document.addEventListener('DOMContentLoaded', () => {
     inicializarTablaComparar();
 });
 
-console.log('📜 Sistema TablaComparar cargado completamente');
+console.log('📜 Sistema TablaComparar con estructura reparada cargado completamente');

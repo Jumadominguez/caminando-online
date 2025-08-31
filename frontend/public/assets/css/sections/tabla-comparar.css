@@ -3,6 +3,7 @@
    ============================================================================
    Nueva tabla que aparece debajo de "productos disponibles"
    Se muestra dinámicamente cuando el usuario agrega productos
+   ✅ ANIMACIONES CORREGIDAS: Primera vez vs. filas individuales
    ============================================================================ */
 
 /* Contenedor principal de la tabla comparar */
@@ -21,7 +22,7 @@
     transform: translateY(0);
 }
 
-/* Wrapper principal de la tabla */
+/* ✅ WRAPPER PRINCIPAL - SIN ANIMACIÓN POR DEFECTO */
 .tabla-comparar {
     background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
     border-radius: 16px;
@@ -33,6 +34,11 @@
     overflow: hidden;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     position: relative;
+    /* ✅ SIN ANIMACIÓN: La animación se aplica solo cuando tiene la clase --primera-vez */
+}
+
+/* ✅ ANIMACIÓN SOLO PARA PRIMERA VEZ */
+.tabla-comparar--primera-vez {
     animation: entrarTablaComparar 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -305,16 +311,28 @@
     text-align: center;
 }
 
-/* Filas de la tabla */
+/* ✅ FILAS - ANIMACIONES MEJORADAS Y CONTROLADAS */
 .tabla-comparar__fila {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-bottom: 1px solid rgba(233, 236, 239, 0.6);
     border-left: 4px solid transparent;
-    opacity: 0;
-    animation: aparecerComparar 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     background: #ffffff;
     position: relative;
     overflow: hidden;
+    /* ✅ OPACIDAD INICIAL PARA CONTROL DE ANIMACIÓN */
+    opacity: 1;
+}
+
+/* ✅ ANIMACIÓN SOLO PARA FILAS EN TABLA DE PRIMERA VEZ */
+.tabla-comparar--primera-vez .tabla-comparar__fila {
+    opacity: 0;
+    animation: aparecerComparar 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ✅ CLASE ESPECIAL PARA FILAS NUEVAS AGREGADAS INDIVIDUALMENTE */
+.tabla-comparar__fila--nueva {
+    /* Estilo especial para filas agregadas individualmente */
+    /* La animación se controla desde JavaScript */
 }
 
 .tabla-comparar__fila:hover {
@@ -616,7 +634,7 @@
     }
 }
 
-/* Animaciones de entrada */
+/* ✅ ANIMACIONES DE ENTRADA OPTIMIZADAS */
 @keyframes entrarTablaComparar {
     0% {
         opacity: 0;
@@ -638,6 +656,55 @@
     100% {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+/* ✅ NUEVAS ANIMACIONES PARA FILAS INDIVIDUALES */
+@keyframes entrarFilaNueva {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px) scale(0.95);
+        background-color: rgba(40, 167, 69, 0.05);
+    }
+    50% {
+        background-color: rgba(40, 167, 69, 0.1);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        background-color: transparent;
+    }
+}
+
+/* ✅ ANIMACIÓN PARA SALIDA DE FILAS */
+@keyframes salirFila {
+    0% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        max-height: 100px;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100px) scale(0.9);
+        max-height: 0;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+/* ✅ ANIMACIÓN DE RESALTADO PARA NUEVOS PRODUCTOS */
+@keyframes resaltarNuevo {
+    0%, 100% {
+        background-color: transparent;
+        border-left-color: transparent;
+    }
+    25% {
+        background-color: rgba(40, 167, 69, 0.05);
+        border-left-color: #28a745;
+    }
+    75% {
+        background-color: rgba(40, 167, 69, 0.08);
+        border-left-color: #20c997;
     }
 }
 

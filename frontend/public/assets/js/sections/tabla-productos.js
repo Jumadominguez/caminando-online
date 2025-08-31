@@ -320,11 +320,11 @@ class TablaProductos {
             <tr class="tabla-nueva__fila" style="animation-delay: ${(index % 10) * 0.05}s">
                 <td class="tabla-nueva__celda tabla-nueva__celda--producto">
                     <div class="producto-info">
-                        <div class="producto-header">
-                            <span class="producto-numero">#${producto.id}</span>
+                        <div class="producto-numero">#${producto.id}</div>
+                        <div class="producto-content">
                             <span class="producto-nombre">${producto.nombre}</span>
+                            <span class="producto-sku">SKU: ${producto.sku}</span>
                         </div>
-                        <span class="producto-sku">SKU: ${producto.sku}</span>
                     </div>
                 </td>
                 <td class="tabla-nueva__celda tabla-nueva__celda--marca">

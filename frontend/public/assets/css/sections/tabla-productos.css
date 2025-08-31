@@ -415,18 +415,18 @@
     padding: 1rem 0.75rem;
 }
 
-/* Contenido de las celdas - LAYOUT HORIZONTAL MEJORADO */
+/* Contenido de las celdas - LAYOUT VERTICAL MEJORADO */
 .producto-info {
+    display: flex;
+    gap: 0.75rem;
+    align-items: stretch;
+}
+
+.producto-content {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-}
-
-/* Contenedor para número y nombre en la misma línea */
-.producto-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    flex: 1;
 }
 
 .producto-numero {
@@ -435,7 +435,7 @@
     justify-content: center;
     background: #e9ecef;
     color: #6c757d;
-    padding: 0.3rem 0.6rem;
+    padding: 0.6rem 0.6rem;
     border-radius: 12px;
     font-size: 0.7rem;
     font-weight: 600;
@@ -444,7 +444,7 @@
     overflow: hidden;
     flex-shrink: 0;
     min-width: 32px;
-    height: 24px;
+    align-self: stretch;
 }
 
 .producto-numero::before {

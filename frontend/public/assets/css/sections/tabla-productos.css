@@ -12,6 +12,99 @@
     padding: 0 1rem;
 }
 
+/* NUEVO: Botón Agregar */
+.boton-agregar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: #ffffff;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(40, 167, 69, 0.2);
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.boton-agregar:hover:not(.boton-agregar--agregado) {
+    background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.boton-agregar:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(40, 167, 69, 0.4);
+}
+
+.boton-agregar__icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.boton-agregar__texto {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.02em;
+}
+
+/* ✅ ESTADO AGREGADO (NARANJA) - PERMANENTE */
+.boton-agregar--agregado {
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8A65 100%) !important;
+    border-color: #FF6B35 !important;
+    box-shadow: 0 2px 6px rgba(255, 107, 53, 0.3) !important;
+    transform: none !important;
+}
+
+.boton-agregar--agregado:hover {
+    background: linear-gradient(135deg, #e55a2b 0%, #f4795b 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4) !important;
+}
+
+.boton-agregar--agregado:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.5) !important;
+}
+
+/* ✅ INDICADOR VISUAL ADICIONAL EN ESTADO AGREGADO */
+.boton-agregar--agregado::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    background: #FFD700;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
+    animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+}
+
 /* Wrapper de la tabla - EFECTOS SEGUROS */
 .tabla-nueva {
     background: #ffffff;
@@ -64,32 +157,38 @@
     opacity: 1;
 }
 
-/* EFECTO 3: LÍNEA DECORATIVA EN HEADER */
+/* EFECTO 3 ONDULANTE: GRADIENTE DESLIZANTE SIN CONTRACCIÓN */
 .tabla-nueva__header::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 3px;
+    height: 4px;
     background: linear-gradient(90deg, 
-        #10B981 0%, 
-        #059669 25%, 
-        #0D9488 50%, 
-        #059669 75%, 
-        #10B981 100%);
-    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
-    animation: lineaDecorativa 3s ease-in-out infinite alternate;
+        #FF6B35 -50%, 
+        #FFD700 0%, 
+        #FF8A65 50%, 
+        #FFD700 100%, 
+        #FF6B35 150%);
+    background-size: 200% 100%;
+    animation: ondulante 3s ease-in-out infinite;
+    border-radius: 2px;
+    box-shadow: 0 2px 6px rgba(255, 107, 53, 0.4);
 }
 
-@keyframes lineaDecorativa {
+@keyframes ondulante {
     0% {
-        transform: scaleX(0.8);
-        opacity: 0.6;
+        background-position: 0% 0%;
+        opacity: 0.7;
+    }
+    50% {
+        background-position: -100% 0%;
+        opacity: 1;
     }
     100% {
-        transform: scaleX(1);
-        opacity: 1;
+        background-position: -200% 0%;
+        opacity: 0.7;
     }
 }
 
@@ -126,6 +225,44 @@
     margin: 0;
     letter-spacing: -0.02em;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+
+/* Botón limpiar filtros en header */
+.tabla-nueva__limpiar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    flex-shrink: 0;
+}
+
+.tabla-nueva__limpiar:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-nueva__limpiar:active {
+    transform: translateY(0);
+}
+
+.tabla-nueva__limpiar i {
+    font-size: 0.9rem;
+}
+
+.tabla-nueva__limpiar span {
+    font-family: 'Inter', sans-serif;
 }
 
 /* Contenido de la tabla - SIMPLE */
@@ -188,7 +325,7 @@
     table-layout: fixed;
 }
 
-/* Header de la tabla - 4 COLUMNAS CON ANCHOS ESPECÍFICOS */
+/* Header de la tabla - 4 COLUMNAS CENTRADAS */
 .tabla-nueva__thead {
     position: sticky;
     top: 0;
@@ -198,7 +335,7 @@
 
 .tabla-nueva__th {
     padding: 1rem 1.5rem;
-    text-align: left;
+    text-align: center;
     font-weight: 600;
     font-size: 0.75rem;
     color: #64748b;
@@ -208,6 +345,11 @@
     box-sizing: border-box;
     backdrop-filter: blur(10px);
     vertical-align: middle;
+}
+
+/* Header de producto alineado a la izquierda */
+.tabla-nueva__th--producto {
+    text-align: left;
 }
 
 /* Anchos específicos para cada columna - 5 COLUMNAS */
@@ -273,25 +415,36 @@
     padding: 1rem 0.75rem;
 }
 
-/* Contenido de las celdas - ESTRUCTURA MEJORADA */
+/* Contenido de las celdas - LAYOUT HORIZONTAL MEJORADO */
 .producto-info {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
+/* Contenedor para número y nombre en la misma línea */
+.producto-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
 .producto-numero {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: #e9ecef;
     color: #6c757d;
-    padding: 0.4rem 0.8rem;
+    padding: 0.3rem 0.6rem;
     border-radius: 12px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    margin-right: 1rem;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
+    min-width: 32px;
+    height: 24px;
 }
 
 .producto-numero::before {
@@ -309,67 +462,61 @@
 }
 
 .producto-nombre {
-    display: block;
+    display: inline-block;
     color: #2c3e50;
     font-weight: 500;
-    font-size: 1.045rem; /* 10% más grande que 0.95rem */
-    line-height: 1.4;
+    font-size: 1.045rem;
+    line-height: 1.3;
     transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), font-weight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-bottom: 0.5rem;
+    flex: 1;
 }
 
-/* NUEVO: Badge SKU debajo del producto */
+/* NUEVO: Badge SKU compacto */
 .producto-sku {
     display: inline-block;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     color: #6c757d;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 600;
-    padding: 0.25rem 0.5rem;
-    border-radius: 8px;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
     border: 1px solid rgba(108, 117, 125, 0.15);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: 'JetBrains Mono', monospace;
+    width: fit-content;
+    align-self: flex-start;
 }
 
-/* NUEVO: Estilos para valores de filtros */
+/* NUEVO: Estilos para valores de filtros - ESTILO UNIFORME SKU */
 .filtro-valor {
     display: inline-block;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #6c757d;
     font-size: 0.85rem;
-    font-weight: 500;
-    color: #495057;
+    font-weight: 600;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid rgba(108, 117, 125, 0.15);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    overflow: hidden;
 }
 
 .filtro-valor--marca {
-    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-    color: #1976d2;
-    padding: 0.4rem 0.8rem;
-    border-radius: 6px;
-    font-weight: 600;
-    border: 1px solid rgba(25, 118, 210, 0.15);
+    font-family: 'Inter', sans-serif;
 }
 
 .filtro-valor--contenido {
-    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
-    color: #7b1fa2;
-    padding: 0.4rem 0.8rem;
-    border-radius: 6px;
-    font-weight: 600;
-    border: 1px solid rgba(123, 31, 162, 0.15);
     font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
 }
 
 .filtro-valor--variedad {
-    background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
-    color: #2e7d32;
-    padding: 0.4rem 0.8rem;
-    border-radius: 6px;
-    font-weight: 600;
-    border: 1px solid rgba(46, 125, 50, 0.15);
+    font-family: 'Inter', sans-serif;
 }
 
 /* NUEVO: Botón Agregar */
@@ -445,26 +592,15 @@
     box-shadow: 0 2px 6px rgba(255, 107, 53, 0.25);
 }
 
-/* Efectos hover para valores de filtros */
-.tabla-nueva__fila:hover .filtro-valor--marca {
-    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
-    color: #ffffff;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
-}
-
-.tabla-nueva__fila:hover .filtro-valor--contenido {
-    background: linear-gradient(135deg, #7b1fa2 0%, #6a1b9a 100%);
-    color: #ffffff;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(123, 31, 162, 0.3);
-}
-
+/* Efectos hover para valores de filtros - ESTILO UNIFORME */
+.tabla-nueva__fila:hover .filtro-valor--marca,
+.tabla-nueva__fila:hover .filtro-valor--contenido,
 .tabla-nueva__fila:hover .filtro-valor--variedad {
-    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8A65 100%);
     color: #ffffff;
+    border-color: #FF6B35;
     transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(46, 125, 50, 0.3);
+    box-shadow: 0 2px 6px rgba(255, 107, 53, 0.25);
 }
 
 .tabla-nueva__fila:hover .producto-numero {
@@ -538,12 +674,20 @@
     }
     
     .producto-numero {
-        margin-right: 0.5rem;
-        font-size: 0.7rem;
+        margin-right: 0;
+        font-size: 0.65rem;
+        padding: 0.25rem 0.5rem;
+        min-width: 28px;
+        height: 22px;
     }
     
     .producto-nombre {
         font-size: 0.95rem;
+    }
+    
+    .producto-sku {
+        font-size: 0.6rem;
+        padding: 0.15rem 0.4rem;
     }
     
     .filtro-valor {
@@ -585,19 +729,24 @@
     }
     
     .producto-numero {
-        margin-bottom: 0.75rem;
-        display: block;
-        text-align: center;
-        width: fit-content;
+        font-size: 0.6rem;
+        padding: 0.2rem 0.4rem;
+        min-width: 24px;
+        height: 20px;
     }
     
     .producto-nombre {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        line-height: 1.2;
     }
     
     .producto-sku {
-        font-size: 0.65rem;
-        padding: 0.2rem 0.4rem;
+        font-size: 0.55rem;
+        padding: 0.1rem 0.3rem;
+    }
+    
+    .producto-header {
+        gap: 0.5rem;
     }
     
     .producto-info {

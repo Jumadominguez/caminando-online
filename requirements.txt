@@ -1,0 +1,36 @@
+# CAMINANDO ONLINE V2 - REQUIREMENTS
+# Comparador de Precios de Supermercados Argentinos
+
+# === BACKEND CORE ===
+fastapi==0.104.1
+uvicorn==0.24.0
+pydantic==2.5.0
+python-dotenv==1.0.0
+
+# === DATABASE ===
+pymongo==4.6.0
+redis==5.0.1
+
+# === WEB SCRAPING ===
+requests==2.31.0
+beautifulsoup4==4.12.2
+selenium==4.16.0
+
+# === SECURITY ===
+bcrypt==4.1.2
+python-jose==3.3.0
+
+# === TASK SCHEDULING ===
+celery==5.3.4
+schedule==1.2.1
+
+# === OPTIONAL FLASK (si necesitas) ===
+flask==3.0.0
+
+# === DEVELOPMENT TOOLS ===
+pytest==7.4.0
+black==23.0.0
+flake8==6.1.0
+
+# === PRODUCTION ===
+gunicorn==21.2.0
